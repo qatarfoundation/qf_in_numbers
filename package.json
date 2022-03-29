@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "qf-in-numbers",
-  "author": "Mathijs",
+  "author": "Immersive Garden",
   "keywords": [
     "gatsby"
   ],
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "gatsby": "^4.10.1",
+    "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-google-analytics": "^4.10.0",
     "gatsby-plugin-image": "^2.10.0",
     "gatsby-plugin-manifest": "^4.10.1",
@@ -27,9 +28,21 @@
     "gatsby-source-contentful": "^7.8.1",
     "gatsby-source-filesystem": "^4.10.0",
     "gatsby-transformer-sharp": "^4.10.0",
+    "loaders": "github:immersive-garden/loaders",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
+    "resource-loader": "github:immersive-garden/resource-loader",
     "sass": "^1.49.9"
+  },
+  "devDependencies": {
+    "babel-plugin-react-scoped-css": "^1.1.1",
+    "babel-preset-gatsby": "^2.10.1",
+    "eslint-plugin-react": "^7.29.4",
+    "scoped-css-loader": "^1.0.0",
+    "stylelint": "^14.6.1",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-order": "^5.0.0",
+    "stylelint-scss": "^4.2.0"
   }
 }

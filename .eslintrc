@@ -1,0 +1,38 @@
+{
+    "root": true,
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest"
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        "indent": [
+            "error", 4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "comma-dangle": ["error", "always-multiline"],
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "never",
+                "named": "never",
+                "asyncArrow": "never"
+            }
+        ],
+        "semi": ["error", "always"],
+        "new-cap": 0,
+        "no-unused-vars": 0,
+        "quotes": ["error", "single"],
+        "react/prop-types": 0,
+        "react/jsx-curly-spacing": [2, "always"]
+    }
+}

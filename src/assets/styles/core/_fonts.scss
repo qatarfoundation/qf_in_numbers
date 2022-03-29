@@ -1,0 +1,33 @@
+@mixin font-face($font-family, $weight, $style, $url) {
+	@font-face {
+		font-family: '#{$font-family}';
+		src: url('/#{$url}.eot');
+        src: url('/#{$url}.eot?#iefix') format('embedded-opentype'),
+             url('/#{$url}.woff2') format('woff2'),
+		     url('/#{$url}.woff') format('woff'),
+		     url('/#{$url}.ttf') format('truetype'),
+		     url('/#{$url}.svg') format('svg');
+		font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+
+        font-weight: $weight;
+        -webkit-font-smoothing: antialiased;
+        -khtml-font-smoothing: antialiased;
+        -apple-font-smoothing: antialiased;
+        font-smooth: always;
+        -moz-osx-font-smoothing: grayscale;
+	}
+}
+
+// Roboto Light
+// @include font-face('Roboto', 300, 'normal', 'fonts/roboto/Roboto-Light');
+// Roboto Regulat
+// @include font-face('Roboto', 400, 'normal', 'fonts/roboto/Roboto-Regular');
+
+// Roobert Regular
+@include font-face('Roobert', 400, 'normal', 'fonts/roobert/Roobert-Regular');
+// Roobert Semi Bold Italic
+@include font-face('Roobert', 500, 'italic', 'fonts/roobert/Roobert-SemiBoldItalic');
+// Roobert Semi Bold
+@include font-face('Roobert', 500, 'normal', 'fonts/roobert/Roobert-SemiBold');
