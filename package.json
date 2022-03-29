@@ -28,11 +28,11 @@
     "gatsby-source-contentful": "^7.8.1",
     "gatsby-source-filesystem": "^4.10.0",
     "gatsby-transformer-sharp": "^4.10.0",
-    "loaders": "github:immersive-garden/loaders",
+    "loaders": "git+https://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:x-oauth-basic@github.com/immersive-garden/loaders.git",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
-    "resource-loader": "github:immersive-garden/resource-loader",
+    "resource-loader": "git+https://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:x-oauth-basic@github.com/immersive-garden/resource-loader.git",
     "sass": "^1.49.9"
   },
   "devDependencies": {
