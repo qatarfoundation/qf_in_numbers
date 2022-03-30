@@ -51,5 +51,6 @@ module.exports = {
                 extensions: [],
             },
         },
+        'gatsby-plugin-layout',
     ],
 };
