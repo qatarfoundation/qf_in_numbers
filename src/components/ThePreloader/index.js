@@ -1,5 +1,5 @@
 // Vendor
-import * as React from 'react';
+import React from 'react';
 
 // CSS
 import * as styles from './style.module.scss';
