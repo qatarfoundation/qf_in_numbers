@@ -1,10 +1,13 @@
 // Utils
 import EventDispatcher from '@/utils/EventDispatcher';
+import isBrowser from '@/utils/isBrowser';
 
 // Vendor
 let DDDD = null;
-const urlParams = new URLSearchParams(window.location.search);
-if (process.env.NODE_ENV === 'development' && urlParams.get('production') !== '') DDDD = require('dddd');
+if (isBrowser) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (process.env.NODE_ENV === 'development' && urlParams.get('production') !== '') DDDD = require('dddd');
+}
 
 class Debugger extends EventDispatcher {
     constructor() {

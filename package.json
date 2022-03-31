@@ -16,6 +16,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.2",
     "dddd": "github:mathijspb/dddd",
     "gatsby": "^4.10.1",
     "gatsby-plugin-alias-imports": "^1.0.5",
