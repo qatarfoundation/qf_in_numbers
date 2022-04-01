@@ -8,6 +8,7 @@ import * as styles from '@/pages/tree/style.module.scss';
 
 // Components
 import ThePreloader from '@/components/ThePreloader';
+import TheNavigation from '@/components/TheNavigation';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Hooks
@@ -25,6 +26,7 @@ const Layout = ({ uri, children }) => {
             <div className={ styles.layout }>
                 { children }
             </div>
+            <TheNavigation />
             <ThePreloader visible={ preloaderState === LOADING } />
         </div>
     );

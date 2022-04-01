@@ -1,5 +1,6 @@
 // React
-import * as React from 'react';
+import React from 'react';
+import { graphql } from 'gatsby';
 
 // CSS
 import * as styles from '@/pages/tree/style.module.scss';
@@ -14,3 +15,17 @@ const TreePage = () => {
 };
 
 export default TreePage;
+
+export const query = graphql`
+    query ($language: String!) {
+        locales: allLocale(filter: {language: {eq: $language}}) {
+            edges {
+                node {
+                    ns
+                    data
+                    language
+                }
+            }
+        }
+    }
+`;

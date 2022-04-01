@@ -1,13 +1,16 @@
 // React
-import * as React from 'react';
+import React from 'react';
+import { Link, Trans, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 // import './style.scoped.scss';
 import * as styles from './style.module.scss';
 
 const Heading = (props) => {
+    const { t } = useTranslation();
+
     return (
-        <h1 className={ styles.heading }>{ props.title }</h1>
+        <h1 className={ styles.heading }>{ t('heading') }</h1>
     );
 };
 
