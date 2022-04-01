@@ -19,13 +19,18 @@ class Main {
     constructor(options = {}) {
         // Options
         this._canvas = options.canvas;
+        this._showDebug = options.showDebug || false;
 
         // Setup
         this._debug = this._createDebug();
         this._clock = this._createClock();
         this._renderer = this._createRenderer();
-        this._stats = this._createStats();
-        this._statsGpuPanel = this._createStatsGpuPanel();
+
+        if (this._showDebug) {
+            this._stats = this._createStats();
+            this._statsGpuPanel = this._createStatsGpuPanel();
+        }
+
         this._bindHandlers();
         this._setupEventListeners();
         this._registerBidelloGlobals();

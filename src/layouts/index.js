@@ -11,6 +11,9 @@ import ThePreloader from '@/components/ThePreloader';
 import TheNavigation from '@/components/TheNavigation';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
+// Providers
+import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
+
 // Hooks
 import usePreloader, { LOADING } from '@/layouts/index/preloader';
 
@@ -22,12 +25,14 @@ const Layout = ({ uri, children }) => {
 
     return (
         <div>
-            <WebglApp page={ page } preloaderState={ preloaderState } />
-            <div className={ styles.layout }>
-                { children }
-            </div>
-            <TheNavigation />
-            <ThePreloader visible={ preloaderState === LOADING } />
+            <EnvironmentProvider>
+                <WebglApp page={ page } preloaderState={ preloaderState } />
+                <div className={ styles.layout }>
+                    { children }
+                </div>
+                <TheNavigation />
+                <ThePreloader visible={ preloaderState === LOADING } />
+            </EnvironmentProvider>
         </div>
     );
 };
