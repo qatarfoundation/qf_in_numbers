@@ -31,3 +31,15 @@ const Layout = ({ uri, children }) => {
 };
 
 export default Layout;
+
+/**
+ * Clears console on reload
+ */
+if (module.hot) {
+    module.hot.accept();
+    module.hot.addStatusHandler((status) => {
+        if (status === 'prepare') {
+            console.clear();
+        }
+    });
+}
