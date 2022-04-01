@@ -20,6 +20,7 @@
     "dddd": "github:mathijspb/dddd",
     "gatsby": "^4.10.1",
     "gatsby-plugin-alias-imports": "^1.0.5",
+    "gatsby-plugin-compile-es6-packages": "^2.1.1",
     "gatsby-plugin-google-analytics": "^4.10.0",
     "gatsby-plugin-image": "^2.10.0",
     "gatsby-plugin-layout": "^3.11.0",

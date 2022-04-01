@@ -1,7 +1,13 @@
 // Vendor
 import { component } from '@/utils/bidello';
-import { PerspectiveCamera, Scene, BoxBufferGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Scene, Vector3 } from 'three';
 import { ResourceManager } from 'resource-loader';
+
+// Modules
+import CameraManager from '@/webgl/modules/CameraManager';
+
+// Components
+import TreeComponent from '@/webgl/components/tree/TreeComponent';
 
 export default class TreeView extends component() {
     init(options = {}) {
@@ -11,13 +17,8 @@ export default class TreeView extends component() {
         // Setup
         this._resourceManager = this._createResourceManager();
         this._scene = this._createScene();
-        this._camera = this._createCamera();
-
-        // TMP
-        const geometry = new BoxBufferGeometry(1, 1, 1);
-        const material = new MeshBasicMaterial({ color: 0x00ff00 });
-        this._mesh = new Mesh(geometry, material);
-        this._scene.add(this._mesh);
+        this._cameraManager = this._createCameraManager();
+        this._components = this._createComponents();
     }
 
     destroy() {
@@ -32,7 +33,7 @@ export default class TreeView extends component() {
     }
 
     get camera() {
-        return this._camera;
+        return this._cameraManager.camera;
     }
 
     /**
@@ -62,30 +63,52 @@ export default class TreeView extends component() {
         return scene;
     }
 
-    _createCamera() {
-        const camera = new PerspectiveCamera(50, 1, 0.1, 1000);
-        camera.position.z = 10;
-        return camera;
+    _createCameraManager() {
+        const cameraManager = new CameraManager({
+            debugContainer: this._config.name,
+            position: new Vector3(0, 0, 19),
+            scene: this._scene,
+            orbit: true,
+        });
+        return cameraManager;
+    }
+
+    /**
+     * Components
+     */
+    _createComponents() {
+        const components = {};
+        components.tree = this._createTreeComponent();
+        return components;
+    }
+
+    _createTreeComponent() {
+        const component = new TreeComponent();
+        this._scene.add(component);
+        return component;
+    }
+
+    _destroyComponents() {
+        if (!this._components) return;
+        for (const key in this._components) {
+            if (typeof this._components[key].destroy === 'function') this._components[key].destroy();
+        }
     }
 
     /**
      * Update
      */
-    update() {
-        this._mesh.rotation.x += 0.01;
-        this._mesh.rotation.y += 0.01;
-        this._mesh.rotation.z += 0.01;
+    update({ time, delta }) {
+        this._updateComponents({ time, delta });
     }
 
-    /**
-     * Resize
-     */
-    onWindowResize(dimensions) {
-        this._resizeCamera(dimensions);
-    }
-
-    _resizeCamera({ renderWidth, renderHeight }) {
-        this._camera.aspect = renderWidth / renderHeight;
-        this._camera.updateProjectionMatrix();
+    _updateComponents({ time, delta }) {
+        let component;
+        for (const key in this._components) {
+            component = this._components[key];
+            if (typeof component.update === 'function') {
+                component.update({ time, delta });
+            }
+        }
     }
 }

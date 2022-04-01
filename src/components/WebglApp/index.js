@@ -7,6 +7,9 @@ import * as styles from './style.module.scss';
 // Webgl
 import WebglApp from '@/webgl';
 
+// Hooks
+import { COMPLETE } from '@/layouts/index/preloader';
+
 const WebglAppComponent = (props) => {
     const canvas = useRef(null);
 
@@ -14,8 +17,11 @@ const WebglAppComponent = (props) => {
         const app = new WebglApp({
             canvas: canvas.current,
         });
-        app.start();
-        app.showView(props.page);
+
+        if (props.preloaderState === COMPLETE) {
+            app.start();
+            app.showView(props.page);
+        }
 
         return () => {
             app.destroy();

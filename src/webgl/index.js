@@ -98,7 +98,7 @@ class Main {
             // alpha: true,
         });
 
-        const clearColor = new Color('#000000');
+        const clearColor = new Color('#061514');
         renderer.setClearColor(clearColor, 1);
         // renderer.autoClear = false;
         renderer.toneMapping = LinearToneMapping;

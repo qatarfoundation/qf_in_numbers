@@ -4,15 +4,22 @@ import { ResourceLoader } from 'resource-loader';
 
 // Loaders
 import ImageLoader from 'loaders/image-loader';
+import ThreeGLTFDracoLoader from 'loaders/three-gltf-draco-loader';
 
 // Configs
 import globalResources from '@/configs/globalResources.js';
 
 // Register loaders
 ResourceLoader.registerLoader(ImageLoader, 'image');
+ResourceLoader.registerLoader(ThreeGLTFDracoLoader, 'gltf');
 
-export default function useResourceLoader() {
-    const [visible, setVisible] = useState(true);
+// States
+export const LOADING = 'LOADING';
+export const COMPLETE = 'COMPLETE';
+
+export default function usePreloader() {
+    const [state, setState] = useState(LOADING);
+
     useEffect(() => {
         const resourceLoader = new ResourceLoader();
 
@@ -22,7 +29,7 @@ export default function useResourceLoader() {
             preload: true,
         });
 
-        const handleComplete = () => setVisible(false);
+        const handleComplete = () => setState(COMPLETE);
         resourceLoader.addEventListener('complete', handleComplete);
         resourceLoader.preload();
 
@@ -30,5 +37,6 @@ export default function useResourceLoader() {
             resourceLoader.removeEventListener('complete', handleComplete);
         };
     });
-    return visible;
+
+    return state;
 }
