@@ -1,6 +1,7 @@
 // Vendor
 import React from 'react';
 import { graphql } from 'gatsby';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import '@/assets/styles/app.scss';
@@ -10,10 +11,12 @@ import * as styles from '@/pages/index/style.module.scss';
 import Heading from '@/components/Heading';
 
 const IndexPage = () => {
+    const { t } = useTranslation();
+
     return (
         <div className={ styles.page }>
             <div className={ styles.container }>
-                <Heading title="Home" />
+                <Heading title={ t('heading') } />
             </div>
         </div>
     );

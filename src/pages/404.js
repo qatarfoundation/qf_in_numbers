@@ -8,7 +8,7 @@ import '@/pages/404/style.scoped.scss';
 // Components
 import Heading from '@/components/Heading';
 
-const ErrorPage = () => {
+const NotFoundPage = () => {
     return (
         <main>
             <div className="container">
@@ -18,4 +18,4 @@ const ErrorPage = () => {
     );
 };
 
-export default ErrorPage;
+export default NotFoundPage;
