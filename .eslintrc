@@ -39,6 +39,7 @@
         "space-before-blocks": [2],
         "prefer-const": [2],
         "no-multiple-empty-lines": [2, { "max": 1 }],
-        "object-curly-spacing": [2, "always"]
+        "object-curly-spacing": [2, "always"],
+        "space-in-parens": [2, "never"]
     }
 }
