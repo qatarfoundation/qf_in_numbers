@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 
 // CSS
 import '@/assets/styles/app.scss';
-import * as styles from '@/pages/tree/style.module.scss';
+import * as styles from './index/style.module.scss';
 
 // Components
 import ThePreloader from '@/components/ThePreloader';
