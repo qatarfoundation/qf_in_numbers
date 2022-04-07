@@ -1,16 +1,20 @@
+require('dotenv').config({
+    path: '.env',
+});
+
 module.exports = {
     siteMetadata: {
         title: 'new',
         siteUrl: 'https://www.yourdomain.tld',
     },
     plugins: [
-        // {
-        //   resolve: 'gatsby-source-contentful',
-        //   options: {
-        //     "accessToken": "dv-84QhmtpDlI1CGNT18z5zo5bqbCwOR_cjfX7yTX6g",
-        //     "spaceId": "y9dmurrpfk8p"
-        //   }
-        // },
+        {
+            resolve: 'gatsby-source-contentful',
+            options: {
+                spaceId: process.env.CTF_SPACE_ID,
+                accessToken: process.env.CTF_CDA_ACCESS_TOKEN_DELIVERY,
+            },
+        },
         {
             resolve: 'gatsby-plugin-sass',
             options: {

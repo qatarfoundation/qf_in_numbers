@@ -1,4 +1,6 @@
 // Vendor
+const contentful = require('contentful');
+
 import React from 'react';
 import { graphql } from 'gatsby';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
@@ -12,6 +14,8 @@ import Heading from '@/components/Heading';
 
 const IndexPage = () => {
     const { t } = useTranslation();
+
+    console.log(contentfulQuery);
 
     return (
         <div className={ styles.page }>
@@ -37,3 +41,15 @@ export const query = graphql`
         }
     }
 `;
+
+// export const contentfulQuery = graphql`
+//     query MyQuery {
+//         allContentfulNumbers {
+//             edges {
+//                 node {
+//                     name
+//                 }
+//             }
+//         }
+//     }
+// `;
