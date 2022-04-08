@@ -39,8 +39,8 @@ export default class LeavesBasicComponent extends component(Object3D) {
      * Public
      */
     show() {
-        this._timelineShow = new gsap.timeline({ delay: 2.5 });
-        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, 5, { value: 0.5, ease: 'sine.inOut' }, 0);
+        this._timelineShow = new gsap.timeline({ delay: 5 });
+        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, 7, { value: 0.5, ease: 'sine.inOut' }, 0);
         return this._timelineShow;
     }
 

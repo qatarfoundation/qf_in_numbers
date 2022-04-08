@@ -110,7 +110,7 @@ export default class TreeView extends component() {
         const components = {};
         components.tree = this._createTreeComponent();
         components.floor = this._createFloorComponent();
-        // components.leavesBasic = this._createLeavesBasicComponent();
+        components.leavesBasic = this._createLeavesBasicComponent();
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
         return components;
