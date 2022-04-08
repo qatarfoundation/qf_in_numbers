@@ -20,14 +20,25 @@
 	}
 }
 
-// Roboto Light
-// @include font-face('Roboto', 300, 'normal', 'fonts/roboto/Roboto-Light');
-// Roboto Regulat
-// @include font-face('Roboto', 400, 'normal', 'fonts/roboto/Roboto-Regular');
+// DIN Regular
+// @include font-face('DIN', 400, 'normal', 'fonts/din/DIN');
+// DIN Medium
+// @include font-face('DIN', 500, 'normal', 'fonts/din/DIN-Medium');
+// DIN Bold
+// @include font-face('DIN', 600, 'normal', 'fonts/din/DINBold');
 
-// Roobert Regular
-@include font-face('Roobert', 400, 'normal', 'fonts/roobert/Roobert-Regular');
-// Roobert Semi Bold Italic
-@include font-face('Roobert', 500, 'italic', 'fonts/roobert/Roobert-SemiBoldItalic');
-// Roobert Semi Bold
-@include font-face('Roobert', 500, 'normal', 'fonts/roobert/Roobert-SemiBold');
+// DIN Next LT Pro Light
+@include font-face('DIN Next LT Pro', 300, 'normal', 'fonts/din-next-lt-pro/DINNextLTPro-Light');
+// DIN Next LT Pro Regular
+@include font-face('DIN Next LT Pro', 400, 'normal', 'fonts/din-next-lt-pro/DINNextLTPro-Regular');
+
+// PFDIN Serif Regular
+@include font-face('PFDINSerif', 400, 'normal', 'fonts/pfdin-serif/PFDINSerif-Regular');
+
+// QF Arabic Regular
+@include font-face('QF Arabic', 400, 'normal', 'fonts/qf-arabic/QFArabic-Regular');
+// QF Arabic Medium
+@include font-face('QF Arabic', 500, 'normal', 'fonts/qf-arabic/QFArabic-Medium');
+// QF Arabic Bold
+@include font-face('QF Arabic', 600, 'normal', 'fonts/qf-arabic/QFArabic-Bold');
+

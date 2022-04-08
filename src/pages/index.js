@@ -1,5 +1,6 @@
 // Vendor
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { graphql } from 'gatsby';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
@@ -10,8 +11,10 @@ import * as styles from '@/pages/index/style.module.scss';
 // Components
 import Heading from '@/components/Heading';
 
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
     const { t } = useTranslation();
+
+    console.log(data.allContentfulHomePage);
 
     return (
         <div className={ styles.page }>
@@ -35,17 +38,17 @@ export const query = graphql`
                 }
             }
         }
+        allContentfulHomePage {
+            edges {
+                node {
+                    id
+                    heading
+                    seo {
+                        seoMetaTitle
+                        seoMetaDescription
+                    }
+                }
+            }
+        }
     }
 `;
-
-// export const contentfulQuery = graphql`
-//     query MyQuery {
-//         allContentfulNumbers {
-//             edges {
-//                 node {
-//                     name
-//                 }
-//             }
-//         }
-//     }
-// `;
