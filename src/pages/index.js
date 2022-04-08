@@ -37,3 +37,15 @@ export const query = graphql`
         }
     }
 `;
+
+// export const contentfulQuery = graphql`
+//     query MyQuery {
+//         allContentfulNumbers {
+//             edges {
+//                 node {
+//                     name
+//                 }
+//             }
+//         }
+//     }
+// `;
