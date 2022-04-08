@@ -34,7 +34,7 @@ export default class TreeBranchComponent extends component(Object3D) {
      */
     show() {
         this._timelineShow = new gsap.timeline({ delay: 2.5 });
-        // this._timelineShow.fromTo(this._mesh.material.uniforms.uProgress, 10, { value: 0 }, { value: 0.6, repeat: 0, repeatDelay: 2 });
+        this._timelineShow.fromTo(this._mesh.material.uniforms.uProgress, 7, { value: 0 }, { value: 0.6, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
         return this._timelineShow;
     }
 
