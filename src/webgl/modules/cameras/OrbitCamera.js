@@ -40,7 +40,7 @@ export default class OrbitCamera extends component() {
      * Private
      */
     _createCamera() {
-        const camera = new PerspectiveCamera(50, 1, 1, 1000);
+        const camera = new PerspectiveCamera(50, 1, 0.1, 1000);
 
         const savedPosition = JSON.parse(localStorage.getItem('camera-orbit-position'));
         if (savedPosition) {

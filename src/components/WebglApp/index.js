@@ -31,7 +31,7 @@ const WebglAppComponent = (props) => {
         return () => {
             app.destroy();
         };
-    });
+    }, []);
 
     return(
         <canvas ref={ canvas } className={ styles.background }></canvas>

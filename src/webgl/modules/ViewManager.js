@@ -49,6 +49,7 @@ export default class ViewManager extends component() {
         if (!view) return;
         this._active = view;
         view.instance.show();
+        Debugger?.gotoLayer(name);
     }
 
     hide(name, callback) {
@@ -62,13 +63,12 @@ export default class ViewManager extends component() {
      */
     _createViews() {
         const views = [];
-        let instance;
         for (const view of viewsData) {
             // Debugger
             Debugger?.addLayer(view.name, 'Views');
 
             // Instance
-            instance = new view.class({
+            const instance = new view.class({
                 config: view,
             });
             instance.name = view.name;

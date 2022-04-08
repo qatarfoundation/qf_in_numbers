@@ -18,6 +18,7 @@ export default class CameraManager extends component() {
         // Options
         this._debugContainer = options.debugContainer;
         this._position = options.position;
+        this._rotation = options.rotation;
         this._scene = options.scene;
         this._type = options.type || 'default';
         this._orbit = options.orbit;
@@ -61,6 +62,7 @@ export default class CameraManager extends component() {
         const params = {
             debug: this._debug,
             position: this._position,
+            rotation: this._rotation,
             scene: this._scene,
         };
 

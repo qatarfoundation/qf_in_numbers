@@ -6,7 +6,6 @@ export default {
     slug: 'tree',
     class: TreeView,
     renderer: {
-        clearColor: '#000000',
     },
     postProcessing: {
     },
@@ -16,6 +15,16 @@ export default {
             production: false,
         },
         items: [
+            {
+                type: 'texture',
+                name: 'view/tree/particles-color-gradient',
+                path: '/webgl/views/tree/particles-color-gradient.png',
+            },
+            {
+                type: 'gltf',
+                name: 'view/tree/tree',
+                path: '/webgl/views/tree/tree.glb',
+            },
         ],
     },
 };

@@ -1,13 +1,14 @@
 // Varyings
-varying float vProgress;
-varying vec4 vSettings;
-varying vec3 vColor;
+varying float vOffset;
+varying float vAlpha;
 
 // Uniforms
-uniform float uProgress;
 uniform sampler2D uColorGradient;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
+
+// Includes
+#include <fog_pars_fragment>
 
 float circle(vec2 st, float radius){
     vec2 dist = st - vec2(0.5);
@@ -15,16 +16,16 @@ float circle(vec2 st, float radius){
 }
 
 void main() {
-    // Visiblity
-    if (step(uProgress, vProgress) > 0.0) discard;
-
     // Color
-    vec3 color = texture2D(uColorGradient, vec2(vSettings.x, 0.5)).rgb;
+    vec3 color = texture2D(uColorGradient, vec2(vOffset, 0.5)).rgb;
 
     // Alpha
     float alpha = circle(gl_PointCoord, 1.0);
-    alpha *= vSettings.w;
+    alpha *= vAlpha;
 
     // Output
     gl_FragColor = vec4(vec3(color), alpha);
+
+    // Fog
+    #include <fog_fragment>
 }

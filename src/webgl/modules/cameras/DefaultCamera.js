@@ -7,6 +7,7 @@ export default class DefaultCamera extends component() {
         // Props
         this._debugGroup = options.debug;
         this._position = options.position;
+        this._rotation = options.rotation;
 
         // Setup
         this._debug = null;
@@ -43,6 +44,8 @@ export default class DefaultCamera extends component() {
             camera.position.z = 250;
         }
 
+        if (this._rotation) camera.rotation.copy(this._rotation);
+
         return camera;
     }
 
@@ -75,9 +78,8 @@ export default class DefaultCamera extends component() {
         this._debug.add(this._camera, 'near', { onChange: updateCamera });
         this._debug.add(this._camera, 'far', { onChange: updateCamera });
         this._debug.add(this._camera, 'fov', { onChange: updateCamera });
-
-        const position = this._debug.addGroup('Position');
-        position.add(this._camera, 'position');
+        this._debug.add(this._camera, 'position');
+        this._debug.add(this._camera, 'rotation');
     }
 
     hideDebug() {
