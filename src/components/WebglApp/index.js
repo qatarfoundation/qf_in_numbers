@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 
 // CSS
-import * as styles from './style.module.scss';
+import './style.scoped.scss';
 
 // Webgl
 import WebglApp from '@/webgl';
@@ -34,7 +34,7 @@ const WebglAppComponent = (props) => {
     }, []);
 
     return(
-        <canvas ref={ canvas } className={ styles.background }></canvas>
+        <canvas ref={ canvas } className="background"></canvas>
     );
 };
 

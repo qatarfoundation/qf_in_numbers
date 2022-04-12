@@ -2,11 +2,11 @@
 import React from 'react';
 
 // CSS
-import * as styles from './style.module.scss';
+import './style.scoped.scss';
 
 const ThePreloader = (props) => {
     return props.visible ? (
-        <div className={ styles.thePreloader }>The preloader</div>
+        <div className="the-preloader">The preloader</div>
     ) : null;
 };
 

@@ -1,10 +1,12 @@
 // Vendor
-import React from 'react';
+import React, { useEffect } from 'react';
 import loadable from '@loadable/component';
+import { useLocation } from '@reach/router';
+import { AnimatePresence } from 'framer-motion';
 
 // CSS
 import '@/assets/styles/app.scss';
-import * as styles from './index/style.module.scss';
+import './index/style.scoped.scss';
 
 // Components
 import ThePreloader from '@/components/ThePreloader';
@@ -17,8 +19,15 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 // Hooks
 import usePreloader, { LOADING } from '@/layouts/index/preloader';
 
-const Layout = ({ uri, children }) => {
+const Layout = (props) => {
+    const { uri, children } = props;
+
+    const location = useLocation();
     const preloaderState = usePreloader();
+
+    useEffect(() => {
+        console.log(location);
+    }, [location]);
 
     let page = uri.substring(1);
     page = page ? page : 'home';
@@ -26,12 +35,22 @@ const Layout = ({ uri, children }) => {
     return (
         <div>
             <EnvironmentProvider>
+
                 <WebglApp page={ page } preloaderState={ preloaderState } />
-                <div className={ styles.layout }>
-                    { children }
-                </div>
+
+                {/* Pages */}
+                <AnimatePresence exitBeforeEnter>
+
+                    <div key={ location.key } className="page">
+                        { children }
+                    </div>
+
+                </AnimatePresence>
+
                 <TheNavigation />
+
                 <ThePreloader visible={ preloaderState === LOADING } />
+
             </EnvironmentProvider>
         </div>
     );

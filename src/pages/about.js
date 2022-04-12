@@ -1,14 +1,14 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
-import { graphql, Link } from 'gatsby';
+import { Link, graphql } from 'gatsby';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
 
 // CSS
-import '@/pages/home/style.scoped.scss';
+import '@/pages/about/style.scoped.scss';
 
 // Components
 import Heading from '@/components/Heading';
@@ -25,7 +25,6 @@ const IndexPage = (props, ref) => {
      * Refs
      */
     const el = useRef();
-    const heading = useRef();
 
     /**
      * Effects
@@ -39,17 +38,11 @@ const IndexPage = (props, ref) => {
      * Private
      */
     function transitionIn() {
-        const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
-        timeline.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-        timeline.add(heading.current.show(), 0);
-        return timeline;
+        return gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
     }
 
     function transitionOut() {
-        const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
-        timeline.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
-        timeline.add(heading.current.hide(), 0);
-        return timeline;
+        return gsap.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
     }
 
     function transitionInCompleted() {
@@ -71,9 +64,10 @@ const IndexPage = (props, ref) => {
     return (
         <div className="page" ref={ el }>
             <div className="container">
-                <Heading ref={ heading } title={ t('heading') } />
-                <Link to="/about">Go to About</Link>
+                <Heading title="About" />
+                <Link to="/">Go to Home</Link>
             </div>
+
         </div>
     );
 };
@@ -88,6 +82,18 @@ export const query = graphql`
                     ns
                     data
                     language
+                }
+            }
+        }
+        allContentfulHomePage(filter: {node_locale: {eq: $language}}) {
+            edges {
+                node {
+                    id
+                    heading
+                    seo {
+                        seoMetaTitle
+                        seoMetaDescription
+                    }
                 }
             }
         }

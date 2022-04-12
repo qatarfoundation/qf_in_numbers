@@ -3,5 +3,13 @@
         "source.fixAll.eslint": true,
         "source.fixAll.stylelint": true
     },
-    "eslint.validate": ["javascript"]
+    "eslint.validate": ["javascript"],
+    "files.associations": {
+        "**/src/pages/*.js": "javascriptreact",
+        "**/src/pages/*/*.js": "javascriptreact",
+        "**/src/templates/*/*.js": "javascriptreact",
+        "**/src/components/*.js": "javascriptreact",
+        "**/src/components/*/*.js": "javascriptreact",
+        "**/src/components/*/*/*.js": "javascriptreact",
+    }
 }

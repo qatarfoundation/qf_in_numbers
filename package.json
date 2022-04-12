@@ -18,6 +18,7 @@
   "dependencies": {
     "@loadable/component": "^5.15.2",
     "dddd": "github:mathijspb/dddd",
+    "framer-motion": "^6.2.9",
     "gatsby": "^4.10.1",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-compile-es6-packages": "^2.1.1",
@@ -46,6 +47,7 @@
     "resource-loader": "git+https://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:x-oauth-basic@github.com/immersive-garden/resource-loader.git",
     "sass": "^1.49.9",
     "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials",
+    "slugify": "^1.6.5",
     "stats-js": "^1.0.1",
     "three": "^0.139.0"
   },

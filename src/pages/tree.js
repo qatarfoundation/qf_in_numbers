@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 // CSS
-import * as styles from '@/pages/tree/style.module.scss';
+import '@/pages/tree/style.scoped.scss';
 
 // Components
 import Heading from '@/components/Heading';
