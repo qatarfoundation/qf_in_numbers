@@ -6,11 +6,13 @@ import { graphql } from 'gatsby';
 import '@/pages/tree/style.scoped.scss';
 
 // Components
-import Heading from '@/components/Heading';
+import MainCategories from '@/components/MainCategories';
 
 const TreePage = () => {
     return (
-        <Heading title="Tree" />
+        <>
+            <MainCategories />
+        </>
     );
 };
 

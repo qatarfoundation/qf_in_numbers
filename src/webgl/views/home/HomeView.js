@@ -20,6 +20,7 @@ export default class HomeView extends component() {
 
     destroy() {
         super.destroy();
+        this._destroyComponents();
     }
 
     /**

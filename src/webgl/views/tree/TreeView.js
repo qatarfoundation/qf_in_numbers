@@ -8,6 +8,9 @@ import CameraManager from '@/webgl/modules/CameraManager';
 
 // Utils
 import Debugger from '@/utils/Debugger';
+import math from '@/utils/math';
+import number from '@/utils/number';
+import easings from '@/utils/easings';
 
 // Components
 import TreeComponent from '@/webgl/components/tree/TreeComponent';
@@ -20,10 +23,19 @@ export default class TreeView extends component() {
         // Props
         this._config = options.config;
 
+        // Props
+        this._rotation = { current: 0, target: 0 };
+        this._position = { current: 0, target: 0 };
+
         // Setup
         this._resourceManager = this._createResourceManager();
         this._scene = this._createScene();
         this._cameraManager = this._createCameraManager();
+    }
+
+    destroy() {
+        super.destroy();
+        this._destroyComponents();
     }
 
     /**
@@ -98,7 +110,7 @@ export default class TreeView extends component() {
             position: new Vector3(0, 4.98, 21.85),
             rotation: new Euler(0.21, 0, 0),
             scene: this._scene,
-            orbit: true,
+            // orbit: true,
         });
         return cameraManager;
     }
@@ -110,7 +122,7 @@ export default class TreeView extends component() {
         const components = {};
         components.tree = this._createTreeComponent();
         components.floor = this._createFloorComponent();
-        components.leavesBasic = this._createLeavesBasicComponent();
+        // components.leavesBasic = this._createLeavesBasicComponent();
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
         return components;
@@ -119,6 +131,7 @@ export default class TreeView extends component() {
     _createTreeComponent() {
         const component = new TreeComponent({
             debugContainer: this._config.name,
+            cameraManager: this._cameraManager,
         });
         this._scene.add(component);
         return component;
@@ -168,10 +181,32 @@ export default class TreeView extends component() {
     }
 
     /**
+     * Mouse
+     */
+    onMousemove({ centered }) {
+        const sign = centered.x > 0 ? 1 : -1;
+        const value = number.clamp(easings.easeOutCubic(Math.abs(centered.x)), 0, 1);
+        this._rotation.target = number.map(value * -sign, -1, 1, -0.6, 0.6);
+
+        {
+            const sign = centered.x > 0 ? 1 : -1;
+            const value = number.clamp(easings.easeOutCubic(Math.abs(centered.x)), 0, 1);
+            this._position.target = number.map(value, -1, 1, -0.7, 0.7);
+        }
+    }
+
+    /**
      * Update
      */
     update({ time, delta }) {
         this._updateComponents({ time, delta });
+        this._rotation.current = math.lerp(this._rotation.current, this._rotation.target, 0.03);
+        this._scene.rotation.y = this._rotation.current;
+
+        this._position.current = math.lerp(this._position.current, this._position.target, 0.02);
+        // this._scene.position.z = Math.abs(this._position.current) * 10;
+
+        // this._scene.rotation.x = Math.abs(this._position.current) * 0.2;
     }
 
     _updateComponents({ time, delta }) {

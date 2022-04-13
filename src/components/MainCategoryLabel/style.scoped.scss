@@ -1,0 +1,12 @@
+.button {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    font-family: $font-primary;
+    font-weight: 300;
+    font-size: 60px;
+    @include antialised;
+
+    will-change: transform;
+}
