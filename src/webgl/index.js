@@ -9,6 +9,9 @@ import Stats from 'stats-js';
 import Debugger from '@/utils/Debugger';
 import WindowResizeObserver from '@/utils/WindowResizeObserver';
 
+// Bidello helpers
+import BidelloMouseHelper from '@/webgl/helpers/bidello/Mouse';
+
 // Modules
 import ViewManager from '@/webgl/modules/ViewManager';
 
@@ -34,6 +37,7 @@ class Main {
         this._bindHandlers();
         this._setupEventListeners();
         this._registerBidelloGlobals();
+        BidelloMouseHelper.init();
     }
 
     destroy() {
@@ -41,6 +45,7 @@ class Main {
         this._removeEventListeners();
         this._viewManager?.destroy();
         this._removeDebug();
+        BidelloMouseHelper.destroy();
     }
 
     /**

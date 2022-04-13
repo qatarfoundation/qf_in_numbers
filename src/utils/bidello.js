@@ -76,7 +76,6 @@ class Bidello {
 const bidelloSingleton = new Bidello();
 
 const component = (superclass = class T {}) => {
-    // console.log(superclass);
     return class extends superclass {
         constructor(...args) {
             super(...args);
@@ -93,7 +92,6 @@ const component = (superclass = class T {}) => {
         }
     };
 };
-
 
 export { component };
 export default bidelloSingleton;

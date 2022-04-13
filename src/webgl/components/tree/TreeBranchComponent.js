@@ -1,11 +1,13 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { Object3D, CatmullRomCurve3, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color } from 'three';
+import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh } from 'three';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { ResourceLoader } from 'resource-loader';
 
 // Utils
 import math from '@/utils/math';
+import TreeDataModel from '@/utils/TreeDataModel';
 import TreeParser from '@/webgl/utils/TreeParser';
 
 // Shaders
@@ -14,19 +16,37 @@ import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
+        // options
+        this._hoverColor = options.hoverColor;
+        this._index = options.index;
+        this._cameraManager = options.cameraManager;
+
         // Setup
+        this._screenSpacePosition = new Vector3();
         this._debug = this._createDebug(options.debug);
+        this._curves = this._createCurves();
         this._mesh = this._createMesh();
+        this._hitArea = this._createHitArea();
+        this._labelAnchor = this._createLabelAnchor();
+        this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
 
-        // Settings
-        this.position.y = -10;
-
-        this.show();
+        // this.show();
     }
 
     destroy() {
         super.destroy();
         this._timelineShow?.kill();
+    }
+
+    /**
+     * Getters & Setters
+     */
+    get mesh() {
+        return this._mesh;
+    }
+
+    get hitArea() {
+        return this._hitArea;
     }
 
     /**
@@ -38,17 +58,56 @@ export default class TreeBranchComponent extends component(Object3D) {
         return this._timelineShow;
     }
 
+    mouseEnter() {
+        this._mouseHover(1);
+    }
+
+    mouseLeave() {
+        this._mouseHover(0);
+    }
+
     /**
      * Private
      */
-    _createMesh() {
+    _createCurves() {
         const gltf = ResourceLoader.get('view/tree/tree');
         const model = gltf.scene.getObjectByName('Plane').clone();
         // this.add(model);
-
         const treeParse = new TreeParser({ model });
-        const curves = this._createCurves(treeParse.branches);
+        const branches = treeParse.branches;
 
+        const curves = [];
+        for (let i = 0, len = branches.length; i < len; i++) {
+            const branch = branches[i];
+
+            const startOrder = branch[0].order;
+            const endOrder = branch[branch.length - 1].order;
+
+            const points = [];
+            for (let i = 0, len = branch.length; i < len; i++) {
+                const item = branch[i];
+                points.push(item.vertex);
+            }
+
+            const curve = new CatmullRomCurve3(points, false, 'catmullrom', 0);
+            const frenetFrames = curve.computeFrenetFrames(points.length, false);
+            const color = new Color(Math.random(), Math.random(), Math.random());
+            const weight = curve.points.length;
+
+            curves.push({
+                startOrder,
+                endOrder,
+                curve,
+                frenetFrames,
+                color,
+                weight,
+            });
+        }
+
+        return curves;
+    }
+
+    _createMesh() {
         const amount = 50000;
         const vertices = [];
         const normals = [];
@@ -57,7 +116,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const colors = [];
 
         for (let i = 0; i < amount; i++) {
-            const data = this._getRandomCurve(curves);
+            const data = this._getRandomCurve(this._curves);
             const curve = data.curve;
 
             const startOrder = data.startOrder;
@@ -123,6 +182,8 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uRadius: { value: 0.71 },
                 uInnerGradient: { value: 0.88 },
                 uOuterGradient: { value: 0.07 },
+                uHoverColor: { value: this._hoverColor },
+                uShowHover: { value: 0 },
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -132,6 +193,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this.add(mesh);
 
         if (this._debug) {
+            this._debug.add(mesh, 'rotation');
             this._debug.add(material.uniforms.uProgress, 'value', { label: 'progress' });
             this._debug.add(material.uniforms.uColorGradient, 'value', { label: 'gradient' });
             this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
@@ -141,6 +203,31 @@ export default class TreeBranchComponent extends component(Object3D) {
             this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
         }
 
+        return mesh;
+    }
+
+    _createHitArea() {
+        const geometries = [];
+        this._curves.forEach((item) => {
+            const tubularSegments = Math.max(1, Math.round(item.curve.points.length * 0.5));
+            const geometry = new TubeGeometry(item.curve, tubularSegments, 1, 3, false);
+            geometries .push(geometry);
+        });
+        const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+        const material = new MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const mesh = new Mesh(mergedGeometry, material);
+        mesh.visible = false;
+        this.add(mesh);
+        return mesh;
+    }
+
+    _createLabelAnchor() {
+        const position = new Vector3(0, 9, 0);
+        const geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
+        const material = new MeshBasicMaterial({ color: 0x0000ff });
+        const mesh = new Mesh(geometry, material);
+        mesh.position.copy(position);
+        this.add(mesh);
         return mesh;
     }
 
@@ -159,35 +246,27 @@ export default class TreeBranchComponent extends component(Object3D) {
         }
     }
 
-    _createCurves(branches) {
-        const curves = [];
-        for (let i = 0, len = branches.length; i < len; i++) {
-            const branch = branches[i];
+    /**
+     * Update
+     */
+    update() {
+        this._updateLabelScreenSpacePosition();
+    }
 
-            const startOrder = branch[0].order;
-            const endOrder = branch[branch.length - 1].order;
+    _updateLabelScreenSpacePosition() {
+        this._screenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
+        this._screenSpacePosition.project(this._cameraManager.camera);
+        this._screenSpacePosition.x = (this._screenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._screenSpacePosition.y = -(this._screenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateCategoryLabelPosition(this._index, this._screenSpacePosition);
+    }
 
-            const points = [];
-            for (let i = 0, len = branch.length; i < len; i++) {
-                const item = branch[i];
-                points.push(item.vertex);
-            }
-
-            const curve = new CatmullRomCurve3(points, false, 'catmullrom', 0);
-            const frenetFrames = curve.computeFrenetFrames(points.length, false);
-            const color = new Color(Math.random(), Math.random(), Math.random());
-            const weight = curve.points.length;
-
-            curves.push({
-                startOrder,
-                endOrder,
-                curve,
-                frenetFrames,
-                color,
-                weight,
-            });
-        }
-        return curves;
+    /**
+     * Resize
+     */
+    onWindowResize({ renderWidth, renderHeight }) {
+        this._halfRenderWidth = renderWidth * 0.5;
+        this._halfRenderHeight = renderHeight * 0.5;
     }
 
     /**

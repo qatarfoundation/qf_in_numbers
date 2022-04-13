@@ -45,6 +45,7 @@
         "object-shorthand": [2],
         "no-var": [2],
         "space-infix-ops": [2],
-        "comma-spacing": [2, { "before": false, "after": true }]
+        "comma-spacing": [2, { "before": false, "after": true }],
+        "computed-property-spacing": [2, "never"]
     }
 }

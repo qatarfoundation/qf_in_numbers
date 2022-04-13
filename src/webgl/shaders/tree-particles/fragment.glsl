@@ -8,6 +8,8 @@ uniform float uProgress;
 uniform sampler2D uColorGradient;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
+uniform vec3 uHoverColor;
+uniform float uShowHover;
 
 float circle(vec2 st, float radius){
     vec2 dist = st - vec2(0.5);
@@ -20,6 +22,7 @@ void main() {
 
     // Color
     vec3 color = texture2D(uColorGradient, vec2(vSettings.x, 0.5)).rgb;
+    color = mix(color, uHoverColor, uShowHover);
 
     // Alpha
     float alpha = circle(gl_PointCoord, 1.0);
