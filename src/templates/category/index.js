@@ -1,33 +1,65 @@
+// Vendor
+import { gsap } from 'gsap';
+
 // React
-import * as React from 'react';
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
-import { Link } from 'gatsby';
+import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
 
-const CategoryTemplate = (pageProps) => {
+const CategoryTemplate = (props, ref) => {
     /**
      * Data
      */
-    const category = pageProps.pageContext.name;
-    const year = pageProps.pageContext.year;
-    const subcategories = pageProps.pageContext.subcategories;
+    const { originalPath } = useI18next();
+    const category = props.pageContext.name;
+    const year = props.pageContext.year;
+    const subcategories = props.pageContext.subcategories;
     const slugSubcategories = subcategories.map(item => item.slug);
-    const initialSubcategory = pageProps.pageContext.subcategory;
+    const initialSubcategory = props.pageContext.subcategory;
 
     /**
      * States
      */
+    const [isPresent, safeToRemove] = usePresence();
     const [activeSubcategoryIndex, setActiveSubcategoryIndex] = useState(initialSubcategory ? slugSubcategories.indexOf(initialSubcategory.slug) : null);
+
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        if (isPresent) transitionIn();
+        else if (!isPresent) transitionOut(safeToRemove);
+    }, [isPresent]);
 
     /**
      * Refs
      */
-    const refs = {
-        buttonSubcategories: useRef([]),
-    };
+    const el = useRef();
+    const buttonSubcategories = useRef([]);
+
+    /**
+     * Private
+     */
+    function transitionIn() {
+        return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
+    }
+
+    function transitionOut() {
+        return gsap.to(el.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
+    }
+
+    function transitionInCompleted() {
+        //
+    }
+
+    function transitionOutCompleted() {
+        // Unmount
+        safeToRemove();
+    }
 
     /**
      * Private
@@ -37,12 +69,12 @@ const CategoryTemplate = (pageProps) => {
      * Handlers
      */
     function subcategoryClickHandler(e) {
-        const index = refs.buttonSubcategories.current.indexOf(e.currentTarget);
+        const index = buttonSubcategories.current.indexOf(e.currentTarget);
         setActiveSubcategoryIndex(index);
     }
 
     return (
-        <div className="template-category">
+        <div className="template-category" ref={ el }>
 
             <div className="container">
 
@@ -53,7 +85,7 @@ const CategoryTemplate = (pageProps) => {
                 <ul className="subcategories-list">
                     { subcategories.map((subcategory, index) => (
                         <li className="subcategories-list-item" key={ subcategory.name } >
-                            <button className="button-subcategory button" onClick={ subcategoryClickHandler } ref={ (element) => refs.buttonSubcategories.current.push(element) }>
+                            <button className="button-subcategory button" onClick={ subcategoryClickHandler } ref={ (element) => buttonSubcategories.current.push(element) }>
                                 { subcategory.name }
                             </button>
 
@@ -62,7 +94,7 @@ const CategoryTemplate = (pageProps) => {
                                     <ul className="entities-list">
                                         { subcategory.entities.map((entity) => (
                                             <li className="entities-list-item" key={ entity.name }>
-                                                <Link className="button-entity button" to={ initialSubcategory.slug ===  subcategory.slug ? `${entity.slug}` : `${pageProps.location.origin}/${year}/${subcategory.slug}/${entity.slug}` }>
+                                                <Link className="button-entity button" to={ `${originalPath}/${subcategory.slug}/${entity.slug}` }>
                                                     { entity.name }
                                                 </Link>
                                             </li>

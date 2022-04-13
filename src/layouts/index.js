@@ -1,8 +1,9 @@
 // Vendor
-import React, { useEffect } from 'react';
+import React, {} from 'react';
 import loadable from '@loadable/component';
-import { useLocation } from '@reach/router';
 import { AnimatePresence } from 'framer-motion';
+import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import '@/assets/styles/app.scss';
@@ -17,20 +18,41 @@ const WebglApp = loadable(() => import('@/components/WebglApp'));
 import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 
 // Hooks
-import usePreloader, { LOADING } from '@/layouts/index/preloader';
+import usePreloader, { LOADING } from '@/hooks/usePreloader';
 
 const Layout = (props) => {
+    /**
+     * Props
+     */
     const { uri, children } = props;
 
-    const location = useLocation();
-    const preloaderState = usePreloader();
+    /**
+     * Data
+     */
+    const { originalPath, language } = useI18next();
+    const { t, i18n } = useTranslation();
 
-    useEffect(() => {
-        console.log(location);
-    }, [location]);
+    /**
+     * States
+     */
+    const preloaderState = usePreloader();
 
     let page = uri.substring(1);
     page = page ? page : 'home';
+
+    setup();
+
+    /**
+     * Private
+     */
+    function setup() {
+        setupDirection();
+    }
+
+    function setupDirection() {
+        document.body.dir = i18n.dir();
+        document.body.classList.add(language);
+    }
 
     return (
         <div>
@@ -38,10 +60,9 @@ const Layout = (props) => {
 
                 <WebglApp page={ page } preloaderState={ preloaderState } />
 
-                {/* Pages */}
                 <AnimatePresence exitBeforeEnter>
 
-                    <div key={ location.key } className="page">
+                    <div key={ originalPath } className="page">
                         { children }
                     </div>
 

@@ -1,11 +1,11 @@
+// Vendor
+import { gsap } from 'gsap';
+
 // React
 import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
-import { graphql, Link } from 'gatsby';
-import { useTranslation } from 'gatsby-plugin-react-i18next';
-
-// Vendor
-import { gsap } from 'gsap';
+import { graphql } from 'gatsby';
+import { useTranslation, Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import '@/pages/home/style.scoped.scss';
@@ -22,18 +22,19 @@ const IndexPage = (props, ref) => {
     const [isPresent, safeToRemove] = usePresence();
 
     /**
+     * Effects
+     */
+    useEffect(() => {
+        // console.log({ isPresent });
+        if (isPresent) transitionIn();
+        else if (!isPresent) transitionOut(safeToRemove);
+    }, [isPresent]);
+
+    /**
      * Refs
      */
     const el = useRef();
     const heading = useRef();
-
-    /**
-     * Effects
-     */
-    useEffect(() => {
-        if (isPresent) transitionIn();
-        else if (!isPresent) transitionOut(safeToRemove);
-    }, [isPresent]);
 
     /**
      * Private
@@ -62,17 +63,13 @@ const IndexPage = (props, ref) => {
     }
 
     /**
-     * Private
-     */
-
-    /**
      * Render
      */
     return (
         <div className="page" ref={ el }>
             <div className="container">
                 <Heading ref={ heading } title={ t('heading') } />
-                <Link to="/about">Go to About</Link>
+                <Link to="/2021">Go to 2021</Link>
             </div>
         </div>
     );

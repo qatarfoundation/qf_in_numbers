@@ -21,7 +21,7 @@ const Heading = (props, ref) => {
     }
 
     function hide() {
-        return gsap.to(el.current, { duration: 1, x: 100, ease: 'sine.inOut' });
+        return gsap.to(el.current, { duration: 0.5, x: 100, ease: 'sine.inOut' });
     }
 
     /**

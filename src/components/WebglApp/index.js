@@ -11,7 +11,7 @@ import WebglApp from '@/webgl';
 import { DEVELOPMENT, useEnvironment } from '@/contexts/EnvironmentContext';
 
 // Hooks
-import { COMPLETE } from '@/layouts/index/preloader';
+import { COMPLETE } from '@/hooks/usePreloader';
 
 const WebglAppComponent = (props) => {
     const canvas = useRef(null);

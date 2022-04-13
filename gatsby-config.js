@@ -75,12 +75,14 @@ module.exports = {
                 localeJsonSourceName: 'locale',
                 languages: ['en-US', 'ar'],
                 defaultLanguage: 'en-US',
+                redirect: true,
                 i18nextOptions: {
                     interpolation: {
                         escapeValue: false,
                     },
                     keySeparator: false,
-                    nsSeparator: false                },
+                    nsSeparator: false,
+                },
             },
         },
     ],
