@@ -21,6 +21,14 @@ module.exports = {
                 additionalData: '@import "./src/assets/styles/resources";',
             },
         },
+        {
+            resolve: 'gatsby-plugin-react-svg',
+            options: {
+                rule: {
+                    include: /assets/,
+                },
+            },
+        },
         // {
         //   resolve: 'gatsby-plugin-google-analytics',
         //   options: {

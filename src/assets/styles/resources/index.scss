@@ -1,4 +1,5 @@
-@import './root';
+@use "sass:math";
+
 @import './variables';
 @import './mixins';
 @import './functions';

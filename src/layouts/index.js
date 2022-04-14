@@ -58,7 +58,7 @@ const Layout = (props) => {
         <div>
             <EnvironmentProvider>
 
-                <WebglApp page={ page } preloaderState={ preloaderState } />
+                {/* <WebglApp page={ page } preloaderState={ preloaderState } /> */}
 
                 <AnimatePresence exitBeforeEnter>
 

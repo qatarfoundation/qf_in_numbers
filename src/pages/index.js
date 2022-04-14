@@ -34,7 +34,7 @@ const IndexPage = (props, ref) => {
      * Refs
      */
     const el = useRef();
-    const heading = useRef();
+    // const heading = useRef();
 
     /**
      * Private
@@ -42,14 +42,14 @@ const IndexPage = (props, ref) => {
     function transitionIn() {
         const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
         timeline.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-        timeline.add(heading.current.show(), 0);
+        // timeline.add(heading.current.show(), 0);
         return timeline;
     }
 
     function transitionOut() {
         const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
         timeline.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
-        timeline.add(heading.current.hide(), 0);
+        // timeline.add(heading.current.hide(), 0);
         return timeline;
     }
 
@@ -67,10 +67,10 @@ const IndexPage = (props, ref) => {
      */
     return (
         <div className="page" ref={ el }>
-            <div className="container">
+            {/* <div className="container">
                 <Heading ref={ heading } title={ t('heading') } />
                 <Link to="/2021">Go to 2021</Link>
-            </div>
+            </div> */}
         </div>
     );
 };
