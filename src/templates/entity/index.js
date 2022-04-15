@@ -9,7 +9,7 @@ import { graphql } from 'gatsby';
 // CSS
 import './style.scoped.scss';
 
-const EntityTemplate = (props, ref) => {
+function EntityTemplate(props, ref) {
     /**
      * Data
      */
@@ -71,7 +71,7 @@ const EntityTemplate = (props, ref) => {
 
         </div>
     );
-};
+}
 
 export default EntityTemplate;
 

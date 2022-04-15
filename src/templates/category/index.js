@@ -13,7 +13,7 @@ import './style.scoped.scss';
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
 
-const CategoryTemplate = (props, ref) => {
+function CategoryTemplate(props, ref) {
     /**
      * Data
      */
@@ -68,7 +68,7 @@ const CategoryTemplate = (props, ref) => {
 
         </div>
     );
-};
+}
 
 export default CategoryTemplate;
 

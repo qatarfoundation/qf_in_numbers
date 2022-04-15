@@ -5,7 +5,7 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
-const ButtonCategory = (props, ref) => {
+function ButtonCategory(props, ref) {
     const { category } = props;
     const { originalPath } = useI18next();
 
@@ -16,6 +16,6 @@ const ButtonCategory = (props, ref) => {
             </Link>
         </>
     );
-};
+}
 
 export default ButtonCategory;

@@ -8,7 +8,7 @@ import '@/pages/404/style.scoped.scss';
 // Components
 import Heading from '@/components/Heading';
 
-const NotFoundPage = () => {
+function NotFoundPage() {
     return (
         <main>
             <div className="container">
@@ -16,6 +16,6 @@ const NotFoundPage = () => {
             </div>
         </main>
     );
-};
+}
 
 export default NotFoundPage;

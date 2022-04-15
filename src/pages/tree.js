@@ -8,13 +8,13 @@ import '@/pages/tree/style.scoped.scss';
 // Components
 import MainCategories from '@/components/MainCategories';
 
-const TreePage = () => {
+function TreePage() {
     return (
         <>
             <MainCategories />
         </>
     );
-};
+}
 
 export default TreePage;
 

@@ -8,7 +8,7 @@ import './style.scoped.scss';
 // Components
 import Logo from '@/assets/icons/logo.svg';
 
-const ButtonHome = (props, ref) => {
+function ButtonHome(props, ref) {
     return (
         <Link to="/" className="button button-home">
 
@@ -16,6 +16,6 @@ const ButtonHome = (props, ref) => {
 
         </Link>
     );
-};
+}
 
 export default ButtonHome;

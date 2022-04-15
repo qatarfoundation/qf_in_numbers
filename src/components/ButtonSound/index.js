@@ -13,7 +13,7 @@ import useTick from '@/hooks/useTick';
 
 const DPR = 2;
 
-const ButtonSound = (props) => {
+function ButtonSound(props) {
     /**
      * Refs
      */
@@ -219,6 +219,6 @@ const ButtonSound = (props) => {
             <canvas className="canvas" ref={ canvas }></canvas>
         </button>
     );
-};
+}
 
 export default ButtonSound;

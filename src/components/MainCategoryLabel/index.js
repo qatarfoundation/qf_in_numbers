@@ -8,7 +8,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 // CSS
 import './style.scoped.scss';
 
-const ButtonMainCategory = (props) => {
+function ButtonMainCategory(props) {
     const linkRef = useRef();
 
     useEffect(() => {
@@ -28,6 +28,6 @@ const ButtonMainCategory = (props) => {
             { props.label }
         </Link>
     );
-};
+}
 
 export default ButtonMainCategory;

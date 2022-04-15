@@ -13,7 +13,7 @@ import './style.scoped.scss';
 // Components
 import ListCategories from '@/components/ListCategories';
 
-const YearTemplate = (props, ref) => {
+function YearTemplate(props, ref) {
     /**
      * Data
      */
@@ -70,7 +70,7 @@ const YearTemplate = (props, ref) => {
 
         </div>
     );
-};
+}
 
 export default YearTemplate;
 

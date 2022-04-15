@@ -5,7 +5,7 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
-const ListEntities = (props, ref) => {
+function ListEntities(props, ref) {
     const { year, category, subcategory, entities } = props;
 
     console.log(year, category);
@@ -31,6 +31,6 @@ const ListEntities = (props, ref) => {
 
         </ul>
     );
-};
+}
 
 export default ListEntities;

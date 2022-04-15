@@ -7,7 +7,7 @@ import './style.scoped.scss';
 // Components
 import ListEntities from '@/components/ListEntities';
 
-const ListItemSubcategories = (props, ref) => {
+function ListItemSubcategories(props, ref) {
     const { year, category, subcategory } = props;
 
     /**
@@ -44,6 +44,6 @@ const ListItemSubcategories = (props, ref) => {
 
         </li>
     );
-};
+}
 
 export default ListItemSubcategories;

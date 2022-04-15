@@ -7,7 +7,7 @@ import './style.scoped.scss';
 // Components
 import ButtonCategory from '@/components/ButtonCategory';
 
-const ListCategories = (props, ref) => {
+function ListCategories(props, ref) {
     return (
         <ul className="list-categories">
 
@@ -31,6 +31,6 @@ const ListCategories = (props, ref) => {
 
         </ul>
     );
-};
+}
 
 export default ListCategories;

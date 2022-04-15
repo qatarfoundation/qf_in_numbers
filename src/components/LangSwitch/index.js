@@ -5,7 +5,7 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
-const LangSwitch = (props) => {
+function LangSwitch(props) {
     const { language, originalPath } = useI18next();
 
     const buttons = {
@@ -30,6 +30,6 @@ const LangSwitch = (props) => {
             </Link>
         </div>
     );
-};
+}
 
 export default LangSwitch;

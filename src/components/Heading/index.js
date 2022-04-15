@@ -7,7 +7,7 @@ import gsap from 'gsap';
 // CSS
 import './style.scoped.scss';
 
-const Heading = (props, ref) => {
+function Heading(props, ref) {
     /**
      * Refs
      */
@@ -35,6 +35,6 @@ const Heading = (props, ref) => {
     return (
         <h1 className="heading" ref={ el }>{ props.title }</h1>
     );
-};
+}
 
 export default forwardRef(Heading);

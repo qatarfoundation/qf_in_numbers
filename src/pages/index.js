@@ -13,7 +13,7 @@ import '@/pages/home/style.scoped.scss';
 // Components
 import Heading from '@/components/Heading';
 
-const IndexPage = (props, ref) => {
+function IndexPage(props, ref) {
     const { t } = useTranslation();
 
     /**
@@ -72,7 +72,7 @@ const IndexPage = (props, ref) => {
             </div>
         </div>
     );
-};
+}
 
 export default IndexPage;
 

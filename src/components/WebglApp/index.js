@@ -13,7 +13,7 @@ import { DEVELOPMENT, useEnvironment } from '@/contexts/EnvironmentContext';
 // Hooks
 import { COMPLETE } from '@/hooks/usePreloader';
 
-const WebglAppComponent = (props) => {
+function WebglAppComponent(props) {
     const canvas = useRef(null);
     const environment = useEnvironment();
 
@@ -36,6 +36,6 @@ const WebglAppComponent = (props) => {
     return(
         <canvas ref={ canvas } className="background"></canvas>
     );
-};
+}
 
 export default WebglAppComponent;

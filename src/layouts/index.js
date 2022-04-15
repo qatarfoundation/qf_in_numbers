@@ -21,7 +21,7 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 
-const Layout = (props) => {
+function Layout(props) {
     /**
      * Props
      */
@@ -81,7 +81,7 @@ const Layout = (props) => {
             </EnvironmentProvider>
         </div>
     );
-};
+}
 
 export default Layout;
 

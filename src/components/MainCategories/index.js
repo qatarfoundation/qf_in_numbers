@@ -8,7 +8,7 @@ import './style.scoped.scss';
 // Components
 import ButtonMainCategory from '@/components/MainCategoryLabel/index';
 
-const MainCategories = () => {
+function MainCategories() {
     return (
         <ul>
             <li>
@@ -22,6 +22,6 @@ const MainCategories = () => {
             </li>
         </ul>
     );
-};
+}
 
 export default MainCategories;

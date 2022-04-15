@@ -10,7 +10,7 @@ import ButtonHome from '@/components/ButtonHome';
 import LangSwitch from '@/components/LangSwitch';
 import ButtonSound from '@/components/ButtonSound';
 
-const TheNavigation = (props) => {
+function TheNavigation(props) {
     return (
         <div className="the-navigation">
 
@@ -28,6 +28,6 @@ const TheNavigation = (props) => {
 
         </div>
     );
-};
+}
 
 export default TheNavigation;

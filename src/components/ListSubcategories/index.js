@@ -9,7 +9,7 @@ import ListItemSubcategories from '@/components/ListItemSubcategories';
 
 // Components
 
-const ListSubcategories = (props, ref) => {
+function ListSubcategories(props, ref) {
     const { year, category, subcategories } = props;
 
     return (
@@ -23,6 +23,6 @@ const ListSubcategories = (props, ref) => {
 
         </ul>
     );
-};
+}
 
 export default ListSubcategories;

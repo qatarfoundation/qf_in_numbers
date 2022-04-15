@@ -23,7 +23,7 @@ ResourceLoader.registerLoader(ThreeGLTFDracoLoader, 'gltf');
 export const LOADING = 'LOADING';
 export const COMPLETE = 'COMPLETE';
 
-export default function usePreloader() {
+function usePreloader() {
     const [state, setState] = useState(LOADING);
     const environment = useEnvironment();
 
@@ -68,3 +68,5 @@ function addViewsResouces(resourceLoader, isDevelopment) {
         });
     }
 }
+
+export default usePreloader;
