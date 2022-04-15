@@ -67,10 +67,9 @@ const IndexPage = (props, ref) => {
      */
     return (
         <div className="page" ref={ el }>
-            {/* <div className="container">
-                <Heading ref={ heading } title={ t('heading') } />
-                <Link to="/2021">Go to 2021</Link>
-            </div> */}
+            <div className="container-page">
+
+            </div>
         </div>
     );
 };

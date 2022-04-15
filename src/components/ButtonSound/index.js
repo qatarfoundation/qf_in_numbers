@@ -7,8 +7,9 @@ import React, { useEffect, useRef, useState } from 'react';
 // CSS
 import './style.scoped.scss';
 
-// Utils
-// const WindowResizeObserver = React.lazy(() => import('@/utils/WindowResizeObserver'));
+// Hooks
+import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useTick from '@/hooks/useTick';
 
 const DPR = 2;
 
@@ -57,6 +58,12 @@ const ButtonSound = (props) => {
     }, [isMuted]);
 
     /**
+     * Events
+     */
+    useWindowResizeObserver(resizeHandler);
+    useTick(tickHandler);
+
+    /**
      * Lifecycle
      */
     useEffect(() => {
@@ -69,11 +76,10 @@ const ButtonSound = (props) => {
 
         createPoints();
         resize();
-        setupEventListeners();
     }
 
     function destroy() {
-        removeEventListener();
+
     }
 
     /**
@@ -171,16 +177,6 @@ const ButtonSound = (props) => {
     /**
      * Handlers
      */
-    function setupEventListeners() {
-        // WindowResizeObserver.addEventListener('resize', resizeHandler);
-        gsap.ticker.add(tickHandler);
-    }
-
-    function removeEventListener() {
-        // WindowResizeObserver.removeEventListener('resize', resizeHandler);
-        gsap.ticker.remove(tickHandler);
-    }
-
     function resizeHandler() {
         resize();
     }

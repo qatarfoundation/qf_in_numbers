@@ -1,8 +1,8 @@
 .the-navigation {
     position: fixed;
     top: rem(20px, 'small');
-    left: 0;
     right: 0;
+    left: 0;
 
     width: 100%;
     height: 0;
@@ -16,28 +16,29 @@
 }
 
 .row {
-    width: 100%;
-
     display: flex;
+
     justify-content: space-between;
 
-    padding-left: rem(16px, 'small');
+    width: 100%;
+
     padding-right: rem(16px, 'small');
 
+    padding-left: rem(16px, 'small');
+
     @include respond-to('medium') {
-        padding-left: rem(53px, 'medium');
         padding-right: rem(53px, 'medium');
+        padding-left: rem(53px, 'medium');
     }
 
     @include respond-to('large') {
-        padding-left: rem(53px, 'large');
         padding-right: rem(53px, 'large');
+        padding-left: rem(53px, 'large');
     }
 }
 
 .col-right {
     display: flex;
-    align-items: center;
 
     height: 45px;
 
