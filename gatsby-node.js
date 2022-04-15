@@ -88,7 +88,6 @@ exports.createPages = async({ graphql, actions }) => {
 
         for (const key in categories) {
             const category = categories[key];
-            console.log(category);
             category.slug = slugify(category.name.toLowerCase());
 
             const subcategories = category.subcategories;
