@@ -8,6 +8,8 @@ class WindowResizeObserver extends EventDispatcher {
     constructor() {
         super();
 
+        if (typeof window === 'undefined') return;
+
         // Setup
         this._innerWidth = null;
         this._innerHeight = null;
@@ -18,6 +20,10 @@ class WindowResizeObserver extends EventDispatcher {
         this._bindHandlers();
         this._setupEventListeners();
         this._updateValues();
+    }
+
+    destroy() {
+        this._removeEventListeners();
     }
 
     /**
@@ -58,19 +64,25 @@ class WindowResizeObserver extends EventDispatcher {
         window.addEventListener(this._getResizeEvent(), this._windowResizeHandler);
     }
 
+    _removeEventListeners() {
+        window.removeEventListener(this._getResizeEvent(), this._windowResizeHandler);
+    }
+
     _getResizeEvent() {
         return 'onorientationchange' in window ? 'orientationchange' : 'resize';
     }
 
     _createGhostElement() {
-        const element = document.createElement('div');
-        element.style.width = '100%';
-        element.style.height = '100vh';
-        element.style.position = 'absolute';
-        element.style.top = 0;
-        element.style.left = 0;
-        element.style.pointerEvents = 'none';
-        return element;
+        if (typeof document !== 'undefined') {
+            const element = document.createElement('div');
+            element.style.width = '100%';
+            element.style.height = '100vh';
+            element.style.position = 'absolute';
+            element.style.top = 0;
+            element.style.left = 0;
+            element.style.pointerEvents = 'none';
+            return element;
+        }
     }
 
     /**
@@ -102,11 +114,6 @@ class WindowResizeObserver extends EventDispatcher {
     }
 
     _dispatchResizeEvent() {
-        // console.log('RESIZE', {
-        //     innerWidth: this._innerWidth,
-        //     innerHeight: this._innerHeight,
-        // });
-
         this.dispatchEvent('resize', {
             innerWidth: this._innerWidth,
             innerHeight: this._innerHeight,
@@ -114,24 +121,6 @@ class WindowResizeObserver extends EventDispatcher {
             fullHeight: this._fullHeight,
             dpr: this._dpr,
         });
-
-        // Mobile
-        // this.dispatchEvent('resize', {
-        //     innerWidth: 375,
-        //     innerHeight: 667,
-        //     fullWidth: 375,
-        //     fullHeight: 667,
-        //     dpr: this._dpr,
-        // });
-
-        // IPAD
-        // this.dispatchEvent('resize', {
-        //     innerWidth: 768,
-        //     innerHeight: 1024,
-        //     fullWidth: 768,
-        //     fullHeight: 1024,
-        //     dpr: this._dpr,
-        // });
     }
 
     _debounce() {
