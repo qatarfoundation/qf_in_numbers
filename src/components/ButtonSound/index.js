@@ -1,4 +1,5 @@
 // Vendor
+import WindowResizeObserver from '@/utils/WindowResizeObserver';
 import { gsap } from 'gsap';
 
 // React
@@ -196,11 +197,17 @@ const ButtonSound = (props) => {
      * Handlers
      */
     function setupEventListeners() {
+        WindowResizeObserver.addEventListener('resize', resizeHandler);
         gsap.ticker.add(tickHandler);
     }
 
     function removeEventListener() {
+        WindowResizeObserver.removeEventListener('resize', resizeHandler);
         gsap.ticker.remove(tickHandler);
+    }
+
+    function resizeHandler() {
+        resize();
     }
 
     function tickHandler() {
