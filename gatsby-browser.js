@@ -1,4 +1,5 @@
 // Watch route updates
-exports.onRouteUpdate = ({ location, prevLocation }) => {
+exports.onRouteUpdate = (props) => {
+    const { location, prevLocation } = props;
     location.previous = prevLocation;
 };

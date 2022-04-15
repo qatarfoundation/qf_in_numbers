@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './style.scoped.scss';
 
 // Utils
-import WindowResizeObserver from '@/utils/WindowResizeObserver';
+// const WindowResizeObserver = React.lazy(() => import('@/utils/WindowResizeObserver'));
 
 const DPR = 2;
 
@@ -56,11 +56,6 @@ const ButtonSound = (props) => {
         else unmute();
     }, [isMuted]);
 
-    useEffect(() => {
-        if (isHovered) mouseenter();
-        else mouseleave();
-    }, [isHovered]);
-
     /**
      * Lifecycle
      */
@@ -92,7 +87,7 @@ const ButtonSound = (props) => {
 
         timelines.current.mute = new gsap.timeline();
 
-        timelines.current.mute.to(settings.current, { duration: 1, amplitude: 0.05, ease: 'sine.out' }, 0);
+        timelines.current.mute.to(settings.current, { duration: 1, amplitude: 0.05, ease: 'power4.out' }, 0);
         timelines.current.mute.to(settings.current, { duration: 1, speed: 0.08, ease: 'sine.out' }, 0);
 
         return timelines.current.mute;
@@ -106,34 +101,10 @@ const ButtonSound = (props) => {
 
         timelines.current.unmute = new gsap.timeline();
 
-        timelines.current.unmute.to(settings.current, { duration: 1, amplitude: 0.2, ease: 'sine.out' }, 0);
+        timelines.current.unmute.to(settings.current, { duration: 1, amplitude: 0.2, ease: 'power4.out' }, 0);
         timelines.current.unmute.to(settings.current, { duration: 1, speed: 0.15, ease: 'sine.out' }, 0);
 
         return timelines.current.unmute;
-    }
-
-    function mouseenter() {
-        timelines.current.mouseleave?.kill();
-
-        timelines.current.mouseenter = new gsap.timeline();
-
-        // if (isMuted) {
-        //     timelines.current.mouseenter.to(settings.current, { duration: 0.5, amplitudeScale: 1.8, ease: 'sine.out' }, 0);
-        // } else {
-        //     timelines.current.mouseenter.to(settings.current, { duration: 0.5, amplitudeScale: 0.5, ease: 'sine.out' }, 0);
-        // }
-
-        return timelines.current.mouseenter;
-    }
-
-    function mouseleave() {
-        timelines.current.mouseenter?.kill();
-
-        timelines.current.mouseleave = new gsap.timeline();
-
-        // timelines.current.mouseleave.to(settings.current, { duration: 0.5, amplitudeScale: 1, ease: 'sine.out' }, 0);
-
-        return timelines.current.mouseleave;
     }
 
     function createPoints() {
@@ -158,6 +129,8 @@ const ButtonSound = (props) => {
 
     function update() {
         updatePoints();
+
+        data.current.time += settings.current.speed;
     }
 
     function updatePoints() {
@@ -199,12 +172,12 @@ const ButtonSound = (props) => {
      * Handlers
      */
     function setupEventListeners() {
-        WindowResizeObserver.addEventListener('resize', resizeHandler);
+        // WindowResizeObserver.addEventListener('resize', resizeHandler);
         gsap.ticker.add(tickHandler);
     }
 
     function removeEventListener() {
-        WindowResizeObserver.removeEventListener('resize', resizeHandler);
+        // WindowResizeObserver.removeEventListener('resize', resizeHandler);
         gsap.ticker.remove(tickHandler);
     }
 
@@ -213,18 +186,32 @@ const ButtonSound = (props) => {
     }
 
     function tickHandler() {
-        update();
         draw();
-
-        data.current.time += settings.current.speed;
+        update();
     }
 
     function mouseenterHandler() {
-        setHovered(true);
+        timelines.current.mouseleave?.kill();
+
+        timelines.current.mouseenter = new gsap.timeline();
+
+        // if (isMuted) {
+        //     timelines.current.mouseenter.to(settings.current, { duration: 0.5, amplitudeScale: 1.8, ease: 'sine.out' }, 0);
+        // } else {
+        //     timelines.current.mouseenter.to(settings.current, { duration: 0.5, amplitudeScale: 0.5, ease: 'sine.out' }, 0);
+        // }
+
+        return timelines.current.mouseenter;
     }
 
     function mouseleaveHandler() {
-        setHovered(false);
+        timelines.current.mouseenter?.kill();
+
+        timelines.current.mouseleave = new gsap.timeline();
+
+        // timelines.current.mouseleave.to(settings.current, { duration: 0.5, amplitudeScale: 1, ease: 'sine.out' }, 0);
+
+        return timelines.current.mouseleave;
     }
 
     function clickHandler() {
