@@ -33,3 +33,22 @@
         @warn 'Unfortunately, no value could retieved from `#{$name}`. Please make sure it is defined in the `$max-widths` map.';
     }
 }
+
+// WIP
+@function color-from-theme($theme: 'green', $name: 'primary') {
+    @if map-has-key($colors-themes, $theme) {
+        $color-theme: map-get($colors-themes, $theme);
+
+        @if map-has-key($color-theme, $name) {
+            @return map-get($color-theme, $name);
+        }
+
+        @else {
+            @warn 'Unfortunately, no value could retieved from `#{$name}`. Please make sure it is defined in the `$max-widths` map.';
+        }
+    }
+
+    @else {
+        @warn 'Unfortunately, no value could retieved from `#{$theme}`. Please make sure it is defined in the `$max-widths` map.';
+    }
+}

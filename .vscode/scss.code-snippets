@@ -34,6 +34,7 @@
 			"@include respond-to('medium') {",
 			"    $0",
 			"}",
+			"",
 			"@include respond-to('large') {",
 			"    $0",
 			"}"
@@ -69,6 +70,80 @@
 			"rem(${1:value}, 'large')",
 		],
 	},
+
+    // Colors
+    "Color from theme": {
+        "scope": "scss",
+        "prefix": "theme",
+        "body": [
+            "color-from-theme('${1:theme}', '${2:name}')",
+        ]
+    },
+    "Color from theme: Green": {
+        "scope": "scss",
+        "prefix": "themeg",
+        "body": [
+            "color-from-theme('green', '${2:name}')",
+        ]
+    },
+    "Color from theme: Blue": {
+        "scope": "scss",
+        "prefix": "themeb",
+        "body": [
+            "color-from-theme('blue', '${2:name}')",
+        ]
+    },
+    "Color from theme: Red": {
+        "scope": "scss",
+        "prefix": "themer",
+        "body": [
+            "color-from-theme('red', '${2:name}')",
+        ]
+    },
+    // Primary
+    "Color from theme: Green Primary": {
+        "scope": "scss",
+        "prefix": "themegp",
+        "body": [
+            "color-from-theme('green', 'primary')",
+        ]
+    },
+    "Color from theme: Blue Primary": {
+        "scope": "scss",
+        "prefix": "themebp",
+        "body": [
+            "color-from-theme('blue', 'primary')",
+        ]
+    },
+    "Color from theme: Red Primary": {
+        "scope": "scss",
+        "prefix": "themerp",
+        "body": [
+            "color-from-theme('red', 'primary')",
+        ]
+    },
+    // Secondary
+    "Color from theme: Green Secondary": {
+        "scope": "scss",
+        "prefix": "themegs",
+        "body": [
+            "color-from-theme('green', 'secondary')",
+        ]
+    },
+    "Color from theme: Blue Secondary": {
+        "scope": "scss",
+        "prefix": "themebs",
+        "body": [
+            "color-from-theme('blue', 'secondary')",
+        ]
+    },
+    "Color from theme: Red Secondary": {
+        "scope": "scss",
+        "prefix": "themers",
+        "body": [
+            "color-from-theme('red', 'secondary')",
+        ]
+    },
     // Place your snippets for scss here. Each snippet is defined under a snippet name and has a prefix, body and
 	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
 	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the

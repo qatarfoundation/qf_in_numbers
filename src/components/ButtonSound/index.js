@@ -1,5 +1,4 @@
 // Vendor
-import WindowResizeObserver from '@/utils/WindowResizeObserver';
 import { gsap } from 'gsap';
 
 // React
@@ -7,6 +6,9 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
+
+// Utils
+import WindowResizeObserver from '@/utils/WindowResizeObserver';
 
 const DPR = 2;
 

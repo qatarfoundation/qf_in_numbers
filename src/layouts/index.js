@@ -1,5 +1,5 @@
 // Vendor
-import React, {} from 'react';
+import React, { useEffect } from 'react';
 import loadable from '@loadable/component';
 import { AnimatePresence } from 'framer-motion';
 import { useI18next } from 'gatsby-plugin-react-i18next';
@@ -37,22 +37,22 @@ const Layout = (props) => {
      */
     const preloaderState = usePreloader();
 
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        // Reset
+        document.body.classList.remove('en-US');
+        document.body.classList.remove('ar');
+
+        // Set
+        document.body.dir = i18n.dir();
+        document.documentElement.lang = language;
+        document.body.classList.add(language);
+    }, [language]);
+
     let page = uri.substring(1);
     page = page ? page : 'home';
-
-    setup();
-
-    /**
-     * Private
-     */
-    function setup() {
-        setupDirection();
-    }
-
-    function setupDirection() {
-        document.body.dir = i18n.dir();
-        document.body.classList.add(language);
-    }
 
     return (
         <div>

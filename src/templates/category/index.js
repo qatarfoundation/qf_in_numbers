@@ -10,22 +10,19 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
+// Components
+import ListSubcategories from '@/components/ListSubcategories';
+
 const CategoryTemplate = (props, ref) => {
     /**
      * Data
      */
-    const { originalPath } = useI18next();
-    const category = props.pageContext.name;
-    const year = props.pageContext.year;
-    const subcategories = props.pageContext.subcategories;
-    const slugSubcategories = subcategories.map(item => item.slug);
-    const initialSubcategory = props.pageContext.subcategory;
+    const category = props.pageContext;
 
     /**
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
-    const [activeSubcategoryIndex, setActiveSubcategoryIndex] = useState(initialSubcategory ? slugSubcategories.indexOf(initialSubcategory.slug) : null);
 
     /**
      * Effects
@@ -39,7 +36,6 @@ const CategoryTemplate = (props, ref) => {
      * Refs
      */
     const el = useRef();
-    const buttonSubcategories = useRef([]);
 
     /**
      * Private
@@ -61,50 +57,12 @@ const CategoryTemplate = (props, ref) => {
         safeToRemove();
     }
 
-    /**
-     * Private
-     */
-
-    /**
-     * Handlers
-     */
-    function subcategoryClickHandler(e) {
-        const index = buttonSubcategories.current.indexOf(e.currentTarget);
-        setActiveSubcategoryIndex(index);
-    }
-
     return (
         <div className="template-category" ref={ el }>
 
-            <div className="container">
+            <div className="container-page container">
 
-                <div className="heading">
-                    { category }
-                </div>
-
-                <ul className="subcategories-list">
-                    { subcategories.map((subcategory, index) => (
-                        <li className="subcategories-list-item" key={ subcategory.name } >
-                            <button className="button-subcategory button" onClick={ subcategoryClickHandler } ref={ (element) => buttonSubcategories.current.push(element) }>
-                                { subcategory.name }
-                            </button>
-
-                            {
-                                index === activeSubcategoryIndex ?
-                                    <ul className="entities-list">
-                                        { subcategory.entities.map((entity) => (
-                                            <li className="entities-list-item" key={ entity.name }>
-                                                <Link className="button-entity button" to={ `${originalPath}/${subcategory.slug}/${entity.slug}` }>
-                                                    { entity.name }
-                                                </Link>
-                                            </li>
-                                        )) }
-                                    </ul> : null
-                            }
-
-                        </li>
-                    )) }
-                </ul>
+                <ListSubcategories year={ category.year } category={ category } subcategories={ category.subcategories } ></ListSubcategories>
 
             </div>
 

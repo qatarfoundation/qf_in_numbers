@@ -1,32 +1,10 @@
 .template-category {
     opacity: 0;
 
-    padding-top: 100px;
-}
-
-.heading {
-    margin-bottom: 50px;
-
-    font-size: 100px;
-}
-
-.container {
-    width: 80%;
-
-    margin: auto;
-}
-
-.subcategories-list-item {
-    margin-bottom: 20px;
-}
-
-.button-subcategory {
-    margin-bottom: 10px;
-
-    font-size: 50px;
-}
-
-.button-entity {
-    font-size: 20px;
-    text-decoration: underline;
+    @include respond-to('medium') {
+        padding-top: rem(169px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-top: rem(169px, 'large');
+    }
 }

@@ -88,6 +88,8 @@ exports.createPages = async({ graphql, actions }) => {
 
         for (const key in categories) {
             const category = categories[key];
+            console.log(category);
+            category.slug = slugify(category.name.toLowerCase());
 
             const subcategories = category.subcategories;
             subcategories.forEach((subcategory) => {
@@ -111,7 +113,7 @@ exports.createPages = async({ graphql, actions }) => {
                     component: CategoryTemplate,
                     context: {
                         ...category,
-                        year: year.year,
+                        year,
                         subcategory,
                     },
                 });
@@ -121,7 +123,10 @@ exports.createPages = async({ graphql, actions }) => {
             createPage({
                 path: `${year.year}/${key}`,
                 component: CategoryTemplate,
-                context: category,
+                context: {
+                    ...category,
+                    year,
+                },
             });
         }
 

@@ -1,0 +1,27 @@
+.list-item-subcategories {
+
+}
+
+.button {
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 77px;
+
+    color: color-from-theme('green', 'primary');
+
+    transition: color 0.3s ease-out;
+
+    &.is-highlighted {
+        color: $color-white;
+    }
+
+    @include respond-to('medium') {
+        font-size: rem(64px, 'medium');
+        line-height: rem(77px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(64px, 'large');
+        line-height: rem(77px, 'large');
+    }
+}

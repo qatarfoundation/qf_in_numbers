@@ -10,6 +10,9 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
+// Components
+import ListCategories from '@/components/ListCategories';
+
 const YearTemplate = (props, ref) => {
     /**
      * Data
@@ -55,34 +58,12 @@ const YearTemplate = (props, ref) => {
         safeToRemove();
     }
 
-    console.log();
-
     return (
         <div className="template-year" ref={ el }>
 
-            <div className="container">
+            <div className="container-page container">
 
-                <div className="heading">
-                    { year }
-                </div>
-
-                <ul>
-                    <li>
-                        <Link className="button" to={ `${originalPath}/community` }>
-                            Community
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="button" to={ `${originalPath}/research` }>
-                            Research
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="button" to={ `${originalPath}/education` }>
-                            Education
-                        </Link>
-                    </li>
-                </ul>
+                <ListCategories />
 
             </div>
 
