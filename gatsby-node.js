@@ -28,6 +28,11 @@ exports.onCreateWebpackConfig = ({
 exports.createPages = async({ graphql, actions }) => {
     const { createPage, createRedirect } = actions;
 
+    const slugifyConfig = {
+        remove: /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/,
+        lower: true,
+    };
+
     // Templates
     const YearTemplate = path.resolve('src/templates/year/index.js');
     const CategoryTemplate = path.resolve('src/templates/category/index.js');
@@ -88,15 +93,15 @@ exports.createPages = async({ graphql, actions }) => {
 
         for (const key in categories) {
             const category = categories[key];
-            category.slug = slugify(category.name.toLowerCase());
+            category.slug = slugify(category.name, slugifyConfig);
 
             const subcategories = category.subcategories;
             subcategories.forEach((subcategory) => {
-                subcategory.slug = slugify(subcategory.name.toLowerCase());
+                subcategory.slug = slugify(subcategory.name, slugifyConfig);
 
                 const entities = subcategory.entities;
                 entities.forEach((entity) => {
-                    entity.slug = slugify(entity.name.toLowerCase());
+                    entity.slug = slugify(entity.name, slugifyConfig);
 
                     // Entity pages
                     createPage({

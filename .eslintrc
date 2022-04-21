@@ -46,6 +46,7 @@
         "no-var": [2],
         "space-infix-ops": [2],
         "comma-spacing": [2, { "before": false, "after": true }],
-        "computed-property-spacing": [2, "never"]
+        "computed-property-spacing": [2, "never"],
+        "no-useless-escape": 0
     }
 }
