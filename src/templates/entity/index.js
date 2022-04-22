@@ -2,9 +2,12 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
+
+// Hooks
+import useTemplateData from '@/hooks/useTemplateData';
 
 // CSS
 import './style.scoped.scss';
@@ -13,7 +16,21 @@ function EntityTemplate(props, ref) {
     /**
      * Data
      */
-    const entity = props.pageContext.name;
+    const { language } = props.pageContext;
+
+    const data = useTemplateData(props.pageContext);
+
+    const [year, setYear] = useState(data.year[language]);
+    const [category, setCategory] = useState(data.category[language]);
+    const [subcategory, setSubcategory] = useState(data.subcategory[language]);
+    const [entity, setEntity] = useState(data.entity[language]);
+
+    useEffect(() => {
+        setYear(data.year[language]);
+        setCategory(data.category[language]);
+        setSubcategory(data.subcategory[language]);
+        setEntity(data.entity[language]);
+    }, [data, language]);
 
     /**
      * States
@@ -24,7 +41,6 @@ function EntityTemplate(props, ref) {
      * Effects
      */
     useEffect(() => {
-        // console.log({ isPresent });
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
@@ -64,7 +80,7 @@ function EntityTemplate(props, ref) {
             <div className="container">
 
                 <div className="heading">
-                    { entity }
+                    { entity.name }
                 </div>
 
             </div>

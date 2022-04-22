@@ -6,23 +6,21 @@ import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 import './style.scoped.scss';
 
 function ListEntities(props, ref) {
+    /**
+     * Data
+     */
     const { year, category, subcategory, entities } = props;
-
-    console.log(year, category);
-
-    const options = useI18next();
-    const { originalPath } = useI18next();
 
     return (
         <ul className="list-entities">
 
             {
                 entities.map((entity, index) => {
-                    const path = `/${year.year}/${category.slug}/${subcategory.slug}/${entity.slug}`;
+                    const path = `/${year.year}/${category.slug}/${subcategory.slug}/${entity.fields.slug}`;
                     return (
                         <li className="list-item" key={ index }>
                             <Link className="button button-entity" to={ path }>
-                                { entity.name }
+                                { entity.fields.name }
                             </Link>
                         </li>
                     );

@@ -5,10 +5,12 @@ import { gsap } from 'gsap';
 import React, { useState, useRef, useEffect } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
-import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
+
+// Hooks
+import useTemplateData from '@/hooks/useTemplateData';
 
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
@@ -17,7 +19,19 @@ function CategoryTemplate(props, ref) {
     /**
      * Data
      */
-    const category = props.pageContext;
+    const { language } = props.pageContext;
+
+    const data = useTemplateData(props.pageContext);
+
+    const [year, setYear] = useState(data.year[language]);
+    const [category, setCategory] = useState(data.category[language]);
+    const [subcategory, setSubcategory] = useState(data.subcategory ? data.subcategory[language] : null);
+
+    useEffect(() => {
+        setYear(data.year[language]);
+        setCategory(data.category[language]);
+        setSubcategory(data.subcategory ? data.subcategory[language] : null);
+    }, [data, language]);
 
     /**
      * States
@@ -62,7 +76,7 @@ function CategoryTemplate(props, ref) {
 
             <div className="container-page container">
 
-                <ListSubcategories year={ category.year } category={ category } subcategories={ category.subcategories } ></ListSubcategories>
+                <ListSubcategories year={ year } category={ category } subcategory={ subcategory } subcategories={ category.subcategories }></ListSubcategories>
 
             </div>
 

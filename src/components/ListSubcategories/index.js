@@ -10,6 +10,9 @@ import ListItemSubcategories from '@/components/ListItemSubcategories';
 // Components
 
 function ListSubcategories(props, ref) {
+    /**
+     * Data
+     */
     const { year, category, subcategories } = props;
 
     return (
@@ -17,7 +20,7 @@ function ListSubcategories(props, ref) {
 
             {
                 subcategories.map((subcategory, index) => {
-                    return <ListItemSubcategories key={ index } year={ year } category={ category } subcategory={ subcategory } />;
+                    return <ListItemSubcategories key={ index } year={ year } category={ category } subcategory={ subcategory.fields } />;
                 })
             }
 

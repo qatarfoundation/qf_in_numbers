@@ -1,4 +1,8 @@
+// Vendor
 const path = require('path');
+
+// API
+const getPagesData = require('./src/api/getPagesData');
 
 exports.onCreateWebpackConfig = ({
     actions,
@@ -30,118 +34,23 @@ exports.createPages = async({ graphql, actions }) => {
     // Templates
     const YearTemplate = path.resolve('src/templates/year/index.js');
     const CategoryTemplate = path.resolve('src/templates/category/index.js');
-    const SubcategoryTemplate = path.resolve('src/templates/subcategory/index.js');
     const EntityTemplate = path.resolve('src/templates/entity/index.js');
 
-    const result = await graphql(`
-        query {
-            allContentfulYear(filter: {node_locale: {eq: "en-US"}}) {
-                edges {
-                    node {
-                        year
-                        node_locale
-                        community {
-                            name
-                            slug
-                            subcategories {
-                                name
-                                slug
-                                entities {
-                                    name
-                                    slug
-                                }
-                            }
-                        }
-                        research {
-                            name
-                            subcategories {
-                                name
-                                slug
-                                entities {
-                                    name
-                                    slug
-                                }
-                            }
-                        }
-                        education {
-                            name
-                            slug
-                            subcategories {
-                                name
-                                slug
-                                entities {
-                                    name
-                                    slug
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    `);
+    const templates = {
+        year: YearTemplate,
+        category: CategoryTemplate,
+        subcategory: CategoryTemplate,
+        entity: EntityTemplate,
+    };
 
-    // Generate routes
-    const yearEdges = result.data.allContentfulYear.edges;
+    const pages = await getPagesData();
 
-    yearEdges.forEach((yearEdge) => {
-        const year = yearEdge.node;
+    for (let i = 0; i < pages.length; i++) {
+        const page = pages[i];
 
-        const categories = {
-            community: year.community,
-            research: year.research,
-            education: year.education,
-        };
-
-        for (const key in categories) {
-            const category = categories[key];
-
-            const subcategories = category.subcategories;
-            subcategories.forEach((subcategory) => {
-                const entities = subcategory.entities;
-                entities.forEach((entity) => {
-                    // Entity pages
-                    createPage({
-                        path: `${year.year}/${key}/${subcategory.slug}/${entity.slug}`,
-                        component: EntityTemplate,
-                        context: entity,
-                    });
-                });
-
-                // Subcategory pages
-                createPage({
-                    path: `${year.year}/${key}/${subcategory.slug}`,
-                    component: CategoryTemplate,
-                    context: {
-                        ...category,
-                        year,
-                        subcategory,
-                    },
-                });
-            });
-
-            // Category pages
-            createPage({
-                path: `${year.year}/${key}`,
-                component: CategoryTemplate,
-                context: {
-                    ...category,
-                    year,
-                },
-            });
-        }
-
-        // Year pages
         createPage({
-            path: `${year.year}`,
-            component: YearTemplate,
-            context: year,
+            ...page,
+            component: templates[page.type],
         });
-    });
-
-    // Redirect ot default year
-    // createRedirect({
-    //     fromPath: '',
-    //     toPath: '/2021',
-    // });
+    }
 };

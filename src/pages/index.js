@@ -25,7 +25,6 @@ function IndexPage(props, ref) {
      * Effects
      */
     useEffect(() => {
-        // console.log({ isPresent });
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);

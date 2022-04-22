@@ -2,12 +2,15 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
 // CSS
 import './style.scoped.scss';
+
+// Hooks
+import useTemplateData from '@/hooks/useTemplateData';
 
 // Components
 import ListCategories from '@/components/ListCategories';
@@ -16,11 +19,31 @@ function YearTemplate(props, ref) {
     /**
      * Data
      */
-    const categories = {
-        community: props.pageContext.community,
-        research: props.pageContext.research,
-        education: props.pageContext.education,
-    };
+    const { language } = props.pageContext;
+
+    const data = useTemplateData(props.pageContext);
+
+    // Year
+    const [year, setYear] = useState(data.year[language]);
+
+    useEffect(() => {
+        setYear(data.year[language]);
+    }, [data, language]);
+
+    // Categories
+    const [categories, setCategories] = useState({
+        community: year.community.fields,
+        research: year.research.fields,
+        education: year.education.fields,
+    });
+
+    useEffect(() => {
+        setCategories({
+            community: year.community.fields,
+            research: year.research.fields,
+            education: year.education.fields,
+        });
+    }, [year]);
 
     /**
      * States

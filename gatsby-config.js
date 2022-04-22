@@ -11,8 +11,8 @@ module.exports = {
         {
             resolve: 'gatsby-source-contentful',
             options: {
-                spaceId: process.env.CTF_SPACE_ID,
-                accessToken: process.env.GATSBY_CTF_PREVIEW ? process.env.CTF_CDA_ACCESS_TOKEN_DELIVERY_PREVIEW : process.env.CTF_CDA_ACCESS_TOKEN_DELIVERY,
+                spaceId: process.env.GATSBY_CTF_SPACE_ID,
+                accessToken: process.env.GATSBY_CTF_PREVIEW ? process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY_PREVIEW : process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY,
                 host: process.env.GATSBY_CTF_PREVIEW ? 'preview.contentful.com' : null,
             },
         },
