@@ -38,20 +38,7 @@ function Layout(props) {
      */
     const preloaderState = usePreloader();
 
-    /**
-     * Effects
-     */
-    useEffect(() => {
-        // Reset
-        // document.body.classList.remove('en-US');
-        // document.body.classList.remove('ar');
-
-        // Set
-        // document.body.dir = i18n.dir();
-        // document.documentElement.lang = language;
-        // document.body.classList.add(language);
-    }, [language]);
-
+    // TMP
     let page = uri.substring(1);
     page = page ? page : 'home';
 
@@ -74,7 +61,11 @@ function Layout(props) {
 
                 </AnimatePresence>
 
-                <TheNavigation />
+                <AnimatePresence exitBeforeEnter>
+
+                    <TheNavigation key={ language } />
+
+                </AnimatePresence>
 
                 <ThePreloader visible={ preloaderState === LOADING } />
 

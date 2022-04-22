@@ -1,6 +1,10 @@
+// Vendor
+import { gsap } from 'gsap';
+
 // React
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useI18next } from 'gatsby-plugin-react-i18next';
+import { usePresence } from 'framer-motion';
 
 // CSS
 import './style.scoped.scss';
@@ -11,8 +15,46 @@ import LangSwitch from '@/components/LangSwitch';
 import ButtonSound from '@/components/ButtonSound';
 
 function TheNavigation(props) {
+    /**
+     * States
+     */
+    const [isPresent, safeToRemove] = usePresence();
+
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        if (isPresent) transitionIn();
+        else if (!isPresent) transitionOut(safeToRemove);
+    }, [isPresent]);
+
+    /**
+     * Refs
+     */
+    const el = useRef();
+
+    /**
+     * Private
+     */
+    function transitionIn() {
+        return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
+    }
+
+    function transitionOut() {
+        return gsap.set(el.current, { alpha: 0, onComplete: transitionOutCompleted });
+    }
+
+    function transitionInCompleted() {
+        //
+    }
+
+    function transitionOutCompleted() {
+        // Unmount
+        safeToRemove();
+    }
+
     return (
-        <div className="the-navigation">
+        <div className="the-navigation" ref={ el }>
 
             <div className="row">
 
