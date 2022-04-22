@@ -11,12 +11,12 @@ function ListItemSubcategories(props, ref) {
     /**
      * Data
      */
-    const { year, category, subcategory } = props;
+    const { year, category, currentSubcategory, subcategory } = props;
 
     /**
      * States
      */
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(currentSubcategory && currentSubcategory.slug === subcategory.slug);
     const [isHovered, setHovered] = useState(false);
 
     /**

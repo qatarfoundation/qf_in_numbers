@@ -13,14 +13,20 @@ function ListSubcategories(props, ref) {
     /**
      * Data
      */
-    const { year, category, subcategories } = props;
+    const { year, category, subcategory, subcategories } = props;
 
     return (
         <ul className="list-subcategories">
 
             {
-                subcategories.map((subcategory, index) => {
-                    return <ListItemSubcategories key={ index } year={ year } category={ category } subcategory={ subcategory.fields } />;
+                subcategories.map((item, index) => {
+                    return <ListItemSubcategories
+                        key={ index }
+                        year={ year }
+                        category={ category }
+                        currentSubcategory={ subcategory }
+                        subcategory={ item.fields }
+                    />;
                 })
             }
 
