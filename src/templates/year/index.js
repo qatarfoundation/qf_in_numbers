@@ -5,7 +5,6 @@ import { gsap } from 'gsap';
 import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
-import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -17,8 +16,11 @@ function YearTemplate(props, ref) {
     /**
      * Data
      */
-    const year = props.pageContext.year;
-    const { originalPath } = useI18next();
+    const categories = {
+        community: props.pageContext.community,
+        research: props.pageContext.research,
+        education: props.pageContext.education,
+    };
 
     /**
      * States
@@ -63,8 +65,7 @@ function YearTemplate(props, ref) {
 
             <div className="container-page container">
 
-                <ListCategories />
-                div.clacc
+                <ListCategories categories={ categories } />
 
             </div>
 

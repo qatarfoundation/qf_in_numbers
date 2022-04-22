@@ -8,24 +8,29 @@ import './style.scoped.scss';
 import ButtonCategory from '@/components/ButtonCategory';
 
 function ListCategories(props, ref) {
+    /**
+     * Data
+     */
+    const { categories } = props;
+
     return (
         <ul className="list-categories">
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: 'Community', path: 'community' } }></ButtonCategory>
+                <ButtonCategory category={ { name: categories.community.name, path: 'community' } }></ButtonCategory>
 
             </li>
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: 'Research', path: 'research' } }></ButtonCategory>
+                <ButtonCategory category={ { name: categories.research.name, path: 'research' } }></ButtonCategory>
 
             </li>
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: 'Education', path: 'education' } }></ButtonCategory>
+                <ButtonCategory category={ { name: categories.education.name, path: 'education' } }></ButtonCategory>
 
             </li>
 
