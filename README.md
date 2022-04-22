@@ -1,15 +1,16 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby minimal starter
-</h1>
+# QF In Numbers
+
+## Environments
+
+| Name               | URL                                                                     |
+| ------------------ | ----------------------------------------------------------------------- |
+| **Staging Dev**    | [qf-in-numbers-dev.netlify.app](https://qf-in-numbers-dev.netlify.app/) |
+| **Staging Client** | Coming Soon                                                             |
+| **Production**     | Coming Soon                                                             |
 
 ## 🚀 Quick start
 
-1.  **Create a Gatsby site.**
+### Create a Gatsby site
 
     Use the Gatsby CLI to create a new site, specifying the minimal starter.
 
@@ -18,7 +19,7 @@
     npm init gatsby
     ```
 
-2.  **Start developing.**
+### Start developing
 
     Navigate into your new site’s directory and start it up.
 
@@ -27,28 +28,55 @@
     npm run develop
     ```
 
-3.  **Open the code and start customizing!**
+### Open the code and start customizing
 
-    Your site is now running at http://localhost:8000!
+    Your site is now running at http://localhost:8000
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+    Edit `src/pages/index.js` to see your site update in real-time
 
-4.  **Learn more**
+### Learn more
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-    - [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [Tutorials](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-    - [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [Guides](https://www.gatsbyjs.com/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+    -   [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-## 🚀 Quick start (Gatsby Cloud)
+## Backend
 
-Deploy this starter with one click on [Gatsby Cloud](https://www.gatsbyjs.com/cloud/):
+This project is using [Contentful](https://app.contentful.com/).
 
-[<img src="https://www.gatsbyjs.com/deploynow.svg" alt="Deploy to Gatsby Cloud">](https://www.gatsbyjs.com/dashboard/deploynow?url=https://github.com/gatsbyjs/gatsby-starter-minimal)
+We currently have two spaces open for this project, one on Immersive Garden side and one on the client side. We use the IG contentful as a test environment.
+
+### Preview
+
+As the backend structure is quite complexe, we need a working preview feature.
+You can see the preview settings in contentful under Settings > Content Preview.
+
+For now we're using the Staging Dev environment as a preview but we will need to migrate to the client staging at the end of the project.
+To do so just update the staging url in Settings > Content Preview.
+
+Note that in frontend, the preview feature is only available with the **GATSBY_CTF_PREVIEW** environment variable set to **true**.
+
+## Deploy Guide
+
+All environment are using netlify
+
+### Staging Dev
+
+Pushing to develop will trigger a build to the development Staging dev netlify instance.
+[qf-in-numbers-dev.netlify.app](https://qf-in-numbers-dev.netlify.app/).
+
+### Staging Client
+
+TBD
+
+### Production
+
+TBD
