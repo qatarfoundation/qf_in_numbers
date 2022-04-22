@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 // API
-import getPagesData from '@/api/getPagesData';
+import getPagesData from '@/utils/api/getPagesData';
 
 function useTemplateData(props) {
     const [data, setData] = useState(props);

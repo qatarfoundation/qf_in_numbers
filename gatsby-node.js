@@ -2,7 +2,7 @@
 const path = require('path');
 
 // API
-const getPagesData = require('./src/api/getPagesData');
+const getPagesData = require('./src/utils/api/getPagesData');
 
 exports.onCreateWebpackConfig = ({
     actions,
