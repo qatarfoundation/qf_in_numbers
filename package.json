@@ -11,7 +11,7 @@
     "dev": "gatsby develop",
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "build": "cross-env GATSBY_CTF_PREVIEW=true GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
@@ -40,7 +40,6 @@
     "gsap": "^3.10.0",
     "i18next": "^21.6.14",
     "loaders": "git+https://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:x-oauth-basic@github.com/immersive-garden/loaders.git",
-    "netlify-plugin-gatsby-cache": "^0.3.2",
     "query-string": "^7.1.1",
     "raw-loader": "^4.0.2",
     "react": "^17.0.1",
