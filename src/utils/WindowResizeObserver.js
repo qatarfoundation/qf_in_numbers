@@ -73,16 +73,14 @@ class WindowResizeObserver extends EventDispatcher {
     }
 
     _createGhostElement() {
-        if (typeof document !== 'undefined') {
-            const element = document.createElement('div');
-            element.style.width = '100%';
-            element.style.height = '100vh';
-            element.style.position = 'absolute';
-            element.style.top = 0;
-            element.style.left = 0;
-            element.style.pointerEvents = 'none';
-            return element;
-        }
+        const element = document.createElement('div');
+        element.style.width = '100%';
+        element.style.height = '100vh';
+        element.style.position = 'absolute';
+        element.style.top = 0;
+        element.style.left = 0;
+        element.style.pointerEvents = 'none';
+        return element;
     }
 
     /**
@@ -104,9 +102,9 @@ class WindowResizeObserver extends EventDispatcher {
     }
 
     _updateCSSVariables() {
-        document.documentElement.style.setProperty('--vh', `${this._innerHeight * 0.01}px`);
-        document.documentElement.style.setProperty('--vw', `${this._innerWidth * 0.01}px`);
-        document.documentElement.style.setProperty('--scrollbar-width', `${this._fullWidth - this._innerWidth}px`);
+        document.documentElement.style.setProperty('--vh', `${ this._innerHeight * 0.01 }px`);
+        document.documentElement.style.setProperty('--vw', `${ this._innerWidth * 0.01 }px`);
+        document.documentElement.style.setProperty('--scrollbar-width', `${ this._fullWidth - this._innerWidth }px`);
     }
 
     _updateDPR() {

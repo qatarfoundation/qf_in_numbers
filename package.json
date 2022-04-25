@@ -20,7 +20,7 @@
     "cross-env": "^7.0.3",
     "dddd": "github:mathijspb/dddd",
     "framer-motion": "^6.2.9",
-    "gatsby": "^4.10.1",
+    "gatsby": "^4.12.1",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-compile-es6-packages": "^2.1.1",
     "gatsby-plugin-google-analytics": "^4.10.0",

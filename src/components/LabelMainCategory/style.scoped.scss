@@ -1,0 +1,43 @@
+.label {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 1px;
+
+    will-change: transform;
+
+    &.left .copy {
+        transform: translate(-100%, -50%);
+
+        .ar & {
+            transform: translate(0, -50%);
+        }
+    }
+
+    &.right .copy {
+        transform: translate(0, -50%);
+
+        .ar & {
+            transform: translate(100%, -50%);
+        }
+    }
+}
+
+.copy {
+    position: absolute;
+
+    font-family: $font-primary;
+    font-weight: 300;
+    font-size: rem(48px, 'large');
+    @include antialised;
+
+    @include respond-to('medium') {
+        font-size: rem(48px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(48px, 'large');
+    }
+}

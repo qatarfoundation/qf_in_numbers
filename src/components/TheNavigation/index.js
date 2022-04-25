@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 
 // React
 import React, { useEffect, useRef } from 'react';
-import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 import { usePresence } from 'framer-motion';
 
 // CSS

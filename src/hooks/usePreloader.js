@@ -1,11 +1,16 @@
 // Vendor
-import { useEffect, useState } from 'react';
 import { ResourceLoader } from 'resource-loader';
+
+// React
+import { useEffect, useState } from 'react';
 
 // Loaders
 import ImageLoader from 'loaders/image-loader';
 import TextureLoader from 'loaders/three-texture-loader';
 import ThreeGLTFDracoLoader from 'loaders/three-gltf-draco-loader';
+
+// Utils
+import Globals from '@/utils/Globals';
 
 // Configs
 import globalResources from '@/configs/globalResources.js';
@@ -31,18 +36,26 @@ function usePreloader() {
         const resourceLoader = new ResourceLoader();
         const isDevelopment = environment === DEVELOPMENT;
 
-        // Global resources
-        resourceLoader.add({
-            resources: globalResources,
-            preload: true,
-        });
+        const handleComplete = () => {
+            Globals.isResourcesLoaded = true;
+            setState(COMPLETE);
+        };
 
-        // View resources
-        addViewsResouces(resourceLoader, isDevelopment);
+        if (Globals.isResourcesLoaded)  {
+            setState(COMPLETE);
+        } else {
+            // Global resources
+            resourceLoader.add({
+                resources: globalResources,
+                preload: true,
+            });
 
-        const handleComplete = () => setState(COMPLETE);
-        resourceLoader.addEventListener('complete', handleComplete);
-        resourceLoader.preload();
+            // View resources
+            addViewsResouces(resourceLoader, isDevelopment);
+
+            resourceLoader.addEventListener('complete', handleComplete);
+            resourceLoader.preload();
+        }
 
         return () => {
             resourceLoader.removeEventListener('complete', handleComplete);

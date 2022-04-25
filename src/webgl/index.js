@@ -108,7 +108,7 @@ class Main {
             // alpha: true,
         });
 
-        const clearColor = new Color('#061514');
+        const clearColor = new Color('#000000');
         renderer.setClearColor(clearColor, 1);
         // renderer.autoClear = false;
         renderer.toneMapping = LinearToneMapping;
@@ -201,8 +201,8 @@ class Main {
     }
 
     _resizeCanvas({ innerWidth, innerHeight }) {
-        this._renderer.domElement.style.width = `${innerWidth}px`;
-        this._renderer.domElement.style.height = `${innerHeight}px`;
+        this._renderer.domElement.style.width = `${ innerWidth }px`;
+        this._renderer.domElement.style.height = `${ innerHeight }px`;
     }
 
     _resizeRenderer({ renderWidth, renderHeight, dpr }) {

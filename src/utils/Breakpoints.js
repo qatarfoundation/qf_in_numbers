@@ -2,33 +2,55 @@
 import WindowResizeObserver from './WindowResizeObserver';
 
 // CSS Variables
-import cssVariables from '@/assets/styles/resources/_variables.scss';
+// import cssVariables from '@/assets/styles/resources/_variables.scss';
+
+// NOTE: Hardcoded CSS variable values because we have to figure out how we can import CSS variables in JS with Gatsby
+const VARIABLES = {
+    baseViewportWidths: {
+        'small': 375,
+        'medium': 768,
+        'large': 1440,
+    },
+    baseFontSizes: {
+        'small': 1,
+        'medium': 0.55,
+        'large': 1,
+    },
+    maxWidths: {
+        'small': undefined,
+        'medium': undefined,
+        'large': undefined,
+    },
+};
 
 class Breakpoints {
     constructor() {
-        this._variables = this._parseVariables();
+        if (typeof window === 'undefined') return;
+
+        // this._variables = this._parseVariables();
+        this._variables = VARIABLES;
 
         this._bindHandlers();
         this._setupEventListeners();
         this._resize();
     }
 
-    _parseVariables() {
-        const variables = {
-            baseViewportWidths: {},
-            baseFontSizes: {},
-            maxWidths: {},
-        };
+    // _parseVariables() {
+    //     const variables = {
+    //         baseViewportWidths: {},
+    //         baseFontSizes: {},
+    //         maxWidths: {},
+    //     };
 
-        for (const key in cssVariables) {
-            const parsedKey = key.split('--');
-            if (parsedKey[0] === 'base-width') variables.baseViewportWidths[parsedKey[1]] = cssVariables[key];
-            if (parsedKey[0] === 'base-font-size') variables.baseFontSizes[parsedKey[1]] = cssVariables[key];
-            if (parsedKey[0] === 'max-width') variables.maxWidths[parsedKey[1]] = cssVariables[key];
-        }
+    //     for (const key in cssVariables) {
+    //         const parsedKey = key.split('--');
+    //         if (parsedKey[0] === 'base-width') variables.baseViewportWidths[parsedKey[1]] = cssVariables[key];
+    //         if (parsedKey[0] === 'base-font-size') variables.baseFontSizes[parsedKey[1]] = cssVariables[key];
+    //         if (parsedKey[0] === 'max-width') variables.maxWidths[parsedKey[1]] = cssVariables[key];
+    //     }
 
-        return variables;
-    }
+    //     return variables;
+    // }
 
     destroy() {
         this._removeEventListeners();

@@ -16,7 +16,7 @@ function ListEntities(props, ref) {
 
             {
                 entities.map((entity, index) => {
-                    const path = `/${year.year}/${category.slug}/${subcategory.slug}/${entity.fields.slug}`;
+                    const path = `/${ year.year }/${ category.slug }/${ subcategory.slug }/${ entity.fields.slug }`;
                     return (
                         <li className="list-item" key={ index }>
                             <Link className="button button-entity" to={ path }>

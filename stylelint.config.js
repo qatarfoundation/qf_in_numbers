@@ -1,6 +1,8 @@
 module.exports = {
     plugins: ['stylelint-order', 'stylelint-scss'],
+    extends: ['stylelint-config-recommended'],
     rules: {
+        'no-invalid-double-slash-comments': false,
         'order/properties-order': [
             {
                 emptyLineBefore: 'always',

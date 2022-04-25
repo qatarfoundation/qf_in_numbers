@@ -8,11 +8,12 @@ import { graphql } from 'gatsby';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 
 // CSS
 import './style.scoped.scss';
 
-function EntityTemplate(props, ref) {
+function EntityTemplate(props) {
     /**
      * Data
      */
@@ -44,6 +45,8 @@ function EntityTemplate(props, ref) {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    usePopulateTreeDataModel(year, props.data.allContentfulYear);
 
     /**
      * Refs
@@ -92,13 +95,48 @@ function EntityTemplate(props, ref) {
 export default EntityTemplate;
 
 export const query = graphql`
-    query ($language: String!) {
+    query ($language: String!, $year: Date) {
         locales: allLocale(filter: {language: {eq: $language}}) {
             edges {
                 node {
                     ns
                     data
                     language
+                }
+            }
+        }
+        allContentfulYear(filter: {node_locale: {eq: $language}, year: {eq: $year}}) {
+            edges {
+                node {
+                    year
+                    node_locale
+                    community {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
+                    research {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
+                    education {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
                 }
             }
         }

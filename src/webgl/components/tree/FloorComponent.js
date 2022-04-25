@@ -58,7 +58,7 @@ export default class FloorComponent extends component(Object3D) {
             uniforms: UniformsUtils.merge([
                 UniformsLib.fog,
                 {
-                    uColorGradient: { value: ResourceLoader.get('view/tree/particles-color-gradient') },
+                    uColorGradient: { value: ResourceLoader.get('view/home/particles-color-gradient') },
                     uProgress: { value: 0.65 },
                     uPointSize: { value: 150 },
                     uInnerGradient: { value: 0.88 },
@@ -103,7 +103,7 @@ export default class FloorComponent extends component(Object3D) {
         geometry.setAttribute('alpha', new Float32BufferAttribute(alpha, 1));
         geometry.setAttribute('scale', new Float32BufferAttribute(scale, 1));
 
-        const gradientTexture = ResourceLoader.get('view/tree/particles-color-gradient');
+        const gradientTexture = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
             fragmentShader,
             vertexShader,
