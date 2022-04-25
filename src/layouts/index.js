@@ -46,7 +46,7 @@ function Layout(props) {
         <div>
             <Helmet
                 htmlAttributes={ { lang: language } }
-                bodyAttributes={ { dir: i18n.dir(), class: language } }
+                bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }
             />
 
             <EnvironmentProvider>

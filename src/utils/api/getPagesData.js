@@ -9,20 +9,20 @@ async function getPagesData() {
 
     const promises = [
         api.getEntriesByType('year', { locale: 'en-US' }),
-        api.getEntriesByType('year', { locale: 'ar' }),
+        api.getEntriesByType('year', { locale: 'ar-QA' }),
     ];
 
     const result = await Promise.all(promises);
 
     const years = {
         'en-US': result[0].items,
-        'ar': result[1].items,
+        'ar-QA': result[1].items,
     };
 
     for (let i = 0; i < years['en-US'].length; i++) {
         const yearItem = {
             'en-US': years['en-US'][i].fields,
-            'ar': years['ar'][i].fields,
+            'ar-QA': years['ar-QA'][i].fields,
         };
 
         const categories = {
@@ -31,39 +31,39 @@ async function getPagesData() {
                 research: yearItem['en-US'].research.fields,
                 education: yearItem['en-US'].education.fields,
             },
-            'ar': {
-                community: yearItem['ar'].community.fields,
-                research: yearItem['ar'].research.fields,
-                education: yearItem['ar'].education.fields,
+            'ar-QA': {
+                community: yearItem['ar-QA'].community.fields,
+                research: yearItem['ar-QA'].research.fields,
+                education: yearItem['ar-QA'].education.fields,
             },
         };
 
         for (const categoryKey in categories['en-US']) {
             const categoryItem = {
                 'en-US': categories['en-US'][categoryKey],
-                'ar': categories['ar'][categoryKey],
+                'ar-QA': categories['ar-QA'][categoryKey],
             };
 
             const subcategories = {
                 'en-US': categoryItem['en-US'].subcategories,
-                'ar': categoryItem['ar'].subcategories,
+                'ar-QA': categoryItem['ar-QA'].subcategories,
             };
 
             for (let j = 0; j < subcategories['en-US'].length; j++) {
                 const subcategoryItem = {
                     'en-US': subcategories['en-US'][j].fields,
-                    'ar': subcategories['ar'][j].fields,
+                    'ar-QA': subcategories['ar-QA'][j].fields,
                 };
 
                 const entities = {
                     'en-US': subcategoryItem['en-US'].entities,
-                    'ar': subcategoryItem['ar'].entities,
+                    'ar-QA': subcategoryItem['ar-QA'].entities,
                 };
 
                 for (let k = 0; k < entities['en-US'].length; k++) {
                     const entityItem = {
                         'en-US': entities['en-US'][k].fields,
-                        'ar': entities['ar'][k].fields,
+                        'ar-QA': entities['ar-QA'][k].fields,
                     };
 
                     const entityPath = `${yearItem['en-US'].year}/${categoryItem['en-US'].slug}/${subcategoryItem['en-US'].slug}/${entityItem['en-US'].slug}`;

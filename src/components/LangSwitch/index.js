@@ -9,14 +9,14 @@ function LangSwitch(props) {
     const { language, originalPath } = useI18next();
 
     const buttons = {
-        'ar': {
+        'ar-QA': {
             label: 'English',
             locale: 'en-US',
             className: 'en',
         },
         'en-US': {
             label: 'العربية',
-            locale: 'ar',
+            locale: 'ar-QA',
             className: 'ar',
         },
     };
