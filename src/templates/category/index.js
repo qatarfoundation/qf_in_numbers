@@ -27,32 +27,27 @@ function CategoryTemplate(props) {
      */
     const { language } = props.pageContext;
 
-    const data = useTemplateData(props.pageContext);
-
-    const [year, setYear] = useState(data.year[language]);
-    const [category, setCategory] = useState(data.category[language]);
-    const [subcategory, setSubcategory] = useState(data.subcategory ? data.subcategory[language] : null);
-
-    useEffect(() => {
-        setYear(data.year[language]);
-        setCategory(data.category[language]);
-        setSubcategory(data.subcategory ? data.subcategory[language] : null);
-    }, [data, language]);
-
     /**
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
 
     /**
-     * Effects
+     * Hooks
      */
-    usePopulateTreeDataModel(year, props.data.allContentfulYear);
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    const category = data.category[language];
+    usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    useEffect(() => {
+        Globals.webglApp.gotoCategory(category.name);
+    }, []);
 
     /**
      * Refs
@@ -63,9 +58,6 @@ function CategoryTemplate(props) {
      * Private
      */
     function transitionIn() {
-        console.log('category goto');
-        Globals.webglApp.gotoCategory(category.name);
-
         return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
     }
 
@@ -87,7 +79,7 @@ function CategoryTemplate(props) {
 
             <div className="container-page container">
 
-                <ListSubcategories year={ year } category={ category } subcategory={ subcategory } subcategories={ category.subcategories }></ListSubcategories>
+                <ListSubcategories subcategories={ category.subcategories }></ListSubcategories>
 
             </div>
 
@@ -98,48 +90,13 @@ function CategoryTemplate(props) {
 export default CategoryTemplate;
 
 export const query = graphql`
-    query ($language: String!, $year: Date) {
+    query ($language: String!) {
         locales: allLocale(filter: {language: {eq: $language}}) {
             edges {
                 node {
                     ns
                     data
                     language
-                }
-            }
-        }
-        allContentfulYear(filter: {node_locale: {eq: $language}, year: {eq: $year}}) {
-            edges {
-                node {
-                    year
-                    node_locale
-                    community {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    research {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    education {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
                 }
             }
         }

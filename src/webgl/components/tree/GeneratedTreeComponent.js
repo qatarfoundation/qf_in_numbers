@@ -14,14 +14,17 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         // Options
         this._debugContainer = options.debugContainer;
 
+        // Props
+        this._activeBranch = null;
+
+        // Transforms
+        this.rotation.y = Math.PI * 0.5;
+
         // Setup
         this._debug = this._createDebug();
         this._branches = this._createBranches();
         this._bindHandlers();
         this._setupEventListeners();
-
-        // Transforms
-        this.rotation.y = Math.PI * 0.5;
     }
 
     destroy() {
@@ -32,8 +35,16 @@ export default class GeneratedTreeComponent extends component(Object3D) {
     /**
      * Public
      */
+    gotoOverview() {
+        this._showAllBranches();
+    }
+
     gotoCategory(name) {
-        console.log('k!!!!8');
+        this._activateBranch(name);
+    }
+
+    getGategoryCameraPosition(name) {
+        return this._activeBranch.getCameraAnchor(name);
     }
 
     /**
@@ -52,27 +63,50 @@ export default class GeneratedTreeComponent extends component(Object3D) {
     }
 
     _createBranches() {
-        const branches = [];
+        const branches = {};
 
         const data = TreeDataModel.getBranches();
+        if (data.length === 0) return;
+
         data.forEach((branch) => {
             const component = new GeneratedBranchComponent({
                 debug: this._debug,
                 data: branch.data,
+                position: branch.position,
+                rotation: branch.rotation,
             });
+            this.add(component);
+
             component.position.copy(branch.position);
             component.rotation.copy(branch.rotation);
-            this.add(component);
-            branches.push(component);
+            component.setup();
+
+            branches[branch.name] = component;
         });
         return branches;
+    }
+
+    _showAllBranches() {
+        for (const key in this._branches) {
+            this._branches[key].show();
+        }
+    }
+
+    _activateBranch(activeBranchName) {
+        for (const key in this._branches) {
+            if (key === activeBranchName) {
+                this._activeBranch = this._branches[key];
+            } else {
+                this._branches[key].hide();
+            }
+        }
     }
 
     /**
      * Handlers
      */
     _modelBranchesAddHandler() {
-        this._createBranches();
+        this._branches = this._createBranches();
     }
 
     /**

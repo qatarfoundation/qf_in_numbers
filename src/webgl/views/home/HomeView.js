@@ -43,6 +43,8 @@ export default class HomeView extends component() {
         super.destroy();
         this._destroyComponents();
         this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoOverview?.kill();
     }
 
     /**
@@ -70,6 +72,15 @@ export default class HomeView extends component() {
     prepare() {
     }
 
+    gotoOverview() {
+        this._timelineGotoOverview = new gsap.timeline();
+        this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(name), 0);
+        this._timelineGotoOverview.add(this._components.tree.show(), 6);
+        this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
+        this._timelineGotoOverview.timeScale(5);
+        return this._timelineGotoOverview;
+    }
+
     gotoCategory(name) {
         this._timelineGotoCategory = new gsap.timeline();
         this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
@@ -79,10 +90,21 @@ export default class HomeView extends component() {
         return this._timelineGotoCategory;
     }
 
-    gotoSubcategory(index) {
+    gotoSubcategory(name) {
+        const position = this._components.generatedTree.getGategoryCameraPosition(name);
+
         this._timelineGotoSubcategory = new gsap.timeline();
-        this._timelineGotoSubcategory.add(this._cameraManager.main.gotoSubcategory(index), 0);
+        this._timelineGotoSubcategory.add(this._cameraManager.main.gotoSubcategory(position), 0);
         return this._timelineGotoSubcategory;
+    }
+
+    gotoEntity(name) {
+        const position = this._components.generatedTree.getGategoryCameraPosition(name);
+        console.log(position);
+
+        // this._timelineGotoSubcategory = new gsap.timeline();
+        // this._timelineGotoSubcategory.add(this._cameraManager.main.gotoSubcategory(position), 0);
+        // return this._timelineGotoSubcategory;
     }
 
     /**
@@ -134,9 +156,8 @@ export default class HomeView extends component() {
             position,
             rotation: new Euler(0, 0, 0),
             scene: this._scene,
-            // orbit: true,
+            orbit: true,
         });
-        // cameraManager.camera.lookAt(new Vector3(0, 10, 0));
 
         return cameraManager;
     }
@@ -296,16 +317,28 @@ export default class HomeView extends component() {
                 this.gotoCategory('Education');
             },
         });
-        debug.addButton('Goto subcategory #0', {
+        debug.addButton('Goto subcategory - Arts and Culture', {
             fullWidth: true,
             onClick: () => {
-                this.gotoSubcategory(0);
+                this.gotoSubcategory('Arts and Culture');
             },
         });
-        debug.addButton('Goto subcategory #1', {
+        debug.addButton('Goto subcategory - Health and Sustainability', {
             fullWidth: true,
             onClick: () => {
-                this.gotoSubcategory(1);
+                this.gotoSubcategory('Health and Sustainability');
+            },
+        });
+        debug.addButton('Goto subcategory - Heritage', {
+            fullWidth: true,
+            onClick: () => {
+                this.gotoSubcategory('Heritage');
+            },
+        });
+        debug.addButton('Goto subcategory - Social Development', {
+            fullWidth: true,
+            onClick: () => {
+                this.gotoSubcategory('Social Development');
             },
         });
 

@@ -50,8 +50,6 @@ function Layout(props) {
         setWebglAppState(state);
     }
 
-    console.log('webglAppState', webglAppState);
-
     return (
         <div>
             <Helmet
@@ -65,7 +63,7 @@ function Layout(props) {
 
                 { webglAppState === 'started' &&
 
-                    <AnimatePresence exitBeforeEnter>
+                    <AnimatePresence>
 
                         <div key={ originalPath } className="page">
                             { children }

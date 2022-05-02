@@ -15,6 +15,9 @@ import './style.scoped.scss';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import ListCategories from '@/components/ListCategories';
 
@@ -24,30 +27,6 @@ const YearTemplate = (props) => {
      */
     const { language } = props.pageContext;
 
-    const data = useTemplateData(props.pageContext);
-
-    // Year
-    const [year, setYear] = useState(data.year[language]);
-
-    useEffect(() => {
-        setYear(data.year[language]);
-    }, [data, language]);
-
-    // Categories
-    const [categories, setCategories] = useState({
-        community: year.community.fields,
-        research: year.research.fields,
-        education: year.education.fields,
-    });
-
-    useEffect(() => {
-        setCategories({
-            community: year.community.fields,
-            research: year.research.fields,
-            education: year.education.fields,
-        });
-    }, [year]);
-
     /**
      * States
      */
@@ -56,12 +35,18 @@ const YearTemplate = (props) => {
     /**
      * Effects
      */
-    usePopulateTreeDataModel(year, props.data.allContentfulYear);
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    useEffect(() => {
+        Globals.webglApp.gotoOverview();
+    }, []);
 
     /**
      * Refs
@@ -72,7 +57,6 @@ const YearTemplate = (props) => {
      * Private
      */
     function transitionIn() {
-        // Globals.webglApp.showView('home');
         return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
     }
 
@@ -94,7 +78,7 @@ const YearTemplate = (props) => {
 
             <div className="container-page container">
 
-                <ListCategories categories={ categories } />
+                <ListCategories categories={ year.categories } />
 
             </div>
 
@@ -105,48 +89,13 @@ const YearTemplate = (props) => {
 export default YearTemplate;
 
 export const query = graphql`
-    query ($language: String!, $year: Date) {
+    query ($language: String!) {
         locales: allLocale(filter: {language: {eq: $language}}) {
             edges {
                 node {
                     ns
                     data
                     language
-                }
-            }
-        }
-        allContentfulYear(filter: {node_locale: {eq: $language}, year: {eq: $year}}) {
-            edges {
-                node {
-                    year
-                    node_locale
-                    community {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    research {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    education {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
                 }
             }
         }

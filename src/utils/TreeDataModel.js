@@ -27,7 +27,11 @@ class TreeDataModel extends EventDispatcher {
     constructor() {
         super();
 
+        // Props
         this._model = undefined;
+        this._isEmpty = true;
+
+        // Setup
         this.empty();
     }
 
@@ -38,10 +42,15 @@ class TreeDataModel extends EventDispatcher {
         return this._model.branches;
     }
 
+    get isEmpty() {
+        return this._isEmpty;
+    }
+
     /**
      * Public
      */
     addBranches(data) {
+        this._isEmpty = false;
         this._model.branches.push(...data);
     }
 
@@ -57,10 +66,11 @@ class TreeDataModel extends EventDispatcher {
     }
 
     addBranchesData(data) {
-        data.forEach((item) => {
+        for (const key in data) {
+            const item = data[key];
             const branch = this.getBranch(item.name);
             branch.data = item;
-        });
+        }
         this.dispatchEvent('branches/add', this._model.branches);
     }
 
@@ -71,6 +81,7 @@ class TreeDataModel extends EventDispatcher {
 
     empty() {
         this._model = JSON.parse(JSON.stringify(MODEL));
+        this._isEmpty = true;
     }
 }
 

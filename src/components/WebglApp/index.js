@@ -20,28 +20,26 @@ function WebglAppComponent(props) {
     const canvas = useRef(null);
     const environment = useEnvironment();
 
-    useLayoutEffect(() =>{
-        props.onStateChange('initialized');
-    },  []);
-
     useEffect(() => {
         Globals.webglApp = new WebglApp({
             canvas: canvas.current,
             showDebug: environment === DEVELOPMENT,
         });
 
-        Globals.webglApp = app;
         props.onStateChange('initialized');
 
+        return () => {
+            Globals.webglApp.destroy();
+            props.onStateChange('destroyed');
+        };
+    }, []);
+
+    useEffect(() => {
         if (props.preloaderState === COMPLETE) {
-            app.start();
+            Globals.webglApp.start();
             props.onStateChange('started');
             Globals.webglApp.showView('home');
         }
-
-        return () => {
-            app.destroy();
-        };
     }, [props.preloaderState]);
 
     return(

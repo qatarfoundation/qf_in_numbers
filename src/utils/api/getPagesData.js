@@ -5,68 +5,73 @@ const Promise = require('es6-promise').Promise;
 const api = require('./index.js');
 
 async function getPagesData() {
-    const pages = [];
-
     const promises = [
         api.getEntriesByType('year', { locale: 'en-US' }),
         api.getEntriesByType('year', { locale: 'ar-QA' }),
     ];
 
     const result = await Promise.all(promises);
+    const languages = parseLanguages({
+        'en-US': result[0],
+        'ar-QA': result[1],
+    });
+    const pages = createPages(languages);
+
+    return pages;
+}
+
+function createPages(languages) {
+    const pages = [];
 
     const years = {
-        'en-US': result[0].items,
-        'ar-QA': result[1].items,
+        'en-US': languages[0].years,
+        'ar-QA': languages[0].years,
     };
 
     for (let i = 0; i < years['en-US'].length; i++) {
         const yearItem = {
-            'en-US': years['en-US'][i].fields,
-            'ar-QA': years['ar-QA'][i].fields,
+            'en-US': years['en-US'][i],
+            'ar-QA': years['ar-QA'][i],
         };
+        const yearPath = yearItem['en-US'].year;
 
         const categories = {
-            'en-US': {
-                community: yearItem['en-US'].community.fields,
-                research: yearItem['en-US'].research.fields,
-                education: yearItem['en-US'].education.fields,
-            },
-            'ar-QA': {
-                community: yearItem['ar-QA'].community.fields,
-                research: yearItem['ar-QA'].research.fields,
-                education: yearItem['ar-QA'].education.fields,
-            },
+            'en-US': yearItem['en-US'].categories,
+            'ar-QA': yearItem['ar-QA'].categories,
         };
 
-        for (const categoryKey in categories['en-US']) {
+        categories['en-US'].forEach((category, index) => {
             const categoryItem = {
-                'en-US': categories['en-US'][categoryKey],
-                'ar-QA': categories['ar-QA'][categoryKey],
+                'en-US': categories['en-US'][index],
+                'ar-QA': categories['ar-QA'][index],
             };
+            const categoryPath = categoryItem['en-US'].slug;
 
             const subcategories = {
                 'en-US': categoryItem['en-US'].subcategories,
                 'ar-QA': categoryItem['ar-QA'].subcategories,
             };
 
-            for (let j = 0; j < subcategories['en-US'].length; j++) {
+            subcategories['en-US'].forEach((subcategory, index) => {
                 const subcategoryItem = {
-                    'en-US': subcategories['en-US'][j].fields,
-                    'ar-QA': subcategories['ar-QA'][j].fields,
+                    'en-US': subcategories['en-US'][index],
+                    'ar-QA': subcategories['ar-QA'][index],
                 };
+
+                const subcategoryPath = subcategoryItem['en-US'].slug;
 
                 const entities = {
                     'en-US': subcategoryItem['en-US'].entities,
                     'ar-QA': subcategoryItem['ar-QA'].entities,
                 };
 
-                for (let k = 0; k < entities['en-US'].length; k++) {
+                entities['en-US'].forEach((entity, index) => {
                     const entityItem = {
-                        'en-US': entities['en-US'][k].fields,
-                        'ar-QA': entities['ar-QA'][k].fields,
+                        'en-US': entities['en-US'][index],
+                        'ar-QA': entities['ar-QA'][index],
                     };
 
-                    const entityPath = `${yearItem['en-US'].year}/${categoryItem['en-US'].slug}/${subcategoryItem['en-US'].slug}/${entityItem['en-US'].slug}`;
+                    const entityPath = entityItem['en-US'].slug;
 
                     // Create Entity pages
                     pages.push({
@@ -79,9 +84,7 @@ async function getPagesData() {
                             entity: entityItem,
                         },
                     });
-                }
-
-                const subcategoryPath = `${yearItem['en-US'].year}/${categoryItem['en-US'].slug}/${subcategoryItem['en-US'].slug}`;
+                });
 
                 // Create Subcategory pages
                 pages.push({
@@ -93,9 +96,7 @@ async function getPagesData() {
                         subcategory: subcategoryItem,
                     },
                 });
-            }
-
-            const categoryPath = `${yearItem['en-US'].year}/${categoryItem['en-US'].slug}`;
+            });
 
             // Category pages
             pages.push({
@@ -106,9 +107,7 @@ async function getPagesData() {
                     category: categoryItem,
                 },
             });
-        }
-
-        const yearPath = `${yearItem['en-US'].year}`;
+        });
 
         // Year pages
         pages.push({
@@ -121,6 +120,75 @@ async function getPagesData() {
     }
 
     return pages;
+}
+
+function parseLanguages(data) {
+    const languages = [];
+    for (const key in data) {
+        languages.push({
+            locale: key,
+            years: parseYears(data[key].items),
+        });
+    }
+    return languages;
+}
+
+function parseYears(data) {
+    const years = [];
+    data.forEach((item) => {
+        const fields = item.fields;
+        const slug = `/${ fields.year }`;
+        years.push({
+            year: fields.year,
+            slug,
+            categories: parseCategories(fields, slug),
+        });
+    });
+    return years;
+}
+
+function parseCategories(data, baseSlug) {
+    const categories = [];
+    if (data.community) categories.push(parseCategory(data.community, baseSlug));
+    if (data.education) categories.push(parseCategory(data.education, baseSlug));
+    if (data.research) categories.push(parseCategory(data.research, baseSlug));
+    return categories;
+}
+
+function parseCategory(data, baseSlug) {
+    const slug = `${ baseSlug }/${ data.fields.slug }`;
+    const category = {
+        name: data.fields.name,
+        slug,
+        subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
+    };
+    return category;
+}
+
+function parseSubcategories(data, baseSlug) {
+    const subcategories = [];
+    data.forEach(item => {
+        const slug = `${ baseSlug }/${ item.fields.slug }`;
+        subcategories.push({
+            name: item.fields.name,
+            slug,
+            entities: item.fields && item.fields.entities ? parseEntities(item.fields.entities, slug) : [],
+        });
+    });
+    return subcategories;
+}
+
+function parseEntities(data, baseSlug) {
+    const entities = [];
+    data.forEach(item => {
+        const slug = `${ baseSlug }/${ item.fields.slug }`;
+        entities.push({
+            name: item.fields.name,
+            slug,
+            highlighted: item.fields.highlighted,
+        });
+    });
+    return entities;
 }
 
 module.exports = getPagesData;

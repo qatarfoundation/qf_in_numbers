@@ -11,14 +11,31 @@ export default {
         this._viewManager.show(name);
     },
 
-    gotoCategory(name) {
-        console.log(this._viewManager.active);
-        if (!this._viewManager.active || this._viewManager.active.name !== 'Home') return;
-        this._viewManager.active.gotoCategory(name);
+    isHome() {
+        return this._viewManager.active && this._viewManager.active.name === 'Home';
     },
 
-    gotoSubcategory(index) {
-        if (this._viewManager.active.name !== 'Home') return;
-        this._viewManager.active.gotoSubcategory(index);
+    gotoOverview() {
+        if (this.isHome()) {
+            this._viewManager.active.gotoOverview();
+        }
+    },
+
+    gotoCategory(name) {
+        if (this.isHome()) {
+            this._viewManager.active.gotoCategory(name);
+        }
+    },
+
+    gotoSubcategory(name) {
+        if (this.isHome()) {
+            this._viewManager.active.gotoSubcategory(name);
+        }
+    },
+
+    gotoEntity(name) {
+        if (this.isHome()) {
+            this._viewManager.active.gotoEntity(name);
+        }
     },
 };

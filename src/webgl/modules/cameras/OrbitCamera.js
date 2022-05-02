@@ -90,6 +90,9 @@ export default class OrbitCamera extends component() {
             _this._camera.updateProjectionMatrix();
         }
 
+        const pageElement = document.body.querySelector('.page');
+        if (pageElement) pageElement.style.pointerEvents = 'none';
+
         this._debug = this._debugGroup.addGroup('Orbit');
         this._debug.add(this._controls, 'enableZoom', { label: 'zoom' });
         this._debug.add(this._camera, 'near', { onChange: updateCamera });
@@ -115,6 +118,8 @@ export default class OrbitCamera extends component() {
     }
 
     hideDebug() {
+        const pageElement = document.body.querySelector('.page');
+        if (pageElement) pageElement.style.pointerEvents = '';
         this._debug?.remove();
     }
 }

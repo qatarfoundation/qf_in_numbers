@@ -8,7 +8,8 @@ function useTemplateData(props) {
     const [data, setData] = useState(props);
 
     useEffect(() => {
-        if (process.env.GATSBY_CTF_PREVIEW) {
+        const isPreview = process.env.GATSBY_CTF_PREVIEW === 'true';
+        if (isPreview) {
             getPagesData().then((pages) => {
                 // Find matching data
                 const { originalPath } = props.i18n;
@@ -16,15 +17,13 @@ function useTemplateData(props) {
                 let page = null;
 
                 for (let i = 0; i < pages.length; i++) {
-                    if (originalPath === `/${pages[i].path}`) {
+                    if (originalPath === `/${ pages[i].path }`) {
                         page = pages[i];
                     }
                 }
 
                 if (page) {
-                    const clonedProps = { ...props };
-                    Object.assign(clonedProps, page.context);
-                    setData(clonedProps);
+                    setData(page.context);
                 }
             });
         }
