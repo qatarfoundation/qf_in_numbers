@@ -1,5 +1,5 @@
 // Vendor
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import loadable from '@loadable/component';
 import { AnimatePresence } from 'framer-motion';
 import { useI18next } from 'gatsby-plugin-react-i18next';
@@ -25,22 +25,30 @@ function Layout(props) {
     /**
      * Props
      */
-    const { uri, children } = props;
+    const { children } = props;
+
+    /**
+     * States
+     */
+    const [webglAppState, setWebglAppState] = useState(undefined);
 
     /**
      * Data
      */
     const { originalPath, language } = useI18next();
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
 
     /**
-     * States
+     * Hooks
      */
     const preloaderState = usePreloader();
 
-    // TMP
-    let page = uri.substring(1);
-    page = page ? page : 'home';
+    /**
+     * Handlers
+     */
+    function stateChangeHandler(state) {
+        setWebglAppState(state);
+    }
 
     return (
         <div>
@@ -51,15 +59,19 @@ function Layout(props) {
 
             <EnvironmentProvider>
 
-                {/* <WebglApp page={ page } preloaderState={ preloaderState } /> */}
+                <WebglApp preloaderState={ preloaderState } onStateChange={ stateChangeHandler } />
 
-                <AnimatePresence exitBeforeEnter>
+                { webglAppState === 'started' &&
 
-                    <div key={ originalPath } className="page">
-                        { children }
-                    </div>
+                    <AnimatePresence>
 
-                </AnimatePresence>
+                        <div key={ originalPath } className="page">
+                            { children }
+                        </div>
+
+                    </AnimatePresence>
+
+                }
 
                 <AnimatePresence exitBeforeEnter>
 

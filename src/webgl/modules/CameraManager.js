@@ -6,11 +6,13 @@ import Debugger from '@/utils/Debugger';
 
 // Camera's
 import DefaultCamera from '@/webgl/modules/cameras/DefaultCamera';
+import TreeCamera from '@/webgl/modules/cameras/TreeCamera';
 import OrbitCamera from '@/webgl/modules/cameras/OrbitCamera';
 
 // Constants
 const CAMERAS = {
     default: DefaultCamera,
+    tree: TreeCamera,
 };
 
 export default class CameraManager extends component() {

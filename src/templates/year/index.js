@@ -6,44 +6,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
+// Hooks
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
+
 // CSS
 import './style.scoped.scss';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import ListCategories from '@/components/ListCategories';
 
-function YearTemplate(props, ref) {
+const YearTemplate = (props) => {
     /**
      * Data
      */
     const { language } = props.pageContext;
-
-    const data = useTemplateData(props.pageContext);
-
-    // Year
-    const [year, setYear] = useState(data.year[language]);
-
-    useEffect(() => {
-        setYear(data.year[language]);
-    }, [data, language]);
-
-    // Categories
-    const [categories, setCategories] = useState({
-        community: year.community.fields,
-        research: year.research.fields,
-        education: year.education.fields,
-    });
-
-    useEffect(() => {
-        setCategories({
-            community: year.community.fields,
-            research: year.research.fields,
-            education: year.education.fields,
-        });
-    }, [year]);
 
     /**
      * States
@@ -53,10 +35,18 @@ function YearTemplate(props, ref) {
     /**
      * Effects
      */
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    usePopulateTreeDataModel(year.year, year.categories);
+
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    useEffect(() => {
+        Globals.webglApp.gotoOverview();
+    }, []);
 
     /**
      * Refs
@@ -88,13 +78,13 @@ function YearTemplate(props, ref) {
 
             <div className="container-page container">
 
-                <ListCategories categories={ categories } />
+                <ListCategories categories={ year.categories } />
 
             </div>
 
         </div>
     );
-}
+};
 
 export default YearTemplate;
 

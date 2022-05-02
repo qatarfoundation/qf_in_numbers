@@ -5,9 +5,9 @@ import React from 'react';
 import './style.scoped.scss';
 
 // Components
-import ButtonCategory from '@/components/ButtonCategory';
+import LabelMainCategory from '@/components/LabelMainCategory';
 
-function ListCategories(props, ref) {
+function ListCategories(props) {
     /**
      * Data
      */
@@ -18,19 +18,19 @@ function ListCategories(props, ref) {
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: categories.community.name, path: 'community' } }></ButtonCategory>
+                <LabelMainCategory index="0" label={ categories[0].name } anchor="left" />
 
             </li>
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: categories.research.name, path: 'research' } }></ButtonCategory>
+                <LabelMainCategory index="1" label={ categories[1].name } anchor="left" />
 
             </li>
 
             <li className="list-item">
 
-                <ButtonCategory category={ { name: categories.education.name, path: 'education' } }></ButtonCategory>
+                <LabelMainCategory index="2" label={ categories[2].name } anchor="right" />
 
             </li>
 

@@ -17,9 +17,13 @@ import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
         // options
-        this._hoverColor = options.hoverColor;
         this._index = options.index;
+        this._config = options.config;
+        this._hoverColor = options.hoverColor;
+        this._hoverBackgroundColor = options.hoverBackgroundColor;
         this._cameraManager = options.cameraManager;
+        this._anchorPosition = options.anchorPosition;
+        this._slug = options.slug;
 
         // Setup
         this._screenSpacePosition = new Vector3();
@@ -29,13 +33,13 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._hitArea = this._createHitArea();
         this._labelAnchor = this._createLabelAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
-
-        // this.show();
     }
 
     destroy() {
         super.destroy();
+        this._timelineTransitionIn?.kill();
         this._timelineShow?.kill();
+        this._timelineHide?.kill();
     }
 
     /**
@@ -49,13 +53,33 @@ export default class TreeBranchComponent extends component(Object3D) {
         return this._hitArea;
     }
 
+    get slug() {
+        return this._slug;
+    }
+
+    get hoverBackgroundColor() {
+        return this._hoverBackgroundColor;
+    }
+
     /**
      * Public
      */
+    transitionIn() {
+        this._timelineTransitionIn = new gsap.timeline({ delay: 2.5 });
+        this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 7, { value: 0 }, { value: 0.6, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
+        return this._timelineTransitionIn;
+    }
+
     show() {
-        this._timelineShow = new gsap.timeline({ delay: 2.5 });
-        this._timelineShow.fromTo(this._mesh.material.uniforms.uProgress, 7, { value: 0 }, { value: 0.6, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
+        this._timelineShow = new gsap.timeline();
+        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, 2, { value: 1, ease: 'sine.inOut' });
         return this._timelineShow;
+    }
+
+    hide() {
+        this._timelineHide = new gsap.timeline();
+        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, 2, { value: 0, ease: 'sine.inOut' });
+        return this._timelineHide;
     }
 
     mouseEnter() {
@@ -70,7 +94,7 @@ export default class TreeBranchComponent extends component(Object3D) {
      * Private
      */
     _createCurves() {
-        const gltf = ResourceLoader.get('view/tree/tree');
+        const gltf = ResourceLoader.get('view/home/tree');
         const model = gltf.scene.getObjectByName('Plane').clone();
         // this.add(model);
         const treeParse = new TreeParser({ model });
@@ -171,7 +195,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         geometry.setAttribute('settings', new Float32BufferAttribute(settings, 4));
         geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
 
-        const colorGradient = ResourceLoader.get('view/tree/particles-color-gradient');
+        const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
             fragmentShader,
             vertexShader,
@@ -184,6 +208,7 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uOuterGradient: { value: 0.07 },
                 uHoverColor: { value: this._hoverColor },
                 uShowHover: { value: 0 },
+                uOpacity: { value: 1 },
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -222,11 +247,11 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createLabelAnchor() {
-        const position = new Vector3(0, 9, 0);
         const geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
         const material = new MeshBasicMaterial({ color: 0x0000ff });
         const mesh = new Mesh(geometry, material);
-        mesh.position.copy(position);
+        mesh.visible = false;
+        mesh.position.copy(this._anchorPosition);
         this.add(mesh);
         return mesh;
     }

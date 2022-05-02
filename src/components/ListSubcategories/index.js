@@ -5,7 +5,7 @@ import React from 'react';
 import './style.scoped.scss';
 
 // Components
-import ListItemSubcategories from '@/components/ListItemSubcategories';
+import ListItemSubcategory from '@/components/ListItemSubcategory';
 
 // Components
 
@@ -13,19 +13,16 @@ function ListSubcategories(props, ref) {
     /**
      * Data
      */
-    const { year, category, subcategory, subcategories } = props;
+    const { subcategories } = props;
 
     return (
         <ul className="list-subcategories">
 
             {
                 subcategories.map((item, index) => {
-                    return <ListItemSubcategories
+                    return <ListItemSubcategory
                         key={ index }
-                        year={ year }
-                        category={ category }
-                        currentSubcategory={ subcategory }
-                        subcategory={ item.fields }
+                        subcategory={ item }
                     />;
                 })
             }

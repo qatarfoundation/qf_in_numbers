@@ -12,8 +12,8 @@ module.exports = {
             resolve: 'gatsby-source-contentful',
             options: {
                 spaceId: process.env.GATSBY_CTF_SPACE_ID,
-                accessToken: process.env.GATSBY_CTF_PREVIEW ? process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY_PREVIEW : process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY,
-                host: process.env.GATSBY_CTF_PREVIEW ? 'preview.contentful.com' : null,
+                accessToken: process.env.GATSBY_CTF_PREVIEW === 'true' ? process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY_PREVIEW : process.env.GATSBY_CTF_CDA_ACCESS_TOKEN_DELIVERY,
+                host: process.env.GATSBY_CTF_PREVIEW === 'true' ? 'preview.contentful.com' : undefined,
             },
         },
         {
@@ -74,7 +74,7 @@ module.exports = {
         {
             resolve: 'gatsby-source-filesystem',
             options: {
-                path: `${__dirname}/locales`,
+                path: `${ __dirname }/locales`,
                 name: 'locale',
             },
         },

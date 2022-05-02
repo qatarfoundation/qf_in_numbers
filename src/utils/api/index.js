@@ -13,7 +13,7 @@ const configDeliveryPreview = {
 
 class Api {
     constructor() {
-        this._preview = process.env.GATSBY_CTF_PREVIEW;
+        this._isPreview = process.env.GATSBY_CTF_PREVIEW === 'true';
         this._client = this._createClient();
     }
 
@@ -79,7 +79,7 @@ class Api {
      * Private
      */
     _createClient() {
-        const config = this._preview ? configDeliveryPreview : configDelivery;
+        const config = this._isPreview ? configDeliveryPreview : configDelivery;
         const client = contentful.createClient(config);
 
         return client;

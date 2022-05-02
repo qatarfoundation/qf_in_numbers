@@ -1,8 +1,11 @@
 // Vendor
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 // CSS
 import './style.scoped.scss';
+
+// Utils
+import Globals from '@/utils/Globals';
 
 // Webgl
 import WebglApp from '@/webgl';
@@ -18,20 +21,26 @@ function WebglAppComponent(props) {
     const environment = useEnvironment();
 
     useEffect(() => {
-        const app = new WebglApp({
+        Globals.webglApp = new WebglApp({
             canvas: canvas.current,
             showDebug: environment === DEVELOPMENT,
         });
 
-        if (props.preloaderState === COMPLETE) {
-            app.start();
-            app.showView(props.page);
-        }
+        props.onStateChange('initialized');
 
         return () => {
-            app.destroy();
+            Globals.webglApp.destroy();
+            props.onStateChange('destroyed');
         };
     }, []);
+
+    useEffect(() => {
+        if (props.preloaderState === COMPLETE) {
+            Globals.webglApp.start();
+            props.onStateChange('started');
+            Globals.webglApp.showView('home');
+        }
+    }, [props.preloaderState]);
 
     return(
         <canvas ref={ canvas } className="background"></canvas>

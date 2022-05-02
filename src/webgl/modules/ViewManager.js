@@ -18,6 +18,7 @@ export default class ViewManager extends component() {
 
     destroy() {
         super.destroy();
+        this._active = null;
         this._destroyViews();
         this._removeDebugLayers();
     }
@@ -46,9 +47,10 @@ export default class ViewManager extends component() {
 
     show(name) {
         const view = this._getViewByName(name);
-        if (!view) return;
+        if (!view || this._active === view) return;
         this._active = view;
         view.instance.show();
+        this._loadRenderSettings(view.data.renderer);
         Debugger?.gotoLayer(name);
     }
 
@@ -88,6 +90,10 @@ export default class ViewManager extends component() {
             if (view.name.toLowerCase() === name.toLowerCase()) return view;
         }
         return null;
+    }
+
+    _loadRenderSettings(settings) {
+        this.$renderer.setClearColor(settings.clearColor);
     }
 
     _destroyViews() {

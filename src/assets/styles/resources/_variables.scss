@@ -28,6 +28,7 @@ $font-primary: 'DIN Next LT Pro', sans-serif;
 $font-secondary: 'PFDINSerif', serif;
 
 // Misc
+// NOTE: Variables in Breakpoints.js are currently hardcoded
 
 // Base font sizes
 $base-font-sizes: (
@@ -101,6 +102,7 @@ $circ-out: cubic-bezier(0, 0.55, 0.45, 1);
 $circ-in-out: cubic-bezier(0.85, 0, 0.15, 1);
 
 // Javascript export
+// NOTE: Variables in Breakpoints.js are currently hardcoded
 :export {
     // Base viewport widths
     @each $key, $value in $base-viewport-widths {

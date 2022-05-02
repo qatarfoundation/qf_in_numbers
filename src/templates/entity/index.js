@@ -8,29 +8,16 @@ import { graphql } from 'gatsby';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 
 // CSS
 import './style.scoped.scss';
 
-function EntityTemplate(props, ref) {
+function EntityTemplate(props) {
     /**
      * Data
      */
     const { language } = props.pageContext;
-
-    const data = useTemplateData(props.pageContext);
-
-    const [year, setYear] = useState(data.year[language]);
-    const [category, setCategory] = useState(data.category[language]);
-    const [subcategory, setSubcategory] = useState(data.subcategory[language]);
-    const [entity, setEntity] = useState(data.entity[language]);
-
-    useEffect(() => {
-        setYear(data.year[language]);
-        setCategory(data.category[language]);
-        setSubcategory(data.subcategory[language]);
-        setEntity(data.entity[language]);
-    }, [data, language]);
 
     /**
      * States
@@ -40,6 +27,11 @@ function EntityTemplate(props, ref) {
     /**
      * Effects
      */
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    const entity = data.entity[language];
+    usePopulateTreeDataModel(year.year, year.categories);
+
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
@@ -92,13 +84,48 @@ function EntityTemplate(props, ref) {
 export default EntityTemplate;
 
 export const query = graphql`
-    query ($language: String!) {
+    query ($language: String!, $year: Date) {
         locales: allLocale(filter: {language: {eq: $language}}) {
             edges {
                 node {
                     ns
                     data
                     language
+                }
+            }
+        }
+        allContentfulYear(filter: {node_locale: {eq: $language}, year: {eq: $year}}) {
+            edges {
+                node {
+                    year
+                    node_locale
+                    community {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
+                    research {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
+                    education {
+                        name
+                        subcategories {
+                            name
+                            entities {
+                                name
+                            }
+                        }
+                    }
                 }
             }
         }

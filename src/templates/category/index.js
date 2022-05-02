@@ -6,32 +6,26 @@ import React, { useState, useRef, useEffect } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
+// Hooks
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
+
 // CSS
 import './style.scoped.scss';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
 
-function CategoryTemplate(props, ref) {
+function CategoryTemplate(props) {
     /**
      * Data
      */
     const { language } = props.pageContext;
-
-    const data = useTemplateData(props.pageContext);
-
-    const [year, setYear] = useState(data.year[language]);
-    const [category, setCategory] = useState(data.category[language]);
-    const [subcategory, setSubcategory] = useState(data.subcategory ? data.subcategory[language] : null);
-
-    useEffect(() => {
-        setYear(data.year[language]);
-        setCategory(data.category[language]);
-        setSubcategory(data.subcategory ? data.subcategory[language] : null);
-    }, [data, language]);
 
     /**
      * States
@@ -39,12 +33,21 @@ function CategoryTemplate(props, ref) {
     const [isPresent, safeToRemove] = usePresence();
 
     /**
-     * Effects
+     * Hooks
      */
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    const category = data.category[language];
+    usePopulateTreeDataModel(year.year, year.categories);
+
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    useEffect(() => {
+        Globals.webglApp.gotoCategory(category.name);
+    }, []);
 
     /**
      * Refs
@@ -76,7 +79,7 @@ function CategoryTemplate(props, ref) {
 
             <div className="container-page container">
 
-                <ListSubcategories year={ year } category={ category } subcategory={ subcategory } subcategories={ category.subcategories }></ListSubcategories>
+                <ListSubcategories subcategories={ category.subcategories }></ListSubcategories>
 
             </div>
 

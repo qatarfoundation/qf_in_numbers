@@ -62,5 +62,7 @@ class Debugger extends EventDispatcher {
 
 /* eslint-disable */
 let debuggerInstance = null;
-if (DDDD) debuggerInstance = new Debugger();
+if (DDDD) debuggerInstance = new Debugger({
+    collapseGroups: true,
+});
 export default debuggerInstance;
