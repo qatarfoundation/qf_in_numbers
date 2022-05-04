@@ -428,8 +428,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             camera.lookAt(cameraTarget);
             camera.updateMatrixWorld();
 
-            const cameraHelper = new CameraHelper(camera);
-            this._scene.add(cameraHelper);
+            // const cameraHelper = new CameraHelper(camera);
+            // this._scene.add(cameraHelper);
 
             anchors[key] = {
                 origin: cameraPosition,
