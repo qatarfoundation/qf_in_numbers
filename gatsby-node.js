@@ -28,8 +28,8 @@ exports.onCreateWebpackConfig = ({
     });
 };
 
-exports.createPages = async({ graphql, actions }) => {
-    const { createPage, createRedirect } = actions;
+exports.createPages = async({ actions }) => {
+    const { createPage } = actions;
 
     // Templates
     const YearTemplate = path.resolve('src/templates/year/index.js');
