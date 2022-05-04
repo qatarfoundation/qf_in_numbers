@@ -107,67 +107,40 @@ export default class TreeCamera extends component() {
         const positionStart = this._camera.position.clone();
         const positionEnd = position.origin;
 
-        const targetStart = this._target.clone();
-        const targetEnd = position.target;
-
-        const quatStart = new Quaternion();
-        quatStart.setFromEuler(this._camera.rotation);
-        // quatStart.setFromEuler(new Euler(0, 0, 0));
-
-        const centerRadius = positionEnd.distanceTo(targetEnd);
-
-        const directionStart = positionStart.clone().sub(targetStart).normalize();
-        const directionEnd = positionEnd.clone().sub(targetEnd).normalize();
-        const directionCenter = new Vector3().lerpVectors(directionStart, directionEnd, 0.5).normalize();
-
-        // const direction = position.target.clone().sub(this._camera.position).normalize();
-
-        const direction = new Vector3(); // create once an reuse it
-        direction.subVectors(position.origin, position.target).normalize();
-
-        console.log(direction);
-
-        const dir = new Euler();
-        dir.setFromVector3(direction);
-        // dir.setFromVector3(new Euler(0, Math.PI * 0.5, 0));
-
-        const quatEnd = new Quaternion();
-        quatEnd.setFromEuler(dir);
-
-        const arrowHelper = new ArrowHelper(this._camera.rotation, positionEnd, 1, 0xff0000);
-        this._scene.add(arrowHelper);
-
-        {
-            const arrowHelper = new ArrowHelper(dir, positionEnd, 1, 0x00ff00);
-            this._scene.add(arrowHelper);
-        }
-
-        // const geometry = new BoxBufferGeometry(0.5, 0.5, 0.5);
-        // const material = new MeshBasicMaterial({ color: 0x00ffff });
-        // const mesh = new Mesh(geometry, material);
-
-        const pos = directionCenter.clone().add(positionEnd);
-        // mesh.position.copy(pos);
-
-        // this._scene.add(mesh);
-
-        const targetCenter = new Vector3(targetStart, targetEnd, 0.5);
-        // targetCenter.x =
-
-        // console.log(centerRadius);
+        const rotationStart = this._camera.quaternion.clone();
+        const rotationEnd = new Quaternion();
 
         return gsap.to(animation, 2, {
             progress: 1,
             ease: 'power3.inOut',
             onUpdate: () => {
                 this._camera.position.lerpVectors(positionStart, positionEnd, animation.progress);
-                // this._target.lerpVectors(targetStart, targetEnd, animation.progress);
 
-                const q = new Quaternion().slerpQuaternions(quatStart, quatEnd, animation.progress);
-                // this._camera.rotation.setRotationFromQuaternion(q);
-                this._camera.setRotationFromQuaternion(q);
+                position.camera.getWorldQuaternion(rotationEnd);
+                this._camera.quaternion.slerpQuaternions(rotationStart, rotationEnd, animation.progress);
+            },
+        });
+    }
 
-                // this._camera.lookAt(this._target);
+    gotoEntity(position) {
+        const animation = {
+            progress: 0,
+        };
+
+        const positionStart = this._camera.position.clone();
+        const positionEnd = position.origin;
+
+        const rotationStart = this._camera.quaternion.clone();
+        const rotationEnd = new Quaternion();
+
+        return gsap.to(animation, 2, {
+            progress: 1,
+            ease: 'power3.inOut',
+            onUpdate: () => {
+                this._camera.position.lerpVectors(positionStart, positionEnd, animation.progress);
+
+                position.camera.getWorldQuaternion(rotationEnd);
+                this._camera.quaternion.slerpQuaternions(rotationStart, rotationEnd, animation.progress);
             },
         });
     }

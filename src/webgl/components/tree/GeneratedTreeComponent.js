@@ -13,6 +13,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
     init(options = {}) {
         // Options
         this._debugContainer = options.debugContainer;
+        this._scene = options.scene;
 
         // Props
         this._activeBranch = null;
@@ -44,7 +45,11 @@ export default class GeneratedTreeComponent extends component(Object3D) {
     }
 
     getGategoryCameraPosition(name) {
-        return this._activeBranch.getCameraAnchor(name);
+        return this._activeBranch.getCameraAnchorSubcategory(name);
+    }
+
+    getEntityCameraPosition(categoryName, name) {
+        return this._activeBranch.getCameraAnchorEntity(categoryName, name);
     }
 
     /**
@@ -74,6 +79,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
                 data: branch.data,
                 position: branch.position,
                 rotation: branch.rotation,
+                scene: this._scene,
             });
             this.add(component);
 

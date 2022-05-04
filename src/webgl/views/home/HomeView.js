@@ -44,6 +44,7 @@ export default class HomeView extends component() {
         this._destroyComponents();
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
         this._timelineGotoOverview?.kill();
     }
 
@@ -91,6 +92,8 @@ export default class HomeView extends component() {
     }
 
     gotoSubcategory(name) {
+        this._currentCategory = name;
+
         const position = this._components.generatedTree.getGategoryCameraPosition(name);
 
         this._timelineGotoSubcategory = new gsap.timeline();
@@ -99,12 +102,11 @@ export default class HomeView extends component() {
     }
 
     gotoEntity(name) {
-        const position = this._components.generatedTree.getGategoryCameraPosition(name);
-        console.log(position);
+        const position = this._components.generatedTree.getEntityCameraPosition(this._currentCategory, name);
 
-        // this._timelineGotoSubcategory = new gsap.timeline();
-        // this._timelineGotoSubcategory.add(this._cameraManager.main.gotoSubcategory(position), 0);
-        // return this._timelineGotoSubcategory;
+        this._timelineGotoEntity = new gsap.timeline();
+        this._timelineGotoEntity.add(this._cameraManager.main.gotoSubcategory(position), 0);
+        return this._timelineGotoEntity;
     }
 
     /**
@@ -156,7 +158,7 @@ export default class HomeView extends component() {
             position,
             rotation: new Euler(0, 0, 0),
             scene: this._scene,
-            orbit: true,
+            // orbit: true,
         });
 
         return cameraManager;
@@ -242,6 +244,7 @@ export default class HomeView extends component() {
     _createGeneratedTreeComponent() {
         const component = new GeneratedTreeComponent({
             debugContainer: this._config.name,
+            scene: this._scene,
         });
         this._container.add(component);
         return component;
