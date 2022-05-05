@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 

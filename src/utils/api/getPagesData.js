@@ -182,13 +182,53 @@ function parseEntities(data, baseSlug) {
     const entities = [];
     data.forEach(item => {
         const slug = `${ baseSlug }/${ item.fields.slug }`;
-        entities.push({
+        const data = {
             name: item.fields.name,
             slug,
             highlighted: item.fields.highlighted,
-        });
+            charts: item.fields.charts,
+            relatedArticles: item.fields.relatedArticles,
+            tags: item.fields.tags,
+        };
+
+        if (item.fields.description) data.description = item.fields.description.content[0].content[0].value;
+        if (item.fields.highlightedChart) data.highlightedChart = item.fields.highlightedChart.fields;
+        if (data.charts) data.charts = parseCharts(data.charts);
+        if (data.relatedArticles) data.relatedArticles = parseRelatedArticles(data.relatedArticles);
+        if (data.tags) data.tags = parseTags(data.tags);
+        entities.push(data);
     });
     return entities;
+}
+
+function parseCharts(data) {
+    const charts = [];
+    data.forEach(item => {
+        const chart = item.fields;
+        chart.type = item.sys.contentType.sys.id;
+        charts.push(chart);
+    });
+    return charts;
+}
+
+function parseRelatedArticles(data) {
+    const articles = [];
+    data.forEach(item => {
+        const article = item.fields;
+        article.description = article.description.content[0].content[0].value;
+        article.image = article.image.fields;
+        articles.push(article);
+    });
+    return articles;
+}
+
+function parseTags(data) {
+    const tags = [];
+    data.forEach(item => {
+        const tag = item.fields;
+        tags.push(tag);
+    });
+    return tags;
 }
 
 module.exports = getPagesData;
