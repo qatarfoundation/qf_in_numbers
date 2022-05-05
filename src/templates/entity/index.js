@@ -13,6 +13,9 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 // CSS
 import './style.scoped.scss';
 
+// Components
+import PanelEntity from '@/components/PanelEntity';
+
 function EntityTemplate(props) {
     /**
      * Data
@@ -28,9 +31,11 @@ function EntityTemplate(props) {
      * Effects
      */
     const data = useTemplateData(props.pageContext, language);
+    console.log(data);
     const year = data.year[language];
     const entity = data.entity[language];
     usePopulateTreeDataModel(year.year, year.categories);
+    console.log(entity);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -68,15 +73,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
-
-            <div className="container">
-
-                <div className="heading">
-                    { entity.name }
-                </div>
-
-            </div>
-
+            <PanelEntity />
         </div>
     );
 }
