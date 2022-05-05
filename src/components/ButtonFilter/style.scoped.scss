@@ -1,0 +1,27 @@
+.button-filter {
+    position: relative;
+    color: $color-grey-light;
+    @include respond-to('medium') {
+        color: $color-grey;
+    }
+    &:not(:last-child) {
+        margin-right: 32px;
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: color-from-theme('green', 'primary');
+        opacity: 0;
+    }
+    &.is-active {
+        color: color-from-theme('green', 'primary');
+        &::after {
+            opacity: 1;
+        }
+    }
+}
