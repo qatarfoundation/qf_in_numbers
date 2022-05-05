@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
@@ -81,48 +81,13 @@ function EntityTemplate(props) {
 export default EntityTemplate;
 
 export const query = graphql`
-    query ($language: String!, $year: Date) {
+    query ($language: String!) {
         locales: allLocale(filter: {language: {eq: $language}}) {
             edges {
                 node {
                     ns
                     data
                     language
-                }
-            }
-        }
-        allContentfulYear(filter: {node_locale: {eq: $language}, year: {eq: $year}}) {
-            edges {
-                node {
-                    year
-                    node_locale
-                    community {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    research {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
-                    education {
-                        name
-                        subcategories {
-                            name
-                            entities {
-                                name
-                            }
-                        }
-                    }
                 }
             }
         }
