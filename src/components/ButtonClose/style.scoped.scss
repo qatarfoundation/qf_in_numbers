@@ -1,0 +1,28 @@
+.button-close {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid $color-grey;
+    border-radius: 100%;
+
+    &:hover {
+        opacity: 0.7;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  height: 50%;
+  width: 5%;
+  background-color: $color-grey;
+  &.line-left {
+    transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, 45deg);
+  }
+  &.line-right {
+    transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, -45deg);
+  }
+}

@@ -1,0 +1,21 @@
+.button-modal {
+    text-align: left;
+    &:hover {
+        opacity: 0.7;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+.line {
+    display: block;
+    max-width: 163px;
+    width: calc(50vw - rem(32px, 'small'));
+    height: 1px;
+    margin-top: 8px;
+    background-color: $color-white;
+    opacity: 0.2;
+    @include respond-to('medium') {
+        max-width: inherit;
+        width: 232px;
+    }
+}

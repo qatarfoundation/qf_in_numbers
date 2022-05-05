@@ -1,0 +1,12 @@
+.list-years {
+    display: flex;
+    flex-direction: row-reverse;
+    width: fit-content;
+    padding: 32px 16px 54px;
+    @include respond-to('medium') {
+        display: block;
+        flex-direction: inherit;
+        width: inherit;
+        padding: 29px 0 29px 53px;
+    }
+}

@@ -50,7 +50,9 @@
     "sass": "^1.49.9",
     "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials",
     "stats-js": "^1.0.1",
-    "three": "^0.139.0"
+    "swiper": "^8.1.4",
+    "three": "^0.139.0",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "babel-plugin-react-scoped-css": "^1.1.1",
