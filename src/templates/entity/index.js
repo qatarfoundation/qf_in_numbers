@@ -31,11 +31,10 @@ function EntityTemplate(props) {
      * Effects
      */
     const data = useTemplateData(props.pageContext, language);
-    console.log(data);
     const year = data.year[language];
     const entity = data.entity[language];
     usePopulateTreeDataModel(year.year, year.categories);
-    console.log(entity);
+    console.log('data', data);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -73,7 +72,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
-            <PanelEntity />
+            <PanelEntity entity={ entity } />
         </div>
     );
 }

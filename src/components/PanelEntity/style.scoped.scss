@@ -15,6 +15,9 @@
         max-width: 895px;
         width: 63vw;
     }
+    a {
+        color: $color-grey;
+    }
 }
 
 .button-close {
@@ -29,9 +32,11 @@
 
 .section {
     position: relative;
-    padding: 20px 18px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     @include respond-to('medium') {
-        padding: 55px 62px 95px;
+        padding-top: 55px;
+        padding-bottom: 62px;
     }
     &::after {
         content: '';
@@ -46,6 +51,15 @@
         @include respond-to('medium') {
             display: block;
         }
+    }
+}
+
+.section-container {
+    padding-right: 18px;
+    padding-left: 18px;
+    @include respond-to('medium') {
+        padding-right: 62px;
+        padding-left: 62px;
     }
 }
 
@@ -91,8 +105,39 @@
 }
 
 .articles {
+    margin-bottom: 119px;
+    @include respond-to('medium') {
+        margin-bottom: 170px;
+    }
     .h8 {
         color: color-from-theme('green', 'primary');
-        margin-bottom: 100px;
+        margin-bottom: 55px;
+        @include respond-to('medium') {
+            margin-bottom: 38px;
+        }
+    }
+    .slider-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 26px;
+        padding-right: 18px;
+        padding-left: 18px;
+        @include respond-to('medium') {
+            margin-bottom: 40px;
+            padding-right: 62px;
+            padding-left: 62px;
+        }
+        .slider-navigation {
+            .button-arrow:not(:last-child) {
+                margin-right: 8px;
+            }
+        }
+    }
+    .slider {
+        padding-left: 18px;
+        @include respond-to('medium') {
+            padding-left: 62px;
+        }
     }
 }

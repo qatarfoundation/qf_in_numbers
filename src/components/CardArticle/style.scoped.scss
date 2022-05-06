@@ -1,0 +1,32 @@
+.card-article {
+    width: 100%;
+    padding-bottom: 16px;
+    .img-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 63.32%;
+        margin-bottom: 16px;
+        border-radius: 3px;
+        overflow: hidden;
+        @include respond-to('medium') {
+            margin-bottom: 32px;
+        }
+        img {
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 100%;
+            transform: translate3d(-50%, -50%, 0);
+        }
+    }
+    .tag {
+        margin-bottom: 32px;
+        color: color-from-theme('green', 'primary');
+    }
+    .title {
+        margin-bottom: 16px;
+    }
+}
+
+.card-link {
+    display: block;
+}
