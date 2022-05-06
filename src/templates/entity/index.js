@@ -32,7 +32,7 @@ function EntityTemplate(props) {
      */
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
-    const entity = data.entity[language];
+    const entity = data.entity[language].current;
     usePopulateTreeDataModel(year.year, year.categories);
     console.log('data', data);
 

@@ -66,12 +66,45 @@ function createPages(languages) {
                 };
 
                 entities['en-US'].forEach((entity, index) => {
+                    const previousIndex = index === 0 ? null : index - 1;
+                    const currentIndex = index;
+                    const nextIndex = index === (entities['en-US'].length - 1) ? null : index + 1;
+
+                    let previousEntityItem;
+                    if (previousIndex) {
+                        previousEntityItem = {
+                            'en-US': entities['en-US'][previousIndex],
+                            'ar-QA': entities['ar-QA'][previousIndex],
+                        };
+                    }
+
                     const entityItem = {
-                        'en-US': entities['en-US'][index],
-                        'ar-QA': entities['ar-QA'][index],
+                        'en-US': entities['en-US'][currentIndex],
+                        'ar-QA': entities['ar-QA'][currentIndex],
                     };
 
+                    let nextEntityItem;
+                    if (nextIndex) {
+                        nextEntityItem = {
+                            'en-US': entities['en-US'][nextIndex],
+                            'ar-QA': entities['ar-QA'][nextIndex],
+                        };
+                    }
+
                     const entityPath = entityItem['en-US'].slug;
+
+                    const data = {
+                        'en-US': {
+                            previous: previousEntityItem ? previousEntityItem['en-US'] : null,
+                            current: entityItem['en-US'],
+                            next: nextEntityItem ? nextEntityItem['en-US'] : null,
+                        },
+                        'ar-QA': {
+                            previous: previousEntityItem ? previousEntityItem['ar-QA'] : null,
+                            current: entityItem['ar-QA'],
+                            next: nextEntityItem ? nextEntityItem['ar-QA'] : null,
+                        },
+                    };
 
                     // Create Entity pages
                     pages.push({
@@ -81,7 +114,7 @@ function createPages(languages) {
                             year: yearItem,
                             category: categoryItem,
                             subcategory: subcategoryItem,
-                            entity: entityItem,
+                            entity: data,
                         },
                     });
                 });
