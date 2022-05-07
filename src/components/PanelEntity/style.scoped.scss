@@ -141,3 +141,13 @@
         }
     }
 }
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 16px;
+    @include respond-to('medium') {
+        padding: 53px 33px;
+    }
+}

@@ -33,8 +33,10 @@ function EntityTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const entity = data.entity[language].current;
+    const entityNext = data.entity[language].next;
+    const entityPrevious = data.entity[language].previous;
     usePopulateTreeDataModel(year.year, year.categories);
-    console.log('data', data);
+    console.log(data);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -72,7 +74,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
-            <PanelEntity entity={ entity } />
+            <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
         </div>
     );
 }

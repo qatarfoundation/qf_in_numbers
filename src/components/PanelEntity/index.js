@@ -16,16 +16,17 @@ import 'swiper/css/scrollbar';
 import ButtonClose from '@/components/ButtonClose';
 import Scrollbar from '@/components/ScrollBar';
 import CardArticle from '@/components/CardArticle';
+import ButtonArrow from '@/components/ButtonArrow';
+import ButtonPagination from '@/components/ButtonPagination';
 
 // Hooks
 import useStore from '@/hooks/useStore';
-import ButtonArrow from '../ButtonArrow/index';
 
 function PanelEntity(props, ref) {
     /**
      * Datas
      */
-    const { entity } = props;
+    const { entity, next, previous } = props;
     /**
      * States
      */
@@ -95,7 +96,8 @@ function PanelEntity(props, ref) {
                         </div>
                     </section>
                     <div className='pagination'>
-
+                        <ButtonPagination name={ next.name } slug={ next.slug } direction="left"></ButtonPagination>
+                        <ButtonPagination name={ next.name } slug={ next.slug } direction="right"></ButtonPagination>
                     </div>
                 </Scrollbar>
             </div>
