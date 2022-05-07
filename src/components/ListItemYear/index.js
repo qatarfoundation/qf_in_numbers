@@ -1,14 +1,9 @@
 // React
 import React, { useState } from 'react';
+import { navigate } from 'gatsby';
 
 // CSS
 import './style.scoped.scss';
-
-// Utils
-import Globals from '@/utils/Globals';
-
-// Components
-import ListEntities from '@/components/ListEntities';
 
 // Hooks
 import useStore from '@/hooks/useStore';
@@ -27,6 +22,7 @@ function ListItemYear(props) {
      */
     function clickHandler(e) {
         useStore.setState({ modalYearIsOpen: !isOpen, currentYear: e.target.textContent });
+        navigate(`/${ e.target.textContent }`);
     }
 
     return (

@@ -1,5 +1,6 @@
 // React
 import React from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
 
 // CSS
 import './style.scoped.scss';
@@ -20,7 +21,20 @@ function PanelYear(props, ref) {
     /**
      * Datas
      */
-    const years = ['2022', '2021', '2020', '2022', '2021', '2020', '2022', '2021', '2020', '2022', '2021', '2020', '2022', '2021', '2020', '2022', '2021', '2020'];
+    const data = useStaticQuery(graphql`
+        query {
+            allContentfulYear {
+                edges {
+                    node {
+                        year
+                        node_locale
+                    }
+                }
+            }
+        }
+    `);
+    const years = data.allContentfulYear.edges;
+    years.reverse();
     /**
      * Private
      */
