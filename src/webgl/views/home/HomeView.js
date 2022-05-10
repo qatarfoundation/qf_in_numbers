@@ -91,22 +91,34 @@ export default class HomeView extends component() {
         return this._timelineGotoCategory;
     }
 
-    gotoSubcategory(name) {
-        this._currentCategory = name;
-
-        const position = this._components.generatedTree.getGategoryCameraPosition(name);
+    gotoSubcategory(categoryName, name) {
+        const position = this._components.generatedTree.getSubGategoryCameraPosition(categoryName, name);
 
         this._timelineGotoSubcategory = new gsap.timeline();
-        this._timelineGotoSubcategory.add(this._cameraManager.main.gotoSubcategory(position), 0);
+        this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
+        this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         return this._timelineGotoSubcategory;
     }
 
-    gotoEntity(name) {
-        const position = this._components.generatedTree.getEntityCameraPosition(this._currentCategory, name);
+    gotoEntity(categoryName, name) {
+        const position = this._components.generatedTree.getEntityCameraPosition(categoryName, name);
 
         this._timelineGotoEntity = new gsap.timeline();
-        this._timelineGotoEntity.add(this._cameraManager.main.gotoSubcategory(position), 0);
+        this._timelineGotoEntity.add(this._components.tree.hide(), 0);
+        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         return this._timelineGotoEntity;
+    }
+
+    selectEntity(categoryName, name) {
+        const position = this._components.generatedTree.getEntitySelectCameraPosition(categoryName, name);
+
+        // this._timelineGotoEntity = new gsap.timeline();
+        // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
+        // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
+        // return this._timelineGotoEntity;
     }
 
     /**
@@ -302,48 +314,48 @@ export default class HomeView extends component() {
         if (!Debugger) return;
 
         const debug = Debugger.addGroup('View', { container: this._config.name });
-        debug.addButton('Goto community', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoCategory('Community');
-            },
-        });
-        debug.addButton('Goto research', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoCategory('Research');
-            },
-        });
-        debug.addButton('Goto education', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoCategory('Education');
-            },
-        });
-        debug.addButton('Goto subcategory - Arts and Culture', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoSubcategory('Arts and Culture');
-            },
-        });
-        debug.addButton('Goto subcategory - Health and Sustainability', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoSubcategory('Health and Sustainability');
-            },
-        });
-        debug.addButton('Goto subcategory - Heritage', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoSubcategory('Heritage');
-            },
-        });
-        debug.addButton('Goto subcategory - Social Development', {
-            fullWidth: true,
-            onClick: () => {
-                this.gotoSubcategory('Social Development');
-            },
-        });
+        // debug.addButton('Goto community', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoCategory('Community');
+        //     },
+        // });
+        // debug.addButton('Goto research', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoCategory('Research');
+        //     },
+        // });
+        // debug.addButton('Goto education', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoCategory('Education');
+        //     },
+        // });
+        // debug.addButton('Goto subcategory - Arts and Culture', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoSubcategory('Arts and Culture');
+        //     },
+        // });
+        // debug.addButton('Goto subcategory - Health and Sustainability', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoSubcategory('Health and Sustainability');
+        //     },
+        // });
+        // debug.addButton('Goto subcategory - Heritage', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoSubcategory('Heritage');
+        //     },
+        // });
+        // debug.addButton('Goto subcategory - Social Development', {
+        //     fullWidth: true,
+        //     onClick: () => {
+        //         this.gotoSubcategory('Social Development');
+        //     },
+        // });
 
         return debug;
     }

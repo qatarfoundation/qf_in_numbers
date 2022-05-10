@@ -8,12 +8,15 @@ import './style.scoped.scss';
 import Globals from '@/utils/Globals';
 
 function ButtonEntity(props) {
+    const { categoryName, entity } = props;
+
     function clickHandler() {
-        Globals.webglApp.gotoEntity(props.name);
+        Globals.webglApp.gotoEntity(categoryName, entity.name);
+        Globals.tree.selectedEntity = entity;
     }
 
     return (
-        <button className="button button-entity" onClick={ clickHandler }>{ props.name }</button>
+        <button className="button button-entity" onClick={ clickHandler }>{ entity.name }</button>
     );
 }
 

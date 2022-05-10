@@ -1,6 +1,7 @@
 // Uniforms
 uniform float uProgress;
-uniform sampler2D uColorGradient;
+// uniform sampler2D uColorGradient;
+uniform vec3 uColor;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
 uniform float uOpacity;
@@ -12,7 +13,8 @@ float circle(vec2 st, float radius){
 
 void main() {
     // Color
-    vec3 color = texture2D(uColorGradient, vec2(0.5, 0.5)).rgb;
+    // vec3 color = texture2D(uColorGradient, vec2(0.5, 0.5)).rgb;
+    vec3 color = uColor;
 
     // Alpha
     float alpha = circle(gl_PointCoord, 1.0);

@@ -13,6 +13,9 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 // CSS
 import './style.scoped.scss';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 function EntityTemplate(props) {
     /**
      * Data
@@ -29,6 +32,7 @@ function EntityTemplate(props) {
      */
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
+    const category = data.category[language];
     const entity = data.entity[language].current;
     usePopulateTreeDataModel(year.year, year.categories);
 
@@ -36,6 +40,10 @@ function EntityTemplate(props) {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
+
+    useEffect(() => {
+        Globals.webglApp.gotoEntity(category.name, entity.name);
+    }, []);
 
     /**
      * Refs

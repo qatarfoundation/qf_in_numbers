@@ -99,30 +99,7 @@ export default class TreeCamera extends component() {
         return tween;
     }
 
-    gotoSubcategory(position) {
-        const animation = {
-            progress: 0,
-        };
-
-        const positionStart = this._camera.position.clone();
-        const positionEnd = position.origin;
-
-        const rotationStart = this._camera.quaternion.clone();
-        const rotationEnd = new Quaternion();
-
-        return gsap.to(animation, 2, {
-            progress: 1,
-            ease: 'power3.inOut',
-            onUpdate: () => {
-                this._camera.position.lerpVectors(positionStart, positionEnd, animation.progress);
-
-                position.camera.getWorldQuaternion(rotationEnd);
-                this._camera.quaternion.slerpQuaternions(rotationStart, rotationEnd, animation.progress);
-            },
-        });
-    }
-
-    gotoEntity(position) {
+    gotoPosition(position) {
         const animation = {
             progress: 0,
         };

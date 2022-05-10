@@ -27,15 +27,21 @@ export default {
         }
     },
 
-    gotoSubcategory(name) {
+    gotoSubcategory(categoryName, name) {
         if (this.isHome()) {
-            this._viewManager.active.gotoSubcategory(name);
+            this._viewManager.active.gotoSubcategory(categoryName, name);
         }
     },
 
-    gotoEntity(name) {
+    gotoEntity(categoryName, name) {
         if (this.isHome()) {
-            this._viewManager.active.gotoEntity(name);
+            this._viewManager.active.gotoEntity(categoryName, name);
+        }
+    },
+
+    selectEntity(categoryName, name) {
+        if (this.isHome()) {
+            this._viewManager.active.selectEntity(categoryName, name);
         }
     },
 };
