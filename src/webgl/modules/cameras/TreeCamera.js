@@ -7,12 +7,15 @@ import { ArrowHelper, BoxBufferGeometry, CameraHelper, ConeGeometry, Euler, Mesh
 import TreeDataModel from '@/utils/TreeDataModel';
 import math from '@/utils/math/index';
 
+// Constants
+const Y_OFFSET = 2;
+
 export default class TreeCamera extends component() {
     init(options = {}) {
         // Props
         this._debugGroup = options.debug;
         this._position = options.position;
-        this._rotation = options.rotation;
+        this._target = options.target;
         this._scene = options.scene;
 
         // Setup
@@ -21,7 +24,6 @@ export default class TreeCamera extends component() {
         this._isEnabled = false;
         this._currentBranch = undefined;
         this._categoryProgress = 0;
-        this._target = new Vector3();
         this._camera = this._createCamera();
         this._helper = this._createHelper();
     }
@@ -58,15 +60,10 @@ export default class TreeCamera extends component() {
                 const radius = maxRadius - this._categoryProgress * config.radiusOffset;
                 const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
                 const x = radius * Math.cos(angle);
-                const y = this._position.y + 4 * this._categoryProgress;
+                const y = this._position.y + Y_OFFSET * this._categoryProgress;
                 const z = radius * Math.sin(angle);
                 this._camera.position.set(x, y, z);
-
-                center.y = y;
-
-                this._target.copy(center);
-
-                this._camera.lookAt(center);
+                this._camera.lookAt(this._target);
             },
         });
         return tween;
@@ -86,14 +83,14 @@ export default class TreeCamera extends component() {
                 const radius = maxRadius - this._categoryProgress * config.radiusOffset;
                 const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
                 const x = radius * Math.cos(angle);
-                const y = this._position.y + 4 * this._categoryProgress;
+                const y = this._position.y + Y_OFFSET * this._categoryProgress;
                 const z = radius * Math.sin(angle);
                 this._camera.position.set(x, y, z);
 
-                this._target.copy(center);
+                // this._target.copy(center);
 
-                center.y = y;
-                this._camera.lookAt(center);
+                // center.y = y;
+                this._camera.lookAt(this._target);
             },
         });
         return tween;
@@ -133,7 +130,7 @@ export default class TreeCamera extends component() {
             camera.position.z = 250;
         }
 
-        if (this._rotation) camera.rotation.copy(this._rotation);
+        if (this._target) camera.lookAt(this._target);
 
         return camera;
     }
@@ -178,7 +175,13 @@ export default class TreeCamera extends component() {
         this._debug.add(this._camera, 'far', { onChange: updateCamera });
         this._debug.add(this._camera, 'fov', { onChange: updateCamera });
         this._debug.add(this._camera, 'position');
-        this._debug.add(this._camera, 'rotation');
+        // this._debug.add(this._camera, 'rotation');
+        this._debug.add(this._target, 'y', {
+            onChange: () => {
+                console.log('onchagne');
+                this._camera.lookAt(this._target);
+            },
+        });
     }
 
     hideDebug() {

@@ -162,13 +162,11 @@ export default class HomeView extends component() {
     }
 
     _createCameraManager() {
-        const position = new Vector3(0, 4.98, 21.85);
-
         const cameraManager = new CameraManager({
             debugContainer: this._config.name,
             type: 'tree',
-            position,
-            rotation: new Euler(0, 0, 0),
+            position: new Vector3(0, 5.81, 15.88),
+            target: new Vector3(0, 8, 0), // new Euler(0.16, 0, 0)
             scene: this._scene,
             // orbit: true,
         });

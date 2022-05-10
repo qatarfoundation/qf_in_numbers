@@ -18,6 +18,9 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._data = options.data;
         this._scene = options.scene;
         this._colors = options.colors;
+
+        // Setup
+        // this.hide();
     }
 
     setup() {

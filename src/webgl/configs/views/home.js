@@ -67,8 +67,8 @@ export default {
                 secondary: new Color(0x53565a),
             },
             camera: {
-                radiusOffset: 12,
-                angleOffset: -1.65,
+                radiusOffset: 8, // 12,
+                angleOffset: -1.65, //-1.65,
             },
         },
         {
@@ -85,7 +85,7 @@ export default {
                 secondary: new Color(0x8a1538),
             },
             camera: {
-                radiusOffset: 20,
+                radiusOffset: 15,
                 angleOffset: -2,
             },
         },
@@ -103,7 +103,7 @@ export default {
                 secondary: new Color(0x034638),
             },
             camera: {
-                radiusOffset: 21,
+                radiusOffset: 15,
                 angleOffset: -1.25,
             },
         },
