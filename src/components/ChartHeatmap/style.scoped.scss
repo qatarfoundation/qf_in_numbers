@@ -1,0 +1,107 @@
+.dataviz {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    margin-bottom: 92px;
+    @include respond-to('medium') {
+        margin-bottom: 88px;
+    }
+    .tooltip {
+        position: absolute;
+        width: fit-content;
+        padding: 16px 12px 12px;
+        background-color: color-from-theme('green', 'primary');
+        border-radius: 4px;
+        color: $color-white;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 9px solid color-from-theme('green', 'primary');
+            transform: translate(-50%, calc(100% - 1px));
+        }
+    }
+    .switch-container {
+        position: absolute;
+    }
+}
+
+.chart {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.chart-heatmap {
+    .domain {
+        display: none;
+    }
+    .axis-y .tick text {
+        color: $color-grey;
+        text-anchor: start;
+    }
+    .axis-x .tick text {
+        transform: translate(12px, -48px) rotate(-45deg);
+    }
+    .label {
+        color: color-from-theme('green', 'primary');
+        text-anchor: middle;
+        pointer-events: none;
+    }
+    .circle-graph {
+        fill: color-from-theme('green', 'secondary');
+        stroke: none;
+        &:hover {
+            fill: color-from-theme('green', 'primary') !important;
+            stroke: none;
+        }
+    }
+    .circle-percent {
+        fill: $color-white;
+        stroke: color-from-theme('green', 'secondary');
+        stroke-width: 2px;
+        &:hover {
+            fill: $color-white;
+            stroke: color-from-theme('green', 'primary') !important;
+        }
+    }
+}
+
+.switch-container {
+    display: inline-block;
+    border: 1px solid $color-grey-light;
+    border-radius: 100px;
+    padding: 4px 6px;
+    button {
+        width: 24px;
+        height: 24px;
+        &:first-child {
+            margin-right: 8px;
+        }
+        svg {
+            circle {
+                fill: $color-white;
+            }
+            path {
+                fill: $color-grey-light;
+            }
+        }
+        &.is-active {
+            svg {
+                circle {
+                    fill: color-from-theme('green', 'primary');
+                }
+                path {
+                    fill: $color-white;
+                }
+            }
+        }
+    }
+}
