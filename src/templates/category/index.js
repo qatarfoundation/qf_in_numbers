@@ -83,8 +83,8 @@ function CategoryTemplate(props) {
 
     function buttonDiscoverClickHandler() {
         const { slug, name } = Globals.tree.selectedEntity;
-        // navigate(slug);
-        Globals.webglApp.selectEntity(category.name, name);
+        navigate(slug);
+        // Globals.webglApp.selectEntity(category.name, name);
     }
 
     return (
