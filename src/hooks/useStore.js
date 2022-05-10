@@ -6,6 +6,8 @@ const useStore = create((set) => {
         modalSearchIsOpen: false,
         currentYear: '2022',
         filterType: 'entities',
+        scrolls: [],
+        iScroll: 0,
     };
 });
 

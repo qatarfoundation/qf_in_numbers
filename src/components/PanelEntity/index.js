@@ -44,7 +44,7 @@ function PanelEntity(props, ref) {
     }
     return (
         <>
-            <div className="panel panel-entity">
+            <div className="panel panel-entity" data-name="entity">
                 <Scrollbar revert={ false }>
                     <ButtonClose onClick={ clickHandler } />
                     <section className="section section-container">

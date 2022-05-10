@@ -6,6 +6,7 @@ import './style.scoped.scss';
 
 // Components
 import ChartBar from '@/components/ChartBar';
+import ChartHeatmap from '@/components/ChartHeatmap';
 import Scrollbar from '@/components/ScrollBar';
 
 function Charts(props, ref) {
@@ -24,7 +25,7 @@ function Charts(props, ref) {
                             result = <></>;
                             break;
                         case 'heatmapChart':
-                            result = <></>;
+                            result = <ChartHeatmap chart={ chart } />;
                             break;
                         case 'barChart':
                             result = <ChartBar chart={ chart } />;
@@ -46,7 +47,7 @@ function Charts(props, ref) {
                             break;
                     }
                     return <>
-                        <section key={ i } className="section charts">
+                        <section key={ i } className="section charts" data-name={ chart.type }>
                             <h2 className="p2 section-container">{ chart.title }</h2>
                             <Scrollbar colored={ false }>
                                 { result }

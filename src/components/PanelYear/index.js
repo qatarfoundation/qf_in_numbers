@@ -43,7 +43,7 @@ function PanelYear(props, ref) {
     }
     return (
         <>
-            <div className="panel panel-year">
+            <div className="panel panel-year" data-name="year">
                 <div className="header">
                     <p className='label h8'>Year selection</p>
                     <ButtonClose onClick={ clickHandler } />

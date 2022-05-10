@@ -46,7 +46,7 @@ function PanelSearch(props, ref) {
                     <ButtonFilter name="All entities" type="entities" />
                     <ButtonFilter name="Tags" type="tags" />
                 </div>
-                <Scrollbar revert={ false }>
+                <Scrollbar revert={ false } data-name="search">
                     <ListSearch items={ items } />
                 </Scrollbar>
             </div>
