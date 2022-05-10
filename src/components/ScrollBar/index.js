@@ -4,10 +4,10 @@ import React from 'react';
 // CSS
 import './style.scoped.scss';
 
-function Scrollbar(props, ref) {
+function Scrollbar({ revert = false, colored = true, ...props }, ref) {
     return (
         <>
-            <div className={ `scrollbar ${ props.revert ? 'scrollbar-revert' : '' }` }>
+            <div className={ `scrollbar ${ revert ? 'scrollbar-revert' : '' } ${ colored ? 'scrollbar-colored' : '' }` }>
                 { props.children }
             </div>
         </>

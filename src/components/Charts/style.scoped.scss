@@ -1,0 +1,13 @@
+.charts {
+    &.section {
+        padding: 0;
+    }
+    .p2 {
+        padding-top: 24px;
+        padding-bottom: 62px;
+        @include respond-to('medium') {
+            padding-top: 48px;
+            padding-bottom: 66px;
+        }
+    }
+}

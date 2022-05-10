@@ -18,6 +18,7 @@ import Scrollbar from '@/components/ScrollBar';
 import CardArticle from '@/components/CardArticle';
 import ButtonArrow from '@/components/ButtonArrow';
 import ButtonPagination from '@/components/ButtonPagination';
+import Charts from '@/components/Charts';
 
 // Hooks
 import useStore from '@/hooks/useStore';
@@ -57,6 +58,7 @@ function PanelEntity(props, ref) {
                             <p className="p1">{ entity.description }</p>
                         </div>
                     </section>
+                    <Charts charts={ entity.charts } />
                     <section className="section">
                         <div className="articles">
                             <h2 className="h8 section-container">Related articles</h2>

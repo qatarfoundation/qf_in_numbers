@@ -18,6 +18,7 @@
   "dependencies": {
     "@loadable/component": "^5.15.2",
     "cross-env": "^7.0.3",
+    "d3": "^7.4.4",
     "dddd": "github:mathijspb/dddd",
     "framer-motion": "^6.2.9",
     "gatsby": "^4.12.1",

@@ -142,3 +142,14 @@ p, a, button, li, span .p1 {
     font-size: 13px;
     line-height: 120%;
 }
+
+.p7 {
+    font-family: 'DIN Next LT Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 120%;
+    @include respond-to('medium') {
+        font-size: 16px;
+    }
+}

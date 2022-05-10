@@ -10,15 +10,23 @@
       background: inherit;
     }
     &::-webkit-scrollbar-thumb {
-      background: color-from-theme('green', 'secondary');
+      background: #e5e6e6;
     }
     &::-webkit-scrollbar-thumb:hover {
-      background: color-from-theme('green', 'secondary');
+      background: #e5e6e6;
     }
     &.scrollbar-revert {
         direction: rtl;
         & > * {
             direction: ltr;
+        }
+    }
+    &.scrollbar-colored {
+        &::-webkit-scrollbar-thumb {
+          background: color-from-theme('green', 'secondary');
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background: color-from-theme('green', 'secondary');
         }
     }
 }
