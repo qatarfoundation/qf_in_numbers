@@ -2,9 +2,10 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Hooks
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
@@ -31,6 +32,7 @@ function CategoryTemplate(props) {
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
+    const { navigate } = useI18next();
 
     /**
      * Hooks
@@ -38,6 +40,7 @@ function CategoryTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
+    const subcategory = data.subcategory ? data.subcategory[language] : null;
     usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
@@ -46,7 +49,11 @@ function CategoryTemplate(props) {
     }, [isPresent]);
 
     useEffect(() => {
-        Globals.webglApp.gotoCategory(category.name);
+        if (subcategory) {
+            Globals.webglApp.gotoSubcategory(category.name, subcategory.name);
+        } else {
+            Globals.webglApp.gotoCategory(category.name);
+        }
     }, []);
 
     /**
@@ -74,12 +81,20 @@ function CategoryTemplate(props) {
         safeToRemove();
     }
 
+    function buttonDiscoverClickHandler() {
+        const { slug, name } = Globals.tree.selectedEntity;
+        navigate(slug);
+        // Globals.webglApp.selectEntity(category.name, name);
+    }
+
     return (
         <div className="template-category" ref={ el }>
 
             <div className="container-page container">
 
-                <ListSubcategories subcategories={ category.subcategories }></ListSubcategories>
+                <ListSubcategories categoryName={ category.name } subcategories={ category.subcategories }></ListSubcategories>
+
+                <button className="button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
 
             </div>
 

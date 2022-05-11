@@ -62,9 +62,13 @@ export default {
             hoverColor: new Color(0x00BCE7),
             hoverBackgroundColor: new Color(0x051514),
             anchorPosition: new Vector3(-1, 7, 0),
+            particlesColors: {
+                primary: new Color(0x00bce7),
+                secondary: new Color(0x53565a),
+            },
             camera: {
-                radiusOffset: 12,
-                angleOffset: -1.65,
+                radiusOffset: 8, // 12,
+                angleOffset: -1.65, //-1.65,
             },
         },
         {
@@ -76,8 +80,12 @@ export default {
             hoverColor: new Color(0xFF671F),
             hoverBackgroundColor: new Color(0x1e050c),
             anchorPosition: new Vector3(0, 9, 0),
+            particlesColors: {
+                primary: new Color(0xff671f),
+                secondary: new Color(0x8a1538),
+            },
             camera: {
-                radiusOffset: 20,
+                radiusOffset: 15,
                 angleOffset: -2,
             },
         },
@@ -90,8 +98,12 @@ export default {
             hoverColor: new Color(0x034638),
             hoverBackgroundColor: new Color(0x131414),
             anchorPosition: new Vector3(-1, 7, 0),
+            particlesColors: {
+                primary: new Color(0x6eceb2),
+                secondary: new Color(0x034638),
+            },
             camera: {
-                radiusOffset: 21,
+                radiusOffset: 15,
                 angleOffset: -1.25,
             },
         },

@@ -5,13 +5,13 @@ import React from 'react';
 import './style.scoped.scss';
 
 // Components
-import ButtonEntity from '@/components/ButtonEntity/index';
+import ButtonEntity from '@/components/ButtonEntity';
 
 function ListEntities(props) {
     /**
      * Data
      */
-    const { entities } = props;
+    const { categoryName, entities } = props;
 
     return (
         <ul className="list-entities">
@@ -20,7 +20,7 @@ function ListEntities(props) {
                 entities.map((entity, index) => {
                     return (
                         <li className="list-item" key={ index }>
-                            <ButtonEntity name={ entity.name } />
+                            <ButtonEntity categoryName={ categoryName } entity={ entity } />
                         </li>
                     );
                 })

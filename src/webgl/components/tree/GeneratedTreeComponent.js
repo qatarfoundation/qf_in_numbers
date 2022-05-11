@@ -44,12 +44,19 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         this._activateBranch(name);
     }
 
-    getGategoryCameraPosition(name) {
-        return this._activeBranch.getCameraAnchorSubcategory(name);
+    getSubGategoryCameraPosition(categoryName, name) {
+        const branch = this._getBranch(categoryName);
+        return branch.getCameraAnchorSubcategory(name);
     }
 
     getEntityCameraPosition(categoryName, name) {
-        return this._activeBranch.getCameraAnchorEntity(categoryName, name);
+        const branch = this._getBranch(categoryName);
+        return branch.getCameraAnchorEntity(name);
+    }
+
+    getEntitySelectCameraPosition(categoryName, name) {
+        const branch = this._getBranch(categoryName);
+        return branch.getCameraAnchorSelectEntity(name);
     }
 
     /**
@@ -80,6 +87,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
                 position: branch.position,
                 rotation: branch.rotation,
                 scene: this._scene,
+                colors: branch.particlesColors,
             });
             this.add(component);
 
@@ -96,6 +104,10 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         for (const key in this._branches) {
             this._branches[key].show();
         }
+    }
+
+    _getBranch(name) {
+        return this._branches[name];
     }
 
     _activateBranch(activeBranchName) {

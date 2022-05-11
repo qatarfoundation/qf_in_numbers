@@ -8,3 +8,19 @@
         padding-top: rem(169px, 'large');
     }
 }
+
+.button-discover {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    bottom: 0;
+
+    height: 30px;
+
+    margin: auto 0;
+
+    .ar & {
+        left: 50px;
+        right: auto;
+    }
+}

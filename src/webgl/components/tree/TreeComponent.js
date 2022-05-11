@@ -58,11 +58,9 @@ export default class TreeComponent extends component(Object3D) {
 
     hide() {
         this._isActive = false;
-        this._timelineHide = new gsap.timeline({
-            onComplete: () => {
+        Cursor.auto();
 
-            },
-        });
+        this._timelineHide = new gsap.timeline();
         for (let i = 0, len = this._branches.length; i < len; i++) {
             this._timelineHide.add(this._branches[i].hide(), 0);
         }
@@ -184,7 +182,7 @@ export default class TreeComponent extends component(Object3D) {
      * Handlers
      */
     _clickHandler() {
-        if (this._activeBranch) navigate('/2021/' + this._activeBranch.slug);
+        if (this._isActive && this._activeBranch) navigate('/2021/' + this._activeBranch.slug);
     }
 
     /**

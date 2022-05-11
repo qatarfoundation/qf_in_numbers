@@ -1,5 +1,6 @@
 // React
 import React, { useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -14,19 +15,27 @@ function ListItemSubcategory(props) {
     /**
      * Data
      */
-    const { subcategory } = props;
+    const { categoryName, subcategory } = props;
 
     /**
      * States
      */
     const [isOpen, setOpen] = useState(false);
     const [isHovered, setHovered] = useState(false);
+    const { language } = useI18next();
 
     /**
      * Private
      */
+    function updateHistoryState() {
+        const prefix = language === 'en-US' ? '' : `/${ language }`;
+        const slug = `${ prefix }${ subcategory.slug }`;
+        window.history.replaceState({}, null, slug);
+    }
+
     function clickHandler() {
-        Globals.webglApp.gotoSubcategory(subcategory.name);
+        Globals.webglApp.gotoSubcategory(categoryName, subcategory.name);
+        updateHistoryState();
         setOpen(!isOpen);
     }
 
@@ -45,7 +54,7 @@ function ListItemSubcategory(props) {
                 { subcategory.name }
             </button>
 
-            { isOpen && <ListEntities entities={ subcategory.entities } /> }
+            { isOpen && <ListEntities categoryName={ categoryName } entities={ subcategory.entities } /> }
 
         </li>
     );

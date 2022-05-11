@@ -13,7 +13,7 @@ function ListSubcategories(props, ref) {
     /**
      * Data
      */
-    const { subcategories } = props;
+    const { categoryName, subcategories } = props;
 
     return (
         <ul className="list-subcategories">
@@ -22,6 +22,7 @@ function ListSubcategories(props, ref) {
                 subcategories.map((item, index) => {
                     return <ListItemSubcategory
                         key={ index }
+                        categoryName={ categoryName }
                         subcategory={ item }
                     />;
                 })
