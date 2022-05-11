@@ -97,7 +97,7 @@ function ChartHeatmap(props, ref) {
                 .padding(0.2);
             const yScale = d3
                 .scaleBand()
-                .range([ innerHeight, 0 ])
+                .range([ 0, innerHeight ])
                 .domain(data.map(yValue).filter((item, pos) => data.map(yValue).indexOf(item) == pos))
                 .padding(0.2);
             const chartContainer = svg
