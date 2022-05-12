@@ -13,6 +13,9 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 // CSS
 import './style.scoped.scss';
 
+// Components
+import PanelEntity from '@/components/PanelEntity';
+
 // Utils
 import Globals from '@/utils/Globals';
 
@@ -34,7 +37,10 @@ function EntityTemplate(props) {
     const year = data.year[language];
     const category = data.category[language];
     const entity = data.entity[language].current;
+    const entityNext = data.entity[language].next;
+    const entityPrevious = data.entity[language].previous;
     usePopulateTreeDataModel(year.year, year.categories);
+    console.log('api', entity);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -76,15 +82,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
-
-            <div className="container">
-
-                <div className="heading">
-                    { entity.name }
-                </div>
-
-            </div>
-
+            <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
         </div>
     );
 }

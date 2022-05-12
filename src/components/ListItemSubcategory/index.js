@@ -23,7 +23,7 @@ function ListItemSubcategory(props) {
      */
     const [isOpen, setOpen] = useState(false);
     const [isHovered, setHovered] = useState(false);
-    const { language, navigate } = useI18next();
+    const { language } = useI18next();
 
     /**
      * Private

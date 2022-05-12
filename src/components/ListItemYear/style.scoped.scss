@@ -1,0 +1,25 @@
+.list-item-year {
+    position: relative;
+    display: block;
+    margin-left: 32px;
+    &:not(:last-child) {
+        margin-bottom: 0;
+        @include respond-to('medium') {
+            margin-bottom: 24px;
+        }
+    }
+}
+
+.button {
+    position: relative;
+    display: block;
+    color: color-from-theme('green', 'primary');
+    opacity: 0.25;
+    transition: opacity 0.3s linear;
+    &:hover {
+        opacity: 1;
+    }
+    &.is-active {
+        opacity: 1;
+    }
+}

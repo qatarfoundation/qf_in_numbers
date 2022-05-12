@@ -1,0 +1,120 @@
+.panel-entity {
+    position: fixed;
+    top: inherit;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: $color-white;
+    color: $color-grey;
+    @include respond-to('medium') {
+        left: inherit;
+        right: 0;
+        max-width: 895px;
+        width: 63vw;
+    }
+    a {
+        color: $color-grey;
+    }
+}
+
+.button-close {
+    position: fixed;
+    top: 20px;
+    right: 16px;
+    @include respond-to('medium') {
+        top: 38px;
+        right: 24px;
+    }
+}
+
+.points {
+    display: flex;
+    margin-bottom: 51px;
+    .point {
+        width: 3.75px;
+        height: 8.74px;
+        background: color-from-theme('green', 'secondary');
+        &:first-child {
+            margin-right: 130px;
+        }
+        &:last-child {
+            margin-left: 63px;
+        }
+    }
+}
+
+.introduction {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 57px;
+    @include respond-to('medium') {
+        margin-bottom: 88px;
+    }
+    .h1 {
+        max-width: 164px;
+        margin-bottom: 56px;
+        color: color-from-theme('green', 'primary');
+        @include respond-to('medium') {
+            max-width: 272px;
+        }
+    }
+    .p1 {
+        max-width: 269px;
+        margin-right: 100px;
+        @include respond-to('medium') {
+            align-self: flex-end;
+            max-width: 392px;
+        }
+    }
+}
+
+.articles {
+    margin-bottom: 119px;
+    @include respond-to('medium') {
+        margin-bottom: 170px;
+    }
+    .h8 {
+        color: color-from-theme('green', 'primary');
+        margin-bottom: 55px;
+        @include respond-to('medium') {
+            margin-bottom: 38px;
+        }
+    }
+    .slider-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 26px;
+        padding-right: 18px;
+        padding-left: 18px;
+        @include respond-to('medium') {
+            margin-bottom: 40px;
+            padding-right: 62px;
+            padding-left: 62px;
+        }
+        .slider-navigation {
+            .button-arrow:not(:last-child) {
+                margin-right: 8px;
+            }
+        }
+    }
+    .slider {
+        padding-left: 18px;
+        @include respond-to('medium') {
+            padding-left: 62px;
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 16px;
+    @include respond-to('medium') {
+        padding: 53px 33px;
+    }
+}

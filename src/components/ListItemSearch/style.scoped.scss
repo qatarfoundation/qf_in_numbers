@@ -1,0 +1,23 @@
+.list-item-search {
+    position: relative;
+    display: block;
+    &:not(:last-child) {
+        margin-bottom: 19px;
+        @include respond-to('medium') {
+            margin-bottom: 16px;
+        }
+    }
+}
+
+.button {
+    position: relative;
+    display: block;
+    color: $color-grey;
+    transition: opacity 0.3s linear;
+    &:hover {
+        color: color-from-theme('green', 'primary');
+    }
+    &.is-active {
+        color: color-from-theme('green', 'primary');
+    }
+}

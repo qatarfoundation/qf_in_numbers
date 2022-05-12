@@ -13,6 +13,7 @@ import './index/style.scoped.scss';
 // Components
 import ThePreloader from '@/components/ThePreloader';
 import TheNavigation from '@/components/TheNavigation';
+import TheFooter from '@/components/TheFooter';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Providers
@@ -76,6 +77,7 @@ function Layout(props) {
                 <AnimatePresence exitBeforeEnter>
 
                     <TheNavigation key={ language } />
+                    <TheFooter key={ language } />
 
                 </AnimatePresence>
 

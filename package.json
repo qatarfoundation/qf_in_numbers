@@ -18,6 +18,7 @@
   "dependencies": {
     "@loadable/component": "^5.15.2",
     "cross-env": "^7.0.3",
+    "d3": "^7.4.4",
     "dddd": "github:mathijspb/dddd",
     "framer-motion": "^6.2.9",
     "gatsby": "^4.12.1",
@@ -50,7 +51,9 @@
     "sass": "^1.49.9",
     "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git",
     "stats-js": "^1.0.1",
-    "three": "^0.139.0"
+    "swiper": "^8.1.4",
+    "three": "^0.139.0",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "babel-plugin-react-scoped-css": "^1.1.1",

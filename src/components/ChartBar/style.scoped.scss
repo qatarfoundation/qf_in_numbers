@@ -1,0 +1,26 @@
+.chart {
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 92px;
+    margin-left: 0px;
+    @include respond-to('medium') {
+        margin-bottom: 88px;
+    }
+}
+
+.chart-bar {
+    fill: color-from-theme('green', 'secondary');
+    .domain {
+        display: none;
+    }
+    .tick text {
+        color: $color-grey;
+        text-anchor: start;
+    }
+    .label {
+        fill: color-from-theme('green', 'primary');
+    }
+    .sublabel {
+        fill: color-from-theme('green', 'secondary');
+    }
+}
