@@ -19,7 +19,8 @@ class Mouse {
         this._bindHandlers();
     }
 
-    init() {
+    init(options) {
+        this._element = options.element;
         this._dragManager = this._createDragManager();
         this._setupEventListeners();
     }
@@ -39,13 +40,13 @@ class Mouse {
     }
 
     _setupEventListeners() {
-        window.addEventListener('mousemove', this._mouseMoveHandler);
+        this._element.addEventListener('mousemove', this._mouseMoveHandler);
         WindowResizeObserver.addEventListener('resize', this._resizeHandler);
         this._dragManager.addEventListener('drag:end', this._dragendHandler);
     }
 
     _removeEventListeners() {
-        window.removeEventListener('mousemove', this._mouseMoveHandler);
+        this._element.removeEventListener('mousemove', this._mouseMoveHandler);
         WindowResizeObserver.removeEventListener('resize', this._resizeHandler);
         this._dragManager.removeEventListener('drag:end', this._dragendHandler);
     }

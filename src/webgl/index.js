@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 import bidello from '@/utils/bidello';
 import { ACESFilmicToneMapping, CineonToneMapping, Clock, Color, LinearToneMapping, NoToneMapping, ReinhardToneMapping, WebGLRenderer } from 'three';
-import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel.js';
+import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel';
 import Stats from 'stats-js';
 
 // Utils
@@ -23,6 +23,7 @@ class Main {
         // Options
         this._canvas = options.canvas;
         this._showDebug = options.showDebug || false;
+        this._mouseAreaElement = options.mouseAreaElement;
 
         // Setup
         this._debug = this._createDebug();
@@ -37,7 +38,9 @@ class Main {
         this._bindHandlers();
         this._setupEventListeners();
         this._registerBidelloGlobals();
-        BidelloMouseHelper.init();
+        BidelloMouseHelper.init({
+            element: this._mouseAreaElement,
+        });
     }
 
     destroy() {
@@ -46,6 +49,13 @@ class Main {
         this._viewManager?.destroy();
         this._removeDebug();
         BidelloMouseHelper.destroy();
+    }
+
+    /**
+     * Getters & Setters
+     */
+    get mouseAreaElement() {
+        return this._mouseAreaElement;
     }
 
     /**

@@ -17,6 +17,8 @@ import { DEVELOPMENT, useEnvironment } from '@/contexts/EnvironmentContext';
 import { COMPLETE } from '@/hooks/usePreloader';
 
 function WebglAppComponent(props) {
+    const { onStateChange, preloaderState, containerRef } = props;
+
     const canvas = useRef(null);
     const environment = useEnvironment();
 
@@ -24,23 +26,24 @@ function WebglAppComponent(props) {
         Globals.webglApp = new WebglApp({
             canvas: canvas.current,
             showDebug: environment === DEVELOPMENT,
+            mouseAreaElement: containerRef.current,
         });
 
-        props.onStateChange('initialized');
+        onStateChange('initialized');
 
         return () => {
             Globals.webglApp.destroy();
-            props.onStateChange('destroyed');
+            onStateChange('destroyed');
         };
-    }, []);
+    }, [containerRef]);
 
     useEffect(() => {
-        if (props.preloaderState === COMPLETE) {
+        if (preloaderState === COMPLETE) {
             Globals.webglApp.start();
-            props.onStateChange('started');
+            onStateChange('started');
             Globals.webglApp.showView('home');
         }
-    }, [props.preloaderState]);
+    }, [preloaderState]);
 
     return(
         <canvas ref={ canvas } className="background"></canvas>

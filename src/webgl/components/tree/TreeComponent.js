@@ -76,11 +76,11 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     _setupEventListeners() {
-        window.addEventListener('click', this._clickHandler);
+        this.$root.mouseAreaElement.addEventListener('click', this._clickHandler);
     }
 
     _removeEventListeners() {
-        window.removeEventListener('click', this._clickHandler);
+        this.$root.mouseAreaElement.removeEventListener('click', this._clickHandler);
     }
 
     _createRaycaster() {
