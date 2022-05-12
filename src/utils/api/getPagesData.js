@@ -257,7 +257,7 @@ function parseChart(data, type) {
             chart = { ...chart, ...parseHeatmapChart(data) };
             break;
         case 'barChart':
-            chart = { ...chart, ...parseBarChart({}) };
+            chart = { ...chart, ...parseBarChart(data) };
             break;
         case 'donutChart':
             chart = { ...chart, ...parseDonutChart(data) };
