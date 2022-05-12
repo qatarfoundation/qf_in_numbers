@@ -19,24 +19,18 @@ function ChartBar(props, ref) {
     function getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
-    const data = [
-        { title: 'Gold', value: getRandomArbitrary(0, 1000000), additionalInformation: Math.random() > 0.5 ? `${ getRandomArbitrary(0, 100) }% of disclosures` : ''  },
-        { title: 'Silver', value: getRandomArbitrary(0, 1000000), additionalInformation: Math.random() > 0.5 ? `${ getRandomArbitrary(0, 100) }% of disclosures` : '' },
-        { title: 'Bronze', value: getRandomArbitrary(0, 1000000), additionalInformation: Math.random() > 0.5 ? `${ getRandomArbitrary(0, 100) }% of disclosures` : '' },
-    ];
+    const data = chart.fields;
     const xValue = d => d.value;
-    const yValue = d => d.title;
+    const yValue = d => d.name;
     const xSubvalue = d => d.additionalInformation;
     const heightBar = 16;
     const paddingBar = 27;
     const lengthY = data.map(yValue).filter((item, pos) => data.map(yValue).indexOf(item) == pos).length;
-    // const margin = { top: 0, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 };
     /**
      * States
      */
     const [margin, setMatgin] = useState({ top: 0, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 });
     const [height, setHeight] = useState((heightBar + paddingBar) * lengthY + margin.top + margin.bottom);
-    console.log('d3', height);
     /**
     * References
     */
@@ -47,7 +41,6 @@ function ChartBar(props, ref) {
             const h = height;
             const innerWidth = w - margin.left - margin.right;
             const innerHeight = h - margin.top - margin.bottom;
-            console.log('d3', margin.top, margin.bottom);
             const xScale = d3
                 .scaleLinear()
                 .domain([0, d3.max(data, xValue)])
@@ -117,14 +110,11 @@ function ChartBar(props, ref) {
      */
     function resize() {
         setMatgin({ top: 0, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 });
-        // setWidth('100%');
-        // setWidth(refChart.current.clientWidth);
     }
     return (
         <svg
             ref={ refChart }
             height={ height }
-            // viewBox={ `0 0 ${ height } ${ width }` }
             className="chart chart-bar"
         />
     );
