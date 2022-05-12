@@ -25,47 +25,10 @@ function ChartHeatmap(props, ref) {
      * Datas
      */
     const { chart } = props;
-    const data = [
-        { group: 'Qatari Female', variable: 'HBKU', value: '94', percent: '75' },
-        { group: 'Qatari Female', variable: 'VCUarts', value: '37', percent: '30' },
-        { group: 'Qatari Female', variable: 'UCL', value: '37', percent: '30' },
-        { group: 'Qatari Female', variable: 'TAMU-Q', value: '63', percent: '50' },
-        { group: 'Qatari Female', variable: 'NU-Q', value: '18', percent: '15' },
-        { group: 'Qatari Female', variable: 'HECParis', value: '63', percent: '50' },
-        { group: 'Qatari Female', variable: 'HECLyon', value: '63', percent: '50' },
-        { group: 'Qatari Female', variable: 'GU-Q', value: '94', percent: '75' },
-        { group: 'Qatari Female', variable: 'CMU-Q', value: '126', percent: '100' },
-        { group: 'Qatari Male', variable: 'HBKU', value: '94', percent: '75' },
-        { group: 'Qatari Male', variable: 'VCUarts', value: '126', percent: '100' },
-        { group: 'Qatari Male', variable: 'UCL', value: '63', percent: '50' },
-        { group: 'Qatari Male', variable: 'TAMU-Q', value: '94', percent: '75' },
-        { group: 'Qatari Male', variable: 'NU-Q', value: '37', percent: '30' },
-        { group: 'Qatari Male', variable: 'HECParis', value: '37', percent: '30' },
-        { group: 'Qatari Male', variable: 'HECLyon', value: '63', percent: '50' },
-        { group: 'Qatari Male', variable: 'GU-Q', value: '94', percent: '75' },
-        { group: 'Qatari Male', variable: 'CMU-Q', value: '63', percent: '50' },
-        { group: 'Non-Qatari Female', variable: 'HBKU', value: '63', percent: '100' },
-        { group: 'Non-Qatari Female', variable: 'VCUarts', value: '94', percent: '75' },
-        { group: 'Non-Qatari Female', variable: 'UCL', value: '94', percent: '75' },
-        { group: 'Non-Qatari Female', variable: 'TAMU-Q', value: '126', percent: '100' },
-        { group: 'Non-Qatari Female', variable: 'NU-Q', value: '63', percent: '50' },
-        { group: 'Non-Qatari Female', variable: 'HECParis', value: '37', percent: '30' },
-        { group: 'Non-Qatari Female', variable: 'HECLyon', value: '37', percent: '30' },
-        { group: 'Non-Qatari Female', variable: 'GU-Q', value: '37', percent: '30' },
-        { group: 'Non-Qatari Female', variable: 'CMU-Q', value: '63', percent: '50' },
-        { group: 'Non-Qatari Male', variable: 'HBKU', value: '37', percent: '30' },
-        { group: 'Non-Qatari Male', variable: 'VCUarts', value: '63', percent: '50' },
-        { group: 'Non-Qatari Male', variable: 'UCL', value: '94', percent: '75' },
-        { group: 'Non-Qatari Male', variable: 'TAMU-Q', value: '126', percent: '100' },
-        { group: 'Non-Qatari Male', variable: 'NU-Q', value: '63', percent: '50' },
-        { group: 'Non-Qatari Male', variable: 'HECParis', value: '18', percent: '15' },
-        { group: 'Non-Qatari Male', variable: 'HECLyon', value: '18', percent: '15' },
-        { group: 'Non-Qatari Male', variable: 'GU-Q', value: '37', percent: '30' },
-        { group: 'Non-Qatari Male', variable: 'CMU-Q', value: '37', percent: '30' },
-    ];
+    const data = chart.fields;
     const value = d => d.value;
     const percent = d => d.percent;
-    const xValue = d => d.variable;
+    const xValue = d => d.name;
     const yValue = d => d.group;
     const sizeCircle = 43;
     const paddingCircle = 13;
@@ -84,12 +47,13 @@ function ChartHeatmap(props, ref) {
     */
     const refSwitch = useRef();
     const refChart = useD3(
-        (svg) => {
-            svg.select('.chart-container').remove();
+        (dataviz) => {
+            dataviz.select('.chart-container').remove();
             const w = width;
             const h = height;
             const innerWidth = w - margin.left - margin.right;
             const innerHeight = h - margin.top - margin.bottom;
+            const svg = dataviz.select('svg');
             const xScale = d3
                 .scaleBand()
                 .range([ 0, innerWidth ])
@@ -107,7 +71,7 @@ function ChartHeatmap(props, ref) {
             const myColor = d3.scaleLinear()
                 .range(['white', '#6ECEB2'])
                 .domain([1, 100]);
-            const tooltip = d3.select('.dataviz')
+            const tooltip = dataviz
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
@@ -133,7 +97,7 @@ function ChartHeatmap(props, ref) {
                 .attr('class', 'circles-container');
             if (chartActive) {
                 circlesContainer.selectAll()
-                    .data(data, function(d) {return d.group + ':' + d.variable;})
+                    .data(data, function(d) {return d.group + ':' + d.name;})
                     .enter()
                     .append('circle')
                     .attr('class', 'circle circle-graph')
@@ -147,7 +111,7 @@ function ChartHeatmap(props, ref) {
             }
             if (percentActive) {
                 circlesContainer.selectAll()
-                    .data(data, function(d) {return d.group + ':' + d.variable;})
+                    .data(data, function(d) {return d.group + ':' + d.name;})
                     .enter()
                     .append('circle')
                     .attr('class', 'circle circle-percent')
@@ -159,7 +123,7 @@ function ChartHeatmap(props, ref) {
                     .on('mousemove', mousemove)
                     .on('mouseleave', mouseleave);
                 circlesContainer.selectAll()
-                    .data(data, function(d) {return d.group + ':' + d.variable;})
+                    .data(data, function(d) {return d.group + ':' + d.name;})
                     .enter()
                     .append('text')
                     .text(d => percent(d))
@@ -223,12 +187,10 @@ function ChartHeatmap(props, ref) {
     }
     return (
         <>
-            <div className="dataviz">
+            <div ref={ refChart } className="dataviz">
                 <svg
-                    ref={ refChart }
                     width={ width }
                     height={ height }
-                    // viewBox={ `0 0 ${ height } ${ width }` }
                     className="chart chart-heatmap"
                 />
                 <div ref={ refSwitch } className="switch-container">
