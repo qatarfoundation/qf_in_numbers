@@ -74,10 +74,10 @@ function Layout(props) {
 
                 }
 
-                <AnimatePresence exitBeforeEnter>
+                <AnimatePresence>
 
-                    <TheNavigation key={ language } />
-                    <TheFooter key={ language } />
+                    <TheNavigation key={ `${ language }-navigation` } />
+                    <TheFooter key={ `${ language }-footer` } />
 
                 </AnimatePresence>
 
