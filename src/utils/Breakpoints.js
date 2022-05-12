@@ -17,9 +17,9 @@ const VARIABLES = {
         'large': 1,
     },
     maxWidths: {
-        'small': undefined,
-        'medium': undefined,
-        'large': undefined,
+        'small': 'none',
+        'medium': 'none',
+        'large': 'none',
     },
 };
 

@@ -9,18 +9,30 @@ const MODEL = {
             label: {
                 position: null,
             },
-        },
-        {
-            label: {
+            categoriesAnchor: {
                 position: null,
             },
         },
         {
             label: {
+                position: null,
+            },
+            categoriesAnchor: {
+                position: null,
+            },
+        },
+        {
+            label: {
+                position: null,
+            },
+            categoriesAnchor: {
                 position: null,
             },
         },
     ],
+    subcategory: {
+        active: null,
+    },
 };
 
 class TreeDataModel extends EventDispatcher {
@@ -79,9 +91,19 @@ class TreeDataModel extends EventDispatcher {
         this.dispatchEvent(`category/${ index }/label/position`, position);
     }
 
+    updateSubcategoriesAnchorPosition(index, position) {
+        this._model.categories[index].categoriesAnchor.position = position;
+        this.dispatchEvent(`category/${ index }/categoryAnchor/position`, position);
+    }
+
     empty() {
         this._model = JSON.parse(JSON.stringify(MODEL));
         this._isEmpty = true;
+    }
+
+    setSubcategory(name) {
+        this._model.subcategory.active = name;
+        this.dispatchEvent('subcategory/active', name);
     }
 }
 

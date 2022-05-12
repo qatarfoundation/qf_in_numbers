@@ -8,8 +8,6 @@ import './style.scoped.scss';
 import Scrollbar from '@/components/ScrollBar';
 import ChartBar from '@/components/ChartBar';
 import ChartHeatmap from '@/components/ChartHeatmap';
-import ChartDonut from '@/components/ChartDonut';
-import ChartLine from '@/components/ChartLine';
 
 function Charts(props, ref) {
     /**
@@ -32,11 +30,10 @@ function Charts(props, ref) {
                             result = <ChartBar chart={ chart } />;
                             break;
                         case 'donutChart':
-                            // result = <ChartDonut chart={ chart } />;
                             result = <></>;
                             break;
                         case 'lineChart':
-                            result = <ChartLine chart={ chart } />;
+                            result = <></>;
                             break;
                         case 'bubbleChart':
                             result = <></>;

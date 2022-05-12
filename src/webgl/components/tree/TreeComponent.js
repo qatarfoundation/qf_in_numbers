@@ -23,7 +23,7 @@ export default class TreeComponent extends component(Object3D) {
         this._defaultBackgroundColor = new Color(this._config.renderer.clearColor);
         this._backgroundColor = this._getBackgroundColor();
         this._activeBranch = undefined;
-        this._mousePosition = new Vector2();
+        this._mousePosition = new Vector2(2, 2);
         this._debug = this._createDebug();
         this._raycaster = this._createRaycaster();
         this._branches = this._createBranches();
@@ -104,6 +104,7 @@ export default class TreeComponent extends component(Object3D) {
                 hoverBackgroundColor: branch.hoverBackgroundColor,
                 cameraManager: this._cameraManager,
                 anchorPosition: branch.anchorPosition,
+                subcategoriesAnchorPosition: branch.subcategoriesAnchorPosition,
                 slug: branch.slug,
             });
             component.position.copy(branch.position);
@@ -147,16 +148,19 @@ export default class TreeComponent extends component(Object3D) {
             if (this._activeBranch !== branch) {
                 this._activeBranch?.mouseLeave();
                 this._tweenBackgroundColor(branch.hoverBackgroundColor);
-            }
 
-            this._activeBranch = branch;
-            this._activeBranch.mouseEnter();
+                this._activeBranch = branch;
+                this._activeBranch.mouseEnter();
+
+                this._fadeOutBranches(branch);
+            }
         } else {
             Cursor.auto();
             if (this._activeBranch) {
                 this._activeBranch.mouseLeave();
                 this._activeBranch = null;
                 this._tweenBackgroundColor(this._defaultBackgroundColor);
+                this._fadeInBranches();
             }
         }
     }
@@ -168,6 +172,20 @@ export default class TreeComponent extends component(Object3D) {
             onUpdate: () => {
                 this.$renderer.setClearColor(this._backgroundColor);
             },
+        });
+    }
+
+    _fadeInBranches() {
+        this._branches.forEach((branch) => {
+            branch.fadeIn();
+        });
+    }
+
+    _fadeOutBranches(activeBranch) {
+        this._branches.forEach((branch) => {
+            if (activeBranch !== branch) {
+                branch.fadeOut();
+            }
         });
     }
 

@@ -16,22 +16,27 @@ import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
-        // options
+        // Options
         this._index = options.index;
         this._config = options.config;
         this._hoverColor = options.hoverColor;
         this._hoverBackgroundColor = options.hoverBackgroundColor;
         this._cameraManager = options.cameraManager;
         this._anchorPosition = options.anchorPosition;
+        this._subcategoriesAnchorPosition = options.subcategoriesAnchorPosition;
         this._slug = options.slug;
 
+        // Props
+        this._labelAnchorScreenSpacePosition = new Vector3();
+        this._subcategoriesAnchorScreenSpacePosition = new Vector3();
+
         // Setup
-        this._screenSpacePosition = new Vector3();
         this._debug = this._createDebug(options.debug);
         this._curves = this._createCurves();
         this._mesh = this._createMesh();
         this._hitArea = this._createHitArea();
         this._labelAnchor = this._createLabelAnchor();
+        this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
     }
 
@@ -84,10 +89,20 @@ export default class TreeBranchComponent extends component(Object3D) {
 
     mouseEnter() {
         this._mouseHover(1);
+        TreeDataModel.dispatchEvent('branch/mouseEnter', { index: this._index });
     }
 
     mouseLeave() {
         this._mouseHover(0);
+        TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
+    }
+
+    fadeIn() {
+        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 1 });
+    }
+
+    fadeOut() {
+        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 0.4 });
     }
 
     /**
@@ -256,6 +271,16 @@ export default class TreeBranchComponent extends component(Object3D) {
         return mesh;
     }
 
+    _createSubcategoriesAnchor() {
+        const geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
+        const material = new MeshBasicMaterial({ color: 0x00ff00 });
+        const mesh = new Mesh(geometry, material);
+        mesh.visible = false;
+        mesh.position.copy(this._subcategoriesAnchorPosition);
+        this.add(mesh);
+        return mesh;
+    }
+
     _getRandomCurve(curves) {
         let sumOfWeight = 0;
         for (let i = 0, len = curves.length; i < len; i++) {
@@ -275,15 +300,24 @@ export default class TreeBranchComponent extends component(Object3D) {
      * Update
      */
     update() {
-        this._updateLabelScreenSpacePosition();
+        this._updateLabelAnchorScreenSpacePosition();
+        this._updateSubcategoriesAnchorScreenSpacePosition();
     }
 
-    _updateLabelScreenSpacePosition() {
-        this._screenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
-        this._screenSpacePosition.project(this._cameraManager.camera);
-        this._screenSpacePosition.x = (this._screenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
-        this._screenSpacePosition.y = -(this._screenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
-        TreeDataModel.updateCategoryLabelPosition(this._index, this._screenSpacePosition);
+    _updateLabelAnchorScreenSpacePosition() {
+        this._labelAnchorScreenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
+        this._labelAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        this._labelAnchorScreenSpacePosition.x = (this._labelAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._labelAnchorScreenSpacePosition.y = -(this._labelAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateCategoryLabelPosition(this._index, this._labelAnchorScreenSpacePosition);
+    }
+
+    _updateSubcategoriesAnchorScreenSpacePosition() {
+        this._subcategoriesAnchorScreenSpacePosition.setFromMatrixPosition(this._subcategoriesAnchor.matrixWorld);
+        this._subcategoriesAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        this._subcategoriesAnchorScreenSpacePosition.x = (this._subcategoriesAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._subcategoriesAnchorScreenSpacePosition.y = -(this._subcategoriesAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateSubcategoriesAnchorPosition(this._index, this._subcategoriesAnchorScreenSpacePosition);
     }
 
     /**

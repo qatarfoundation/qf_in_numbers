@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useI18next } from 'gatsby-plugin-react-i18next';
@@ -18,9 +18,11 @@ import useTemplateData from '@/hooks/useTemplateData';
 
 // Utils
 import Globals from '@/utils/Globals';
+import TreeDataModel from '@/utils/TreeDataModel';
 
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
+import LabelsEntities from '@/components/LabelsEntities';
 
 function CategoryTemplate(props) {
     /**
@@ -31,6 +33,7 @@ function CategoryTemplate(props) {
     /**
      * States
      */
+    const [entities, setEntities] = useState([]);
     const [isPresent, safeToRemove] = usePresence();
     const { navigate } = useI18next();
 
@@ -54,6 +57,22 @@ function CategoryTemplate(props) {
         } else {
             Globals.webglApp.gotoCategory(category.name);
         }
+    }, []);
+
+    useEffect(() => {
+        if (subcategory) setEntities(subcategory.entities);
+
+        const handler = (name) => {
+            const subcategories = category.subcategories;
+            const subcategory = subcategories.filter(subcategory => subcategory.name === name)[0];
+            setEntities(subcategory.entities);
+        };
+
+        TreeDataModel.addEventListener('subcategory/active', handler);
+
+        return () => {
+            TreeDataModel.addEventListener('subcategory/active', handler);
+        };
     }, []);
 
     /**
@@ -92,7 +111,11 @@ function CategoryTemplate(props) {
 
             <div className="container-page container">
 
-                <ListSubcategories categoryName={ category.name } subcategories={ category.subcategories }></ListSubcategories>
+                <ListSubcategories categoryName={ category.name } subcategories={ category.subcategories } />
+
+                { entities &&
+                    <LabelsEntities entities={ entities } />
+                }
 
                 <button className="button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
 

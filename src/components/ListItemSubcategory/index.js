@@ -7,6 +7,7 @@ import './style.scoped.scss';
 
 // Utils
 import Globals from '@/utils/Globals';
+import TreeDataModel from '@/utils/TreeDataModel';
 
 // Components
 import ListEntities from '@/components/ListEntities';
@@ -35,6 +36,7 @@ function ListItemSubcategory(props) {
 
     function clickHandler() {
         Globals.webglApp.gotoSubcategory(categoryName, subcategory.name);
+        TreeDataModel.setSubcategory(subcategory.name);
         updateHistoryState();
         setOpen(!isOpen);
     }
