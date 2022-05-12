@@ -8,6 +8,7 @@ import './style.scoped.scss';
 import Scrollbar from '@/components/ScrollBar';
 import ChartBar from '@/components/ChartBar';
 import ChartHeatmap from '@/components/ChartHeatmap';
+import ChartLine from '@/components/ChartLine';
 
 function Charts(props, ref) {
     /**
@@ -33,7 +34,7 @@ function Charts(props, ref) {
                             result = <></>;
                             break;
                         case 'lineChart':
-                            result = <></>;
+                            result = <ChartLine chart={ chart } />;
                             break;
                         case 'bubbleChart':
                             result = <></>;

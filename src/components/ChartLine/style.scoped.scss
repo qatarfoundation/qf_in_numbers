@@ -47,6 +47,9 @@
         color: $color-grey;
         text-anchor: start;
     }
+    .axis-x .tick text {
+        transform: translate(-6px, 0) rotate(-45deg);
+    }
     .label {
         color: color-from-theme('green', 'primary');
         text-anchor: middle;

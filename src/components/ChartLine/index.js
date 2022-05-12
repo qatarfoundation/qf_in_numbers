@@ -43,7 +43,7 @@ function ChartLine(props, ref) {
     }
     data = data.lines;
     console.log(data);
-    const heightAxisX = 13;
+    const heightAxisX = 25;
     const spaceAxisX = 20;
     const widthAxisY = 17;
     const spaceAxisY = 50;
@@ -51,8 +51,8 @@ function ChartLine(props, ref) {
     /**
      * States
      */
-    const [width, setWidth] = useState(500 + margin.left + margin.right);
-    const [height, setHeight] = useState(500 + margin.top + margin.bottom);
+    const [width, setWidth] = useState(330 + margin.left + margin.right);
+    const [height, setHeight] = useState(255 + margin.top + margin.bottom);
     /**
     * References
     */
@@ -78,6 +78,7 @@ function ChartLine(props, ref) {
                 .domain([0, d3.max(data, function(d) { return d3.max(d.points, function(d) { return d.x; });})])
                 .range([ 0, innerWidth ]);
             chartContainer.append('g')
+                .attr('class', 'axis axis-x')
                 .attr('transform', 'translate(0,' + (innerHeight + spaceAxisX) + ')')
                 .call(d3.axisBottom(x).tickSize(0));
 
@@ -86,6 +87,7 @@ function ChartLine(props, ref) {
                 .domain([0, d3.max(data, function(d) { return d3.max(d.points, function(d) { return d.y; });})])
                 .range([ innerHeight, 0 ]);
             chartContainer.append('g')
+                .attr('class', 'axis axis-y')
                 .attr('transform', 'translate(' + -spaceAxisY + ', 0)')
                 .call(d3.axisLeft(y).tickSize(0));
 
