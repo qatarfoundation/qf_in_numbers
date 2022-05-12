@@ -15,6 +15,7 @@ import './style.scoped.scss';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
+import useStore from '@/hooks/useStore';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -36,6 +37,11 @@ function CategoryTemplate(props) {
     const [entities, setEntities] = useState([]);
     const [isPresent, safeToRemove] = usePresence();
     const { navigate } = useI18next();
+
+    /**
+     * Store
+     */
+    const enitity = useStore((state) => state.selectedEntity);
 
     /**
      * Hooks
@@ -113,11 +119,12 @@ function CategoryTemplate(props) {
 
                 <ListSubcategories categoryName={ category.name } subcategories={ category.subcategories } />
 
-                { entities &&
-                    <LabelsEntities entities={ entities } />
+                { enitity &&
+                    <>
+                        <LabelsEntities entities={ entities } />
+                        <button className="button button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
+                    </>
                 }
-
-                <button className="button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
 
             </div>
 

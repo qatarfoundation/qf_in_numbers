@@ -8,6 +8,7 @@ const useStore = create((set) => {
         filterType: 'entities',
         scrolls: [],
         iScroll: 0,
+        selectedEntity: null,
     };
 });
 
