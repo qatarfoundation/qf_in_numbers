@@ -44,6 +44,7 @@ span {
     position: absolute;
 
     font-size: rem(10px);
+    line-height: 1;
 
     @include respond-to('large') {
         width: rem(100px, 'large');
