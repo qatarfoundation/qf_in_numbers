@@ -40,7 +40,7 @@ function EntityTemplate(props) {
     const entityNext = data.entity[language].next;
     const entityPrevious = data.entity[language].previous;
     usePopulateTreeDataModel(year.year, year.categories);
-    console.log(data);
+    console.log('api', entity);
 
     useEffect(() => {
         if (isPresent) transitionIn();

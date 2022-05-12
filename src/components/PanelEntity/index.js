@@ -89,7 +89,7 @@ function PanelEntity(props, ref) {
                             >
                                 { entity.relatedArticles.map((relatedArticle, index) => (
                                     <>
-                                        <SwiperSlide key={ relatedArticle } virtualIndex={ index }>
+                                        <SwiperSlide key={ `article${ index }` } virtualIndex={ index }>
                                             <CardArticle article={ relatedArticle } />
                                         </SwiperSlide>
                                     </>
