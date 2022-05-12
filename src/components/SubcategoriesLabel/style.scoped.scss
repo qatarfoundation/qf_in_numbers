@@ -7,8 +7,6 @@
     left: 0;
 
     will-change: transform;
-
-    background-color: red;
 }
 
 li {
@@ -18,8 +16,6 @@ li {
 
     width: 1px;
     height: 1px;
-
-    background: red;
 
     &.left span {
         text-align: right;
