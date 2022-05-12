@@ -5,9 +5,11 @@ import React from 'react';
 import './style.scoped.scss';
 
 // Components
+import Scrollbar from '@/components/ScrollBar';
 import ChartBar from '@/components/ChartBar';
 import ChartHeatmap from '@/components/ChartHeatmap';
-import Scrollbar from '@/components/ScrollBar';
+import ChartDonut from '@/components/ChartDonut';
+import ChartLine from '@/components/ChartLine';
 
 function Charts(props, ref) {
     /**
@@ -18,7 +20,6 @@ function Charts(props, ref) {
         <>
             {
                 charts.map((chart, i) => {
-                    console.log(chart);
                     let result = null;
                     switch (chart.type) {
                         case 'kpiChart':
@@ -31,10 +32,11 @@ function Charts(props, ref) {
                             result = <ChartBar chart={ chart } />;
                             break;
                         case 'donutChart':
+                            // result = <ChartDonut chart={ chart } />;
                             result = <></>;
                             break;
                         case 'lineChart':
-                            result = <></>;
+                            result = <ChartLine chart={ chart } />;
                             break;
                         case 'bubbleChart':
                             result = <></>;
