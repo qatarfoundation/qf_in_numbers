@@ -107,7 +107,7 @@ function CategoryTemplate(props) {
     }
 
     function buttonDiscoverClickHandler() {
-        const { slug, name } = Globals.tree.selectedEntity;
+        const { slug, name } = enitity;
         navigate(slug);
         // Globals.webglApp.selectEntity(category.name, name);
     }
@@ -121,7 +121,7 @@ function CategoryTemplate(props) {
 
                 { enitity &&
                     <>
-                        <LabelsEntities entities={ entities } />
+                        { /* <LabelsEntities entities={ entities } /> */ }
                         <button className="button button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
                     </>
                 }
