@@ -1,4 +1,5 @@
 // Vendor
+import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { AdditiveBlending, ArrowHelper, BoxBufferGeometry, BufferGeometry, CameraHelper, CatmullRomCurve3, Euler, Float32BufferAttribute, Line, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Points, ShaderMaterial, Vector3 } from 'three';
 import { ResourceLoader } from 'resource-loader';
@@ -20,7 +21,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._colors = options.colors;
 
         // Setup
-        // this.hide();
+        this.hide();
     }
 
     setup() {
@@ -30,6 +31,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._particles = this._createParticles();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
         this._cameraAnchorsEntities = this._createCameraAnchorsEntities();
+        this._labelAnchorsEntities = this._createLabelAnchorsEntities();
         this._bindHandlers();
         this._setupEventListeners();
     }
@@ -227,7 +229,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     _createParticles() {
-        const amount = 5000;
+        const amount = 2000;
         const vertices = [];
         const normals = [];
 
@@ -238,7 +240,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const pointProgress = Math.random();
             const point = curve.getPointAt(pointProgress);
 
-            const radius = math.randomArbitrary(0, 0.25);
+            const radius = math.randomArbitrary(0, 0.4);
             const angle = Math.random() * Math.PI * 2;
 
             const fract = pointProgress % 1;
@@ -279,7 +281,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uColor: { value: this._colors.primary },
                 // uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
-                uPointSize: { value: 47 },
+                uPointSize: { value: 100 },
                 uRadius: { value: 0.71 },
                 uInnerGradient: { value: 0.88 },
                 uOuterGradient: { value: 0.07 },
@@ -288,11 +290,13 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uOpacity: { value: 1 },
             },
             transparent: true,
-            blending: AdditiveBlending,
+            // blending: AdditiveBlending,
             depthWrite: false,
         });
         const mesh = new Points(geometry, material);
         this.add(mesh);
+
+        return mesh;
     }
 
     _createCameraAnchorsSubcategories() {
@@ -434,26 +438,47 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             // const cameraHelper = new CameraHelper(camera);
             // this._scene.add(cameraHelper);
 
-            {
-                const worldDirection = new Vector3();
-                camera.getWorldDirection(worldDirection);
+            // {
+            //     const worldDirection = new Vector3();
+            //     camera.getWorldDirection(worldDirection);
 
-                // worldDirection.x += Math.PI * 0.5;
+            //     // worldDirection.x += Math.PI * 0.5;
 
-                // const e = new Euler().setFromVector3(worldDirection);
+            //     // const e = new Euler().setFromVector3(worldDirection);
 
-                // const arrowHelper = new ArrowHelper(worldDirection, cameraPosition, 1, 0xff0000);
-                // this._scene.add(arrowHelper);
+            //     // const arrowHelper = new ArrowHelper(worldDirection, cameraPosition, 1, 0xff0000);
+            //     // this._scene.add(arrowHelper);
 
-                // const angle = worldDirection.angleTo(binormal);
-                // camera.rotation.z = angle;
-            }
+            //     // const angle = worldDirection.angleTo(binormal);
+            //     // camera.rotation.z = angle;
+            // }
 
             anchors[key] = {
                 origin: cameraPosition,
                 target: cameraTarget,
                 camera,
             };
+        }
+
+        return anchors;
+    }
+
+    _createLabelAnchorsEntities() {
+        const pointsEntities = this._points.entities.entries;
+        const anchors = {};
+
+        for (const key in pointsEntities) {
+            const item = pointsEntities[key];
+            const start = item.start;
+            const end = item.end;
+
+            const position = new Vector3().lerpVectors(start, end, 0.7);
+
+            const geometry = new BoxBufferGeometry(0.05, 0.05, 0.05);
+            const material = new MeshBasicMaterial({ color: 0xff0000 });
+            const mesh = new Mesh(geometry, material);
+            mesh.position.copy(position);
+            this.add(mesh);
         }
 
         return anchors;
@@ -472,6 +497,29 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             if (random < item.weight) return item;
             random -= item.weight;
         }
+    }
+
+    /**
+     * Update
+     */
+    update() {
+        this._updateLabelAnchorsEntitesScreenSpacePosition();
+    }
+
+    _updateLabelAnchorScreenSpacePosition() {
+        // this._labelAnchorScreenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
+        // this._labelAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        // this._labelAnchorScreenSpacePosition.x = (this._labelAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        // this._labelAnchorScreenSpacePosition.y = -(this._labelAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        // TreeDataModel.updateCategoryLabelPosition(this._index, this._labelAnchorScreenSpacePosition);
+    }
+
+    /**
+     * Resize
+     */
+    onWindowResize({ renderWidth, renderHeight }) {
+        this._halfRenderWidth = renderWidth * 0.5;
+        this._halfRenderHeight = renderHeight * 0.5;
     }
 
     /**

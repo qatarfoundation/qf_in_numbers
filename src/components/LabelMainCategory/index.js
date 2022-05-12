@@ -1,4 +1,5 @@
 // Vendor
+import { gsap } from 'gsap';
 import React, { useEffect, useRef } from 'react';
 
 // Utils
@@ -8,6 +9,8 @@ import TreeDataModel from '@/utils/TreeDataModel';
 import './style.scoped.scss';
 
 const LabelMainCategory = (props) => {
+    const { index: categoryIndex } = props;
+
     const labelRef = useRef();
 
     useEffect(() => {
@@ -21,6 +24,26 @@ const LabelMainCategory = (props) => {
             TreeDataModel.removeEventListener(`category/${ props.index }/label/position`, handler);
         };
     }, [labelRef]);
+
+    useEffect(() => {
+        const mouseEnterHandler = ({ index }) => {
+            if (categoryIndex !== index) {
+                gsap.to(labelRef.current, { duration: 0.5, alpha: 0.15 });
+            }
+        };
+
+        const mouseLeaveHandler = () => {
+            gsap.to(labelRef.current, { duration: 0.5, alpha: 1 });
+        };
+
+        TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
+        TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
+
+        return () => {
+            TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
+            TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
+        };
+    });
 
     return (
         <div className={ `label ${ props.anchor }` } ref={ labelRef }>

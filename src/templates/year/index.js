@@ -20,6 +20,7 @@ import Globals from '@/utils/Globals';
 
 // Components
 import ListCategories from '@/components/ListCategories';
+import SubcategoriesLabel from '@/components/SubcategoriesLabel';
 
 const YearTemplate = (props) => {
     /**
@@ -79,6 +80,10 @@ const YearTemplate = (props) => {
             <div className="container-page container">
 
                 <ListCategories categories={ year.categories } />
+
+                <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } />
+                <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } />
+                <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } />
 
             </div>
 

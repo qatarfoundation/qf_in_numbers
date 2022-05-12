@@ -37,7 +37,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
      * Public
      */
     gotoOverview() {
-        this._showAllBranches();
+        this._hideAllBranches();
     }
 
     gotoCategory(name) {
@@ -100,9 +100,9 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         return branches;
     }
 
-    _showAllBranches() {
+    _hideAllBranches() {
         for (const key in this._branches) {
-            this._branches[key].show();
+            this._branches[key].hide();
         }
     }
 
@@ -114,6 +114,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         for (const key in this._branches) {
             if (key === activeBranchName) {
                 this._activeBranch = this._branches[key];
+                this._activeBranch.show();
             } else {
                 this._branches[key].hide();
             }

@@ -62,6 +62,7 @@ export default {
             hoverColor: new Color(0x00BCE7),
             hoverBackgroundColor: new Color(0x051514),
             anchorPosition: new Vector3(-1, 7, 0),
+            subcategoriesAnchorPosition: new Vector3(0.5, 11, 0),
             particlesColors: {
                 primary: new Color(0x00bce7),
                 secondary: new Color(0x53565a),
@@ -80,6 +81,7 @@ export default {
             hoverColor: new Color(0xFF671F),
             hoverBackgroundColor: new Color(0x1e050c),
             anchorPosition: new Vector3(0, 9, 0),
+            subcategoriesAnchorPosition: new Vector3(0, 12, 0.5),
             particlesColors: {
                 primary: new Color(0xff671f),
                 secondary: new Color(0x8a1538),
@@ -98,6 +100,7 @@ export default {
             hoverColor: new Color(0x034638),
             hoverBackgroundColor: new Color(0x131414),
             anchorPosition: new Vector3(-1, 7, 0),
+            subcategoriesAnchorPosition: new Vector3(0.4, 11, 0),
             particlesColors: {
                 primary: new Color(0x6eceb2),
                 secondary: new Color(0x034638),
