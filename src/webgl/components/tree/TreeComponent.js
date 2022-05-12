@@ -7,6 +7,7 @@ import { navigate } from 'gatsby';
 // Utils
 import Debugger from '@/utils/Debugger';
 import Cursor from '@/webgl/utils/Cursor';
+import Globals from '@/utils/Globals';
 
 // Components
 import TreeBranchComponent from '@/webgl/components/tree/TreeBranchComponent';
@@ -200,7 +201,7 @@ export default class TreeComponent extends component(Object3D) {
      * Handlers
      */
     _clickHandler() {
-        if (this._isActive && this._activeBranch) navigate('/2021/' + this._activeBranch.slug);
+        if (this._isActive && this._activeBranch) Globals.navigate('/2021/' + this._activeBranch.slug);
     }
 
     /**

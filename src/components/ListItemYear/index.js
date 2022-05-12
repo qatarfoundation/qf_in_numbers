@@ -1,6 +1,6 @@
 // React
 import React, { useState } from 'react';
-import { navigate } from 'gatsby';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -13,6 +13,10 @@ function ListItemYear(props) {
      * Data
      */
     const { year } = props;
+    /**
+     * States
+     */
+    const { navigate } = useI18next();
     /**
      * Store
      */
