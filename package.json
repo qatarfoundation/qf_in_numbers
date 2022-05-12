@@ -48,7 +48,7 @@
     "react-i18next": "^11.16.2",
     "resource-loader": "git+https://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:x-oauth-basic@github.com/immersive-garden/resource-loader.git",
     "sass": "^1.49.9",
-    "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials",
+    "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git",
     "stats-js": "^1.0.1",
     "three": "^0.139.0"
   },
