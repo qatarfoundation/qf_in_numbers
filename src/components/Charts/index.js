@@ -18,32 +18,34 @@ function Charts(props, ref) {
         <>
             {
                 charts.map((chart, i) => {
-                    let result = null;
-                    switch (chart.type) {
-                        case 'kpiChart':
-                            result = <></>;
-                            break;
-                        case 'heatmapChart':
-                            result = <ChartHeatmap chart={ chart } />;
-                            break;
-                        case 'barChart':
-                            result = <ChartBar chart={ chart } />;
-                            break;
-                        case 'donutChart':
-                            result = <></>;
-                            break;
-                        case 'lineChart':
-                            result = <></>;
-                            break;
-                        case 'bubbleChart':
-                            result = <></>;
-                            break;
-                        case 'mapChart':
-                            result = <></>;
-                            break;
-                        case 'beeswarmChart':
-                            result = <></>;
-                            break;
+                    let result = <></>;
+                    if (chart.fields) {
+                        switch (chart.type) {
+                            case 'kpiChart':
+                                result = <></>;
+                                break;
+                            case 'heatmapChart':
+                                result = <ChartHeatmap chart={ chart } />;
+                                break;
+                            case 'barChart':
+                                result = <ChartBar chart={ chart } />;
+                                break;
+                            case 'donutChart':
+                                result = <></>;
+                                break;
+                            case 'lineChart':
+                                result = <></>;
+                                break;
+                            case 'bubbleChart':
+                                result = <></>;
+                                break;
+                            case 'mapChart':
+                                result = <></>;
+                                break;
+                            case 'beeswarmChart':
+                                result = <></>;
+                                break;
+                        }
                     }
                     return <>
                         <section key={ i } className="section charts" data-name={ chart.type }>
