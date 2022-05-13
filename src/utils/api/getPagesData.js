@@ -183,8 +183,8 @@ function parseYears(data) {
 function parseCategories(data, baseSlug) {
     const categories = [];
     if (data.community) categories.push(parseCategory(data.community, baseSlug));
-    if (data.education) categories.push(parseCategory(data.education, baseSlug));
     if (data.research) categories.push(parseCategory(data.research, baseSlug));
+    if (data.education) categories.push(parseCategory(data.education, baseSlug));
     return categories;
 }
 

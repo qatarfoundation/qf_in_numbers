@@ -12,6 +12,9 @@ import Globals from '@/utils/Globals';
 // Components
 import TreeBranchComponent from '@/webgl/components/tree/TreeBranchComponent';
 
+// Store
+import useStore from '@/hooks/useStore';
+
 export default class TreeComponent extends component(Object3D) {
     init(options = {}) {
         // Options
@@ -201,7 +204,7 @@ export default class TreeComponent extends component(Object3D) {
      * Handlers
      */
     _clickHandler() {
-        if (this._isActive && this._activeBranch) Globals.navigate('/2021/' + this._activeBranch.slug);
+        if (this._isActive && this._activeBranch) Globals.navigate(`/${ useStore.getState().currentYear }/${ this._activeBranch.slug }`);
     }
 
     /**
