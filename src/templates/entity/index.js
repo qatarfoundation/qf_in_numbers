@@ -9,6 +9,7 @@ import { graphql } from 'gatsby';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
+import useStore from '@/hooks/useStore';
 
 // CSS
 import './style.scoped.scss';
@@ -36,6 +37,7 @@ function EntityTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
+    const subcategory = data.subcategory ? data.subcategory[language] : null;
     const entity = data.entity[language].current;
     const entityNext = data.entity[language].next;
     const entityPrevious = data.entity[language].previous;
@@ -48,6 +50,8 @@ function EntityTemplate(props) {
     }, [isPresent]);
 
     useEffect(() => {
+        useStore.setState({ currentCategory: category });
+        useStore.setState({ currentSubcategory: subcategory });
         Globals.webglApp.gotoEntity(category.name, entity.name);
     }, []);
 

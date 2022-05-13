@@ -9,6 +9,8 @@
     width: 100%;
     height: 0;
 
+    pointer-events: none;
+
     @include respond-to('medium') {
         top: rem(34.5px, 'medium');
     }
