@@ -20,7 +20,7 @@ function ChartLine(props, ref) {
     let data = chart;
     data = {
         title: 'Line Chart',
-        lines: [],
+        fields: [],
         labelX: 'Label X',
         labelY: 'Label Y',
         type: 'lineChart',
@@ -28,30 +28,33 @@ function ChartLine(props, ref) {
     for (let i = 1; i < 4; i++) {
         const line = {
             name: 'Title',
-            points: [],
+            fields: [],
         };
         for (let j = 0; j < 6; j++) {
             const point = {
                 name: 'Title',
-                x: i * j,
+                x: 2000 + (i * j),
                 y: i * j / i,
             };
-            line.points.push(point);
+            line.fields.push(point);
         }
-        line.points.sort((a, b) => a - b);
-        data.lines.push(line);
+        line.fields.sort((a, b) => a - b);
+        data.fields.push(line);
     }
-    data = data.lines;
+    data = data.fields;
     console.log(data);
+    const radiusPoint = 5;
+    const heightTooltip = 80;
+    const spaceTooltip = 10;
     const heightAxisX = 25;
     const spaceAxisX = 20;
-    const widthAxisY = 17;
-    const spaceAxisY = 50;
-    const margin = { top: 10, right: 100, bottom: 30 + heightAxisX + spaceAxisX, left: 100 + widthAxisY + spaceAxisY };
+    const widthAxisY = 15;
+    const spaceAxisY = 89;
+    const margin = { top: 0 + heightTooltip + spaceTooltip, right: 44, bottom: 30 + heightAxisX + spaceAxisX, left: 58 + widthAxisY + spaceAxisY };
     /**
      * States
      */
-    const [width, setWidth] = useState(330 + margin.left + margin.right);
+    // const [width, setWidth] = useState(330 + margin.left + margin.right);
     const [height, setHeight] = useState(255 + margin.top + margin.bottom);
     /**
     * References
@@ -61,80 +64,81 @@ function ChartLine(props, ref) {
         (dataviz) => {
             dataviz.select('.chart-container').remove();
             const svg = dataviz.select('svg');
+            const width = refChart.current.querySelector('svg').clientWidth;
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
+            // Tooltip
+            const tooltip = dataviz
+                .append('div')
+                .style('opacity', 0)
+                .attr('class', 'tooltip');
+            const mouseover = d => tooltip.style('opacity', 1);
+            const mousemove = (e, d) => {
+                tooltip
+                    .html(`<p class="p3">${ d.y }</p><p class="p4">${ d.name }</p>`)
+                    .style('left', `${ e.target.cx.baseVal.value + margin.left }px`)
+                    .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`);
+            };
+            const mouseleave = d => tooltip.style('opacity', 0);
             // Chart Container : contain all svg
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ margin.left }, ${ margin.top })`);
-            // A color scale: one color for each group
-            const myColor = d3.scaleOrdinal()
-                .domain(data.map(d => d.name))
-                .range(d3.schemeSet2);
-
-            // Add X axis --> it is a date format
+            // Add X axis
             const x = d3.scaleLinear()
-                .domain([0, d3.max(data, function(d) { return d3.max(d.points, function(d) { return d.x; });})])
+                .domain([d3.min(data, d => d3.min(d.fields, d => d.x)), d3.max(data, d => d3.max(d.fields, d => d.x))])
                 .range([ 0, innerWidth ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-x')
-                .attr('transform', 'translate(0,' + (innerHeight + spaceAxisX) + ')')
-                .call(d3.axisBottom(x).tickSize(0));
-
+                .attr('transform', `translate(0, ${ innerHeight + spaceAxisX })`)
+                .call(d3.axisBottom(x).tickSize(0).tickFormat(d3.format('')));
             // Add Y axis
             const y = d3.scaleLinear()
-                .domain([0, d3.max(data, function(d) { return d3.max(d.points, function(d) { return d.y; });})])
+                .domain([0, d3.max(data, d => d3.max(d.fields, d => d.y))])
                 .range([ innerHeight, 0 ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-y')
-                .attr('transform', 'translate(' + -spaceAxisY + ', 0)')
+                .attr('transform', `translate(${ -spaceAxisY }, 0)`)
                 .call(d3.axisLeft(y).tickSize(0));
-
-            // Add the lines
-            const line = d3.line()
-                .x(function(d) { return x(+d.x); })
-                .y(function(d) { return y(+d.y); });
-            chartContainer.selectAll('myLines')
-                .data(data)
-                .enter()
-                .append('path')
-                .attr('d', function(d) { return line(d.points); })
-                .attr('stroke', function(d) { return myColor(d.name); })
-                .style('stroke-width', 4)
-                .style('fill', 'none');
-
-            // Add the points
-            chartContainer
-            // First we need to enter in a group
-                .selectAll('myDots')
+            // Lines Container : contain all lines
+            const linesContainer = chartContainer
+                .append('g')
+                .attr('class', 'lines-container');
+            // Line Container : contain all lines
+            const lineContainer = linesContainer
+                .selectAll('line')
                 .data(data)
                 .enter()
                 .append('g')
-                .style('fill', function(d) { return myColor(d.name); })
-            // Second we need to enter in the 'values' part of this group
+                .attr('class', 'line-container');
+            // Add the line
+            const line = d3.line()
+                .x(d => x(+d.x))
+                .y(d => y(+d.y));
+            // Line
+            lineContainer
+                .append('path')
+                .attr('class', 'line')
+                .attr('d', d => line(d.fields));
+            // Points Container : contain all points of a line
+            const pointsContainer = lineContainer
+                .append('g')
+                .attr('class', 'points-container');
+            // Add the points
+            pointsContainer
+                // Point
                 .selectAll('myPoints')
-                .data(function(d) { return d.points; })
+                .data(d => d.fields)
                 .enter()
                 .append('circle')
-                .attr('cx', function(d) { return x(d.x); })
-                .attr('cy', function(d) { return y(d.y); })
-                .attr('r', 5)
-                .attr('stroke', 'white');
-
-            // Add a legend at the end of each line
-            chartContainer
-                .selectAll('myLabels')
-                .data(data)
-                .enter()
-                .append('g')
-                .append('text')
-                .datum(function(d) { return { name: d.name, value: d.points[d.points.length - 1] }; }) // keep only the last value of each time series
-                .attr('transform', function(d) { return 'translate(' + x(d.value.x) + ',' + y(d.value.y) + ')'; }) // Put the text at the position of the last point
-                .attr('x', 12) // shift the text a bit more right
-                .text(function(d) { return d.name; })
-                .style('fill', function(d) { return myColor(d.name); })
-                .style('font-size', 15);
+                .attr('class', 'point')
+                .attr('cx', d => x(d.x))
+                .attr('cy', d => y(d.y))
+                .attr('r', radiusPoint)
+                .on('mouseover', mouseover)
+                .on('mousemove', mousemove)
+                .on('mouseleave', mouseleave);
         },
         [data.length],
     );
@@ -157,9 +161,8 @@ function ChartLine(props, ref) {
         <>
             <div ref={ refChart } className="dataviz">
                 <svg
-                    width={ width }
                     height={ height }
-                    className="chart chart-heatmap"
+                    className="chart chart-line"
                 />
             </div>
         </>

@@ -1,5 +1,7 @@
 // React
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
+import { graphql, useStaticQuery } from 'gatsby';
 
 // CSS
 import './style.scoped.scss';
@@ -17,6 +19,26 @@ function ModalYear(props, ref) {
      */
     const [isOpen, currentYear] = useStore((state) => [state.modalYearIsOpen, state.currentYear]);
     /**
+      * Datas
+      */
+    const data = useStaticQuery(graphql`
+         query {
+             allContentfulYear {
+                 edges {
+                     node {
+                         year
+                         node_locale
+                     }
+                 }
+             }
+         }
+     `);
+    const years = data.allContentfulYear.edges;
+    years.sort((a, b) => b.node.year - a.node.year);
+    useEffect(() => {
+        useStore.setState({ currentYear: years[0].node.year });
+    }, []);
+    /**
      * Private
      */
     function clickHandler() {
@@ -27,7 +49,7 @@ function ModalYear(props, ref) {
         <>
             <div className="modal modal-year">
                 <ButtonModal name={ currentYear } onClick={ clickHandler }  />
-                { isOpen ? <PanelYear isOpen={ isOpen } /> : '' }
+                { isOpen ? <PanelYear isOpen={ isOpen } years={ years } /> : '' }
             </div>
         </>
     );

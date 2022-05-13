@@ -1,5 +1,6 @@
 // React
 import React, { useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 import { navigate } from 'gatsby';
 
 // CSS
@@ -13,6 +14,7 @@ function ListItemYear(props) {
      * Data
      */
     const { year } = props;
+    const { originalPath } = useI18next();
     /**
      * Store
      */
@@ -22,7 +24,7 @@ function ListItemYear(props) {
      */
     function clickHandler(e) {
         useStore.setState({ modalYearIsOpen: !isOpen, currentYear: e.target.textContent });
-        navigate(`/${ e.target.textContent }`);
+        navigate(`${ originalPath }/${ e.target.textContent }`);
     }
 
     return (

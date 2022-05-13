@@ -1,6 +1,5 @@
 // React
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
 
 // CSS
 import './style.scoped.scss';
@@ -15,26 +14,13 @@ import useStore from '@/hooks/useStore';
 
 function PanelYear(props, ref) {
     /**
+     * Datas
+     */
+    const { years } = props;
+    /**
      * Store
      */
     const isOpen = useStore((state) => state.modalYearIsOpen);
-    /**
-     * Datas
-     */
-    const data = useStaticQuery(graphql`
-        query {
-            allContentfulYear {
-                edges {
-                    node {
-                        year
-                        node_locale
-                    }
-                }
-            }
-        }
-    `);
-    const years = data.allContentfulYear.edges;
-    years.reverse();
     /**
      * Private
      */

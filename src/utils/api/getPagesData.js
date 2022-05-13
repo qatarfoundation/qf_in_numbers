@@ -279,114 +279,138 @@ function parseChart(data, type) {
 }
 
 function parseKPIChart(data) {
-    const chart = {
-        fields: [],
-    };
-    data.dataItems.forEach(item => {
-        const field = {
-            name: item.fields.title,
-            value: item.fields.value,
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
         };
-        if (item.fields.icon) field.icon = item.fields.icon;
-        if (item.fields.additionalInformation) field.additionalInformation = item.fields.additionalInformation;
-        chart.fields.push(field);
-    });
-    return chart;
+        data.dataItems.forEach(item => {
+            const field = {
+                name: item.fields.title,
+                value: item.fields.value,
+            };
+            if (item.fields.icon) field.icon = item.fields.icon;
+            if (item.fields.additionalInformation) field.additionalInformation = item.fields.additionalInformation;
+            chart.fields.push(field);
+        });
+        return chart;
+    } else {
+        return {};
+    }
 }
 
 function parseHeatmapChart(data) {
-    const chart = {
-        fields: [],
-    };
-    data.dataRows.forEach(itemRow => {
-        itemRow.fields.dataItems.forEach(item => {
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
+        };
+        data.dataRows.forEach(itemRow => {
+            itemRow.fields.dataItems.forEach(item => {
+                const field = {
+                    group: itemRow.fields.title,
+                    name: item.fields.title,
+                    value: item.fields.value,
+                };
+                chart.fields.push(field);
+            });
+        });
+        const maxValue = Math.max(...chart.fields.map(a => a.value));
+        chart.fields.forEach(item => {
+            item.percent = Math.floor(item.value * 100 / maxValue);
+        });
+        return chart;
+    } else {
+        return {};
+    }
+}
+
+function parseBarChart(data) {
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
+        };
+        data.dataItems.forEach(item => {
             const field = {
-                group: itemRow.fields.title,
+                name: item.fields.title,
+                value: item.fields.value,
+            };
+            if (item.fields.additionalInformation) field.additionalInformation = item.fields.additionalInformation;
+            chart.fields.push(field);
+        });
+        return chart;
+    } else {
+        return {};
+    }
+}
+
+function parseDonutChart(data) {
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
+            name: data.dataTitle,
+            length: 0,
+        };
+        data.dataItems.forEach(item => {
+            const field = {
+                name: item.fields.title,
+                value: item.fields.value,
+            };
+            chart.fields.push(field);
+            chart.length += item.fields.value;
+        });
+        const maxValue = Math.max(...chart.fields.map(a => a.value));
+        chart.fields.forEach(item => {
+            item.percent = Math.floor(item.value * 100 / maxValue);
+        });
+        return chart;
+    } else {
+        return {};
+    }
+}
+
+function parseLineChart(data) {
+    if (data.lines) {
+        const chart = {
+            fields: [],
+            labelX: data.labelX,
+            labelY: data.labelY,
+        };
+        data.lines.forEach(lineItem => {
+            const line = {
+                name: lineItem.fields.title,
+                fields: [],
+            };
+            lineItem.fields.points.forEach(point => {
+                const field = {
+                    name: point.fields.title,
+                    x: point.fields.valueX,
+                    y: point.fields.valueY,
+                };
+                line.fields.push(field);
+            });
+            chart.fields.push(line);
+        });
+        return chart;
+    } else {
+        return {};
+    }
+}
+
+function parseBubbleChart(data) {
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
+        };
+        data.dataItems.forEach(item => {
+            const field = {
                 name: item.fields.title,
                 value: item.fields.value,
             };
             chart.fields.push(field);
         });
-    });
-    const maxValue = Math.max(...chart.fields.map(a => a.value));
-    chart.fields.forEach(item => {
-        item.percent = Math.floor(item.value * 100 / maxValue);
-    });
-    return chart;
-}
-
-function parseBarChart(data) {
-    const chart = {
-        fields: [],
-    };
-    data.dataItems.forEach(item => {
-        const field = {
-            name: item.fields.title,
-            value: item.fields.value,
-        };
-        if (item.fields.additionalInformation) field.additionalInformation = item.fields.additionalInformation;
-        chart.fields.push(field);
-    });
-    return chart;
-}
-
-function parseDonutChart(data) {
-    const chart = {
-        fields: [],
-        name: data.dataTitle,
-        length: 0,
-    };
-    data.dataItems.forEach(item => {
-        const field = {
-            name: item.fields.title,
-            value: item.fields.value,
-        };
-        chart.fields.push(field);
-        chart.length += item.fields.value;
-    });
-    const maxValue = Math.max(...chart.fields.map(a => a.value));
-    chart.fields.forEach(item => {
-        item.percent = Math.floor(item.value * 100 / maxValue);
-    });
-    return chart;
-}
-
-function parseLineChart(data) {
-    const chart = {
-        lines: [],
-        labelX: data.labelX,
-        labelY: data.labelY,
-    };
-    data.lines.forEach(lineItem => {
-        const line = {
-            name: lineItem.fields.title,
-            points: [],
-        };
-        lineItem.fields.points.forEach(point => {
-            const field = {
-                name: point.fields.title,
-                x: point.fields.valueX,
-                y: point.fields.valueY,
-            };
-            line.points.push(field);
-        });
-        chart.lines.push(line);
-    });
-    return chart;
-}
-
-function parseBubbleChart(data) {
-    const chart = {
-        fields: [],
-    };
-    data.dataItems.forEach(item => {
-        const field = {
-            name: item.fields.title,
-            value: item.fields.value,
-        };
-        chart.fields.push(field);
-    });
-    return chart;
+        return chart;
+    } else {
+        return {};
+    }
 }
 
 function parseMapChart(data) {
@@ -394,17 +418,21 @@ function parseMapChart(data) {
 }
 
 function parseBeeswarmChart(data) {
-    const chart = {
-        fields: [],
-    };
-    data.dataItems.forEach(item => {
-        const field = {
-            group: item.fields.title,
-            value: item.fields.value,
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
         };
-        chart.fields.push(field);
-    });
-    return chart;
+        data.dataItems.forEach(item => {
+            const field = {
+                group: item.fields.title,
+                value: item.fields.value,
+            };
+            chart.fields.push(field);
+        });
+        return chart;
+    } else {
+        return {};
+    }
 }
 
 function parseRelatedArticles(data) {

@@ -88,11 +88,9 @@ function PanelEntity(props, ref) {
                                 onSlideChange={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
                             >
                                 { entity.relatedArticles.map((relatedArticle, index) => (
-                                    <>
-                                        <SwiperSlide key={ `article${ index }` } virtualIndex={ index }>
-                                            <CardArticle article={ relatedArticle } />
-                                        </SwiperSlide>
-                                    </>
+                                    <SwiperSlide key={ relatedArticle.title } virtualIndex={ index }>
+                                        <CardArticle article={ relatedArticle } />
+                                    </SwiperSlide>
                                 )) }
                             </Swiper>
                         </div>
