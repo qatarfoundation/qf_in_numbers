@@ -75,6 +75,13 @@ function Layout(props) {
 
                     <WebglApp preloaderState={ preloaderState } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
+                    <AnimatePresence>
+
+                        <TheNavigation key={ `${ language }-navigation` } />
+                        <TheFooter key={ `${ language }-footer` } />
+
+                    </AnimatePresence>
+
                     { webglAppState === 'started' &&
 
                         <AnimatePresence>
@@ -88,13 +95,6 @@ function Layout(props) {
                     }
 
                 </div>
-
-                <AnimatePresence>
-
-                    <TheNavigation key={ `${ language }-navigation` } />
-                    <TheFooter key={ `${ language }-footer` } />
-
-                </AnimatePresence>
 
                 <ThePreloader visible={ preloaderState === LOADING } />
 
