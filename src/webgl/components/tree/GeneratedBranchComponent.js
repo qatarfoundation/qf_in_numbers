@@ -7,6 +7,7 @@ import { ResourceLoader } from 'resource-loader';
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import math from '@/utils/math';
+import device from '@/utils/device';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles-generated/vertex.glsl';
@@ -45,11 +46,11 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      * Public
      */
     show() {
-        this.visible = true;
+        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 1 });
     }
 
     hide() {
-        this.visible = false;
+        if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
     }
 
     getCameraAnchorSubcategory(name) {
@@ -281,13 +282,13 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uColor: { value: this._colors.primary },
                 // uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
-                uPointSize: { value: 100 },
+                uPointSize: { value: device.dpr() > 1 ? 100 : 60 },
                 uRadius: { value: 0.71 },
                 uInnerGradient: { value: 0.88 },
                 uOuterGradient: { value: 0.07 },
                 uHoverColor: { value: this._hoverColor },
                 uShowHover: { value: 0 },
-                uOpacity: { value: 1 },
+                uOpacity: { value: 0 },
             },
             transparent: true,
             // blending: AdditiveBlending,
@@ -477,6 +478,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const geometry = new BoxBufferGeometry(0.05, 0.05, 0.05);
             const material = new MeshBasicMaterial({ color: 0xff0000 });
             const mesh = new Mesh(geometry, material);
+            mesh.visible = false;
             mesh.position.copy(position);
             this.add(mesh);
         }
