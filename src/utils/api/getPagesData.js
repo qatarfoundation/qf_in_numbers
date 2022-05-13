@@ -25,7 +25,7 @@ function createPages(languages) {
 
     const years = {
         'en-US': languages[0].years,
-        'ar-QA': languages[0].years,
+        'ar-QA': languages[1].years,
     };
 
     for (let i = 0; i < years['en-US'].length; i++) {
