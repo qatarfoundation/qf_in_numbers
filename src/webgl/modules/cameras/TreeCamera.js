@@ -137,6 +137,7 @@ export default class TreeCamera extends component() {
 
     _createHelper() {
         const helper = new CameraHelper(this._camera);
+        helper.visible = false;
         this._scene.add(helper);
         return helper;
     }
