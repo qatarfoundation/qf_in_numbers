@@ -9,6 +9,7 @@ const useStore = create((set) => {
         scrolls: [],
         iScroll: 0,
         selectedEntity: null,
+        currentSubcategory: {},
     };
 });
 

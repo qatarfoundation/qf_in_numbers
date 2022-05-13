@@ -58,6 +58,7 @@ function CategoryTemplate(props) {
     }, [isPresent]);
 
     useEffect(() => {
+        useStore.setState({ currentSubcategory: subcategory });
         if (subcategory) {
             Globals.webglApp.gotoSubcategory(category.name, subcategory.name);
         } else {
@@ -71,7 +72,7 @@ function CategoryTemplate(props) {
         const handler = (name) => {
             const subcategories = category.subcategories;
             const subcategory = subcategories.filter(subcategory => subcategory.name === name)[0];
-            setEntities(subcategory.entities);
+            if (subcategory) setEntities(subcategory.entities);
         };
 
         TreeDataModel.addEventListener('subcategory/active', handler);

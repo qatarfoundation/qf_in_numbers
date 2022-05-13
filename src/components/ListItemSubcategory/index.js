@@ -1,5 +1,5 @@
 // React
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
@@ -12,6 +12,9 @@ import TreeDataModel from '@/utils/TreeDataModel';
 // Components
 import ListEntities from '@/components/ListEntities';
 
+// Hooks
+import useStore from '@/hooks/useStore';
+
 function ListItemSubcategory(props) {
     /**
      * Data
@@ -21,7 +24,8 @@ function ListItemSubcategory(props) {
     /**
      * States
      */
-    const [isOpen, setOpen] = useState(false);
+    const currentSubcategory = useStore((state) => state.currentSubcategory);
+    const [isOpen, setOpen] = useState();
     const [isHovered, setHovered] = useState(false);
     const { language } = useI18next();
 
@@ -48,6 +52,12 @@ function ListItemSubcategory(props) {
     function mouseleaveHandler() {
         setHovered(false);
     }
+
+    useEffect(() => {
+        if (currentSubcategory) {
+            setOpen(subcategory.slug === currentSubcategory.slug);
+        }
+    }, [currentSubcategory]);
 
     return (
         <li className="list-item-subcategory">
