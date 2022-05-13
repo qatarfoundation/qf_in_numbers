@@ -19,7 +19,7 @@ function ListItemSubcategory(props) {
     /**
      * Data
      */
-    const { categoryName, subcategory } = props;
+    const { categorySlug, subcategory } = props;
 
     /**
      * States
@@ -39,7 +39,8 @@ function ListItemSubcategory(props) {
     }
 
     function clickHandler() {
-        Globals.webglApp.gotoSubcategory(categoryName, subcategory.name);
+        const slug = categorySlug.split('/').slice(-1)[0];
+        Globals.webglApp.gotoSubcategory(slug, subcategory.name);
         TreeDataModel.setSubcategory(subcategory.name);
         updateHistoryState();
         setOpen(!isOpen);
@@ -67,7 +68,7 @@ function ListItemSubcategory(props) {
                 { subcategory.name }
             </button>
 
-            { isOpen && <ListEntities categoryName={ categoryName } entities={ subcategory.entities } /> }
+            { isOpen && <ListEntities categorySlug={ categorySlug } entities={ subcategory.entities } /> }
 
         </li>
     );

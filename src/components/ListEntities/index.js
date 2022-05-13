@@ -11,7 +11,7 @@ function ListEntities(props) {
     /**
      * Data
      */
-    const { categoryName, entities } = props;
+    const { categorySlug, entities } = props;
 
     return (
         <ul className="list-entities">
@@ -20,7 +20,7 @@ function ListEntities(props) {
                 entities.map((entity, index) => {
                     return (
                         <li className="list-item" key={ index }>
-                            <ButtonEntity categoryName={ categoryName } entity={ entity } />
+                            <ButtonEntity categorySlug={ categorySlug } entity={ entity } />
                         </li>
                     );
                 })

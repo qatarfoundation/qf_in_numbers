@@ -70,17 +70,17 @@ class TreeDataModel extends EventDispatcher {
         return this._model.branches;
     }
 
-    getBranch(name) {
+    getBranch(slug) {
         for (let i = 0, len = this._model.branches.length; i < len; i++) {
             const item = this._model.branches[i];
-            if (item.name === name) return item;
+            if (item.slug === slug) return item;
         }
     }
 
     addBranchesData(data) {
         for (const key in data) {
             const item = data[key];
-            const branch = this.getBranch(item.name);
+            const branch = this.getBranch(item.slug);
             branch.data = item;
         }
         this.dispatchEvent('branches/add', this._model.branches);

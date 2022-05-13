@@ -40,22 +40,22 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         this._hideAllBranches();
     }
 
-    gotoCategory(name) {
-        this._activateBranch(name);
+    gotoCategory(slug) {
+        this._activateBranch(slug);
     }
 
-    getSubGategoryCameraPosition(categoryName, name) {
-        const branch = this._getBranch(categoryName);
+    getSubGategoryCameraPosition(categorySlug, name) {
+        const branch = this._getBranch(categorySlug);
         return branch.getCameraAnchorSubcategory(name);
     }
 
-    getEntityCameraPosition(categoryName, name) {
-        const branch = this._getBranch(categoryName);
+    getEntityCameraPosition(categorySlug, name) {
+        const branch = this._getBranch(categorySlug);
         return branch.getCameraAnchorEntity(name);
     }
 
-    getEntitySelectCameraPosition(categoryName, name) {
-        const branch = this._getBranch(categoryName);
+    getEntitySelectCameraPosition(categorySlug, name) {
+        const branch = this._getBranch(categorySlug);
         return branch.getCameraAnchorSelectEntity(name);
     }
 
@@ -95,7 +95,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
             component.rotation.copy(branch.rotation);
             component.setup();
 
-            branches[branch.name] = component;
+            branches[branch.slug] = component;
         });
         return branches;
     }
@@ -106,13 +106,13 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         }
     }
 
-    _getBranch(name) {
-        return this._branches[name];
+    _getBranch(slug) {
+        return this._branches[slug];
     }
 
-    _activateBranch(activeBranchName) {
+    _activateBranch(activeBranchSlug) {
         for (const key in this._branches) {
-            if (key === activeBranchName) {
+            if (key === activeBranchSlug) {
                 this._activeBranch = this._branches[key];
                 this._activeBranch.show();
             } else {

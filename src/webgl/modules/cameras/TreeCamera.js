@@ -69,8 +69,8 @@ export default class TreeCamera extends component() {
         return tween;
     }
 
-    gotoCategory(name) {
-        this._currentBranch = TreeDataModel.getBranch(name);
+    gotoCategory(slug) {
+        this._currentBranch = TreeDataModel.getBranch(slug);
         const config = this._currentBranch.camera;
 
         const center = new Vector3(0, 5, 0);

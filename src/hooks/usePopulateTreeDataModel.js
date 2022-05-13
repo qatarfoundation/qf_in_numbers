@@ -11,6 +11,11 @@ function usePopulateTreeDataModel(year, categories) {
     useEffect(() => {
         if (!TreeDataModel.isEmpty) return;
         TreeDataModel.addBranches(homeViewConfig.branches);
+
+        categories.forEach((category) => {
+            category.slug = category.slug.split('/').slice(-1)[0];
+        });
+
         TreeDataModel.addBranchesData(categories);
     }, []);
 }

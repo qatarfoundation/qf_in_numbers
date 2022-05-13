@@ -11,10 +11,10 @@ import Globals from '@/utils/Globals';
 import useStore from '@/hooks/useStore';
 
 function ButtonEntity(props) {
-    const { categoryName, entity } = props;
+    const { categorySlug, entity } = props;
 
     function clickHandler() {
-        Globals.webglApp.gotoEntity(categoryName, entity.name);
+        Globals.webglApp.gotoEntity(categorySlug, entity.slug);
         useStore.setState({ selectedEntity: entity });
     }
 

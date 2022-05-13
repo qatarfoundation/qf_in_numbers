@@ -21,27 +21,29 @@ export default {
         }
     },
 
-    gotoCategory(name) {
+    gotoCategory(slug) {
         if (this.isHome()) {
-            this._viewManager.active.gotoCategory(name);
+            this._viewManager.active.gotoCategory(slug);
         }
     },
 
-    gotoSubcategory(categoryName, name) {
+    gotoSubcategory(categorySlug, name) {
         if (this.isHome()) {
-            this._viewManager.active.gotoSubcategory(categoryName, name);
+            this._viewManager.active.gotoSubcategory(categorySlug, name);
         }
     },
 
-    gotoEntity(categoryName, name) {
+    gotoEntity(categorySlug, slug) {
         if (this.isHome()) {
-            this._viewManager.active.gotoEntity(categoryName, name);
+            const categorySlugSplit = categorySlug.split('/').slice(-1)[0];
+            const centitySlugSplit = slug.split('/').slice(-1)[0];
+            this._viewManager.active.gotoEntity(categorySlugSplit, centitySlugSplit);
         }
     },
 
-    selectEntity(categoryName, name) {
+    selectEntity(categorySlug, name) {
         if (this.isHome()) {
-            this._viewManager.active.selectEntity(categoryName, name);
+            this._viewManager.active.selectEntity(categorySlug, name);
         }
     },
 };

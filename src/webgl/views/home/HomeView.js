@@ -91,32 +91,32 @@ export default class HomeView extends component() {
         return this._timelineGotoCategory;
     }
 
-    gotoSubcategory(categoryName, name) {
-        const position = this._components.generatedTree.getSubGategoryCameraPosition(categoryName, name);
+    gotoSubcategory(categorySlug, name) {
+        const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
 
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
-        this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         return this._timelineGotoSubcategory;
     }
 
-    gotoEntity(categoryName, name) {
-        const position = this._components.generatedTree.getEntityCameraPosition(categoryName, name);
+    gotoEntity(categorySlug, name) {
+        const position = this._components.generatedTree.getEntityCameraPosition(categorySlug, name);
 
         this._timelineGotoEntity = new gsap.timeline();
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
-        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         return this._timelineGotoEntity;
     }
 
-    selectEntity(categoryName, name) {
-        const position = this._components.generatedTree.getEntitySelectCameraPosition(categoryName, name);
+    selectEntity(categorySlug, name) {
+        const position = this._components.generatedTree.getEntitySelectCameraPosition(categorySlug, name);
 
         // this._timelineGotoEntity = new gsap.timeline();
         // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
-        // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categoryName), null, 0);
+        // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         // return this._timelineGotoEntity;
     }

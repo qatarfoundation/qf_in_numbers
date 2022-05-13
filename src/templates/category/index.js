@@ -61,10 +61,11 @@ function CategoryTemplate(props) {
         useStore.setState({ currentCategory: category });
         useStore.setState({ currentSubcategory: subcategory });
 
+        const slug = category.slug.split('/').slice(-1)[0];
         if (subcategory) {
-            Globals.webglApp.gotoSubcategory(category.name, subcategory.name);
+            Globals.webglApp.gotoSubcategory(slug, subcategory.name);
         } else {
-            Globals.webglApp.gotoCategory(category.name);
+            Globals.webglApp.gotoCategory(slug);
         }
     }, []);
 
@@ -120,7 +121,7 @@ function CategoryTemplate(props) {
 
             <div className="container-page container">
 
-                <ListSubcategories categoryName={ category.name } subcategories={ category.subcategories } />
+                <ListSubcategories categorySlug={ category.slug } subcategories={ category.subcategories } />
 
                 { enitity &&
                     <>

@@ -163,7 +163,9 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 endPosition.z = startPosition.z + radius * angleOffset.z;
                 entitiesPoints.push(endPosition);
 
-                entitiesEntries[entity.name] = {
+                const slug = entity.slug.split('/').slice(-1)[0];
+
+                entitiesEntries[slug] = {
                     start: startPosition,
                     end: endPosition,
                 };
