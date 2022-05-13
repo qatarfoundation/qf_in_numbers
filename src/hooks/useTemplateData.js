@@ -17,7 +17,8 @@ function useTemplateData(props) {
                 let page = null;
 
                 for (let i = 0; i < pages.length; i++) {
-                    if (originalPath === `/${ pages[i].path }`) {
+                    const path = `${ pages[i].path }`;
+                    if (originalPath === path) {
                         page = pages[i];
                     }
                 }

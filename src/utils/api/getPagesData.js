@@ -33,7 +33,7 @@ function createPages(languages) {
             'en-US': years['en-US'][i],
             'ar-QA': years['ar-QA'][i],
         };
-        const yearPath = yearItem['en-US'].year;
+        const yearPath = '/' + yearItem['en-US'].year;
 
         const categories = {
             'en-US': yearItem['en-US'].categories,
