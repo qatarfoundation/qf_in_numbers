@@ -43,6 +43,7 @@ function ListItemSubcategory(props) {
         TreeDataModel.setSubcategory(subcategory.name);
         updateHistoryState();
         setOpen(!isOpen);
+        useStore.setState({ selectedEntity: null });
     }
 
     function mouseenterHandler() {

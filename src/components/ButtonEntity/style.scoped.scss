@@ -6,4 +6,8 @@
     &:hover {
         color: color-from-theme('green', 'secondary');
     }
+
+    &.selected {
+        color: white;
+    }
 }

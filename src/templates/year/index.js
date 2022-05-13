@@ -51,6 +51,7 @@ const YearTemplate = (props) => {
 
         useStore.setState({ currentCategory: null });
         useStore.setState({ currentSubcategory: null });
+        useStore.setState({ selectedEntity: null });
     }, []);
 
     /**

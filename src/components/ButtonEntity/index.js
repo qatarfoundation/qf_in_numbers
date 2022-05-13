@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
@@ -18,8 +18,16 @@ function ButtonEntity(props) {
         useStore.setState({ selectedEntity: entity });
     }
 
+    const [isSelected, setIsSelected] = useState();
+
+    const selectedEntity = useStore((state) => state.selectedEntity);
+
+    useEffect(() => {
+        setIsSelected(entity === selectedEntity);
+    }, [selectedEntity]);
+
     return (
-        <button className="button button-entity" onClick={ clickHandler }>{ entity.name }</button>
+        <button className={ `button button-entity ${ isSelected ? 'selected' : '' }` } onClick={ clickHandler }>{ entity.name }</button>
     );
 }
 
