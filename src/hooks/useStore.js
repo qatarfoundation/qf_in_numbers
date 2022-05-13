@@ -4,10 +4,11 @@ const useStore = create((set) => {
     return {
         modalYearIsOpen: false,
         modalSearchIsOpen: false,
-        currentYear: '2022',
+        currentYear: '2021',
         filterType: 'entities',
         scrolls: [],
         iScroll: 0,
+        selectedEntity: null,
     };
 });
 

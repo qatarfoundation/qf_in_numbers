@@ -1,14 +1,16 @@
 // Vendor
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import loadable from '@loadable/component';
 import { AnimatePresence } from 'framer-motion';
-import { useI18next } from 'gatsby-plugin-react-i18next';
-import { useTranslation } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 import { Helmet } from 'react-helmet';
 
 // CSS
 import '@/assets/styles/app.scss';
 import './index/style.scoped.scss';
+
+// Utils
+import Globals from '@/utils/Globals';
 
 // Components
 import ThePreloader from '@/components/ThePreloader';
@@ -23,6 +25,8 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 
 function Layout(props) {
+    const containerRef = useRef();
+
     /**
      * Props
      */
@@ -38,6 +42,8 @@ function Layout(props) {
      */
     const { originalPath, language } = useI18next();
     const { i18n } = useTranslation();
+    const { navigate } = useI18next();
+    Globals.navigate = navigate;
 
     /**
      * Hooks
@@ -60,21 +66,25 @@ function Layout(props) {
 
             <EnvironmentProvider>
 
-                <WebglApp preloaderState={ preloaderState } onStateChange={ stateChangeHandler } />
+                <div className="container" ref={ containerRef }>
 
-                { webglAppState === 'started' &&
+                    <WebglApp preloaderState={ preloaderState } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
-                    <AnimatePresence>
+                    { webglAppState === 'started' &&
 
-                        <div key={ originalPath } className="page">
-                            { children }
-                        </div>
+                        <AnimatePresence>
 
-                    </AnimatePresence>
+                            <div key={ originalPath } className="page">
+                                { children }
+                            </div>
 
-                }
+                        </AnimatePresence>
 
-                <AnimatePresence exitBeforeEnter>
+                    }
+
+                </div>
+
+                <AnimatePresence>
 
                     <TheNavigation key={ `${ language }-navigation` } />
                     <TheFooter key={ `${ language }-footer` } />

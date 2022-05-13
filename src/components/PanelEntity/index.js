@@ -1,5 +1,6 @@
 // React
 import React, { useState, useRef, useEffect } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { Navigation } from 'swiper';
@@ -28,6 +29,7 @@ function PanelEntity(props, ref) {
      * Datas
      */
     const { entity, next, previous } = props;
+    const { navigate } = useI18next();
     /**
      * States
      */
@@ -40,7 +42,7 @@ function PanelEntity(props, ref) {
      * Private
      */
     function clickHandler() {
-        console.log('close entity');
+        navigate(entity.slug.slice(0, entity.slug.lastIndexOf('/')));
     }
     return (
         <>

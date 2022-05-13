@@ -16,6 +16,10 @@ function ListItemYear(props) {
     const { year } = props;
     const { originalPath } = useI18next();
     /**
+     * States
+     */
+    const { navigate } = useI18next();
+    /**
      * Store
      */
     const [isOpen, currentYear] = useStore((state) => [state.modalYearIsOpen, state.currentYear]);

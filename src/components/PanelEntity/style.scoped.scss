@@ -24,6 +24,7 @@
     position: fixed;
     top: 20px;
     right: 16px;
+    z-index: 10;
     @include respond-to('medium') {
         top: 38px;
         right: 24px;

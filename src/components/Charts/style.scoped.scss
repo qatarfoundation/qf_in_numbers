@@ -4,10 +4,15 @@
     }
     .p2 {
         padding-top: 24px;
-        padding-bottom: 62px;
         @include respond-to('medium') {
             padding-top: 48px;
-            padding-bottom: 66px;
+        }
+    }
+    .charts-container {
+        display: flex;
+        gap: 90px;
+        @include respond-to('medium') {
+            gap: 0;
         }
     }
 }

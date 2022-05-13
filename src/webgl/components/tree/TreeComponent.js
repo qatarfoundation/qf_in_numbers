@@ -7,9 +7,13 @@ import { navigate } from 'gatsby';
 // Utils
 import Debugger from '@/utils/Debugger';
 import Cursor from '@/webgl/utils/Cursor';
+import Globals from '@/utils/Globals';
 
 // Components
 import TreeBranchComponent from '@/webgl/components/tree/TreeBranchComponent';
+
+// Store
+import useStore from '@/hooks/useStore';
 
 export default class TreeComponent extends component(Object3D) {
     init(options = {}) {
@@ -75,11 +79,11 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     _setupEventListeners() {
-        window.addEventListener('click', this._clickHandler);
+        this.$root.mouseAreaElement.addEventListener('click', this._clickHandler);
     }
 
     _removeEventListeners() {
-        window.removeEventListener('click', this._clickHandler);
+        this.$root.mouseAreaElement.removeEventListener('click', this._clickHandler);
     }
 
     _createRaycaster() {
@@ -200,7 +204,7 @@ export default class TreeComponent extends component(Object3D) {
      * Handlers
      */
     _clickHandler() {
-        if (this._isActive && this._activeBranch) navigate('/2021/' + this._activeBranch.slug);
+        if (this._isActive && this._activeBranch) Globals.navigate(`/${ useStore.getState().currentYear }/${ this._activeBranch.slug }`);
     }
 
     /**

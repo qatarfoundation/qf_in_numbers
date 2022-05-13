@@ -17,44 +17,24 @@ function ChartLine(props, ref) {
      */
     const { chart } = props;
     console.log(chart);
-    let data = chart;
-    data = {
-        title: 'Line Chart',
-        fields: [],
-        labelX: 'Label X',
-        labelY: 'Label Y',
-        type: 'lineChart',
-    };
-    for (let i = 1; i < 4; i++) {
-        const line = {
-            name: 'Title',
-            fields: [],
-        };
-        for (let j = 0; j < 6; j++) {
-            const point = {
-                name: 'Title',
-                x: 2000 + (i * j),
-                y: i * j / i,
-            };
-            line.fields.push(point);
-        }
-        line.fields.sort((a, b) => a - b);
-        data.fields.push(line);
-    }
-    data = data.fields;
-    console.log(data);
+    const data = chart.fields;
     const radiusPoint = 5;
     const heightTooltip = 80;
     const spaceTooltip = 10;
     const heightAxisX = 25;
     const spaceAxisX = 20;
-    const widthAxisY = 15;
-    const spaceAxisY = 89;
-    const margin = { top: 0 + heightTooltip + spaceTooltip, right: 44, bottom: 30 + heightAxisX + spaceAxisX, left: 58 + widthAxisY + spaceAxisY };
+    const widthAxisY = 14;
+    const spaceAxisY = 45;
+    const margin = {
+        top: 0 + heightTooltip + spaceTooltip,
+        right: 44,
+        bottom: 30 + heightAxisX + spaceAxisX,
+        left: (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY,
+    };
     /**
      * States
      */
-    // const [width, setWidth] = useState(330 + margin.left + margin.right);
+    const [isResize, setIsResize] = useState(false);
     const [height, setHeight] = useState(255 + margin.top + margin.bottom);
     /**
     * References
@@ -65,6 +45,7 @@ function ChartLine(props, ref) {
             dataviz.select('.chart-container').remove();
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
+            console.log(width);
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
             // Tooltip
@@ -97,10 +78,17 @@ function ChartLine(props, ref) {
             const y = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d3.max(d.fields, d => d.y))])
                 .range([ innerHeight, 0 ]);
-            chartContainer.append('g')
+            const axisY = chartContainer.append('g')
                 .attr('class', 'axis axis-y')
-                .attr('transform', `translate(${ -spaceAxisY }, 0)`)
+                .attr('transform', `translate(${ -(spaceAxisY + widthAxisY - (window.innerWidth >= 500 ? 7 : 4)) }, 0)`)
                 .call(d3.axisLeft(y).tickSize(0));
+            chartContainer.append('g')
+                .attr('class', 'grid grid-y')
+                .call(d3.axisLeft(y)
+                    .ticks(5)
+                    .tickSize(-width)
+                    .tickFormat(''),
+                );
             // Lines Container : contain all lines
             const linesContainer = chartContainer
                 .append('g')
@@ -140,7 +128,7 @@ function ChartLine(props, ref) {
                 .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
-        [data.length],
+        [data.length, isResize],
     );
     /**
      * Events
@@ -150,12 +138,15 @@ function ChartLine(props, ref) {
      * Handlers
      */
     function resizeHandler() {
+        console.log('resize');
         resize();
     }
     /**
      * Private
      */
     function resize() {
+        console.log('resize');
+        setIsResize(!isResize);
     }
     return (
         <>

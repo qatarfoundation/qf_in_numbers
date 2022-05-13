@@ -33,7 +33,7 @@ function Charts(props, ref) {
                                 result = <ChartBar chart={ chart } />;
                                 break;
                             case 'donutChart':
-                                result = <ChartDonut chart={ chart } />;
+                                // result = <ChartDonut chart={ chart } />;
                                 break;
                             case 'lineChart':
                                 result = <ChartLine chart={ chart } />;
@@ -52,7 +52,7 @@ function Charts(props, ref) {
                     return <section key={ i } className="section charts" data-name={ chart.type }>
                         <h2 className="p2 section-container">{ chart.title }</h2>
                         <Scrollbar colored={ false }>
-                            { result }
+                            <div className='charts-container'>{ result }</div>
                         </Scrollbar>
                     </section>;
                 })

@@ -10,6 +10,10 @@
 
 .chart-bar {
     fill: color-from-theme('green', 'secondary');
+    margin-top: 62px;
+    @include respond-to('medium') {
+        margin-top: 66px;
+    }
     .domain {
         display: none;
     }
