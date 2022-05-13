@@ -12,6 +12,7 @@ import './style.scoped.scss';
 import ButtonHome from '@/components/ButtonHome';
 import LangSwitch from '@/components/LangSwitch';
 import ButtonSound from '@/components/ButtonSound';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 function TheNavigation(props) {
     /**
@@ -59,6 +60,7 @@ function TheNavigation(props) {
 
                 <div className="col-left">
                     <ButtonHome />
+                    <Breadcrumbs />
                 </div>
 
                 <div className="col-right">

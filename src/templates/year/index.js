@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
@@ -14,6 +14,7 @@ import './style.scoped.scss';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
+import useStore from '@/hooks/useStore';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -47,6 +48,9 @@ const YearTemplate = (props) => {
 
     useEffect(() => {
         Globals.webglApp.gotoOverview();
+
+        useStore.setState({ currentCategory: null });
+        useStore.setState({ currentSubcategory: null });
     }, []);
 
     /**
@@ -81,9 +85,9 @@ const YearTemplate = (props) => {
 
                 <ListCategories categories={ year.categories } />
 
-                <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } />
-                <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } />
-                <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } />
+                { year.categories[0] && <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } /> }
+                { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
+                { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> }
 
             </div>
 

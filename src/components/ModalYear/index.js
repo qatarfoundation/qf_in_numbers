@@ -35,9 +35,6 @@ function ModalYear(props, ref) {
      `);
     const years = data.allContentfulYear.edges;
     years.sort((a, b) => b.node.year - a.node.year);
-    useEffect(() => {
-        useStore.setState({ currentYear: years[0].node.year });
-    }, []);
     /**
      * Private
      */

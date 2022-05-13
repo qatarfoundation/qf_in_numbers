@@ -13,23 +13,23 @@ function ListCategories(props) {
     return (
         <ul className="list-categories">
 
-            <li className="list-item">
+            { categories[0] &&
+                <li className="list-item">
+                    <LabelMainCategory index={ 0 } label={ categories[0].name } anchor="left" />
+                </li>
+            }
 
-                <LabelMainCategory index={ 0 } label={ categories[0].name } anchor="left" />
+            { categories[1] &&
+                <li className="list-item">
+                    <LabelMainCategory index={ 1 } label={ categories[1].name } anchor="left" />
+                </li>
+            }
 
-            </li>
-
-            <li className="list-item">
-
-                <LabelMainCategory index={ 1 } label={ categories[1].name } anchor="left" />
-
-            </li>
-
-            <li className="list-item">
-
-                <LabelMainCategory index={ 2 } label={ categories[2].name } anchor="right" />
-
-            </li>
+            { categories[2] &&
+                <li className="list-item">
+                    <LabelMainCategory index={ 2 } label={ categories[2].name } anchor="right" />
+                </li>
+            }
 
         </ul>
     );

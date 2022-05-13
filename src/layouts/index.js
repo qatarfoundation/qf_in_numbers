@@ -1,5 +1,5 @@
 // Vendor
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import loadable from '@loadable/component';
 import { AnimatePresence } from 'framer-motion';
 import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
@@ -23,6 +23,7 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
+import useStore from '@/hooks/useStore';
 
 function Layout(props) {
     const containerRef = useRef();
@@ -44,6 +45,10 @@ function Layout(props) {
     const { i18n } = useTranslation();
     const { navigate } = useI18next();
     Globals.navigate = navigate;
+
+    useEffect(() => {
+        if (props.pageContext.year) useStore.setState({ currentYear: props.pageContext.year[language].year });
+    }, []);
 
     /**
      * Hooks

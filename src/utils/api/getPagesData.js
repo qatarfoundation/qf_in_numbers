@@ -182,19 +182,29 @@ function parseYears(data) {
 
 function parseCategories(data, baseSlug) {
     const categories = [];
-    if (data.community) categories.push(parseCategory(data.community, baseSlug));
-    if (data.research) categories.push(parseCategory(data.research, baseSlug));
-    if (data.education) categories.push(parseCategory(data.education, baseSlug));
+    categories.push(parseCategory('Community', data.community, baseSlug));
+    categories.push(parseCategory('Research', data.research, baseSlug));
+    categories.push(parseCategory('Education', data.education, baseSlug));
     return categories;
 }
 
-function parseCategory(data, baseSlug) {
-    const slug = `${ baseSlug }/${ data.fields.slug }`;
-    const category = {
-        name: data.fields.name,
-        slug,
-        subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
-    };
+function parseCategory(name, data, baseSlug) {
+    let category;
+    if (data) {
+        const slug = `${ baseSlug }/${ data.fields.slug }`;
+        category = {
+            name: data.fields.name,
+            slug,
+            subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
+        };
+    } else {
+        category = {
+            name,
+            slug: 'null',
+            subcategories: [],
+        };
+    }
+
     return category;
 }
 

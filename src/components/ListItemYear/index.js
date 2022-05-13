@@ -28,7 +28,7 @@ function ListItemYear(props) {
      */
     function clickHandler(e) {
         useStore.setState({ modalYearIsOpen: !isOpen, currentYear: e.target.textContent });
-        navigate(`${ originalPath }/${ e.target.textContent }`);
+        navigate(`/${ e.target.textContent }`);
     }
 
     return (

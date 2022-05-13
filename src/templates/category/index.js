@@ -58,7 +58,9 @@ function CategoryTemplate(props) {
     }, [isPresent]);
 
     useEffect(() => {
+        useStore.setState({ currentCategory: category });
         useStore.setState({ currentSubcategory: subcategory });
+
         if (subcategory) {
             Globals.webglApp.gotoSubcategory(category.name, subcategory.name);
         } else {
