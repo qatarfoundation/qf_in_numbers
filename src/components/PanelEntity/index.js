@@ -57,50 +57,55 @@ function PanelEntity(props, ref) {
                         </div>
                         <div className="introduction">
                             <h1 className='h1'>{ entity.name }</h1>
-                            <p className="p1">{ entity.description }</p>
+                            { entity.description && <p className="p1">{ entity.description }</p> }
                         </div>
                     </section>
-                    <Charts charts={ entity.charts } />
-                    <section className="section">
-                        <div className="articles">
-                            <h2 className="h8 section-container">Related articles</h2>
-                            <div className="slider-header">
-                                <div className="slider-pagination">
-                                    <p className='p4'>{ `${ activeIndex } of ${ entity.relatedArticles.length }` }</p>
+                    { entity.charts && <Charts charts={ entity.charts } /> }
+                    { entity.relatedArticles &&
+                        <>
+
+                            <section className="section">
+                                <div className="articles">
+                                    <h2 className="h8 section-container">Related articles</h2>
+                                    <div className="slider-header">
+                                        <div className="slider-pagination">
+                                            <p className='p4'>{ `${ activeIndex } of ${ entity.relatedArticles.length }` }</p>
+                                        </div>
+                                        <div className="slider-navigation">
+                                            <ButtonArrow className={ `${ activeIndex == 1 ? 'is-inactive' : '' }` } direction="left" onClick={ () => swiperRef.current.swiper.slidePrev() }  />
+                                            <ButtonArrow className={ `${ activeIndex == entity.relatedArticles.length ? 'is-inactive' : '' }` } direction="right" onClick={ () => swiperRef.current.swiper.slideNext() }  />
+                                        </div>
+                                    </div>
+                                    <Swiper
+                                        ref={ swiperRef }
+                                        className="slider"
+                                        breakpoints={ {
+                                            0: {
+                                                slidesPerView: 1.25,
+                                                spaceBetween: 16,
+                                            },
+                                            499: {
+                                                slidesPerView: 2.5,
+                                                spaceBetween: 30,
+                                            },
+                                        } }
+                                        onSwiper={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
+                                        onSlideChange={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
+                                    >
+                                        { entity.relatedArticles.map((relatedArticle, index) => (
+                                            <SwiperSlide key={ relatedArticle.title } virtualIndex={ index }>
+                                                <CardArticle article={ relatedArticle } />
+                                            </SwiperSlide>
+                                        )) }
+                                    </Swiper>
                                 </div>
-                                <div className="slider-navigation">
-                                    <ButtonArrow className={ `${ activeIndex == 1 ? 'is-inactive' : '' }` } direction="left" onClick={ () => swiperRef.current.swiper.slidePrev() }  />
-                                    <ButtonArrow className={ `${ activeIndex == entity.relatedArticles.length ? 'is-inactive' : '' }` } direction="right" onClick={ () => swiperRef.current.swiper.slideNext() }  />
-                                </div>
+                            </section>
+                            <div className='pagination'>
+                                <ButtonPagination name={ next.name } slug={ next.slug } direction="left"></ButtonPagination>
+                                <ButtonPagination name={ next.name } slug={ next.slug } direction="right"></ButtonPagination>
                             </div>
-                            <Swiper
-                                ref={ swiperRef }
-                                className="slider"
-                                breakpoints={ {
-                                    0: {
-                                        slidesPerView: 1.25,
-                                        spaceBetween: 16,
-                                    },
-                                    499: {
-                                        slidesPerView: 2.5,
-                                        spaceBetween: 30,
-                                    },
-                                } }
-                                onSwiper={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
-                                onSlideChange={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
-                            >
-                                { entity.relatedArticles.map((relatedArticle, index) => (
-                                    <SwiperSlide key={ relatedArticle.title } virtualIndex={ index }>
-                                        <CardArticle article={ relatedArticle } />
-                                    </SwiperSlide>
-                                )) }
-                            </Swiper>
-                        </div>
-                    </section>
-                    <div className='pagination'>
-                        <ButtonPagination name={ next.name } slug={ next.slug } direction="left"></ButtonPagination>
-                        <ButtonPagination name={ next.name } slug={ next.slug } direction="right"></ButtonPagination>
-                    </div>
+                        </>
+                    }
                 </Scrollbar>
             </div>
         </>

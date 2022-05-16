@@ -16,7 +16,6 @@ function ChartLine(props, ref) {
      * Datas
      */
     const { chart } = props;
-    console.log(chart);
     const data = chart.fields;
     const radiusPoint = 5;
     const heightTooltip = 80;
@@ -45,7 +44,6 @@ function ChartLine(props, ref) {
             dataviz.select('.chart-container').remove();
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
-            console.log(width);
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
             // Tooltip
@@ -138,14 +136,12 @@ function ChartLine(props, ref) {
      * Handlers
      */
     function resizeHandler() {
-        console.log('resize');
         resize();
     }
     /**
      * Private
      */
     function resize() {
-        console.log('resize');
         setIsResize(!isResize);
     }
     return (

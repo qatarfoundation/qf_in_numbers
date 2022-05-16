@@ -69,7 +69,7 @@ function ChartHeatmap(props, ref) {
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ margin.left }, ${ margin.top })`);
             const myColor = d3.scaleLinear()
-                .range(['white', '#6ECEB2'])
+                .range(['#E9F8F3', '#6ECEB2'])
                 .domain([1, 100]);
             const tooltip = dataviz
                 .append('div')

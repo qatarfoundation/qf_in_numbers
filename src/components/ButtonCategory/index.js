@@ -11,7 +11,7 @@ function ButtonCategory(props, ref) {
 
     return (
         <>
-            <Link className="button button-category" to={ `${originalPath}/${category.path}` }>
+            <Link className="button button-category" to={ `${ originalPath }/${ category.path }` }>
                 { category.name }
             </Link>
         </>

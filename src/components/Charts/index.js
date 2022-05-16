@@ -10,6 +10,7 @@ import ChartBar from '@/components/ChartBar';
 import ChartHeatmap from '@/components/ChartHeatmap';
 import ChartLine from '@/components/ChartLine';
 import ChartDonut from '@/components/ChartDonut';
+import ChartBubble from '@/components/ChartBubble';
 
 function Charts(props, ref) {
     /**
@@ -39,7 +40,7 @@ function Charts(props, ref) {
                                 result = <ChartLine chart={ chart } />;
                                 break;
                             case 'bubbleChart':
-                                result = <></>;
+                                result = <ChartBubble chart={ chart } />;
                                 break;
                             case 'mapChart':
                                 result = <></>;

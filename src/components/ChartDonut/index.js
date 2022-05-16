@@ -69,7 +69,7 @@ function ChartDonut(props, ref) {
                 .range([0, 100]);
             const color = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
-                .range(['white', '#6ECEB2']);
+                .range(['#E9F8F3', '#6ECEB2']);
             const pie = d3.pie()
                 .value(d => d.value).sort(null);
             const data_ready = pie(data);
