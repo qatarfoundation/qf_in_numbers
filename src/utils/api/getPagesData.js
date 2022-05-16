@@ -247,9 +247,14 @@ function parseEntities(data, baseSlug) {
 function parseCharts(data) {
     const charts = [];
     data.forEach(item => {
-        const chart = parseChart(item.fields, item.sys.contentType.sys.id);
-        chart.type = item.sys.contentType.sys.id;
-        charts.push(chart);
+        if (item) {
+            if (item.fields && item.sys) {
+                let chart = {};
+                chart = parseChart(item.fields, item.sys.contentType.sys.id);
+                chart.type = item.sys.contentType.sys.id;
+                charts.push(chart);
+            }
+        }
     });
     return charts;
 }
