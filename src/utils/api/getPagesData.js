@@ -429,7 +429,21 @@ function parseBubbleChart(data) {
 }
 
 function parseMapChart(data) {
-    return data;
+    if (data.dataItems || data.dataRows) {
+        const chart = {
+            fields: [],
+        };
+        data.dataItems.forEach(item => {
+            const field = {
+                place: item.fields.place,
+                value: item.fields.value,
+            };
+            chart.fields.push(field);
+        });
+        return chart;
+    } else {
+        return {};
+    }
 }
 
 function parseBeeswarmChart(data) {
@@ -442,6 +456,7 @@ function parseBeeswarmChart(data) {
                 group: item.fields.title,
                 value: item.fields.value,
             };
+            if (item.fields.color) field.color = item.fields.color;
             chart.fields.push(field);
         });
         return chart;
