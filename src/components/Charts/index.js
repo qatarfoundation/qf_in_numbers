@@ -13,6 +13,7 @@ import ChartDonut from '@/components/ChartDonut';
 import ChartBubble from '@/components/ChartBubble';
 import ChartBeeswarm from '@/components/ChartBeeswarm';
 import ChartMap from '@/components/ChartMap';
+import ChartKPI from '@/components/ChartKPI';
 
 function Charts(props, ref) {
     /**
@@ -28,7 +29,7 @@ function Charts(props, ref) {
                         console.log('type', chart.type);
                         switch (chart.type) {
                             case 'kpiChart':
-                                result = <></>;
+                                result = <ChartKPI chart={ chart } />;
                                 break;
                             case 'heatmapChart':
                                 result = <ChartHeatmap chart={ chart } />;
