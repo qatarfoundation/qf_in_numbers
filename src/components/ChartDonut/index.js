@@ -16,32 +16,7 @@ function ChartDonut(props, ref) {
      * Datas
      */
     const { chart } = props;
-    let data = chart.fields;
-    data = [];
-    data.push({ name: 'Title', value: 1, percent: 10 });
-    data.push({ name: 'Title', value: 2, percent: 20 });
-    data.push({ name: 'Title', value: 2, percent: 20 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 4, percent: 40 });
-    data.push({ name: 'Title', value: 5, percent: 50 });
-    data.push({ name: 'Title', value: 2, percent: 20 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 4, percent: 40 });
-    data.push({ name: 'Title title tile', value: 6, percent: 60 });
-    data.push({ name: 'Title', value: 7, percent: 70 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 8, percent: 80 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 9, percent: 90 });
-    data.push({ name: 'Title title tile', value: 10, percent: 100 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
-    data.push({ name: 'Title', value: 3, percent: 30 });
+    const data = chart.fields;
     let sizeCircle = window.innerWidth >= 500 ? 232 : 172;
     const widthStroke = 20;
     let margin = { top: 100, right: 75 + (window.innerWidth >= 500 ? 62 : 18), bottom: 75, left: 75 + (window.innerWidth >= 500 ? 62 : 18) };

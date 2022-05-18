@@ -55,6 +55,7 @@ function Charts(props, ref) {
                     }
                     return <section key={ i } className="section charts" data-name={ chart.type }>
                         <h2 className="p2 section-container">{ chart.title }</h2>
+                        { chart.subtitle && <p className="p6 subtitle section-container">{ chart.subtitle }</p> }
                         <Scrollbar colored={ false }>
                             <div className='charts-container'>{ result }</div>
                         </Scrollbar>
