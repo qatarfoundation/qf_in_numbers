@@ -25,9 +25,9 @@
     position: relative;
     width: fit-content;
     height: 100%;
-    margin-bottom: 92px;
+    margin: 0 auto 92px;
     @include respond-to('medium') {
-        margin-bottom: 88px;
+        margin: 0 auto 88px;
     }
     .tooltip {
         position: absolute;
@@ -38,18 +38,5 @@
         color: $color-white;
         transform: translate(-50%, -50%);
         pointer-events: none;
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            display: block;
-            width: 0;
-            height: 0;
-            border-left: 9px solid transparent;
-            border-right: 9px solid transparent;
-            border-top: 9px solid color-from-theme('green', 'primary');
-            transform: translate(-50%, calc(100% - 1px));
-        }
     }
 }

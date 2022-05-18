@@ -25,7 +25,11 @@ function ChartDonut(props, ref) {
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 4, percent: 40 });
     data.push({ name: 'Title', value: 5, percent: 50 });
-    data.push({ name: 'Title', value: 6, percent: 60 });
+    data.push({ name: 'Title', value: 2, percent: 20 });
+    data.push({ name: 'Title', value: 3, percent: 30 });
+    data.push({ name: 'Title', value: 3, percent: 30 });
+    data.push({ name: 'Title', value: 4, percent: 40 });
+    data.push({ name: 'Title title tile', value: 6, percent: 60 });
     data.push({ name: 'Title', value: 7, percent: 70 });
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 8, percent: 80 });
@@ -33,17 +37,14 @@ function ChartDonut(props, ref) {
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 9, percent: 90 });
-    data.push({ name: 'Title', value: 10, percent: 100 });
+    data.push({ name: 'Title title tile', value: 10, percent: 100 });
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 3, percent: 30 });
     data.push({ name: 'Title', value: 3, percent: 30 });
-    const value = d => d.value;
-    const percent = d => d.percent;
-    const xValue = d => d.name;
-    const sizeCircle = 232;
+    let sizeCircle = window.innerWidth >= 500 ? 232 : 172;
     const widthStroke = 20;
-    let margin = { top: 100, right: 100, bottom: 100, left: 100 };
+    let margin = { top: 100, right: 75 + (window.innerWidth >= 500 ? 62 : 18), bottom: 75, left: 75 + (window.innerWidth >= 500 ? 62 : 18) };
     /**
      * States
      */
@@ -91,8 +92,8 @@ function ChartDonut(props, ref) {
                 .attr('y', 30)
                 .attr('dy', '0.15em');
             const outerArc = d3.arc()
-                .innerRadius((sizeCircle / 2) * 1.25)
-                .outerRadius((sizeCircle / 2) * 1.25);
+                .innerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95))
+                .outerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95));
             const tooltip = dataviz
                 .append('div')
                 .style('opacity', 0)
@@ -104,10 +105,11 @@ function ChartDonut(props, ref) {
             };
             const mousemove = function(e, d) {
                 if (e.target.classList.contains('can-hover')) {
-                    const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                    console.log(midangle);
-                    const x = outerArc.centroid(d)[0] + (w / 2);
-                    const y = outerArc.centroid(d)[1] + (h / 2);
+                    const arc = d3.arc()
+                        .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
+                        .outerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5));
+                    const x = arc.centroid(d)[0] + (w / 2);
+                    const y = arc.centroid(d)[1] + (h / 2);
                     tooltip
                         .html(`<p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p>`)
                         .style('left', `${ x }px`)
@@ -152,7 +154,7 @@ function ChartDonut(props, ref) {
                     const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                     const dir = midangle < Math.PI ? 1 : -1;
                     // pos[0] += (45 / 2) * dir;
-                    // pos[1] += (45 / 2) * dir;
+                    // pos[1] += 48 / 2;
                     return 'translate(' + pos + ')';
                 });
             labelContainer
@@ -175,7 +177,7 @@ function ChartDonut(props, ref) {
                     return (midangle < Math.PI ? 'start' : 'end');
                 });
         },
-        [data.length],
+        [data.length, width],
     );
     /**
      * Events
@@ -191,9 +193,10 @@ function ChartDonut(props, ref) {
      * Private
      */
     function resize() {
-        margin = { top: 100, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 };
-        setWidth((sizeCircle + paddingCircle) * lengthX + margin.right + margin.left);
-        setHeight((sizeCircle + paddingCircle) * lengthY + margin.top + margin.bottom);
+        margin = { top: 100, right: 75 + (window.innerWidth >= 500 ? 62 : 18), bottom: 75, left: 75 + (window.innerWidth >= 500 ? 62 : 18) };
+        sizeCircle = window.innerWidth >= 500 ? 232 : 172;
+        setWidth(sizeCircle + margin.right + margin.left);
+        setHeight(sizeCircle + margin.top + margin.bottom);
     }
     return (
         <>

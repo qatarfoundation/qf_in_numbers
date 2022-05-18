@@ -16,7 +16,6 @@ function ChartBubble(props, ref) {
      * Datas
      */
     const { chart } = props;
-    console.log(chart);
     const data = chart.fields;
     const heightTooltip = 80;
     const spaceTooltip = 12.5;

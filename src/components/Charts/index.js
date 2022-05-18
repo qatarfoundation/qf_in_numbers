@@ -12,6 +12,7 @@ import ChartLine from '@/components/ChartLine';
 import ChartDonut from '@/components/ChartDonut';
 import ChartBubble from '@/components/ChartBubble';
 import ChartBeeswarm from '@/components/ChartBeeswarm';
+import ChartMap from '@/components/ChartMap';
 
 function Charts(props, ref) {
     /**
@@ -24,6 +25,7 @@ function Charts(props, ref) {
                 charts.map((chart, i) => {
                     let result = <></>;
                     if (chart.fields) {
+                        console.log('type', chart.type);
                         switch (chart.type) {
                             case 'kpiChart':
                                 result = <></>;
@@ -35,7 +37,7 @@ function Charts(props, ref) {
                                 result = <ChartBar chart={ chart } />;
                                 break;
                             case 'donutChart':
-                                // result = <ChartDonut chart={ chart } />;
+                                result = <ChartDonut chart={ chart } />;
                                 break;
                             case 'lineChart':
                                 result = <ChartLine chart={ chart } />;
@@ -44,7 +46,7 @@ function Charts(props, ref) {
                                 result = <ChartBubble chart={ chart } />;
                                 break;
                             case 'mapChart':
-                                result = <></>;
+                                result = <ChartMap chart={ chart } />;
                                 break;
                             case 'beeswarmChart':
                                 result = <ChartBeeswarm chart={ chart } />;

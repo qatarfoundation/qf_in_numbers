@@ -42,7 +42,6 @@ function ChartBeeswarm(props, ref) {
             dataviz.select('.chart-container').remove();
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
-            console.log('ok');
             const innerWidth = width - margin.left - margin.right;
             // Height
             const lengthCases = Math.floor(innerWidth / (radiusPoint * 2));
@@ -56,7 +55,6 @@ function ChartBeeswarm(props, ref) {
                 d.x = newXScale(Math.floor(lengthCasesScale(d.value)));
             });
             const duplicated = data.reduce((acc, curr) => {
-                console.log(acc, curr);
                 if (!acc.length) {
                     acc.push([curr.x, 1, 0]);
                 } else {
@@ -115,7 +113,6 @@ function ChartBeeswarm(props, ref) {
                 });
                 return d;
             });
-            console.log(h);
             // Tooltip
             const tooltip = dataviz
                 .append('div')
