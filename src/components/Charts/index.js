@@ -11,6 +11,7 @@ import ChartHeatmap from '@/components/ChartHeatmap';
 import ChartLine from '@/components/ChartLine';
 import ChartDonut from '@/components/ChartDonut';
 import ChartBubble from '@/components/ChartBubble';
+import ChartBeeswarm from '@/components/ChartBeeswarm';
 
 function Charts(props, ref) {
     /**
@@ -46,7 +47,7 @@ function Charts(props, ref) {
                                 result = <></>;
                                 break;
                             case 'beeswarmChart':
-                                result = <></>;
+                                result = <ChartBeeswarm chart={ chart } />;
                                 break;
                         }
                     }

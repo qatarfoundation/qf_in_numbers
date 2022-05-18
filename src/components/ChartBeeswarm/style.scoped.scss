@@ -1,0 +1,65 @@
+.dataviz {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 62px;
+    @include respond-to('medium') {
+        margin-bottom: 58px;
+    }
+    .tooltip {
+        position: absolute;
+        width: fit-content;
+        padding: 8px 12px 12px;
+        background-color: color-from-theme('green', 'primary');
+        border-radius: 4px;
+        color: $color-white;
+        transform: translate(-50%, -100%);
+        pointer-events: none;
+        .arrow {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-top: 9px solid color-from-theme('green', 'primary');
+            transform: translate(-50%, calc(100% - 1px));
+        }
+    }
+}
+
+.chart {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.chart-beeswarm {
+    width: 100%;
+    min-width: 440px;
+    .grid {
+        .tick {
+            line {
+                stroke-dasharray: 4;
+                color: $color-grey-light;
+            }
+            &:not(:nth-child(2)) line {
+                 display: none;
+             }
+        }
+    }
+    .domain {
+        display: none;
+    }
+    .axis .tick text {
+        color: $color-grey;
+        text-anchor: middle;
+    }
+    .label {
+        color: color-from-theme('green', 'primary');
+        text-anchor: middle;
+        pointer-events: none;
+    }
+}

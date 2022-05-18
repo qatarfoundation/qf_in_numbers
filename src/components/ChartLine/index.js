@@ -84,7 +84,7 @@ function ChartLine(props, ref) {
                 .attr('class', 'grid grid-y')
                 .call(d3.axisLeft(y)
                     .ticks(5)
-                    .tickSize(-width)
+                    .tickSize(-innerWidth)
                     .tickFormat(''),
                 );
             // Lines Container : contain all lines

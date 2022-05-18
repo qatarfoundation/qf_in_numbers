@@ -131,6 +131,7 @@ function ChartBubble(props, ref) {
                             if (oldWidth) {
                                 if (oldWidth == newWidth) {
                                     isForcing = false;
+                                    simulation.stop();
                                 }
                             }
                         } else {
