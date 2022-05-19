@@ -1,3 +1,23 @@
 .template-entity {
     opacity: 0;
+    & > .button-pagination {
+        position: fixed;
+        top: rem(20px, 'small');
+        left: rem(16px, 'small');
+        @include respond-to('medium') {
+            top: rem(111.5px, 'medium');
+            left: rem(53px, 'medium');
+        }
+        @include respond-to('large') {
+            top: rem(111.5px, 'large');
+            left: rem(53px, 'large');
+        }
+        .icon-arrow {
+            margin-right: 16px;
+            border: 1px solid $color-white;
+            .arrow {
+                fill: $color-white;
+            }
+        }
+    }
 }

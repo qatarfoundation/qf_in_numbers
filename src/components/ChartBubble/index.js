@@ -123,18 +123,20 @@ function ChartBubble(props, ref) {
                         .attr('x', function(d) { return d.x; })
                         .attr('y', function(d) { return d.y; });
                     setTimeout(() =>{
-                        const bounding = el.getBoundingClientRect();
-                        const isNew = refChart.current.clientWidth < bounding.width;
-                        const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;
-                        el.parentNode.setAttribute('width', newWidth);
-                        el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
-                        el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
-                        node
-                            .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                            .attr('cy', function(d) { return d.y + (bounding.height / 2); });
-                        texts
-                            .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                            .attr('y', function(d) { return d.y + (bounding.height / 2); });
+                        if (refChart.current) {
+                            const bounding = el.getBoundingClientRect();
+                            const isNew = refChart.current.clientWidth < bounding.width;
+                            const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;
+                            el.parentNode.setAttribute('width', newWidth);
+                            el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
+                            el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
+                            node
+                                .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
+                                .attr('cy', function(d) { return d.y + (bounding.height / 2); });
+                            texts
+                                .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
+                                .attr('y', function(d) { return d.y + (bounding.height / 2); });
+                        }
                     }, 0);
                 });
         },

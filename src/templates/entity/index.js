@@ -19,6 +19,7 @@ import PanelEntity from '@/components/PanelEntity';
 
 // Utils
 import Globals from '@/utils/Globals';
+import ButtonPagination from '@/components/ButtonPagination/index';
 
 function EntityTemplate(props) {
     /**
@@ -86,6 +87,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
+            <ButtonPagination  name='Back' slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } direction='left' />
             <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
         </div>
     );

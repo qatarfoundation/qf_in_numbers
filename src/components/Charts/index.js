@@ -26,7 +26,6 @@ function Charts(props, ref) {
                 charts.map((chart, i) => {
                     let result = <></>;
                     if (chart.fields) {
-                        console.log('type', chart.type);
                         switch (chart.type) {
                             case 'kpiChart':
                                 result = <ChartKPI chart={ chart } />;

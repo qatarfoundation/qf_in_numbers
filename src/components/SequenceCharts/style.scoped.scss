@@ -1,0 +1,68 @@
+.sequence-chart {
+    position: absolute;
+    top: calc(100vh - 38px);
+    right: 23px;
+    display: none;
+    padding-left: 28px;
+    transform-origin: top right;
+    transform: rotate3D(0, 0, 1, -90deg) translate3d(100%, -100%, 0);
+    .ar & {
+        left: 28px;
+        right: inherit;
+        padding-left: 0;
+        padding-right: 28px;
+        transform-origin: top left;
+        transform: rotate3D(0, 0, 1, 90deg) translate3d(-100%, -100%, 0);
+    }
+    @include respond-to('medium') {
+        display: flex;
+    }
+    &::after, &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 4px solid color-from-theme('green', 'secondary');
+        transform: rotate3D(0, 0, 1, 90deg);
+        .ar & {
+            transform: rotate3D(0, 0, 1, -90deg);
+        }
+    }
+    &::before {
+        left: 0;
+        .ar & {
+            left: inherit;
+            right: 0;
+        }
+    }
+    &::after {
+        left: 8px;
+        .ar & {
+            left: inherit;
+            right: 8px;
+        }
+    }
+}
+
+.sequence-item {
+    width: fit-content;
+    padding-left: 12px;
+    .ar & {
+        padding-left: 0;
+        padding-right: 12px;
+    }
+    &:not(:last-child) {
+        padding-right: 12px;
+        .ar & {
+            padding-left: 12px;
+            padding-right: 0;
+        }
+    }
+    & > p {
+        white-space: nowrap;
+    }
+}

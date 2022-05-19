@@ -20,6 +20,7 @@ import CardArticle from '@/components/CardArticle';
 import ButtonArrow from '@/components/ButtonArrow';
 import ButtonPagination from '@/components/ButtonPagination';
 import Charts from '@/components/Charts';
+import SequenceCharts from '@/components/SequenceCharts';
 
 // Hooks
 import useStore from '@/hooks/useStore';
@@ -30,6 +31,14 @@ function PanelEntity(props, ref) {
      */
     const { entity, next, previous } = props;
     const { navigate, language } = useI18next();
+    const sequenceCharts = entity.charts.map(chart => {
+        let type = chart.type.split('Chart')[0];
+        type = type.charAt(0).toUpperCase() + type.slice(1);
+        return type;
+    });
+    if (entity.relatedArticles) {
+        sequenceCharts.push('Related articles');
+    }
     /**
      * States
      */
@@ -49,6 +58,7 @@ function PanelEntity(props, ref) {
             <div className="panel panel-entity" data-name="entity">
                 <Scrollbar revert={ false }>
                     <ButtonClose onClick={ clickHandler } />
+                    <SequenceCharts charts={ sequenceCharts } />
                     <section className="section section-container">
                         <div className="points">
                             <div className="point"></div>

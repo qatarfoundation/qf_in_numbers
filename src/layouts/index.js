@@ -81,6 +81,8 @@ function Layout(props) {
 
                             <div key={ originalPath } className="page">
                                 { children }
+                                <TheNavigation key={ `${ language }-navigation` } />
+                                <TheFooter key={ `${ language }-footer` } />
                             </div>
 
                         </AnimatePresence>
@@ -88,13 +90,6 @@ function Layout(props) {
                     }
 
                 </div>
-
-                <AnimatePresence>
-
-                    <TheNavigation key={ `${ language }-navigation` } />
-                    <TheFooter key={ `${ language }-footer` } />
-
-                </AnimatePresence>
 
                 <ThePreloader visible={ preloaderState === LOADING } />
 
