@@ -26,10 +26,10 @@ import useStore from '@/hooks/useStore';
 
 function PanelEntity(props, ref) {
     /**
-     * Datas
+     * Data
      */
     const { entity, next, previous } = props;
-    const { navigate } = useI18next();
+    const { navigate, language } = useI18next();
     /**
      * States
      */
@@ -72,8 +72,16 @@ function PanelEntity(props, ref) {
                                             <p className='p4'>{ `${ activeIndex } of ${ entity.relatedArticles.length }` }</p>
                                         </div>
                                         <div className="slider-navigation">
-                                            <ButtonArrow className={ `${ activeIndex == 1 ? 'is-inactive' : '' }` } direction="left" onClick={ () => swiperRef.current.swiper.slidePrev() }  />
-                                            <ButtonArrow className={ `${ activeIndex == entity.relatedArticles.length ? 'is-inactive' : '' }` } direction="right" onClick={ () => swiperRef.current.swiper.slideNext() }  />
+                                            {
+                                                language !== 'ar-QA' ?
+                                                    <>
+                                                        <ButtonArrow className={ `${ activeIndex == 1 ? 'is-inactive' : '' }` } direction="left" onClick={ () => swiperRef.current.swiper.slidePrev() }  />
+                                                        <ButtonArrow className={ `${ activeIndex == entity.relatedArticles.length ? 'is-inactive' : '' }` } direction="right" onClick={ () => swiperRef.current.swiper.slideNext() }  />
+                                                    </> : <>
+                                                        <ButtonArrow className={ `${ activeIndex == entity.relatedArticles.length ? 'is-inactive' : '' }` } direction="right" onClick={ () => swiperRef.current.swiper.slidePrev() }  />
+                                                        <ButtonArrow className={ `${ activeIndex == 1 ? 'is-inactive' : '' }` } direction="left" onClick={ () => swiperRef.current.swiper.slideNext() }  />
+                                                    </>
+                                            }
                                         </div>
                                     </div>
                                     <Swiper
@@ -101,8 +109,8 @@ function PanelEntity(props, ref) {
                                 </div>
                             </section>
                             <div className='pagination'>
-                                <ButtonPagination name={ next.name } slug={ next.slug } direction="left"></ButtonPagination>
-                                <ButtonPagination name={ next.name } slug={ next.slug } direction="right"></ButtonPagination>
+                                <ButtonPagination name={ next.name } slug={ next.slug } direction='left'></ButtonPagination>
+                                <ButtonPagination name={ next.name } slug={ next.slug } direction='right'></ButtonPagination>
                             </div>
                         </>
                     }

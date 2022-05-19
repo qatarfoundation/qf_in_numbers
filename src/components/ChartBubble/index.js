@@ -1,5 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
@@ -15,16 +16,11 @@ function ChartBubble(props, ref) {
     /**
      * Datas
      */
+    const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
     const heightTooltip = 80;
     const spaceTooltip = 12.5;
-    const margin = {
-        top: 0,
-        right: (window.innerWidth >= 500 ? 58 : 18),
-        bottom: 0,
-        left: (window.innerWidth >= 500 ? 58 : 18),
-    };
     const s = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.value)])
         .range([8, 85]);
@@ -36,6 +32,12 @@ function ChartBubble(props, ref) {
      * States
      */
     const [isResize, setIsResize] = useState(false);
+    const [margin, setMargin] = useState({
+        top: 20,
+        right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
+        bottom: 10,
+        left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
+    });
     /**
     * References
     */
@@ -57,7 +59,7 @@ function ChartBubble(props, ref) {
             const mousemove = (e, d) => {
                 e.target.classList.contains('can-hover') && tooltip
                     .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.name }</p>`)
-                    .style('left', `${ e.target.cx.baseVal.value + margin.left }px`)
+                    .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value - e.target.r.baseVal.value + margin.top - spaceTooltip }px`);
             };
             const mouseleave = (e, d) => e.target.classList.contains('can-hover') && tooltip.style('opacity', 0);
@@ -65,7 +67,7 @@ function ChartBubble(props, ref) {
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
-                .attr('transform', `translate(${ margin.left }, ${ margin.top })`);
+                .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.right }, ${ margin.top })`);
             // ---
             const color = d3.scaleLinear()
                 .range(['#E9F8F3', '#6ECEB2'])
@@ -106,43 +108,34 @@ function ChartBubble(props, ref) {
                     return d.name;
                 });
             const simulation = d3.forceSimulation()
-                .force('center', d3.forceCenter().x(0).y(innerHeight / 2))
+                .force('center', d3.forceCenter().x(0).y(0))
                 .force('charge', d3.forceManyBody().strength(0.1))
                 .force('y', d3.forceY().y(d => 0))
-                .force('collide', d3.forceCollide().strength(.2).radius(function(d) { return (size(d.value) + 3); }).iterations(1)); // Force that avoids circle overlapping
+                .force('collide', d3.forceCollide().strength(.2).radius(function(d) { return (size(d.value) + 3); }).iterations(1));
             const el = refChart.current.querySelector('.chart-container');
-            let isForcing = true;
             simulation
                 .nodes(data)
-                .on('tick', function(d) {
-                    if (isForcing) {
-                        let newWidth = el.getBoundingClientRect().width;
-                        if (refChart.current.clientWidth < newWidth) {
-                            newWidth += margin.left + margin.right;
-                            const oldWidth = el.parentNode.getAttribute('width');
-                            el.parentNode.setAttribute('width', newWidth);
-                            node
-                                .attr('cx', function(d) { return d.x + (newWidth / 2) - margin.left - margin.right; })
-                                .attr('cy', function(d) { return d.y; });
-                            texts
-                                .attr('x', function(d) { return d.x + (newWidth / 2) - margin.left - margin.right; })
-                                .attr('y', function(d) { return d.y; });
-                            if (oldWidth) {
-                                if (oldWidth == newWidth) {
-                                    isForcing = false;
-                                    simulation.stop();
-                                }
-                            }
-                        } else {
-                            el.parentNode.setAttribute('width', refChart.current.clientWidth);
-                            node
-                                .attr('cx', function(d) { return d.x + (refChart.current.clientWidth / 2) - (85 / 2); })
-                                .attr('cy', function(d) { return d.y; });
-                            texts
-                                .attr('x', function(d) { return d.x + (refChart.current.clientWidth / 2) - (85 / 2); })
-                                .attr('y', function(d) { return d.y; });
-                        }
-                    }
+                .on('end', d => {
+                    node
+                        .attr('cx', function(d) { return d.x; })
+                        .attr('cy', function(d) { return d.y; });
+                    texts
+                        .attr('x', function(d) { return d.x; })
+                        .attr('y', function(d) { return d.y; });
+                    setTimeout(() =>{
+                        const bounding = el.getBoundingClientRect();
+                        const isNew = refChart.current.clientWidth < bounding.width;
+                        const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;
+                        el.parentNode.setAttribute('width', newWidth);
+                        el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
+                        el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
+                        node
+                            .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
+                            .attr('cy', function(d) { return d.y + (bounding.height / 2); });
+                        texts
+                            .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
+                            .attr('y', function(d) { return d.y + (bounding.height / 2); });
+                    }, 0);
                 });
         },
         [data.length, isResize],
@@ -161,6 +154,12 @@ function ChartBubble(props, ref) {
      * Private
      */
     function resize() {
+        setMargin({
+            top: 20,
+            right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
+            bottom: 10,
+            left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
+        });
         setIsResize(!isResize);
     }
     return (

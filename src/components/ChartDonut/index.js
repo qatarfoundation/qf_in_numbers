@@ -1,5 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
@@ -15,11 +16,17 @@ function ChartDonut(props, ref) {
     /**
      * Datas
      */
+    const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
     let sizeCircle = window.innerWidth >= 500 ? 232 : 172;
     const widthStroke = 20;
-    let margin = { top: 100, right: 75 + (window.innerWidth >= 500 ? 62 : 18), bottom: 75, left: 75 + (window.innerWidth >= 500 ? 62 : 18) };
+    let margin = {
+        top: 100,
+        right: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+        bottom: 75,
+        left: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+    };
     /**
      * States
      */
@@ -102,7 +109,7 @@ function ChartDonut(props, ref) {
                 .enter()
                 .append('path')
                 .attr('class', function(d) {
-                    const canHover = percent(d.data.value) <= 20 ? true : false;
+                    const canHover = d.endAngle - d.startAngle <= Math.PI / 6;
                     return `arc ${ canHover ? 'can-hover' : '' }`;
                 })
                 .attr('d', d3.arc()
@@ -121,7 +128,7 @@ function ChartDonut(props, ref) {
                 .enter()
                 .append('g')
                 .attr('class', function(d) {
-                    const isHide = percent(d.data.value) <= 20 ? true : false;
+                    const isHide = d.endAngle - d.startAngle <= Math.PI / 6;
                     return `label-container ${ isHide ? 'is-hidden' : '' }`;
                 })
                 .attr('transform', function(d) {
@@ -168,7 +175,12 @@ function ChartDonut(props, ref) {
      * Private
      */
     function resize() {
-        margin = { top: 100, right: 75 + (window.innerWidth >= 500 ? 62 : 18), bottom: 75, left: 75 + (window.innerWidth >= 500 ? 62 : 18) };
+        margin = {
+            top: 100,
+            right: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+            bottom: 75,
+            left: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+        };
         sizeCircle = window.innerWidth >= 500 ? 232 : 172;
         setWidth(sizeCircle + margin.right + margin.left);
         setHeight(sizeCircle + margin.top + margin.bottom);

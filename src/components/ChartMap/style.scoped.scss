@@ -2,9 +2,9 @@
     position: relative;
     width: 100%;
     height: 100%;
-    margin-bottom: 92px;
+    margin-bottom: 62px;
     @include respond-to('medium') {
-        margin-bottom: 88px;
+        margin-bottom: 58px;
     }
     .tooltip {
         position: absolute;
@@ -36,20 +36,47 @@
     margin-left: 0px;
 }
 
-.chart-bubble {
-    min-width: 100%;
-    min-height: 200px;
-    .can-hover {
-        &:hover {
-            fill: color-from-theme('green', 'primary') !important;
+.chart-map {
+    width: 100%;
+    min-width: 662px;
+    .grid {
+        .tick line {
+            stroke-dasharray: 4;
+            color: $color-grey-light;
         }
+    }
+    .domain {
+        display: none;
+    }
+    .axis .tick text {
+        color: $color-grey;
+        text-anchor: start;
+    }
+    .axis-x .tick text {
+        transform: translate(6px, 0) rotate(45deg);
     }
     .label {
         color: color-from-theme('green', 'primary');
         text-anchor: middle;
         pointer-events: none;
-        &.is-hidden {
-            display: none;
+    }
+    .line-container {
+        &:hover {
+            .line, .point {
+                stroke: color-from-theme('green', 'primary');
+            }
+        }
+        .line {
+            fill: none;
+            stroke: color-from-theme('green', 'secondary');
+            stroke-width: 2;
+        }
+        .point {
+            fill: $color-white;
+            stroke: color-from-theme('green', 'secondary');
+            &:hover {
+                fill: color-from-theme('green', 'primary');
+            }
         }
     }
 }

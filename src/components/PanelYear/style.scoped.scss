@@ -8,11 +8,19 @@
     width: 100vw;
     height: auto;
     background-color: $color-white;
+    .ar & {
+        right: 0;
+        left: inherit;
+    }
     @include respond-to('medium') {
         top: 0;
         left: 0;
         width: 285px;
         height: 100vh;
+        .ar & {
+            right: 0;
+            left: inherit;
+        }
     }
 }
 
@@ -24,6 +32,9 @@
     padding: 20px 15px 0;
     @include respond-to('medium') {
         padding: 36px 28px 28px 53px;
+        .ar & {
+            padding: 36px 53px 28px 28px;
+        }
     }
     &::after {
         content: '';
@@ -35,6 +46,10 @@
         height: 1px;
         background-color: $color-grey;
         opacity: 0.15;
+        .ar & {
+            right: 0;
+            left: inherit;
+        }
         @include respond-to('medium') {
             display: block;
         }

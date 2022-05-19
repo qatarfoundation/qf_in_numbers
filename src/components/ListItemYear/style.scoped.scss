@@ -2,6 +2,10 @@
     position: relative;
     display: block;
     margin-left: 32px;
+    .ar & {
+        margin-left: 0;
+        margin-right: 32px;
+    }
     &:not(:last-child) {
         margin-bottom: 0;
         @include respond-to('medium') {

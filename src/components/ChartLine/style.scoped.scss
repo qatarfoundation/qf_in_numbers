@@ -54,6 +54,9 @@
     }
     .axis-x .tick text {
         transform: translate(6px, 0) rotate(45deg);
+        .ar & {
+            transform: translate(0, 0) rotate(-45deg);
+        }
     }
     .label {
         color: color-from-theme('green', 'primary');

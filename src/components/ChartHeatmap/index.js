@@ -1,5 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
@@ -24,6 +25,7 @@ function ChartHeatmap(props, ref) {
     /**
      * Datas
      */
+    const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
     const value = d => d.value;
@@ -34,7 +36,12 @@ function ChartHeatmap(props, ref) {
     const paddingCircle = 13;
     const lengthX = data.map(xValue).filter((item, pos) => data.map(xValue).indexOf(item) == pos).length;
     const lengthY = data.map(yValue).filter((item, pos) => data.map(yValue).indexOf(item) == pos).length;
-    let margin = { top: 100, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 };
+    let margin = {
+        top: 100,
+        right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 67 : 23) : (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499),
+        bottom: 0,
+        left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499) : (window.innerWidth >= 500 ? 67 : 23),
+    };
     /**
      * States
      */
@@ -49,6 +56,7 @@ function ChartHeatmap(props, ref) {
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
+            const parentWidth = refChart.current.clientWidth;
             const w = width;
             const h = height;
             const innerWidth = w - margin.left - margin.right;
@@ -56,7 +64,7 @@ function ChartHeatmap(props, ref) {
             const svg = dataviz.select('svg');
             const xScale = d3
                 .scaleBand()
-                .range([ 0, innerWidth ])
+                .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ])
                 .domain(data.map(xValue).filter((item, pos) => data.map(xValue).indexOf(item) == pos))
                 .padding(0.2);
             const yScale = d3
@@ -67,7 +75,7 @@ function ChartHeatmap(props, ref) {
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
-                .attr('transform', `translate(${ margin.left }, ${ margin.top })`);
+                .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
             const myColor = d3.scaleLinear()
                 .range(['#E9F8F3', '#6ECEB2'])
                 .domain([1, 100]);
@@ -81,7 +89,7 @@ function ChartHeatmap(props, ref) {
             const mousemove = function(e, d) {
                 tooltip
                     .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.group }</p>`)
-                    .style('left', `${ e.target.cx.baseVal.value + margin.left }px`)
+                    .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value + margin.top - sizeCircle - 22 }px`);
             };
             const mouseleave = function(d) {
@@ -90,7 +98,7 @@ function ChartHeatmap(props, ref) {
             const switchContainer = d3
                 .select('.switch-container')
                 .attr('defaultScroll', `${  (window.innerWidth >= 500 ? 67 : 23) }`)
-                .style('left', `${ (window.innerWidth >= 500 ? 67 : 23) }px`)
+                .style(language !== 'ar-QA' ? 'left' : 'right', `${ (window.innerWidth >= 500 ? 67 : 23) }px`)
                 .style('top', `${ 32 }px`);
             const circlesContainer = chartContainer
                 .append('g')
@@ -139,18 +147,18 @@ function ChartHeatmap(props, ref) {
             chartContainer
                 .append('g')
                 .attr('class', 'axis axis-y')
-                .attr('transform', `translate(-${ margin.left }, 0)`)
-                .attr('defaultScroll', `-${ margin.left }`)
+                .attr('transform', `translate(${ language !== 'ar-QA' ? -margin.left : -margin.left + margin.right }, 0)`)
+                .attr('defaultScroll', `${ language !== 'ar-QA' ? -margin.left : -margin.left + margin.right }`)
                 .append('rect')
-                .attr('width', margin.left + 100)
+                .attr('width', language !== 'ar-QA' ? margin.left + 100 : margin.right + 100)
                 .attr('height', h)
                 .attr('fill', 'white')
-                .attr('transform', `translate(-100, -${ h - innerHeight })`);
+                .attr('transform', `translate(${ language !== 'ar-QA' ? -100 : innerWidth + margin.left - margin.right }, -${ h - innerHeight })`);
             chartContainer
                 .select('.axis-y')
                 .append('g')
-                .attr('transform', `translate(${ window.innerWidth >= 500 ? 67 : 23 }, 0)`)
-                .call(d3.axisLeft(yScale).tickSize(0));
+                .attr('transform', `translate(${ language !== 'ar-QA' ? ((window.innerWidth >= 500 ? 67 : 23)) : innerWidth },0)`)
+                .call(language !== 'ar-QA' ? d3.axisLeft(yScale).tickSize(0) : d3.axisRight(yScale).tickSize(0));
         },
         [data.length, width, chartActive, percentActive],
     );
@@ -163,7 +171,11 @@ function ChartHeatmap(props, ref) {
                 const el = refChart.current.querySelector('.axis-y');
                 const defaultScroll = el.getAttribute('defaultScroll');
                 el.setAttribute('transform', `translate(${ scrolls['heatmapChart'].scrollX + parseFloat(defaultScroll) }, 0)`);
-                refSwitch.current.style.left = `${  scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
+                if (language !== 'ar-QA') {
+                    refSwitch.current.style.left = `${  scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
+                } else {
+                    refSwitch.current.style.right = `${  -scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
+                }
             }
         }
     }, [useStore.getState().iScroll]);
@@ -181,7 +193,12 @@ function ChartHeatmap(props, ref) {
      * Private
      */
     function resize() {
-        margin = { top: 100, right: window.innerWidth >= 500 ? 67 : 23, bottom: 0, left: window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 };
+        margin = {
+            top: 100,
+            right: language !== 'ar-QA' ? window.innerWidth >= 500 ? 67 : 23 : window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499,
+            bottom: 0,
+            left: language !== 'ar-QA' ? window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 : window.innerWidth >= 500 ? 67 : 23,
+        };
         setWidth((sizeCircle + paddingCircle) * lengthX + margin.right + margin.left);
         setHeight((sizeCircle + paddingCircle) * lengthY + margin.top + margin.bottom);
     }

@@ -1,5 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
@@ -15,6 +16,7 @@ function ChartBeeswarm(props, ref) {
     /**
      * Datas
      */
+    const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
     const radiusPoint = 12;
@@ -22,16 +24,16 @@ function ChartBeeswarm(props, ref) {
     const spaceTooltip = 10;
     const heightAxisX = 25;
     const spaceAxisX = 20;
-    const margin = {
-        top: 0 + heightTooltip + spaceTooltip,
-        right:  (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
-        bottom: 30 + heightAxisX + spaceAxisX,
-        left: (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
-    };
     /**
      * States
      */
     const [isResize, setIsResize] = useState(false);
+    const [margin, setMargin] = useState({
+        top: 0 + heightTooltip + spaceTooltip,
+        right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + radiusPoint : (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
+        bottom: 30 + heightAxisX + spaceAxisX,
+        left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + radiusPoint : (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
+    });
     const [height, setHeight] = useState(55 + margin.top + margin.bottom);
     /**
     * References
@@ -50,7 +52,7 @@ function ChartBeeswarm(props, ref) {
                 .range([ 0, lengthCases ]);
             const newXScale = d3.scaleLinear()
                 .domain([0, lengthCases])
-                .range([ 0, innerWidth ]);
+                .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ]);
             data.forEach((d, i) => {
                 d.x = newXScale(Math.floor(lengthCasesScale(d.value)));
             });
@@ -80,11 +82,11 @@ function ChartBeeswarm(props, ref) {
                 // Add X axis
             const x = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
-                .range([ 0, innerWidth ]);
+                .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-x')
                 .attr('transform', `translate(0, ${ innerHeight + spaceAxisX })`)
-                .call(d3.axisBottom(x).tickSize(0).tickValues([0, d3.max(data, d => d.value)]));
+                .call(d3.axisBottom(x).tickSize(0).tickValues(language !== 'ar-QA' ? [0, d3.max(data, d => d.value)] : [d3.max(data, d => d.value), 0]));
             // Add Y axis
             const y = d3.scaleLinear()
                 .domain([-maxPointSameGroup / 2, maxPointSameGroup / 2])
@@ -124,7 +126,7 @@ function ChartBeeswarm(props, ref) {
             const mousemove = (e, d) => {
                 tooltip
                     .style('background-color', e.target.getAttribute('fill'))
-                    .style('left', `${ e.target.cx.baseVal.value + margin.left }px`)
+                    .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`);
                 tooltipContainer
                     .html(`<p class="p3">${ d.y }</p><p class="p4">${ d.group }</p>`);
@@ -170,6 +172,12 @@ function ChartBeeswarm(props, ref) {
      * Private
      */
     function resize() {
+        setMargin({
+            top: 0 + heightTooltip + spaceTooltip,
+            right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + radiusPoint : (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
+            bottom: 30 + heightAxisX + spaceAxisX,
+            left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + radiusPoint : (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
+        });
         setIsResize(!isResize);
     }
     return (

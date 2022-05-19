@@ -12,6 +12,10 @@
     @include respond-to('medium') {
         left: inherit;
         right: 0;
+        .ar & {
+            left: 0;
+            right: inherit;
+        }
         max-width: 895px;
         width: 63vw;
     }
@@ -24,10 +28,18 @@
     position: fixed;
     top: 20px;
     right: 16px;
+    .ar & {
+        right: inherit;
+        left: 16px;
+    }
     z-index: 10;
     @include respond-to('medium') {
         top: 38px;
         right: 24px;
+        .ar & {
+            right: inherit;
+            left: 24px;
+        }
     }
 }
 
@@ -40,9 +52,17 @@
         background: color-from-theme('green', 'secondary');
         &:first-child {
             margin-right: 130px;
+            .ar & {
+                margin-right: 0;
+                margin-left: 130px;
+            }
         }
         &:last-child {
             margin-left: 63px;
+            .ar & {
+                margin-left: 0;
+                margin-right: 63px;
+            }
         }
     }
 }
@@ -65,6 +85,10 @@
     .p1 {
         max-width: 269px;
         margin-right: 100px;
+        .ar & {
+            padding-right: 0;
+            margin-left: 100px;
+        }
         @include respond-to('medium') {
             align-self: flex-end;
             max-width: 392px;
@@ -99,13 +123,25 @@
         .slider-navigation {
             .button-arrow:not(:last-child) {
                 margin-right: 8px;
+                .ar & {
+                    margin-right: 0;
+                    margin-left: 8px;
+                }
             }
         }
     }
     .slider {
         padding-left: 18px;
+        .ar & {
+            padding-left: 0;
+            padding-right: 18px;
+        }
         @include respond-to('medium') {
             padding-left: 62px;
+            .ar & {
+                padding-left: 0;
+                padding-right: 62px;
+            }
         }
     }
 }

@@ -10,10 +10,17 @@
             order: 2;
             margin-right: 0;
             margin-left: 23px;
+            .ar & {
+                margin-right: 23px;
+                margin-left: 0;
+            }
         }
         .p3 {
             order: 1;
             text-align: right;
+            .ar & {
+                text-align: left;
+            }
         }
     }
 }
@@ -27,6 +34,10 @@
     margin-right: 23px;
     border: 1px solid $color-grey;
     border-radius: 100%;
+    .ar & {
+        margin-right: 0;
+        margin-left: 23px;
+    }
 }
 
 .arrow {
@@ -40,5 +51,14 @@
     transform: translate3d(-50%, -50%, 0);
     &.left {
         transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+        .ar & {
+            transform: translate3d(-50%, -50%, 0);
+        }
+    }
+    &.right {
+        transform: translate3d(-50%, -50%, 0);
+        .ar & {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+        }
     }
 }
