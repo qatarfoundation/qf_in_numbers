@@ -16,15 +16,20 @@ import './style.scoped.scss';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
+import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Utils
 import Globals from '@/utils/Globals';
 import TreeDataModel from '@/utils/TreeDataModel';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
 import LabelsEntities from '@/components/LabelsEntities';
 import Scrollbar from '@/components/ScrollBar/index';
+import SliderSubcategories from '@/components/SliderSubcategories/index';
+import ButtonPagination from '@/components/ButtonPagination/index';
+import ButtonScroll from '@/components/ButtonScroll/index';
 
 function CategoryTemplate(props) {
     /**
@@ -36,13 +41,14 @@ function CategoryTemplate(props) {
      * States
      */
     const [entities, setEntities] = useState([]);
+    const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
     const [isPresent, safeToRemove] = usePresence();
     const { navigate } = useI18next();
 
     /**
      * Store
      */
-    const enitity = useStore((state) => state.selectedEntity);
+    const [enitity, currentSubcategory] = useStore((state) => [state.selectedEntity, state.currentSubcategory]);
 
     /**
      * Hooks
@@ -91,6 +97,18 @@ function CategoryTemplate(props) {
     const el = useRef();
 
     /**
+     * Events
+     */
+    useWindowResizeObserver(resizeHandler);
+
+    /**
+     * Handlers
+     */
+    function resizeHandler() {
+        resize();
+    }
+
+    /**
      * Private
      */
     function transitionIn() {
@@ -111,24 +129,34 @@ function CategoryTemplate(props) {
     }
 
     function buttonDiscoverClickHandler() {
+        console.log(enitity);
         const { slug, name } = enitity;
         navigate(slug);
         // Globals.webglApp.selectEntity(category.name, name);
     }
 
+    function resize() {
+        setBreakpoints(Breakpoints.current);
+    }
+
     return (
         <div className="template-category" ref={ el }>
-            <Scrollbar revert={ true } data-name="listSubcategories">
-                <div className="container-page container">
-                    <ListSubcategories category={ category } subcategories={ category.subcategories } />
-                </div>
-            </Scrollbar>
+            { breakpoints == 'small' ?
+                <SliderSubcategories category={ category } subcategories={ category.subcategories } />
+                :
+                <Scrollbar revert={ true } data-name="listSubcategories">
+                    <div className="container-page container">
+                        <ListSubcategories category={ category } subcategories={ category.subcategories } />
+                    </div>
+                </Scrollbar>
+            }
             { enitity &&
                     <>
                         { /* <LabelsEntities entities={ entities } /> */ }
-                        <button className="button button-discover p4" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
+                        <ButtonPagination name={ breakpoints == 'small' ? `Tap to discover ${ enitity.name }` : 'Click to discover' } slug={ enitity.slug } direction='right' />
                     </>
             }
+            { currentSubcategory && <ButtonScroll>{ `Scroll to explore the ${ currentSubcategory.name } branch` }</ButtonScroll> }
 
         </div>
     );

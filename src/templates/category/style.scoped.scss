@@ -23,101 +23,102 @@
     }
 }
 
-.button-discover {
+.button-scroll {
     position: absolute;
-    right: rem(50px, 'small');
-    top: 0;
-    bottom: 0;
-    height: rem(30px, 'small');
-    margin: auto 0;
-    color: color-from-theme('green', 'secondary');
+    top: 50%;
+    right: rem(16px, 'small');
+    transform: translate3d(0, -50%, 0);
     @include respond-to('medium') {
-        right: rem(50px, 'medium');
-        height: rem(30px, 'medium');
+        right: rem(53px, 'medium');
     }
     @include respond-to('large') {
-        right: rem(50px, 'large');
-        height: rem(30px, 'large');
-    }
-    &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        left: rem(-65px, 'small');
-        top: rem(-9px, 'small');
-        width: rem(50px, 'small');
-        height: rem(50px, 'small');
-        border: 1px solid rgba(color-from-theme('green', 'secondary'), 0.5);
-        border-radius: 50%;
-        @include respond-to('medium') {
-            left: rem(-65px, 'medium');
-            top: rem(-9px, 'medium');
-            width: rem(50px, 'medium');
-            height: rem(50px, 'medium');
-        }
-        @include respond-to('large') {
-            left: rem(-65px, 'large');
-            top: rem(-9px, 'large');
-            width: rem(50px, 'large');
-            height: rem(50px, 'large');
-        }
-    }
-    &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: rem(4px, 'small');
-        bottom: 0;
-        left: rem(-42px, 'small');
-        width: rem(6px, 'small');
-        height: rem(6px, 'small');
-        margin: auto 0;
-        background-color: rgba(color-from-theme('green', 'secondary'), 1);
-        border-radius: 50%;
-        @include respond-to('medium') {
-            top: rem(4px, 'medium');
-            left: rem(-42px, 'medium');
-            width: rem(6px, 'medium');
-            height: rem(6px, 'medium');
-        }
-        @include respond-to('large') {
-            top: rem(4px, 'large');
-            left: rem(-42px, 'large');
-            width: rem(6px, 'large');
-            height: rem(6px, 'large');
-        }
+        right: rem(53px, 'large');
     }
     .ar & {
-        left: rem(50px, 'small');
-        right: auto;
+        right: inherit;
+        left: rem(16px, 'small');
+        @include respond-to('medium') {
+            left: rem(53px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(53px, 'large');
+        }
+    }
+}
+
+.button-pagination {
+    position: absolute;
+    right: rem(16px, 'small');
+    bottom: rem(275px, 'small');
+    max-width: 65%;
+    @include respond-to('medium') {
+        top: 0;
+        bottom: 0;
+        left: inherit;
+        right: rem(50px, 'medium');
+        margin: auto 0;
+    }
+    @include respond-to('large') {
+        bottom: 0;
+        left: inherit;
+        right: rem(50px, 'large');
+    }
+    .ar & {
+        left: rem(16px, 'small');
+        right: inherit;
         @include respond-to('medium') {
             left: rem(50px, 'medium');
+            right: inherit;
         }
         @include respond-to('large') {
             left: rem(50px, 'large');
+            right: inherit;
         }
-        &:before {
-            left: inherit;
-            right: rem(-65px, 'small');
+    }
+    .icon {
+        position: relative;
+        width: rem(56px, 'small');
+        min-width: rem(56px, 'small');
+        height: rem(56px, 'small');
+        min-height: rem(56px, 'small');
+        border-color: $color-white;
+        @include respond-to('medium') {
+            width: rem(56px, 'medium');
+            min-width: rem(56px, 'medium');
+            height: rem(56px, 'medium');
+            min-height: rem(56px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(56px, 'large');
+            min-width: rem(56px, 'large');
+            height: rem(56px, 'large');
+            min-height: rem(56px, 'large');
+        }
+        svg {
+            display: block;
+            padding: rem(20px, 'small');
+            fill: $color-white;
             @include respond-to('medium') {
-                left: inherit;
-                right: rem(-65px, 'medium');
+                display: none;
+            }
+        }
+        &::before {
+            content: '';
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(color-from-theme('green', 'secondary'), 1);
+            border-radius: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            @include respond-to('medium') {
+                display: block;
+                width: rem(6px, 'medium');
+                height: rem(6px, 'medium');
             }
             @include respond-to('large') {
-                left: inherit;
-                right: rem(-65px, 'large');
-            }
-        }
-        &:after {
-            left: inherit;
-            right: rem(-42px, 'small');
-            @include respond-to('medium') {
-                left: inherit;
-                right: rem(-42px, 'medium');
-            }
-            @include respond-to('large') {
-                left: inherit;
-                right: rem(-42px, 'large');
+                width: rem(6px, 'large');
+                height: rem(6px, 'large');
             }
         }
     }

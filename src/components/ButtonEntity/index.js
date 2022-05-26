@@ -11,7 +11,7 @@ import Globals from '@/utils/Globals';
 import useStore from '@/hooks/useStore';
 
 function ButtonEntity(props) {
-    const { categorySlug, entity } = props;
+    const { children, categorySlug, entity } = props;
 
     function clickHandler() {
         Globals.webglApp.gotoEntity(categorySlug, entity.slug);
@@ -27,7 +27,7 @@ function ButtonEntity(props) {
     }, [selectedEntity]);
 
     return (
-        <button className={ `button button-entity ${ isSelected ? 'selected' : '' }` } onClick={ clickHandler }>{ entity.name }</button>
+        <button className={ `button button-entity ${ isSelected ? 'selected' : '' }` } onClick={ clickHandler }>{ children }</button>
     );
 }
 

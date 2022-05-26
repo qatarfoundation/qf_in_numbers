@@ -18,36 +18,26 @@
     &:after {
         content: '';
         position: absolute;
-        left: rem(8px, 'small');
+        left: 0;
         bottom: rem(-20px, 'small');
         display: block;
         width: rem(546px, 'small');
-        height: rem(150px, 'small');
+        height: rem(200px, 'small');
         background: linear-gradient(200deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
         @include respond-to('medium') {
-            left: rem(8px, 'medium');
             bottom: rem(-34.5px, 'medium');
             width: rem(546px, 'medium');
-            height: rem(150px, 'medium');
+            height: rem(200px, 'medium');
         }
         @include respond-to('large') {
-            left: rem(8px, 'large');
             bottom: rem(-34.5px, 'large');
             width: rem(546px, 'large');
-            height: rem(150px, 'large');
+            height: rem(200px, 'large');
         }
         .ar & {
             left: inherit;
-            right: rem(8px, 'small');
+            right: 0;
             background: linear-gradient(150deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
-            @include respond-to('medium') {
-                left: inherit;
-                right: rem(8px, 'medium');
-            }
-            @include respond-to('large') {
-                left: inherit;
-                right: rem(8px, 'large');
-            }
         }
     }
 }
