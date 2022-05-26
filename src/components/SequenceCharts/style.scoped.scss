@@ -1,21 +1,37 @@
 .sequence-chart {
     position: absolute;
-    top: calc(100vh - 38px);
-    right: 23px;
+    top: calc(100vh - rem(38px, 'small'));
+    right: rem(23px, 'small');
     display: none;
-    padding-left: 28px;
+    padding-left: rem(28px, 'small');
     transform-origin: top right;
     transform: rotate3D(0, 0, 1, -90deg) translate3d(100%, -100%, 0);
+    @include respond-to('medium') {
+        top: calc(100vh - rem(38px, 'medium'));
+        right: rem(23px, 'medium');
+        display: flex;
+        padding-left: rem(28px, 'medium');
+    }
+    @include respond-to('large') {
+        top: calc(100vh - rem(38px, 'large'));
+        right: rem(23px, 'large');
+        padding-left: rem(28px, 'large');
+    }
     .ar & {
-        left: 28px;
+        left: rem(28px, 'small');
         right: inherit;
         padding-left: 0;
-        padding-right: 28px;
+        padding-right: rem(28px, 'small');
         transform-origin: top left;
         transform: rotate3D(0, 0, 1, 90deg) translate3d(-100%, -100%, 0);
-    }
-    @include respond-to('medium') {
-        display: flex;
+        @include respond-to('medium') {
+            left: rem(28px, 'medium');
+            padding-right: rem(28px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(28px, 'large');
+            padding-right: rem(28px, 'large');
+        }
     }
     &::after, &::before {
         content: '';
@@ -24,10 +40,20 @@
         display: block;
         width: 0;
         height: 0;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 4px solid color-from-theme('green', 'secondary');
+        border-left: rem(4px, 'small') solid transparent;
+        border-right: rem(4px, 'small') solid transparent;
+        border-top: rem(4px, 'small') solid color-from-theme('green', 'secondary');
         transform: rotate3D(0, 0, 1, 90deg);
+        @include respond-to('medium') {
+            border-left: rem(4px, 'medium') solid transparent;
+            border-right: rem(4px, 'medium') solid transparent;
+            border-top: rem(4px, 'medium') solid color-from-theme('green', 'secondary');
+        }
+        @include respond-to('large') {
+            border-left: rem(4px, 'large') solid transparent;
+            border-right: rem(4px, 'large') solid transparent;
+            border-top: rem(4px, 'large') solid color-from-theme('green', 'secondary');
+        }
         .ar & {
             transform: rotate3D(0, 0, 1, -90deg);
         }
@@ -40,26 +66,62 @@
         }
     }
     &::after {
-        left: 8px;
+        left: rem(8px, 'small');
+        @include respond-to('medium') {
+            left: rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(8px, 'large');
+        }
         .ar & {
             left: inherit;
-            right: 8px;
+            right: rem(8px, 'small');
+            @include respond-to('medium') {
+                right: rem(8px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(8px, 'large');
+            }
         }
     }
 }
 
 .sequence-item {
     width: fit-content;
-    padding-left: 12px;
+    padding-left: rem(12px, 'small');
+    @include respond-to('medium') {
+        padding-left: rem(12px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-left: rem(12px, 'large');
+    }
     .ar & {
         padding-left: 0;
-        padding-right: 12px;
+        padding-right: rem(12px, 'small');
+        @include respond-to('medium') {
+            padding-right: rem(12px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-right: rem(12px, 'large');
+        }
     }
     &:not(:last-child) {
-        padding-right: 12px;
+        padding-right: rem(12px, 'small');
+        @include respond-to('medium') {
+            padding-right: rem(12px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-right: rem(12px, 'large');
+        }
         .ar & {
-            padding-left: 12px;
+            padding-left: rem(12px, 'small');
             padding-right: 0;
+            @include respond-to('medium') {
+                padding-left: rem(12px, 'medium');
+            }
+            @include respond-to('large') {
+                padding-left: rem(12px, 'large');
+            }
         }
     }
     & > p {

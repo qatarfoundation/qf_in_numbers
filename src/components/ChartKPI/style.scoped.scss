@@ -2,21 +2,38 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    margin-top: 77px;
-    margin-bottom: 96px;
+    margin-top: rem(77px, 'small');
+    margin-bottom: rem(96px, 'small');
     @include respond-to('medium') {
-        margin-top: 75px;
-        margin-bottom: 66px;
-        width: 887px;
+        width: rem(887px, 'medium');
+        margin-top: rem(75px, 'medium');
+        margin-bottom: rem(66px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(887px, 'large');
+        margin-top: rem(75px, 'large');
+        margin-bottom: rem(66px, 'large');
     }
     .item-head {
         display: flex;
         align-items: center;
         .icon {
-            padding-right: 10px;
+            padding-right: rem(10px, 'small');
+            @include respond-to('medium') {
+                padding-right: rem(10px, 'medium');
+            }
+            @include respond-to('large') {
+                padding-right: rem(10px, 'large');
+            }
             .ar & {
-                padding-left: 10px;
+                padding-left: rem(10px, 'small');
                 padding-right: 0;
+                @include respond-to('medium') {
+                    padding-left: rem(10px, 'medium');
+                }
+                @include respond-to('large') {
+                    padding-left: rem(10px, 'large');
+                }
             }
         }
     }
@@ -28,11 +45,23 @@
     }
     .additional {
         position: relative;
-        padding-left: 15px;
+        padding-right: rem(15px, 'small');
+        @include respond-to('medium') {
+            padding-right: rem(15px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-right: rem(15px, 'large');
+        }
         color: color-from-theme('green', 'secondary');
         .ar & {
             padding-left: 0;
-            padding-right: 15px;
+            padding-right: rem(15px, 'small');
+            @include respond-to('medium') {
+                padding-right: rem(15px, 'medium');
+            }
+            @include respond-to('large') {
+                padding-right: rem(15px, 'large');
+            }
         }
         &:before {
             content: '';
@@ -42,10 +71,20 @@
             display: block;
             width: 0;
             height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-bottom: 4px solid color-from-theme('green', 'secondary');
+            border-left: rem(4px, 'small') solid transparent;
+            border-right: rem(4px, 'small') solid transparent;
+            border-bottom: rem(4px, 'small') solid color-from-theme('green', 'secondary');
             transform: translate3d(0, 100%, 0);
+            @include respond-to('medium') {
+                border-left: rem(4px, 'medium') solid transparent;
+                border-right: rem(4px, 'medium') solid transparent;
+                border-bottom: rem(4px, 'medium') solid color-from-theme('green', 'secondary');
+            }
+            @include respond-to('large') {
+                border-left: rem(4px, 'large') solid transparent;
+                border-right: rem(4px, 'large') solid transparent;
+                border-bottom: rem(4px, 'large') solid color-from-theme('green', 'secondary');
+            }
             .ar & {
                 left: inherit;
                 right: 0;
@@ -54,9 +93,14 @@
     }
     .main {
         width: 100%;
-        margin-bottom: 30px;
+        margin-bottom: rem(30px, 'small');
         @include respond-to('medium') {
-            width: 272px;
+            width: rem(272px, 'medium');
+            margin-bottom: rem(30px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(272px, 'large');
+            margin-bottom: rem(30px, 'large');
         }
     }
     .second {
@@ -64,13 +108,21 @@
         flex-wrap: wrap;
         width: 100%;
         @include respond-to('medium') {
-            width: 392px;
+            width: rem(392px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(392px, 'large');
         }
         .item {
             width: 50%;
-            margin-bottom: 30px;
+            margin-bottom: rem(30px, 'small');
             @include respond-to('medium') {
-                width: 181px;
+                width: rem(181px, 'medium');
+                margin-bottom: rem(30px, 'medium');
+            }
+            @include respond-to('large') {
+                width: rem(181px, 'large');
+                margin-bottom: rem(30px, 'large');
             }
         }
     }

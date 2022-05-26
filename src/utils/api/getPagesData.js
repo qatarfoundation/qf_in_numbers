@@ -260,9 +260,16 @@ function parseCharts(data) {
 }
 
 function parseChart(data, type) {
-    let chart = {
-        title: data.title,
-    };
+    let chart = {};
+    if (data.title) {
+        chart.title = data.title.content[0].content;
+        chart.title = chart.title.map(t => {
+            return {
+                value: t.value,
+                bold: t.marks.length !== 0 && t.marks[0].type == 'bold',
+            };
+        });
+    }
     if (data.subtitle) chart.subtitle = data.subtitle;
     switch (type) {
         case 'kpiChart':
@@ -433,6 +440,7 @@ function parseMapChart(data) {
         const chart = {
             fields: [],
         };
+        if (data.worldMap) chart.worldMap = data.worldMap;
         data.dataItems.forEach(item => {
             const field = {
                 place: item.fields.place,

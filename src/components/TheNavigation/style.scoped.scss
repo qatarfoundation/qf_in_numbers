@@ -17,9 +17,45 @@
     @include respond-to('large') {
         top: rem(34.5px, 'large');
     }
+    &:after {
+        content: '';
+        position: absolute;
+        left: rem(8px, 'small');
+        top: rem(-20px, 'small');
+        display: block;
+        width: rem(546px, 'small');
+        height: rem(150px, 'small');
+        background: linear-gradient(340deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
+        @include respond-to('medium') {
+            left: rem(8px, 'medium');
+            top: rem(-34.5px, 'medium');
+            width: rem(546px, 'medium');
+            height: rem(150px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(8px, 'large');
+            top: rem(-34.5px, 'large');
+            width: rem(546px, 'large');
+            height: rem(150px, 'large');
+        }
+        .ar & {
+            left: inherit;
+            right: rem(8px, 'small');
+            background: linear-gradient(30deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
+            @include respond-to('medium') {
+                left: inherit;
+                right: rem(8px, 'medium');
+            }
+            @include respond-to('large') {
+                left: inherit;
+                right: rem(8px, 'large');
+            }
+        }
+    }
 }
 
 .row {
+    position: relative;
     display: flex;
 
     justify-content: space-between;
@@ -29,6 +65,8 @@
     padding-right: rem(16px, 'small');
 
     padding-left: rem(16px, 'small');
+
+    z-index: 2;
 
     @include respond-to('medium') {
         padding-right: rem(53px, 'medium');
@@ -40,42 +78,45 @@
         padding-left: rem(53px, 'large');
     }
 }
+.col-left {
+    display: flex;
+    align-items: center;
+}
 
 .col-right {
     display: flex;
+    align-items: center;
 
-    height: 45px;
+    height: rem(45px, 'small');
 
     @include respond-to('medium') {
-        height: 45px;
+        height: rem(45px, 'medium');
     }
 
     @include respond-to('large') {
-        height: 45px;
+        height: rem(45px, 'large');
     }
 
     button {
         &:first-child {
-            margin-right: 15px;
-
+            margin-right: rem(15px, 'small');
             @include respond-to('medium') {
-                margin-right: 40px;
+                margin-right: rem(40px, 'medium');
             }
             @include respond-to('large') {
-                margin-right: 40px;
+                margin-right: rem(40px, 'large');
             }
 
             .ar & {
                 margin-right: 0;
-                margin-left: 15px;
-
+                margin-left: rem(15px, 'small');
                 @include respond-to('medium') {
                     margin-right: 0;
-                    margin-left: 40px;
+                    margin-left: rem(40px, 'medium');
                 }
                 @include respond-to('large') {
                     margin-right: 0;
-                    margin-left: 40px;
+                    margin-left: rem(40px, 'large');
                 }
             }
         }

@@ -24,6 +24,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
 import LabelsEntities from '@/components/LabelsEntities';
+import Scrollbar from '@/components/ScrollBar/index';
 
 function CategoryTemplate(props) {
     /**
@@ -60,7 +61,6 @@ function CategoryTemplate(props) {
     useEffect(() => {
         useStore.setState({ currentCategory: category });
         useStore.setState({ currentSubcategory: subcategory });
-
         const slug = category.slug.split('/').slice(-1)[0];
         if (subcategory) {
             Globals.webglApp.gotoSubcategory(slug, subcategory.name);
@@ -118,19 +118,17 @@ function CategoryTemplate(props) {
 
     return (
         <div className="template-category" ref={ el }>
-
-            <div className="container-page container">
-
-                <ListSubcategories categorySlug={ category.slug } subcategories={ category.subcategories } />
-
-                { enitity &&
+            <Scrollbar revert={ true } data-name="listSubcategories">
+                <div className="container-page container">
+                    <ListSubcategories category={ category } subcategories={ category.subcategories } />
+                </div>
+            </Scrollbar>
+            { enitity &&
                     <>
                         { /* <LabelsEntities entities={ entities } /> */ }
-                        <button className="button button-discover" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
+                        <button className="button button-discover p4" onClick={ buttonDiscoverClickHandler }>Click to discover</button>
                     </>
-                }
-
-            </div>
+            }
 
         </div>
     );

@@ -15,9 +15,45 @@
     @include respond-to('large') {
         bottom: rem(34.5px, 'large');
     }
+    &:after {
+        content: '';
+        position: absolute;
+        left: rem(8px, 'small');
+        bottom: rem(-20px, 'small');
+        display: block;
+        width: rem(546px, 'small');
+        height: rem(150px, 'small');
+        background: linear-gradient(200deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
+        @include respond-to('medium') {
+            left: rem(8px, 'medium');
+            bottom: rem(-34.5px, 'medium');
+            width: rem(546px, 'medium');
+            height: rem(150px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(8px, 'large');
+            bottom: rem(-34.5px, 'large');
+            width: rem(546px, 'large');
+            height: rem(150px, 'large');
+        }
+        .ar & {
+            left: inherit;
+            right: rem(8px, 'small');
+            background: linear-gradient(150deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
+            @include respond-to('medium') {
+                left: inherit;
+                right: rem(8px, 'medium');
+            }
+            @include respond-to('large') {
+                left: inherit;
+                right: rem(8px, 'large');
+            }
+        }
+    }
 }
 
 .row {
+    position: relative;
     display: flex;
 
     justify-content: space-between;
@@ -27,6 +63,8 @@
     padding-right: rem(16px, 'small');
 
     padding-left: rem(16px, 'small');
+
+    z-index: 2;
 
     @include respond-to('medium') {
         padding-right: rem(53px, 'medium');
@@ -42,13 +80,13 @@
 .col-right {
     display: flex;
 
-    height: 45px;
+    height: rem(45px, 'small');
 
     @include respond-to('medium') {
-        height: 45px;
+        height: rem(45px, 'medium');
     }
 
     @include respond-to('large') {
-        height: 45px;
+        height: rem(45px, 'large');
     }
 }

@@ -15,12 +15,15 @@
     @include respond-to('medium') {
         top: 0;
         left: 0;
-        width: 285px;
+        width: rem(285px, 'medium');
         height: 100vh;
         .ar & {
             right: 0;
             left: inherit;
         }
+    }
+    @include respond-to('large') {
+        width: rem(285px, 'large');
     }
 }
 
@@ -29,11 +32,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 15px 0;
+    padding: rem(20px, 'small') rem(15px, 'small') 0;
     @include respond-to('medium') {
-        padding: 36px 28px 28px 53px;
+        padding: rem(36px, 'medium') rem(28px, 'medium') rem(28px, 'medium') rem(53px, 'medium');
         .ar & {
-            padding: 36px 53px 28px 28px;
+            padding: rem(36px, 'medium') rem(53px, 'medium') rem(28px, 'medium') rem(28px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        padding: rem(36px, 'large') rem(28px, 'large') rem(28px, 'large') rem(53px, 'large');
+        .ar & {
+            padding: rem(36px, 'large') rem(53px, 'large') rem(28px, 'large') rem(28px, 'large');
         }
     }
     &::after {

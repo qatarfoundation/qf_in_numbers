@@ -1,16 +1,15 @@
 .button-sound {
     position: relative;
 
-    width: 25px;
-    height: 25px;
-
+    width: rem(25px, 'small');
+    height: rem(25px, 'small');
     @include respond-to('medium') {
-        width: 32px;
-        height: 32px;
+        width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
     }
     @include respond-to('large') {
-        width: 32px;
-        height: 32px;
+        width: rem(32px, 'large');
+        height: rem(32px, 'large');
     }
 }
 

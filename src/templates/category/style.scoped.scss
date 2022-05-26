@@ -1,65 +1,124 @@
 .template-category {
+    height: 100vh;
     opacity: 0;
-
-    @include respond-to('medium') {
-        padding-top: rem(169px, 'medium');
+    .container {
+        @include respond-to('medium') {
+            padding-top: rem(169px, 'medium');
+            padding-bottom: rem(169px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-top: rem(169px, 'large');
+            padding-bottom: rem(169px, 'large');
+        }
     }
-    @include respond-to('large') {
-        padding-top: rem(169px, 'large');
+    .container-page {
+        width: 100%;
+        @include respond-to('medium') {
+            width: calc(100vw - #{rem(53px * 2, 'medium')});
+            margin: auto;
+        }
+        @include respond-to('large') {
+            width: calc(100vw - #{rem(53px * 2, 'large')});
+        }
     }
 }
 
 .button-discover {
     position: absolute;
-    right: 50px;
+    right: rem(50px, 'small');
     top: 0;
     bottom: 0;
-
-    height: 30px;
-
+    height: rem(30px, 'small');
     margin: auto 0;
-
-    font-size: 16px;
-    font-weight: 300;
     color: color-from-theme('green', 'secondary');
-
+    @include respond-to('medium') {
+        right: rem(50px, 'medium');
+        height: rem(30px, 'medium');
+    }
+    @include respond-to('large') {
+        right: rem(50px, 'large');
+        height: rem(30px, 'large');
+    }
     &:before {
         content: '';
-
         display: block;
-
         position: absolute;
-        left: -65px;
-        top: -9px;
-
-        width: 50px;
-        height: 50px;
-
+        left: rem(-65px, 'small');
+        top: rem(-9px, 'small');
+        width: rem(50px, 'small');
+        height: rem(50px, 'small');
         border: 1px solid rgba(color-from-theme('green', 'secondary'), 0.5);
         border-radius: 50%;
+        @include respond-to('medium') {
+            left: rem(-65px, 'medium');
+            top: rem(-9px, 'medium');
+            width: rem(50px, 'medium');
+            height: rem(50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(-65px, 'large');
+            top: rem(-9px, 'large');
+            width: rem(50px, 'large');
+            height: rem(50px, 'large');
+        }
     }
-
     &:after {
         content: '';
-
         display: block;
-
         position: absolute;
-        top: 4px;
+        top: rem(4px, 'small');
         bottom: 0;
-        left: -42px;
-
-        width: 6px;
-        height: 6px;
-
+        left: rem(-42px, 'small');
+        width: rem(6px, 'small');
+        height: rem(6px, 'small');
         margin: auto 0;
-
         background-color: rgba(color-from-theme('green', 'secondary'), 1);
         border-radius: 50%;
+        @include respond-to('medium') {
+            top: rem(4px, 'medium');
+            left: rem(-42px, 'medium');
+            width: rem(6px, 'medium');
+            height: rem(6px, 'medium');
+        }
+        @include respond-to('large') {
+            top: rem(4px, 'large');
+            left: rem(-42px, 'large');
+            width: rem(6px, 'large');
+            height: rem(6px, 'large');
+        }
     }
-
     .ar & {
-        left: 50px;
+        left: rem(50px, 'small');
         right: auto;
+        @include respond-to('medium') {
+            left: rem(50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(50px, 'large');
+        }
+        &:before {
+            left: inherit;
+            right: rem(-65px, 'small');
+            @include respond-to('medium') {
+                left: inherit;
+                right: rem(-65px, 'medium');
+            }
+            @include respond-to('large') {
+                left: inherit;
+                right: rem(-65px, 'large');
+            }
+        }
+        &:after {
+            left: inherit;
+            right: rem(-42px, 'small');
+            @include respond-to('medium') {
+                left: inherit;
+                right: rem(-42px, 'medium');
+            }
+            @include respond-to('large') {
+                left: inherit;
+                right: rem(-42px, 'large');
+            }
+        }
     }
 }

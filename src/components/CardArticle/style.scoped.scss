@@ -1,15 +1,26 @@
 .card-article {
     width: 100%;
-    padding-bottom: 16px;
+    padding-bottom: rem(16px, 'small');
+    @include respond-to('medium') {
+        padding-bottom: rem(16px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-bottom: rem(16px, 'large');
+    }
     .img-container {
         position: relative;
         width: 100%;
         padding-bottom: 63.32%;
-        margin-bottom: 16px;
-        border-radius: 3px;
+        margin-bottom: rem(16px, 'small');
+        border-radius: rem(3px, 'small');
         overflow: hidden;
         @include respond-to('medium') {
-            margin-bottom: 32px;
+            margin-bottom: rem(32px, 'medium');
+            border-radius: rem(3px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(32px, 'large');
+            border-radius: rem(3px, 'large');
         }
         img {
             position: absolute;
@@ -19,11 +30,23 @@
         }
     }
     .tag {
-        margin-bottom: 32px;
+        margin-bottom: rem(32px, 'small');
         color: color-from-theme('green', 'primary');
+        @include respond-to('medium') {
+            margin-bottom: rem(32px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(32px, 'large');
+        }
     }
     .title {
-        margin-bottom: 16px;
+        margin-bottom: rem(16px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
     }
 }
 

@@ -47,7 +47,7 @@ const LabelMainCategory = (props) => {
 
     return (
         <div className={ `label ${ props.anchor }` } ref={ labelRef }>
-            <div className="copy">
+            <div className="copy h4">
                 { props.label }
             </div>
         </div>

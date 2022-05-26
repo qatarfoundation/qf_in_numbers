@@ -40,7 +40,6 @@ function ChartLine(props, ref) {
     /**
     * References
     */
-    const refSwitch = useRef();
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();

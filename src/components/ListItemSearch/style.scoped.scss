@@ -2,22 +2,29 @@
     position: relative;
     display: block;
     &:not(:last-child) {
-        margin-bottom: 19px;
+        margin-bottom: rem(19px, 'small');
         @include respond-to('medium') {
-            margin-bottom: 16px;
+            margin-bottom: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
         }
     }
 }
 
-.button {
+.link {
     position: relative;
     display: block;
     color: $color-grey;
+    text-align: left;
     transition: opacity 0.3s linear;
     &:hover {
         color: color-from-theme('green', 'primary');
     }
     &.is-active {
         color: color-from-theme('green', 'primary');
+    }
+    .ar & {
+        text-align: right;
     }
 }

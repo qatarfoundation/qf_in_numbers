@@ -30,8 +30,10 @@ function EntityTemplate(props) {
     /**
      * States
      */
-    const [isPresent, safeToRemove] = usePresence();
-
+    const [isPresent, safeToRemove] = usePresence();/**
+    * Store
+    */
+    const [modalEntityIsOpen] = useStore(s => [s.modalEntityIsOpen]);
     /**
      * Effects
      */
@@ -43,7 +45,6 @@ function EntityTemplate(props) {
     const entityNext = data.entity[language].next;
     const entityPrevious = data.entity[language].previous;
     usePopulateTreeDataModel(year.year, year.categories);
-    console.log('api', entity);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -64,6 +65,9 @@ function EntityTemplate(props) {
     /**
      * Private
      */
+    function clickHandler() {
+        useStore.setState({ modalEntityIsOpen: false });
+    }
     function transitionIn() {
         const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
         timeline.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
@@ -87,7 +91,7 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
-            <ButtonPagination  name='Back' slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } direction='left' />
+            <ButtonPagination  name='Back' slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } direction='left' onClick={ clickHandler } />
             <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
         </div>
     );

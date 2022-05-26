@@ -24,6 +24,7 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
+import useTemplateData from '@/hooks/useTemplateData';
 
 function Layout(props) {
     const containerRef = useRef();
@@ -41,13 +42,24 @@ function Layout(props) {
     /**
      * Data
      */
-    const { originalPath, language } = useI18next();
     const { i18n } = useTranslation();
-    const { navigate } = useI18next();
+    const { navigate, originalPath, language } = useI18next();
     Globals.navigate = navigate;
 
+    /**
+     * Effects
+     */
+
     useEffect(() => {
-        if (props.pageContext.year) useStore.setState({ currentYear: props.pageContext.year[language].year });
+        if (props.pageContext.year) {
+            const entities = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => {
+                return { value: d.name, slug: d.slug  };
+            }))).flat(2);
+            const tags = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => d.tags ? d.tags.map(d => {
+                return { value: d.name, slug: d.slug  };
+            }) : []))).flat(3);
+            useStore.setState({ currentYear: props.pageContext.year[language].year, allEntities: [...entities], allTags: [...tags] });
+        }
     }, []);
 
     /**

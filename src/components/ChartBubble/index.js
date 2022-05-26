@@ -41,7 +41,6 @@ function ChartBubble(props, ref) {
     /**
     * References
     */
-    const refSwitch = useRef();
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
@@ -123,7 +122,7 @@ function ChartBubble(props, ref) {
                         .attr('x', function(d) { return d.x; })
                         .attr('y', function(d) { return d.y; });
                     setTimeout(() =>{
-                        if (refChart.current) {
+                        if (refChart.current && el) {
                             const bounding = el.getBoundingClientRect();
                             const isNew = refChart.current.clientWidth < bounding.width;
                             const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;

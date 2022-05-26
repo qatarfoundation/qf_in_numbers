@@ -1,34 +1,29 @@
 .list-item-subcategory {
     position: relative;
-
     display: block;
-    overflow: hidden;
-
-    margin: 20px 0;
+    padding : 0 rem(16px, 'small');
+    @include respond-to('medium') {
+        padding : inherit;
+    }
+    &:not(:last-child) {
+        margin-bottom: rem(16px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
 }
 
 .button {
-    position: relative;
-    top: -20px;
-
-    display: block;
-
-    font-weight: 300;
-    font-size: 64px;
     color: color-from-theme('green', 'primary');
-
+    white-space: nowrap;
     transition: color 0.3s ease-out;
-
+    @include respond-to('medium') {
+        white-space: inherit;
+    }
     &.is-highlighted {
         color: $color-white;
-    }
-
-    @include respond-to('medium') {
-        font-size: rem(64px, 'medium');
-    }
-
-    @include respond-to('large') {
-        font-size: rem(64px, 'large');
-        line-height: 1em;
     }
 }

@@ -4,6 +4,7 @@ const useStore = create((set) => {
     return {
         modalYearIsOpen: false,
         modalSearchIsOpen: false,
+        modalEntityIsOpen: false,
         currentYear: '2021',
         filterType: 'entities',
         scrolls: [],
@@ -11,6 +12,8 @@ const useStore = create((set) => {
         selectedEntity: null,
         currentCategory: {},
         currentSubcategory: {},
+        allEntities: [],
+        allTags: [],
     };
 });
 

@@ -3,17 +3,26 @@
         padding: 0;
     }
     .p2 {
-        padding-top: 24px;
+        padding-top: rem(24px, 'small');
         @include respond-to('medium') {
-            padding-top: 48px;
+            padding-top: rem(48px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-top: rem(48px, 'large');
         }
     }
     .subtitle {
-        padding-top: 8px;
+        padding-top: rem(8px, 'small');
+        @include respond-to('medium') {
+            padding-top: rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-top: rem(8px, 'large');
+        }
     }
     .charts-container {
         display: flex;
-        gap: 90px;
+        gap: rem(90px, 'small');
         @include respond-to('medium') {
             gap: 0;
         }

@@ -20,7 +20,7 @@ function ListEntities(props) {
                 entities.map((entity, index) => {
                     return (
                         <li className="list-item" key={ index }>
-                            <ButtonEntity categorySlug={ categorySlug } entity={ entity } />
+                            <ButtonEntity className="heading-list-subcategory" categorySlug={ categorySlug } entity={ entity } />
                         </li>
                     );
                 })

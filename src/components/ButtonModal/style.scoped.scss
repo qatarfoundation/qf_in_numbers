@@ -11,11 +11,16 @@
     max-width: 163px;
     width: calc(50vw - rem(32px, 'small'));
     height: 1px;
-    margin-top: 8px;
+    margin-top: rem(8px, 'small');
     background-color: $color-white;
     opacity: 0.2;
     @include respond-to('medium') {
         max-width: inherit;
-        width: 232px;
+        width: rem(232px, 'medium');
+        margin-top: rem(8px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(232px, 'large');
+        margin-top: rem(8px, 'large');
     }
 }

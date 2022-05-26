@@ -19,15 +19,16 @@ function ListItemSubcategory(props) {
     /**
      * Data
      */
-    const { categorySlug, subcategory } = props;
+    const { category, subcategory } = props;
+    const categorySlug = category.slug;
 
     /**
      * States
      */
-    const currentSubcategory = useStore((state) => state.currentSubcategory);
-    const [isOpen, setOpen] = useState();
+    const [currentCategory, currentSubcategory] = useStore((state) => [state.currentCategory, state.currentSubcategory]);
+    const [isOpen, setOpen] = useState(false);
     const [isHovered, setHovered] = useState(false);
-    const { language } = useI18next();
+    const { language, path } = useI18next();
 
     /**
      * Private
@@ -39,6 +40,8 @@ function ListItemSubcategory(props) {
     }
 
     function clickHandler() {
+        useStore.setState({ currentCategory: category });
+        useStore.setState({ currentSubcategory: subcategory });
         const slug = categorySlug.split('/').slice(-1)[0];
         Globals.webglApp.gotoSubcategory(slug, subcategory.name);
         TreeDataModel.setSubcategory(subcategory.name);
@@ -58,13 +61,15 @@ function ListItemSubcategory(props) {
     useEffect(() => {
         if (currentSubcategory) {
             setOpen(subcategory.slug === currentSubcategory.slug);
+        } else {
+            setOpen(false);
         }
-    }, [currentSubcategory]);
+    }, [currentCategory, currentSubcategory]);
 
     return (
         <li className="list-item-subcategory">
 
-            <button className={ `button ${ isOpen || isHovered ? 'is-highlighted' : '' }` } onClick={ clickHandler } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
+            <button className={ `button heading-list-category ${ isOpen || isHovered ? 'is-highlighted' : '' }` } onClick={ clickHandler } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
                 { subcategory.name }
             </button>
 

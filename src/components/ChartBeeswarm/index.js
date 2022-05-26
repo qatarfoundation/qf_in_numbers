@@ -38,7 +38,6 @@ function ChartBeeswarm(props, ref) {
     /**
     * References
     */
-    const refSwitch = useRef();
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
@@ -131,7 +130,7 @@ function ChartBeeswarm(props, ref) {
                 tooltipContainer
                     .html(`<p class="p3">${ d.y }</p><p class="p4">${ d.group }</p>`);
                 arrow
-                    .style('border-top', `9px solid ${ e.target.getAttribute('fill') }`);
+                    .style('border-top-color', e.target.getAttribute('fill'));
             };
             const mouseleave = d => tooltip.style('opacity', 0);
             // Points Container : contain all points of a line

@@ -1,3 +1,21 @@
 .list-subcategories {
-
+    position: absolute;
+    bottom: rem(100px, 'small');
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    @include respond-to('medium') {
+        position: relative;
+        bottom: inherit;
+        display: inherit;
+        flex-wrap: inherit;
+        width: inherit;
+        overflow: inherit;
+    }
 }

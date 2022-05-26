@@ -9,9 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // CSS
 import './style.scoped.scss';
 import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';
@@ -31,14 +28,21 @@ function PanelEntity(props, ref) {
      */
     const { entity, next, previous } = props;
     const { navigate, language } = useI18next();
-    const sequenceCharts = entity.charts.map(chart => {
-        let type = chart.type.split('Chart')[0];
-        type = type.charAt(0).toUpperCase() + type.slice(1);
-        return type;
-    });
+    let sequenceCharts = [];
+    if (entity.charts) {
+        sequenceCharts = entity.charts.map(chart => {
+            let type = chart.type.split('Chart')[0];
+            type = type.charAt(0).toUpperCase() + type.slice(1);
+            return type;
+        });
+    }
     if (entity.relatedArticles) {
         sequenceCharts.push('Related articles');
     }
+    /**
+     * Store
+     */
+    const [modalEntityIsOpen] = useStore(s => [s.modalEntityIsOpen]);
     /**
      * States
      */
@@ -48,9 +52,16 @@ function PanelEntity(props, ref) {
      */
     const swiperRef = useRef(null);
     /**
+     * Effects
+     */
+    useEffect(() => {
+        useStore.setState({ modalEntityIsOpen: true });
+    }, []);
+    /**
      * Private
      */
     function clickHandler() {
+        useStore.setState({ modalEntityIsOpen: false });
         navigate(entity.slug.slice(0, entity.slug.lastIndexOf('/')));
     }
     return (
@@ -59,7 +70,7 @@ function PanelEntity(props, ref) {
                 <Scrollbar revert={ false }>
                     <ButtonClose onClick={ clickHandler } />
                     <SequenceCharts charts={ sequenceCharts } />
-                    <section className="section section-container">
+                    <section className="section section-container hide-line">
                         <div className="points">
                             <div className="point"></div>
                             <div className="point"></div>

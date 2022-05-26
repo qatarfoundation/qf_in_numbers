@@ -2,19 +2,36 @@
     position: relative;
     width: 100%;
     height: 100%;
-    margin-bottom: 62px;
+    margin-top: rem(-74px, 'small');
+    margin-bottom: rem(62px, 'small');
     @include respond-to('medium') {
-        margin-bottom: 58px;
+        margin-top: rem(-74px, 'medium');
+        margin-bottom: rem(58px, 'medium');
+    }
+    @include respond-to('large') {
+        margin-top: rem(-74px, 'large');
+        margin-bottom: rem(58px, 'large');
     }
     .tooltip {
         position: absolute;
+        top: 50%; left: 50%;
         width: fit-content;
-        padding: 8px 12px 12px;
+        padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
         background-color: color-from-theme('green', 'primary');
-        border-radius: 4px;
+        border-radius: rem(4px, 'small');
         color: $color-white;
-        transform: translate(-50%, -100%);
+        transform: translate(calc(-50% + rem(18px, 'small')), calc(-100% + rem(74px, 'small')));
         pointer-events: none;
+        @include respond-to('medium') {
+            padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
+            border-radius: rem(4px, 'medium');
+            transform: translate(calc(-50% + rem(18px, 'medium')), calc(-100% + rem(74px, 'medium')));
+        }
+        @include respond-to('large') {
+            padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
+            border-radius: rem(4px, 'large');
+            transform: translate(calc(-50% + rem(18px, 'large')), calc(-100% + rem(74px, 'large')));
+        }
         &::after {
             content: '';
             position: absolute;
@@ -23,10 +40,26 @@
             display: block;
             width: 0;
             height: 0;
-            border-left: 9px solid transparent;
-            border-right: 9px solid transparent;
-            border-top: 9px solid color-from-theme('green', 'primary');
+            border-left-width: rem(9px, 'small');
+            border-left-style: solid;
+            border-left-color: transparent;
+            border-right-width: rem(9px, 'small');
+            border-right-style: solid;
+            border-right-color: transparent;
+            border-top-width: rem(9px, 'small');
+            border-top-style: solid;
+            border-top-color: color-from-theme('green', 'primary');
             transform: translate(-50%, calc(100% - 1px));
+            @include respond-to('medium') {
+                border-left-width: rem(9px, 'medium');
+                border-right-width: rem(9px, 'medium');
+                border-top-width: rem(9px, 'medium');
+            }
+            @include respond-to('large') {
+                border-left-width: rem(9px, 'large');
+                border-right-width: rem(9px, 'large');
+                border-top-width: rem(9px, 'large');
+            }
         }
     }
 }
@@ -37,46 +70,22 @@
 }
 
 .chart-map {
-    width: 100%;
-    min-width: 662px;
-    .grid {
-        .tick line {
-            stroke-dasharray: 4;
-            color: $color-grey-light;
-        }
+    width: calc(100% - rem(36px, 'small'));
+    min-width: 851px;
+    margin: rem(90px, 'small') rem(18px, 'small') rem(30px, 'small');
+    @include respond-to('medium') {
+        width: calc(100% - rem(36px, 'medium'));
+        margin: rem(90px, 'medium') rem(18px, 'medium') rem(30px, 'medium');
     }
-    .domain {
-        display: none;
+    @include respond-to('large') {
+        width: calc(100% - rem(36px, 'large'));
+        margin: rem(90px, 'large') rem(18px, 'large') rem(30px, 'large');
     }
-    .axis .tick text {
-        color: $color-grey;
-        text-anchor: start;
+    .country {
+        fill: $color-white;
+        stroke: $color-grey-light;
     }
-    .axis-x .tick text {
-        transform: translate(6px, 0) rotate(45deg);
-    }
-    .label {
-        color: color-from-theme('green', 'primary');
-        text-anchor: middle;
-        pointer-events: none;
-    }
-    .line-container {
-        &:hover {
-            .line, .point {
-                stroke: color-from-theme('green', 'primary');
-            }
-        }
-        .line {
-            fill: none;
-            stroke: color-from-theme('green', 'secondary');
-            stroke-width: 2;
-        }
-        .point {
-            fill: $color-white;
-            stroke: color-from-theme('green', 'secondary');
-            &:hover {
-                fill: color-from-theme('green', 'primary');
-            }
-        }
+    .circle {
+        fill: color-from-theme('green', 'secondary');
     }
 }

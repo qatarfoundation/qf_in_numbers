@@ -15,7 +15,7 @@ function ModalSearch(props, ref) {
     /**
      * Store
      */
-    const [isOpen] = useStore((state) => [state.modalSearchIsOpen]);
+    const [isOpen, yearDatas] = useStore((state) => [state.modalSearchIsOpen, state.yearDatas]);
     /**
      * Private
      */
@@ -27,7 +27,7 @@ function ModalSearch(props, ref) {
         <>
             <div className="modal modal-year">
                 <ButtonModal name="Find data" onClick={ clickHandler }  />
-                { isOpen ? <PanelSearch isOpen={ isOpen } /> : '' }
+                { isOpen ? <PanelSearch isOpen={ isOpen } yearDatas={ yearDatas } /> : '' }
             </div>
         </>
     );

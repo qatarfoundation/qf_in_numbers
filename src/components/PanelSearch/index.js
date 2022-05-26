@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
@@ -18,16 +18,42 @@ function PanelSearch(props, ref) {
     /**
      * Store
      */
-    const isOpen = useStore((state) => state.modalSearchIsOpen);
+    const [isOpen, allEntities, allTags, filterType] = useStore((state) => [state.modalSearchIsOpen, state.allEntities, state.allTags, state.filterType]);
     /**
-     * Datas
+     * State
      */
-    const items = ['Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo', 'Sed faucibus faucibus amet', 'Id lacus in blandit placerat', 'Amet pretium sed leo'];
+    const [staticItems, setStaticItems] = useState(allEntities);
+    const [dynamicItems, setDynamicItems] = useState(allEntities);
+    const [inputSearch, setInputSearch] = useState();
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        if (filterType == 'entities') {
+            setStaticItems(allEntities);
+            setDynamicItems(allEntities);
+        } else if (filterType == 'tags') {
+            setStaticItems(allTags);
+            setDynamicItems(allTags);
+        }
+    }, [filterType]);
+
+    useEffect(() => {
+        if (inputSearch != undefined) {
+            const filteredData = staticItems.filter((item) => {
+                return item.value.substring(0, inputSearch.length).toLowerCase() == inputSearch.toLowerCase();
+            });
+            setDynamicItems(filteredData);
+        }
+    }, [inputSearch]);
     /**
      * Private
      */
     function clickHandler() {
-        useStore.setState({ modalSearchIsOpen: !isOpen });
+        useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' });
+    }
+    function changeHandler(e) {
+        setInputSearch(e.target.value);
     }
     return (
         <>
@@ -38,7 +64,7 @@ function PanelSearch(props, ref) {
                         <ButtonClose onClick={ clickHandler } />
                     </div>
                     <div className="search">
-                        <input type="text" className="input input-search p6" placeholder='search entity, metric or tag...' />
+                        <input type="text" className="input input-search p6" placeholder='search entity, metric or tag...' onChange={ changeHandler } />
                         <ButtonSearch />
                     </div>
                 </div>
@@ -47,7 +73,7 @@ function PanelSearch(props, ref) {
                     <ButtonFilter name="Tags" type="tags" />
                 </div>
                 <Scrollbar revert={ false } data-name="search">
-                    <ListSearch items={ items } />
+                    <ListSearch items={ dynamicItems } />
                 </Scrollbar>
             </div>
         </>

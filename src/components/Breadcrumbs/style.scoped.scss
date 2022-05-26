@@ -1,23 +1,119 @@
 ul {
     display: block;
-
-    position: absolute;
-    top: 10px;
-    left: 170px;
+    margin-left: rem(28px, 'small');
+    @include respond-to('medium') {
+        margin-left: rem(82px, 'medium');
+    }
+    @include respond-to('large') {
+        margin-left: rem(82px, 'large');
+    }
+    .ar & {
+        margin-left: 0;
+        margin-right: rem(28px, 'small');
+        @include respond-to('medium') {
+            margin-right: rem(82px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-right: rem(82px, 'large');
+        }
+    }
 }
 
 li {
+    position: relative;
     display: inline-block;
-
-    margin-right: 10px;
-
-    font-size: 13px;
+    margin: 0 rem(5px, 'small');
+    @include respond-to('medium') {
+        margin: 0 rem(5px, 'medium');
+    }
+    @include respond-to('large') {
+        margin: 0 rem(5px, 'large');
+    }
+    &:not(:last-child) {
+        display: none;
+        @include respond-to('medium') {
+            display: inline-block;
+        }
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: rem(4px, 'small') solid transparent;
+        border-right: rem(4px, 'small') solid transparent;
+        border-top: rem(4px, 'small') solid color-from-theme('green', 'primary');
+        transform: translate3d(-100%, 50%, 0) rotate3D(0, 0, 1, -90deg);
+        @include respond-to('medium') {
+            border-left: rem(4px, 'medium') solid transparent;
+            border-right: rem(4px, 'medium') solid transparent;
+            border-top: rem(4px, 'medium') solid color-from-theme('green', 'primary');
+        }
+        @include respond-to('large') {
+            border-left: rem(4px, 'large') solid transparent;
+            border-right: rem(4px, 'large') solid transparent;
+            border-top: rem(4px, 'large') solid color-from-theme('green', 'primary');
+        }
+        .ar & {
+            left: inherit;
+            right: 0;
+            transform: translate3d(100%, 50%, 0) rotate3D(0, 0, 1, 90deg);
+        }
+    }
+    & > * {
+        margin: 0 rem(4px, 'small');
+        pointer-events: auto;
+        @include respond-to('medium') {
+            margin: 0 rem(4px, 'medium');
+        }
+        @include respond-to('large') {
+            margin: 0 rem(4px, 'large');
+        }
+    }
+    &.is-hide {
+        position: relative;
+        a {
+            position: absolute;
+            bottom: rem(-4px, 'small');
+            left: calc(50% - rem(4px, 'small'));
+            display: none;
+            padding: 0 rem(16px, 'small') rem(5px, 'small');
+            border: 1px solid color-from-theme('green', 'primary');
+            border-radius: rem(16px, 'small');
+            transform: translate3d(-50%, 100%, 0);
+            @include respond-to('medium') {
+                left: calc(50% - rem(4px, 'medium'));
+                bottom: rem(-4px, 'medium');
+                padding: 0 rem(16px, 'medium') rem(5px, 'medium');
+                border-radius: rem(16px, 'medium');
+            }
+            @include respond-to('large') {
+                left: calc(50% - rem(4px, 'large'));
+                bottom: rem(-4px, 'large');
+                padding: 0 rem(16px, 'large') rem(5px, 'large');
+                border-radius: rem(16px, 'large');
+            }
+            .ar & {
+                left: inherit;
+                right: calc(50% - rem(4px, 'small'));
+                @include respond-to('medium') {
+                    right: calc(50% - rem(4px, 'medium'));
+                }
+                @include respond-to('large') {
+                    right: calc(50% - rem(4px, 'large'));
+                }
+            }
+            &.is-active {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 a {
-    color: white;
-
-    font-size: 13px;
-
+    color: $color-white;
     pointer-events: auto;
 }

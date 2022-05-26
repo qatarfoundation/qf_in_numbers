@@ -2,10 +2,13 @@ h1, .h1 {
     font-family: 'PFDINSerif';
     font-style: normal;
     font-weight: 400;
-    font-size: 48px;
+    font-size: rem(48px, 'small');
     line-height: 90%;
     @include respond-to('medium') {
-        font-size: 80px;
+        font-size: rem(80px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(80px, 'large');
     }
 }
 
@@ -13,10 +16,13 @@ h2, .h2 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 64px;
+    font-size: rem(64px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 96px;
+        font-size: rem(96px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(96px, 'large');
     }
 }
 
@@ -24,18 +30,29 @@ h3, .h3, .heading-list-category {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 64px;
-    line-height: 77px;
+    font-size: rem(32px, 'small');
+    line-height: rem(38.4px, 'small');
+    @include respond-to('medium') {
+        font-size: rem(64px, 'medium');
+        line-height: rem(77px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(64px, 'large');
+        line-height: rem(77px, 'large');
+    }
 }
 
 h4, .h4 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 32px;
+    font-size: rem(32px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 48px;
+        font-size: rem(48px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(48px, 'large');
     }
 }
 
@@ -43,26 +60,41 @@ h5, .h5 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 36px;
+    font-size: rem(36px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(36px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(36px, 'large');
+    }
 }
 
 h6, .h6 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 30px;
+    font-size: rem(30px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(30px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(30px, 'large');
+    }
 }
 
 .h7, .heading-list-subcategory, .heading-dropdown  {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: 18px;
+    font-size: rem(18px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 24px;
+        font-size: rem(24px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(24px, 'large');
     }
 }
 
@@ -70,18 +102,28 @@ h6, .h6 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
+    font-size: rem(18px, 'small');
     line-height: 22px;
+    @include respond-to('medium') {
+        font-size: rem(18px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
+    }
 }
 
 .h9 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 700;
-    font-size: 32px;
+    font-size: rem(32px, 'small');
     line-height: 38px;
     @include respond-to('medium') {
-        font-size: 18px;
+        font-size: rem(18px, 'medium');
+        line-height: 22px;
+    }
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
         line-height: 22px;
     }
 }
@@ -90,10 +132,13 @@ p, a, button, li, span .p1 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 21px;
+    font-size: rem(21px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 24px;
+        font-size: rem(24px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(24px, 'large');
     }
 }
 
@@ -101,10 +146,13 @@ p, a, button, li, span .p1 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: rem(16px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 21px;
+        font-size: rem(21px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(21px, 'large');
     }
     .bold {
         font-weight: 700;
@@ -115,41 +163,68 @@ p, a, button, li, span .p1 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: rem(18px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(18px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
+    }
 }
 
 .p4 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: rem(16px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(16px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(16px, 'large');
+    }
 }
 
 .p5 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: rem(14px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(14px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(14px, 'large');
+    }
 }
 
 .p6, .text-legend {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
+    font-size: rem(13px, 'small');
     line-height: 120%;
+    @include respond-to('medium') {
+        font-size: rem(13px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(13px, 'large');
+    }
 }
 
 .p7 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
-    font-size: 13px;
+    font-size: rem(13px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
-        font-size: 16px;
+        font-size: rem(16px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(16px, 'large');
     }
 }

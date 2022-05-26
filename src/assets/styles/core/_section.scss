@@ -1,10 +1,14 @@
 .section {
     position: relative;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: rem(20px, 'small');
+    padding-bottom: rem(20px, 'small');
     @include respond-to('medium') {
-        padding-top: 55px;
-        padding-bottom: 62px;
+        padding-top: rem(55px, 'medium');
+        padding-bottom: rem(62px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-top: rem(55px, 'large');
+        padding-bottom: rem(62px, 'large');
     }
     &::after {
         content: '';
@@ -20,10 +24,14 @@
 }
 
 .section-container {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding-right: rem(18px, 'small');
+    padding-left: rem(18px, 'small');
     @include respond-to('medium') {
-        padding-right: 62px;
-        padding-left: 62px;
+        padding-right: rem(62px, 'medium');
+        padding-left: rem(62px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-right: rem(62px, 'large');
+        padding-left: rem(62px, 'large');
     }
 }

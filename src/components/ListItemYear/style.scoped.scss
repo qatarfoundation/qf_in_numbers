@@ -1,15 +1,32 @@
 .list-item-year {
     position: relative;
     display: block;
-    margin-left: 32px;
+    margin-left: rem(32px, 'small');
     .ar & {
         margin-left: 0;
-        margin-right: 32px;
+        margin-right: rem(32px, 'small');
+    }
+    @include respond-to('medium') {
+        margin-left: rem(32px, 'medium');
+        .ar & {
+            margin-left: 0;
+            margin-right: rem(32px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        margin-left: rem(32px, 'large');
+        .ar & {
+            margin-left: 0;
+            margin-right: rem(32px, 'large');
+        }
     }
     &:not(:last-child) {
         margin-bottom: 0;
         @include respond-to('medium') {
-            margin-bottom: 24px;
+            margin-bottom: rem(24px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(24px, 'large');
         }
     }
 }

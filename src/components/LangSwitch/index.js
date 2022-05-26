@@ -25,7 +25,7 @@ function LangSwitch(props) {
 
     return (
         <div className={ `language-switch ${ button.className }` }>
-            <Link className="button" to={ originalPath } language={ button.locale }>
+            <Link className="button p1" to={ originalPath } language={ button.locale }>
                 { button.label }
             </Link>
         </div>

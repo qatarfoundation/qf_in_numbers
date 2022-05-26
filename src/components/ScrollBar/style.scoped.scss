@@ -4,8 +4,16 @@
     height: 100%;
     overflow: auto;
     &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: rem(8px, 'small');
+        height: rem(8px, 'small');
+        @include respond-to('medium') {
+            width: rem(8px, 'medium');
+            height: rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(8px, 'large');
+            height: rem(8px, 'large');
+        }
     }
     &::-webkit-scrollbar-track {
       background: rgba(255,255,255,0);
@@ -20,6 +28,12 @@
         direction: rtl;
         & > * {
             direction: ltr;
+        }
+        .ar & {
+            direction: ltr;
+            & > * {
+                direction: rtl;
+            }
         }
     }
     &.scrollbar-colored {

@@ -1,5 +1,6 @@
 // React
 import React, { useState } from 'react';
+import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -31,9 +32,9 @@ function ListItemSearch(props) {
 
     return (
         <li className="list-item-search">
-            <button className='button button-search p4' onClick={ clickHandler }>
-                { item }
-            </button>
+            <Link to={ item.slug } className='link-search p4' onClick={ clickHandler }>
+                { item.value }
+            </Link>
         </li>
     );
 }
