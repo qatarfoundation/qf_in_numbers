@@ -34,7 +34,7 @@ function Breakcrumbs(props) {
                 </li>
             }
 
-            { currentCategory ?
+            { currentCategory && currentCategory.slug && currentCategory.name ?
                 !modalEntityIsOpen ?
                     <li className='breadcrumb-category'>
                         <Link className="text-breadcrumb" to={ currentCategory.slug } onClick={ () => {
@@ -49,8 +49,8 @@ function Breakcrumbs(props) {
                 : ''
             }
 
-            { currentSubcategory &&
-                <li  className='breadcrumb-subcategory'>
+            { currentSubcategory && currentSubcategory.slug && currentSubcategory.name &&
+                <li className='breadcrumb-subcategory'>
                     <Link className="text-breadcrumb" to={ currentSubcategory.slug }>{ currentSubcategory.name }</Link>
                 </li>
             }

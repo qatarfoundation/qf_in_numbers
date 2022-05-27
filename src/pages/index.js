@@ -2,18 +2,32 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
 // CSS
 import '@/pages/home/style.scoped.scss';
 
+// Components
+import Drag from '@/assets/icons/drag.svg';
+import Select from '@/assets/icons/select.svg';
+import { Link } from 'gatsby-plugin-react-i18next';
+import useStore from '@/hooks/useStore';
+
 function IndexPage(props, ref) {
     /**
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
+    const [isInitiation, setIsInitiation] = useState(true);
+    const [isDrag, setIsDrag] = useState(true);
+    const [isSelect, setIsSelect] = useState(false);
+
+    /**
+     * Stores
+     */
+    const isTutorial = useStore(s => s.isTutorial);
 
     /**
      * Effects
@@ -24,8 +38,9 @@ function IndexPage(props, ref) {
     }, [isPresent]);
 
     useEffect(() => {
+        if (!isTutorial) useStore.setState({ isTutorial: true });
         // NOTE: Ugly temporary solution
-        window.location.href = '/2021/';
+        // window.location.href = '/2021/';
     }, []);
 
     /**
@@ -57,13 +72,57 @@ function IndexPage(props, ref) {
         safeToRemove();
     }
 
+    function clickHandlerButtonInitiation() {
+        setIsInitiation(false);
+    }
+
+    function dragHandlerButtonDrag() {
+        setIsDrag(false);
+        setIsSelect(true);
+    }
+
+    function clickHandlerButtonSelect() {
+        // NOTE: Ugly temporary solution
+        window.location.href = '/2021/';
+    }
+
     /**
      * Render
      */
     return (
         <div className="page" ref={ el }>
             <div className="container-page">
-
+                {
+                    isInitiation ?
+                        <div className="initiation">
+                            <button className="button button-enter p4" onClick={ clickHandlerButtonInitiation }>Enter</button>
+                            <p className='p4'>By entering the site, you agree to our use of cookies. Fore more info check our <Link to={ '/' } className="p4">Privacy Policy</Link></p>
+                        </div>
+                        :
+                        <div className="tutorial">
+                            <h2 className='h6'>Explore the Qatar Foundation in numbers.</h2>
+                            { isDrag &&
+                            <>
+                                <button className="button button-drag" draggable="true" onDragStart={ dragHandlerButtonDrag }>
+                                    <div className="icon icon-drag">
+                                        <Drag className='drag' />
+                                    </div>
+                                </button>
+                                <p className='p3'>Drag right / left to start experience</p>
+                            </>
+                            }
+                            { isSelect &&
+                            <>
+                                <button className="button button-select"  onClick={ clickHandlerButtonSelect }>
+                                    <div className="icon icon-select">
+                                        <Select className='select' />
+                                    </div>
+                                </button>
+                                <p className='p3'>Select a node to explore Numbers</p>
+                            </>
+                            }
+                        </div>
+                }
             </div>
         </div>
     );

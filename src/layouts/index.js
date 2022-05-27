@@ -40,6 +40,11 @@ function Layout(props) {
     const [webglAppState, setWebglAppState] = useState(undefined);
 
     /**
+     * Stores
+     */
+    const isTutorial = useStore(s => s.isTutorial);
+
+    /**
      * Data
      */
     const { i18n } = useTranslation();
@@ -94,7 +99,11 @@ function Layout(props) {
                             <div key={ originalPath } className="page">
                                 { children }
                                 <TheNavigation key={ `${ language }-navigation` } />
-                                <TheFooter key={ `${ language }-footer` } />
+                                {
+                                    !isTutorial && <>
+                                        <TheFooter key={ `${ language }-footer` } />
+                                    </>
+                                }
                             </div>
 
                         </AnimatePresence>

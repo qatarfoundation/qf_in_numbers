@@ -27,3 +27,113 @@
     position: absolute;
     @include antialised;
 }
+
+
+.button-pagination {
+    position: absolute;
+    top: rem(-40px, 'small');
+    width: rem(205px, 'small');
+    @include respond-to('medium') {
+        top: rem(-40px, 'medium');
+        width: rem(205px, 'medium');
+    }
+    @include respond-to('large') {
+        top: rem(-40px, 'large');
+        width: rem(205px, 'large');
+    }
+    .left & {
+        left: rem(50px, 'small');
+        @include respond-to('medium') {
+            left: rem(50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(50px, 'large');
+        }
+        transform: translate(-100%, -50%);
+        .ar & {
+            left: inherit;
+            right: rem(50px, 'small');
+            @include respond-to('medium') {
+                right: rem(50px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(50px, 'large');
+            }
+            transform: translate(0, -50%);
+        }
+    }
+
+    .right & {
+        left: rem(-50px, 'small');
+        @include respond-to('medium') {
+            left: rem(-50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(-50px, 'large');
+        }
+        transform: translate(0, -50%);
+        .ar & {
+            left: inherit;
+            right: rem(-50px, 'small');
+            @include respond-to('medium') {
+                right: rem(-50px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(-50px, 'large');
+            }
+            transform: translate(100%, -50%);
+        }
+    }
+    p {
+        white-space: nowrap;
+        color: color-from-theme('green', 'secondary');
+    }
+    .icon {
+        position: relative;
+        width: rem(56px, 'small');
+        min-width: rem(56px, 'small');
+        height: rem(56px, 'small');
+        min-height: rem(56px, 'small');
+        border-color: color-from-theme('green', 'secondary');
+        @include respond-to('medium') {
+            width: rem(56px, 'medium');
+            min-width: rem(56px, 'medium');
+            height: rem(56px, 'medium');
+            min-height: rem(56px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(56px, 'large');
+            min-width: rem(56px, 'large');
+            height: rem(56px, 'large');
+            min-height: rem(56px, 'large');
+        }
+        svg {
+            display: block;
+            padding: rem(20px, 'small');
+            fill: color-from-theme('green', 'secondary');
+            @include respond-to('medium') {
+                display: none;
+            }
+        }
+        &::before {
+            content: '';
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(color-from-theme('green', 'secondary'), 1);
+            border-radius: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            @include respond-to('medium') {
+                display: block;
+                width: rem(6px, 'medium');
+                height: rem(6px, 'medium');
+            }
+            @include respond-to('large') {
+                width: rem(6px, 'large');
+                height: rem(6px, 'large');
+            }
+        }
+    }
+}
+

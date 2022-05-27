@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 // React
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 
@@ -15,13 +15,17 @@ import './style.scoped.scss';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
+import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Utils
 import Globals from '@/utils/Globals';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Components
 import ListCategories from '@/components/ListCategories';
 import SubcategoriesLabel from '@/components/SubcategoriesLabel';
+import SliderCategories from '@/components/SliderCategories/index';
+import ButtonPagination from '@/components/ButtonPagination/index';
 
 const YearTemplate = (props) => {
     /**
@@ -32,7 +36,9 @@ const YearTemplate = (props) => {
     /**
      * States
      */
+    const [currentCategory] = useStore((state) => [state.currentCategory]);
     const [isPresent, safeToRemove] = usePresence();
+    const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
 
     /**
      * Effects
@@ -40,6 +46,10 @@ const YearTemplate = (props) => {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     usePopulateTreeDataModel(year.year, year.categories);
+
+    useEffect(() => {
+        console.log(currentCategory);
+    }, [currentCategory]);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -58,6 +68,18 @@ const YearTemplate = (props) => {
      * Refs
      */
     const el = useRef();
+
+    /**
+     * Events
+     */
+    useWindowResizeObserver(resizeHandler);
+
+    /**
+     * Handlers
+     */
+    function resizeHandler() {
+        resize();
+    }
 
     /**
      * Private
@@ -79,18 +101,26 @@ const YearTemplate = (props) => {
         safeToRemove();
     }
 
+    function resize() {
+        setBreakpoints(Breakpoints.current);
+    }
+
     return (
         <div className="template-year" ref={ el }>
 
-            <div className="container-page container">
+            { breakpoints == 'small' ?
+                <SliderCategories categories={ year.categories } />
+                :
+                <div className="container-page container">
+                    <ListCategories categories={ year.categories } />
+                </div>
+            }
 
-                <ListCategories categories={ year.categories } />
+            { year.categories[0] && <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } /> }
+            { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
+            { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> }
 
-                { year.categories[0] && <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } /> }
-                { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
-                { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> }
-
-            </div>
+            { currentCategory && <ButtonPagination name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ currentCategory.slug } direction='right' /> }
 
         </div>
     );

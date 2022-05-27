@@ -7,13 +7,11 @@ import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
-// Hooks
-import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
-
 // CSS
 import './style.scoped.scss';
 
 // Hooks
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';

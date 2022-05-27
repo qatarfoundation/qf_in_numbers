@@ -1,0 +1,51 @@
+.slider-categories {
+    position: absolute;
+    bottom: rem(100px, 'small');
+    width: 100%;
+    padding-left: rem(18px, 'small');
+    overflow: inherit;
+    .ar & {
+        padding-left: 0;
+        padding-right: rem(18px, 'small');
+    }
+    @include respond-to('medium') {
+        bottom: rem(100px, 'medium');
+        padding-left: rem(62px, 'medium');
+        .ar & {
+            padding-right: rem(62px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        bottom: rem(100px, 'large');
+        padding-left: rem(62px, 'large');
+        .ar & {
+            padding-right: rem(62px, 'large');
+        }
+    }
+    .swiper-slide {
+        width: calc(75vw - 8px);
+        width: auto;
+        flex-shrink: inherit;
+        &:last-child {
+            max-width: 100%;
+            width: calc(100vw - 16px);
+            .list-item-subcategory {
+                width: calc(100vw - 16px);
+                .button {
+                    width: calc(75vw - 8px);
+                }
+            }
+        }
+        .list-item-category {
+            width: auto;
+            padding: inherit;
+            .button {
+                text-align: left;
+                white-space: inherit;
+                .ar & {
+                    text-align: right;
+                }
+            }
+        }
+    }
+}

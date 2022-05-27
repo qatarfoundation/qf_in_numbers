@@ -14,6 +14,7 @@ const useStore = create((set) => {
         currentSubcategory: {},
         allEntities: [],
         allTags: [],
+        isTutorial: false,
     };
 });
 
