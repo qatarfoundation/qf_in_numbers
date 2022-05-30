@@ -25,6 +25,9 @@ class Main {
         this._showDebug = options.showDebug || false;
         this._mouseAreaElement = options.mouseAreaElement;
 
+        // Props
+        this._isInteractive = true;
+
         // Setup
         this._debug = this._createDebug();
         this._clock = this._createClock();
@@ -56,6 +59,10 @@ class Main {
      */
     get mouseAreaElement() {
         return this._mouseAreaElement;
+    }
+
+    get isInteractive() {
+        return this._isInteractive;
     }
 
     /**

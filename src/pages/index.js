@@ -4,10 +4,14 @@ import { gsap } from 'gsap';
 // React
 import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
-import { graphql } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import '@/pages/home/style.scoped.scss';
+
+// Utils
+import Globals from '@/utils/Globals';
 
 // Components
 import Drag from '@/assets/icons/drag.svg';
@@ -23,6 +27,7 @@ function IndexPage(props, ref) {
     const [isInitiation, setIsInitiation] = useState(true);
     const [isDrag, setIsDrag] = useState(true);
     const [isSelect, setIsSelect] = useState(false);
+    const { navigate } = useI18next();
 
     /**
      * Stores
@@ -39,8 +44,7 @@ function IndexPage(props, ref) {
 
     useEffect(() => {
         if (!isTutorial) useStore.setState({ isTutorial: true });
-        // NOTE: Ugly temporary solution
-        // window.location.href = '/2021/';
+        Globals.webglApp.disableInteractions();
     }, []);
 
     /**
@@ -82,8 +86,13 @@ function IndexPage(props, ref) {
     }
 
     function clickHandlerButtonSelect() {
-        // NOTE: Ugly temporary solution
-        window.location.href = '/2021/';
+        navigate(getLastYear());
+    }
+
+    function getLastYear() {
+        const years = props.data.allContentfulYear.edges;
+        years.sort((a, b) => b.node.year - a.node.year);
+        return years[0].node.year;
     }
 
     /**
@@ -138,6 +147,13 @@ export const query = graphql`
                     ns
                     data
                     language
+                }
+            }
+        }
+        allContentfulYear {
+            edges {
+                node {
+                    year
                 }
             }
         }

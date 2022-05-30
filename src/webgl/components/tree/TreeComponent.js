@@ -134,7 +134,7 @@ export default class TreeComponent extends component(Object3D) {
     update({ time, delta }) {
         if (!this._isActive) return;
         this._updateBranches({ time, delta });
-        this._updateMouseInteractions();
+        if (this.$root.isInteractive) this._updateMouseInteractions();
     }
 
     _updateBranches({ time, delta }) {
@@ -197,7 +197,7 @@ export default class TreeComponent extends component(Object3D) {
      * Mouse
      */
     onMousemove({ centered }) {
-        this._mousePosition.copy(centered);
+        if (this.$root.isInteractive) this._mousePosition.copy(centered);
     }
 
     /**

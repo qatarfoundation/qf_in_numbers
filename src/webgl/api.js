@@ -46,4 +46,12 @@ export default {
             this._viewManager.active.selectEntity(categorySlug, name);
         }
     },
+
+    enableInteractions() {
+        this._isInteractive = true;
+    },
+
+    disableInteractions() {
+        this._isInteractive = false;
+    },
 };

@@ -58,6 +58,7 @@ const YearTemplate = (props) => {
 
     useEffect(() => {
         Globals.webglApp.gotoOverview();
+        Globals.webglApp.enableInteractions();
 
         useStore.setState({ currentCategory: null });
         useStore.setState({ currentSubcategory: null });

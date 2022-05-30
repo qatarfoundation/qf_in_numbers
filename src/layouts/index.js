@@ -50,7 +50,7 @@ function Layout(props) {
      */
     const { i18n } = useTranslation();
     const { navigate, originalPath, language } = useI18next();
-    Globals.navigate = navigate;
+    Globals.navigate = navigate; // NOTE: Add to global to be able to use it in the Webgl application
 
     /**
      * Effects
