@@ -2,12 +2,12 @@
 import { gsap } from 'gsap';
 import React, { useEffect, useRef } from 'react';
 
+// CSS
+import './style.scoped.scss';
+
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import Breakpoints from '@/utils/Breakpoints';
-
-// CSS
-import './style.scoped.scss';
 
 // Hooks
 import useTick from '@/hooks/useTick';

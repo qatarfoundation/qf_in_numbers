@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet';
 // CSS
 import '@/assets/styles/app.scss';
 import './index/style.scoped.scss';
+import 'swiper/css';
 
 // Utils
 import Globals from '@/utils/Globals';

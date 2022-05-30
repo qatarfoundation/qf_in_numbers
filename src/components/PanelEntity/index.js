@@ -8,7 +8,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // CSS
 import './style.scoped.scss';
-import 'swiper/css';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';

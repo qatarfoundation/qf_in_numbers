@@ -1,12 +1,11 @@
 // React
 import React, { useRef } from 'react';
 
-// Modules
-import { Swiper, SwiperSlide } from 'swiper/react';
-
 // CSS
 import './style.scoped.scss';
-import 'swiper/css';
+
+// Modules
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Components
 import ListItemSubcategory from '@/components/ListItemSubcategory';

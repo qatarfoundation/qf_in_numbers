@@ -4,9 +4,17 @@ const path = require('path');
 // API
 const getPagesData = require('./src/utils/api/getPagesData');
 
-exports.onCreateWebpackConfig = ({
-    actions,
-}) => {
+exports.onCreateWebpackConfig = ({ actions, stage, getConfig }) => {
+    // NOTE: Set ignore order; This creates conflicts with CSS modules
+    const config = getConfig();
+    const miniCssExtractPlugin = config.plugins.find(
+        plugin => plugin.constructor.name === 'MiniCssExtractPlugin',
+    );
+    if (miniCssExtractPlugin) {
+        miniCssExtractPlugin.options.ignoreOrder = true;
+    }
+    actions.replaceWebpackConfig(config);
+
     actions.setWebpackConfig({
         module: {
             rules: [
