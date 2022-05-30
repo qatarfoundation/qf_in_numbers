@@ -48,7 +48,7 @@ const YearTemplate = (props) => {
     usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
-        console.log(currentCategory);
+        // console.log(currentCategory);
     }, [currentCategory]);
 
     useEffect(() => {

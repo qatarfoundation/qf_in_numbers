@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 
 // Loaders
 import ImageLoader from 'loaders/image-loader';
-import TextureLoader from 'loaders/three-texture-loader';
-import ThreeGLTFDracoLoader from 'loaders/three-gltf-draco-loader';
+import TextureLoader from '@/vendor/ThreeTextureLoader';
+import ThreeGLTFDracoLoader from '@/vendor/ThreeGLTFDracoLoader';
 
 // Utils
 import Globals from '@/utils/Globals';
