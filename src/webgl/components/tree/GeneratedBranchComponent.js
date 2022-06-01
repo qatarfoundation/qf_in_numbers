@@ -13,6 +13,9 @@ import device from '@/utils/device';
 import vertexShader from '@/webgl/shaders/tree-particles-generated/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.glsl';
 
+// Constants
+const PARTICLE_SIZE = 60;
+
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
         // Options
@@ -35,6 +38,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._labelAnchorsEntities = this._createLabelAnchorsEntities();
         this._bindHandlers();
         this._setupEventListeners();
+        this._updateParticleSize(this._renderHeight, this._dpr);
     }
 
     destroy() {
@@ -284,7 +288,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uColor: { value: this._colors.primary },
                 // uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
-                uPointSize: { value: device.dpr() > 1 ? 100 : 60 },
+                uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.71 },
                 uInnerGradient: { value: 0.88 },
                 uOuterGradient: { value: 0.07 },
@@ -521,9 +525,20 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Resize
      */
-    onWindowResize({ renderWidth, renderHeight }) {
+
+    onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
+
+        this._renderHeight = renderHeight;
+        this._dpr = dpr;
+        this._updateParticleSize(renderHeight, dpr);
+    }
+
+    _updateParticleSize(renderHeight, dpr) {
+        if (!this._particles) return;
+        const scale = renderHeight / 1080;
+        this._particles.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
     }
 
     /**

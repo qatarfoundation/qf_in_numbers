@@ -14,6 +14,9 @@ import TreeParser from '@/webgl/utils/TreeParser';
 import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
+// Constants
+const PARTICLE_SIZE = 47;
+
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
         // Options
@@ -227,7 +230,7 @@ export default class TreeBranchComponent extends component(Object3D) {
             uniforms: {
                 uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
-                uPointSize: { value: 47 },
+                uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.71 },
                 uInnerGradient: { value: 0.88 },
                 uOuterGradient: { value: 0.07 },
@@ -333,9 +336,15 @@ export default class TreeBranchComponent extends component(Object3D) {
     /**
      * Resize
      */
-    onWindowResize({ renderWidth, renderHeight }) {
+    onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
+        this._updateParticleSize(renderHeight, dpr);
+    }
+
+    _updateParticleSize(renderHeight, dpr) {
+        const scale = renderHeight / 1080;
+        this._mesh.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
     }
 
     /**
