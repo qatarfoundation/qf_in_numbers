@@ -15,7 +15,7 @@ import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 47;
+const PARTICLE_SIZE = 95;
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -160,7 +160,7 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createMesh() {
-        const amount = 50000;
+        const amount = 40000;
         const vertices = [];
         const normals = [];
         const progress = [];
@@ -210,7 +210,7 @@ export default class TreeBranchComponent extends component(Object3D) {
 
             settings.push(Math.random()); // Offset
             settings.push(math.randomArbitrary(0.2, 1)); // Radius
-            settings.push(math.randomArbitrary(0.7, 1)); // Scale
+            settings.push(math.randomArbitrary(0.5, 1)); // Scale
             settings.push(math.randomArbitrary(0.5, 1)); // Alpha
 
             colors.push(data.color.r, data.color.g, data.color.b);
@@ -231,9 +231,9 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
                 uPointSize: { value: PARTICLE_SIZE },
-                uRadius: { value: 0.71 },
-                uInnerGradient: { value: 0.88 },
-                uOuterGradient: { value: 0.07 },
+                uRadius: { value: 0.54 },
+                uInnerGradient: { value: 1.85 },
+                uOuterGradient: { value: 0 },
                 uHoverColor: { value: this._hoverColor },
                 uShowHover: { value: 0 },
                 uOpacity: { value: 1 },
@@ -252,7 +252,6 @@ export default class TreeBranchComponent extends component(Object3D) {
             this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
             this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
             this._debug.add(material.uniforms.uRadius, 'value', { label: 'radius' });
-            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
             this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
         }
 

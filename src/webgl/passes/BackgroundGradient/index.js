@@ -18,7 +18,7 @@ export default class BackgroundGradientPass extends component(ShaderPass) {
                 uRadialScale: { value: new Vector2(0.73, 0.58) },
                 uLinearRotation: { value: 0.49 },
                 uLinearPosition: { value: new Vector2(0.56, 0.24) },
-                uGradientType: { value: 1.0 },
+                uGradientType: { value: 0 },
             },
         });
 

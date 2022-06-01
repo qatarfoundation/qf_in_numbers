@@ -124,7 +124,7 @@ export default class HomeView extends component() {
     showTree() {
         this._timelineShowTree = new gsap.timeline();
         this._timelineShowTree.add(this._components.tree.transitionIn());
-        this._timelineShowTree.add(this._components.floor.transitionIn());
+        // this._timelineShowTree.add(this._components.floor.transitionIn());
         return this._timelineShowTree;
     }
 
@@ -193,7 +193,7 @@ export default class HomeView extends component() {
     _createComponents() {
         const components = {};
         components.tree = this._createTreeComponent();
-        components.floor = this._createFloorComponent();
+        // components.floor = this._createFloorComponent();
         // components.leavesBasic = this._createLeavesBasicComponent();
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
