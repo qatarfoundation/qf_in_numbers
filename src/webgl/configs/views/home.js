@@ -31,27 +31,6 @@ export default {
             },
         ],
     },
-    backgroundGradients: {
-        small: [
-        ],
-        large: [
-            {
-                'color': '#6eceb2',
-                'alpha': 0.11029259182402988,
-                'size': 0.5,
-                'scale': {
-                    'x': 288,
-                    'y': 204,
-                    'z': 1,
-                },
-                'position': {
-                    'x': 0,
-                    'y': 14,
-                    'z': -18,
-                },
-            },
-        ],
-    },
     branches: [
         {
             name: 'Community',
@@ -60,7 +39,7 @@ export default {
             rotation: new Euler(0, -1.04, 0.52),
             meshRotation: new Euler(0, 0.19, 0),
             hoverColor: new Color(0x00BCE7),
-            hoverBackgroundColor: new Color(0x051514),
+            hoverBackgroundColor: new Color(0x154B48),
             anchorPosition: new Vector3(-1, 7, 0),
             subcategoriesAnchorPosition: new Vector3(0.5, 11, 0),
             particlesColors: {
@@ -79,7 +58,7 @@ export default {
             rotation: new Euler(0, 3.17, 0.31),
             meshRotation: new Euler(0, -2.00, 0),
             hoverColor: new Color(0xFF671F),
-            hoverBackgroundColor: new Color(0x1e050c),
+            hoverBackgroundColor: new Color(0x8A1538),
             anchorPosition: new Vector3(0, 9, 0),
             subcategoriesAnchorPosition: new Vector3(0, 12, 0.5),
             particlesColors: {
@@ -98,7 +77,7 @@ export default {
             rotation: new Euler(0, 0.78, 0.55),
             meshRotation: new Euler(0, 0.20, 0),
             hoverColor: new Color(0x034638),
-            hoverBackgroundColor: new Color(0x131414),
+            hoverBackgroundColor: new Color(0x53565A),
             anchorPosition: new Vector3(-1, 7, 0),
             subcategoriesAnchorPosition: new Vector3(0.4, 11, 0),
             particlesColors: {

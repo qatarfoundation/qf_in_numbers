@@ -14,7 +14,6 @@ import number from '@/utils/number';
 import easings from '@/utils/easings';
 
 // Components
-import BackgroundGradientsComponent from '@/webgl/components/BackgroundGradientsComponent';
 import TreeComponent from '@/webgl/components/tree/TreeComponent';
 import FloorComponent from '@/webgl/components/tree/FloorComponent';
 import LeavesComponent from '@/webgl/components/tree/LeavesComponent';
@@ -46,6 +45,7 @@ export default class HomeView extends component() {
         this._timelineGotoSubcategory?.kill();
         this._timelineGotoEntity?.kill();
         this._timelineGotoOverview?.kill();
+        this._timelineShowTree?.kill();
     }
 
     /**
@@ -121,6 +121,13 @@ export default class HomeView extends component() {
         // return this._timelineGotoEntity;
     }
 
+    showTree() {
+        this._timelineShowTree = new gsap.timeline();
+        this._timelineShowTree.add(this._components.tree.transitionIn());
+        this._timelineShowTree.add(this._components.floor.transitionIn());
+        return this._timelineShowTree;
+    }
+
     /**
      * Private
      */
@@ -185,7 +192,6 @@ export default class HomeView extends component() {
      */
     _createComponents() {
         const components = {};
-        // components.backgroundGradients = this._createBackgroundGradientsComponent();
         components.tree = this._createTreeComponent();
         components.floor = this._createFloorComponent();
         // components.leavesBasic = this._createLeavesBasicComponent();
@@ -193,16 +199,6 @@ export default class HomeView extends component() {
         // components.leaves2 = this._createLeaves2Component();
         components.generatedTree = this._createGeneratedTreeComponent();
         return components;
-    }
-
-    _createBackgroundGradientsComponent() {
-        const component = new BackgroundGradientsComponent({
-            debugContainer: this._config.name,
-            data: this._config.backgroundGradients,
-            hidden: false,
-        });
-        this._scene.add(component);
-        return component;
     }
 
     _createTreeComponent() {

@@ -14,6 +14,7 @@ import BidelloMouseHelper from '@/webgl/helpers/bidello/Mouse';
 
 // Modules
 import ViewManager from '@/webgl/modules/ViewManager';
+import Composer from '@/webgl/modules/Composer';
 
 // API
 import API from '@/webgl/api';
@@ -32,6 +33,7 @@ class Main {
         this._debug = this._createDebug();
         this._clock = this._createClock();
         this._renderer = this._createRenderer();
+        this._composer = this._createComposer();
 
         if (this._showDebug) {
             this._stats = this._createStats();
@@ -157,6 +159,12 @@ class Main {
         return renderer;
     }
 
+    _createComposer() {
+        const composer = new Composer();
+        bidello.registerGlobal('composer', composer);
+        return composer;
+    }
+
     _createViewManager() {
         const viewManager = new ViewManager();
         return viewManager;
@@ -197,7 +205,7 @@ class Main {
         if (!view) return;
 
         this._statsGpuPanel?.startQuery();
-        this._renderer.render(view.scene, view.camera);
+        this._composer.render(view);
         this._statsGpuPanel?.endQuery();
     }
 

@@ -11056,7 +11056,7 @@
   "version" "1.2.0"
 
 "shader-partials@git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git":
-  "resolved" "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git#350c196b60f13b9b2ffac37daf13afc0646ee112"
+  "resolved" "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git#9830293f77342fee651983be4eda32cb4829018c"
   "version" "1.0.0"
 
 "shallow-clone@^3.0.0":

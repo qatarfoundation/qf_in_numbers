@@ -90,11 +90,21 @@ export default class TreeBranchComponent extends component(Object3D) {
     mouseEnter() {
         this._mouseHover(1);
         TreeDataModel.dispatchEvent('branch/mouseEnter', { index: this._index });
+
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
+        const { r, g, b } = this._hoverBackgroundColor;
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
     }
 
     mouseLeave() {
         this._mouseHover(0);
         TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
+
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
     }
 
     fadeIn() {

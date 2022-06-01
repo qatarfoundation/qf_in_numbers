@@ -1,4 +1,5 @@
 // Vendor
+import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { Object3D, BufferGeometry, Float32BufferAttribute, ShaderMaterial, Points, AdditiveBlending, UniformsUtils, UniformsLib } from 'three';
 import { ResourceLoader } from 'resource-loader';
@@ -20,6 +21,23 @@ export default class FloorComponent extends component(Object3D) {
         // Setup
         this._plane = this._createPlane();
         this._circle = this._createCircle();
+
+        // Settings
+        this.visible = false;
+    }
+
+    destroy() {
+        super.destroy();
+        this._timelineTransitionIn?.kill();
+    }
+
+    /**
+     * Public
+     */
+    transitionIn() {
+        this._timelineTransitionIn = new gsap.timeline();
+        this._timelineTransitionIn.set(this, { visible: true }, 0);
+        return this._timelineTransitionIn;
     }
 
     /**
