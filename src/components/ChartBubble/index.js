@@ -9,6 +9,9 @@ import * as d3 from 'd3';
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
+// Utils
+import wrap from '@/utils/wrapTextSVG';
+
 // CSS
 import './style.scoped.scss';
 
@@ -129,12 +132,14 @@ function ChartBubble(props, ref) {
                             el.parentNode.setAttribute('width', newWidth);
                             el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
                             el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
+                            const heightText = texts.node().getBoundingClientRect().height;
                             node
                                 .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
                                 .attr('cy', function(d) { return d.y + (bounding.height / 2); });
                             texts
                                 .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                                .attr('y', function(d) { return d.y + (bounding.height / 2); });
+                                .attr('y', function(d) { return d.y + (bounding.height / 2) +  (heightText / 2); });
+                            texts.call(wrap, 100, true);
                         }
                     }, 0);
                 });

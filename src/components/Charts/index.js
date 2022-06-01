@@ -80,7 +80,6 @@ function Charts(props, ref) {
                         }
                         result.push(r);
                     });
-                    console.log(result);
                     return <section key={ i } className="section charts" data-name={ chart.type }>
                         { result.length > 1 ?
                             <Scrollbar colored={ false }>

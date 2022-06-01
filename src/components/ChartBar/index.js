@@ -9,6 +9,9 @@ import * as d3 from 'd3';
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
+// Utils
+import wrap from '@/utils/wrapTextSVG';
+
 // CSS
 import './style.scoped.scss';
 
@@ -32,7 +35,7 @@ function ChartBar(props, ref) {
      * States
      */
     const [margin, setMatgin] = useState({
-        top: 0,
+        top: 30,
         right: language !== 'ar-QA' ? window.innerWidth >= 500 ? 67 : 23 : window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499,
         bottom: 0,
         left:language !== 'ar-QA' ? window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499 : window.innerWidth >= 500 ? 67 : 23,
@@ -69,7 +72,8 @@ function ChartBar(props, ref) {
             const ticks = d3
                 .selectAll('.tick text')
                 .attr('class', 'p4')
-                .attr('y', -7);
+                .attr('y', -7)
+                .call(wrap, (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499) / 2, true);
             const barsContainer = chartContainer
                 .append('g')
                 .attr('class', 'bars-container');
