@@ -17,6 +17,13 @@
     .item-head {
         display: flex;
         align-items: center;
+        margin-right: rem(8px, 'small');
+        @include respond-to('medium') {
+            margin-right: rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-right: rem(8px, 'large');
+        }
         .icon {
             padding-right: rem(10px, 'small');
             @include respond-to('medium') {

@@ -9,6 +9,9 @@ import * as d3 from 'd3';
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
+// Utils
+import wrap from '@/utils/wrapTextSVG';
+
 // CSS
 import './style.scoped.scss';
 
@@ -158,6 +161,8 @@ function ChartDonut(props, ref) {
                     const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
                     return (midangle < Math.PI ? 'start' : 'end');
                 });
+            labelContainer.selectAll('.p6')
+                .call(wrap, 100);
         },
         [data.length, width],
     );

@@ -10,6 +10,9 @@ import * as d3 from 'd3';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 import useStore from '@/hooks/useStore';
 
+// Utils
+import wrap from '@/utils/wrapTextSVG';
+
 // CSS
 import './style.scoped.scss';
 
@@ -78,7 +81,7 @@ function ChartHeatmap(props, ref) {
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
             const myColor = d3.scaleLinear()
                 .range(['#E9F8F3', '#6ECEB2'])
-                .domain([1, 100]);
+                .domain([0, 100]);
             const tooltip = dataviz
                 .append('div')
                 .style('opacity', 0)
@@ -111,8 +114,8 @@ function ChartHeatmap(props, ref) {
                     .attr('class', 'circle circle-graph')
                     .attr('cx', d => xScale(xValue(d)) + yScale.bandwidth() / 2)
                     .attr('cy', d => yScale(yValue(d)) + yScale.bandwidth() / 2)
-                    .attr('r', d => (yScale.bandwidth() / 2) * (percent(d) / 100))
-                    .style('fill', function(d) { return myColor(d.value);})
+                    .attr('r', d => (yScale.bandwidth() / 2) * ((percent(d) <= 5 ? 5 : percent(d)) / 100) + 2.5)
+                    .style('fill', function(d) { return myColor(percent(d));})
                     .on('mouseover', mouseover)
                     .on('mousemove', mousemove)
                     .on('mouseleave', mouseleave);
@@ -126,7 +129,7 @@ function ChartHeatmap(props, ref) {
                     .attr('cx', d => xScale(xValue(d)) + yScale.bandwidth() / 2)
                     .attr('cy', d => yScale(yValue(d)) + yScale.bandwidth() / 2)
                     .attr('r', d => yScale.bandwidth() / 2)
-                    .style('stroke', function(d) { return myColor(d.value);})
+                    .style('stroke', function(d) { return myColor(percent(d));})
                     .on('mouseover', mouseover)
                     .on('mousemove', mousemove)
                     .on('mouseleave', mouseleave);
@@ -143,7 +146,9 @@ function ChartHeatmap(props, ref) {
             chartContainer
                 .append('g')
                 .attr('class', 'axis axis-x')
-                .call(d3.axisTop(xScale).tickSize(0));
+                .call(d3.axisTop(xScale).tickSize(0))
+                .selectAll('.tick text')
+                .call(wrap, yScale.bandwidth(), true);
             chartContainer
                 .append('g')
                 .attr('class', 'axis axis-y')
@@ -158,7 +163,9 @@ function ChartHeatmap(props, ref) {
                 .select('.axis-y')
                 .append('g')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? ((window.innerWidth >= 500 ? 67 : 23)) : innerWidth },0)`)
-                .call(language !== 'ar-QA' ? d3.axisLeft(yScale).tickSize(0) : d3.axisRight(yScale).tickSize(0));
+                .call(language !== 'ar-QA' ? d3.axisLeft(yScale).tickSize(0) : d3.axisRight(yScale).tickSize(0))
+                .selectAll('.tick text')
+                .call(wrap, (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499) / 2, true);
         },
         [data.length, width, chartActive, percentActive],
     );
