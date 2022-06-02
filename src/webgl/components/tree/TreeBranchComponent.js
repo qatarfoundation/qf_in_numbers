@@ -22,7 +22,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         // Options
         this._index = options.index;
         this._config = options.config;
-        this._hoverColor = options.hoverColor;
+        this._particleColors = options.particleColors;
         this._hoverBackgroundColor = options.hoverBackgroundColor;
         this._cameraManager = options.cameraManager;
         this._anchorPosition = options.anchorPosition;
@@ -41,6 +41,8 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._labelAnchor = this._createLabelAnchor();
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
+
+        console.log(this._config);
     }
 
     destroy() {
@@ -143,7 +145,6 @@ export default class TreeBranchComponent extends component(Object3D) {
 
             const curve = new CatmullRomCurve3(points, false, 'catmullrom', 0);
             const frenetFrames = curve.computeFrenetFrames(points.length, false);
-            const color = new Color(Math.random(), Math.random(), Math.random());
             const weight = curve.points.length;
 
             curves.push({
@@ -151,7 +152,6 @@ export default class TreeBranchComponent extends component(Object3D) {
                 endOrder,
                 curve,
                 frenetFrames,
-                color,
                 weight,
             });
         }
@@ -165,7 +165,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const normals = [];
         const progress = [];
         const settings = [];
-        const colors = [];
+        const hoverColor = [];
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -213,7 +213,7 @@ export default class TreeBranchComponent extends component(Object3D) {
             settings.push(math.randomArbitrary(0.5, 1)); // Scale
             settings.push(math.randomArbitrary(0.5, 1)); // Alpha
 
-            colors.push(data.color.r, data.color.g, data.color.b);
+            hoverColor.push(Math.random() > 0.5 ? 1.0 : 0.0);
         }
 
         const geometry = new BufferGeometry();
@@ -221,7 +221,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
         geometry.setAttribute('progress', new Float32BufferAttribute(progress, 1));
         geometry.setAttribute('settings', new Float32BufferAttribute(settings, 4));
-        geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
+        geometry.setAttribute('hoverColor', new Float32BufferAttribute(hoverColor, 1));
 
         const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
@@ -234,7 +234,8 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uRadius: { value: 0.56 },
                 uInnerGradient: { value: 1.85 },
                 uOuterGradient: { value: 0 },
-                uHoverColor: { value: this._hoverColor },
+                uHoverColor1: { value: this._particleColors.primary },
+                uHoverColor2: { value: this._particleColors.secondary },
                 uShowHover: { value: 0 },
                 uOpacity: { value: 1 },
             },
@@ -351,7 +352,7 @@ export default class TreeBranchComponent extends component(Object3D) {
      */
     _createDebug(debug) {
         if (!debug) return;
-        const group = debug.addGroup('Branch');
+        const group = debug.addGroup('Branch #' + this._index);
         group.add(this, 'position');
         group.add(this, 'rotation');
         return group;

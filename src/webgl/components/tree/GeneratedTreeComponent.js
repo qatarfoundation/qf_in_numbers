@@ -80,14 +80,13 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         const data = TreeDataModel.getBranches();
         if (data.length === 0) return;
 
-        data.forEach((branch) => {
+        data.forEach((branch, index) => {
             const component = new GeneratedBranchComponent({
+                index,
                 debug: this._debug,
                 data: branch.data,
-                position: branch.position,
-                rotation: branch.rotation,
                 scene: this._scene,
-                colors: branch.particlesColors,
+                colors: branch.particleColors,
             });
             this.add(component);
 

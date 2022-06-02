@@ -1,12 +1,12 @@
 // Attributes
 attribute float progress;
 attribute vec4 settings;
-attribute vec3 color;
+attribute float hoverColor;
 
 // Varyings
 varying float vProgress;
 varying vec4 vSettings;
-varying vec3 vColor;
+varying float vHoverColor;
 
 // Uniforms
 uniform float uProgress;
@@ -33,5 +33,5 @@ void main() {
     // Varyings
     vProgress = progress;
     vSettings = settings;
-    vColor = color;
+    vHoverColor = hoverColor;
 }

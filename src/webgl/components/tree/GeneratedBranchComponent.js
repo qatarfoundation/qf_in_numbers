@@ -14,17 +14,18 @@ import vertexShader from '@/webgl/shaders/tree-particles-generated/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 60;
+const PARTICLE_SIZE = 95;
 
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
         // Options
-        this._debug = options.debug;
+        this._index = options.index;
         this._data = options.data;
         this._scene = options.scene;
         this._colors = options.colors;
 
         // Setup
+        this._debug = this._createDebug(options.debug);
         this.hide();
     }
 
@@ -236,9 +237,11 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     _createParticles() {
-        const amount = 2000;
+        const amount = 4000;
         const vertices = [];
         const normals = [];
+        const settings = [];
+        const colors = [];
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -247,7 +250,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const pointProgress = Math.random();
             const point = curve.getPointAt(pointProgress);
 
-            const radius = math.randomArbitrary(0, 0.4);
+            const radius = math.randomArbitrary(0, 0.7);
             const angle = Math.random() * Math.PI * 2;
 
             const fract = pointProgress % 1;
@@ -274,34 +277,45 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             vertex.z = point.z + radius * normal.z;
 
             vertices.push(vertex.x, vertex.y, vertex.z);
+
+            settings.push(math.randomArbitrary(0.2, 1)); // Radius
+            settings.push(math.randomArbitrary(0.5, 1)); // Scale
+            settings.push(math.randomArbitrary(0.5, 1)); // Alpha
+
+            colors.push(Math.random() > 0.5 ? 1 : 0);
         }
 
         const geometry = new BufferGeometry();
         geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
         geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
+        geometry.setAttribute('settings', new Float32BufferAttribute(settings, 3));
+        geometry.setAttribute('color', new Float32BufferAttribute(colors, 1));
 
         // const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
             fragmentShader,
             vertexShader,
             uniforms: {
-                uColor: { value: this._colors.primary },
-                // uColorGradient: { value: colorGradient },
-                uProgress: { value: 0.65 },
+                uColor1: { value: this._colors.primary },
+                uColor2: { value: this._colors.secondary },
                 uPointSize: { value: PARTICLE_SIZE },
-                uRadius: { value: 0.71 },
-                uInnerGradient: { value: 0.88 },
-                uOuterGradient: { value: 0.07 },
-                uHoverColor: { value: this._hoverColor },
-                uShowHover: { value: 0 },
+                uInnerGradient: { value: 0.77 },
+                uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
             },
             transparent: true,
-            // blending: AdditiveBlending,
+            blending: AdditiveBlending,
             depthWrite: false,
+            depthTest: false,
         });
         const mesh = new Points(geometry, material);
         this.add(mesh);
+
+        if (this._debug) {
+            this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
+            this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
+            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
+        }
 
         return mesh;
     }
@@ -546,5 +560,14 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      */
     _branchAddHandler(data) {
         // console.log(data);
+    }
+
+    /**
+     * Debug
+     */
+    _createDebug(debug) {
+        if (!debug) return;
+        const group = debug.addGroup('Branch #' + this._index);
+        return group;
     }
 }

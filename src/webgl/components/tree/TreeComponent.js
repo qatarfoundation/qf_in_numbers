@@ -114,7 +114,7 @@ export default class TreeComponent extends component(Object3D) {
                 index,
                 config: this._config,
                 debug: this._debug,
-                hoverColor: branch.hoverColor,
+                particleColors: branch.particleColors,
                 hoverBackgroundColor: branch.hoverBackgroundColor,
                 cameraManager: this._cameraManager,
                 anchorPosition: branch.anchorPosition,

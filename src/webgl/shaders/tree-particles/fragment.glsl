@@ -1,14 +1,15 @@
 // Varyings
 varying float vProgress;
 varying vec4 vSettings;
-varying vec3 vColor;
+varying float vHoverColor;
 
 // Uniforms
 uniform float uProgress;
 uniform sampler2D uColorGradient;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
-uniform vec3 uHoverColor;
+uniform vec3 uHoverColor1;
+uniform vec3 uHoverColor2;
 uniform float uShowHover;
 uniform float uOpacity;
 
@@ -23,7 +24,8 @@ void main() {
 
     // Color
     vec3 color = texture2D(uColorGradient, vec2(vSettings.x, 0.5)).rgb;
-    color = mix(color, uHoverColor, uShowHover);
+    vec3 hoverColor = mix(uHoverColor1, uHoverColor2, vHoverColor);
+    color = mix(color, hoverColor, uShowHover);
 
     // Alpha
     float alpha = circle(gl_PointCoord, 1.0);

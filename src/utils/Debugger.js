@@ -52,6 +52,7 @@ class Debugger extends EventDispatcher {
     _create() {
         if (DDDD && !this._dddd) {
             this._dddd = new DDDD({
+                collapseGroups: true,
                 onLayerChange: (e) => {
                     this.dispatchEvent('layer:change', e);
                 },
