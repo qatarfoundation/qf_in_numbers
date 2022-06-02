@@ -4650,7 +4650,7 @@
   "version" "2.28.0"
 
 "dddd@github:mathijspb/dddd":
-  "resolved" "git+ssh://git@github.com/mathijspb/dddd.git#3246d16ef9f5c70a8117f6d7d5fd518f7ff77c8a"
+  "resolved" "git+ssh://git@github.com/mathijspb/dddd.git#2300aae84749d660dfca6ab63134e1b55a83c058"
   "version" "1.0.0"
   dependencies:
     "mustache" "^4.0.1"

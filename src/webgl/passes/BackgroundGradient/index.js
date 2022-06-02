@@ -15,7 +15,7 @@ export default class BackgroundGradientPass extends component(ShaderPass) {
             uniforms: {
                 uColor: { value: new Color(0x154B48) },
                 uAlpha: { value:0.32 }, // 0.32
-                uRadialScale: { value: new Vector2(0.73, 0.58) },
+                uRadialScale: { value: new Vector2(0.57, 0.58) },
                 uLinearRotation: { value: 0.49 },
                 uLinearPosition: { value: new Vector2(0.56, 0.24) },
                 uGradientType: { value: 0 },

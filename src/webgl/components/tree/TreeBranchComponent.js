@@ -231,7 +231,7 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
                 uPointSize: { value: PARTICLE_SIZE },
-                uRadius: { value: 0.54 },
+                uRadius: { value: 0.56 },
                 uInnerGradient: { value: 1.85 },
                 uOuterGradient: { value: 0 },
                 uHoverColor: { value: this._hoverColor },
