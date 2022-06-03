@@ -23,7 +23,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._index = options.index;
         this._config = options.config;
         this._particleColors = options.particleColors;
-        this._hoverBackgroundColor = options.hoverBackgroundColor;
+        this._backgroundColor = options.backgroundColor;
         this._cameraManager = options.cameraManager;
         this._anchorPosition = options.anchorPosition;
         this._subcategoriesAnchorPosition = options.subcategoriesAnchorPosition;
@@ -67,8 +67,8 @@ export default class TreeBranchComponent extends component(Object3D) {
         return this._slug;
     }
 
-    get hoverBackgroundColor() {
-        return this._hoverBackgroundColor;
+    get backgroundColor() {
+        return this._backgroundColor;
     }
 
     /**
@@ -99,7 +99,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
         gsap.killTweensOf(this.$composer.passes.backgroundGradient);
 
-        const { r, g, b } = this._hoverBackgroundColor;
+        const { r, g, b } = this._backgroundColor;
         gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
         gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
     }

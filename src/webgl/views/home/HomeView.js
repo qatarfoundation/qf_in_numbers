@@ -12,6 +12,7 @@ import Debugger from '@/utils/Debugger';
 import math from '@/utils/math';
 import number from '@/utils/number';
 import easings from '@/utils/easings';
+import TreeDataModel from '@/utils/TreeDataModel';
 
 // Components
 import TreeComponent from '@/webgl/components/tree/TreeComponent';
@@ -84,6 +85,7 @@ export default class HomeView extends component() {
 
     gotoCategory(name) {
         this._timelineGotoCategory = new gsap.timeline();
+        this._timelineGotoCategory.call(this._setBackgroundColor(name), null, 0);
         this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
         this._timelineGotoCategory.add(this._components.tree.hide(), 6);
         this._timelineGotoCategory.add(this._components.generatedTree.gotoCategory(name), 6);
@@ -95,6 +97,7 @@ export default class HomeView extends component() {
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
 
         this._timelineGotoSubcategory = new gsap.timeline();
+        this._timelineGotoSubcategory.call(this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
         this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
@@ -105,6 +108,7 @@ export default class HomeView extends component() {
         const position = this._components.generatedTree.getEntityCameraPosition(categorySlug, name);
 
         this._timelineGotoEntity = new gsap.timeline();
+        this._timelineGotoEntity.call(this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
@@ -185,6 +189,12 @@ export default class HomeView extends component() {
         const container = new Object3D();
         this._scene.add(container);
         return container;
+    }
+
+    _setBackgroundColor(name) {
+        const config = TreeDataModel.getBranch(name);
+        this.$composer.passes.backgroundGradient.color = config.backgroundColor;
+        this.$composer.passes.backgroundGradient.gradientType = 1;
     }
 
     /**
