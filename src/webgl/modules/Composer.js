@@ -85,9 +85,6 @@ export default class Composer extends component() {
         return passes;
     }
 
-    /**
-     * Passes
-     */
     _createBackgroundGradientPass() {
         const pass = new BackgroundGradientPass({
             debug: this._debug,

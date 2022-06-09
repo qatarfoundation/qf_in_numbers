@@ -11,6 +11,8 @@ html {
 
     background-color: #000000;
 
+    @include antialised;
+
     @include respond-to('medium') {
         font-size: base-font-size('medium');
     }

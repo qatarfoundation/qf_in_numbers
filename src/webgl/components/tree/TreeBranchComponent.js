@@ -41,8 +41,6 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._labelAnchor = this._createLabelAnchor();
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
-
-        console.log(this._config);
     }
 
     destroy() {

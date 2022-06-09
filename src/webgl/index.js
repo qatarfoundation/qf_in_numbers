@@ -52,6 +52,7 @@ class Main {
         this._removeStats();
         this._removeEventListeners();
         this._viewManager?.destroy();
+        this._composer.destroy();
         this._removeDebug();
         BidelloMouseHelper.destroy();
     }
