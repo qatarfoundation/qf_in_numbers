@@ -68,7 +68,7 @@ function PanelEntity(props, ref) {
             <div className="panel panel-entity" data-name="entity">
                 <Scrollbar revert={ false }>
                     <ButtonClose onClick={ clickHandler } />
-                    <SequenceCharts charts={ sequenceCharts } />
+                    { /* <SequenceCharts charts={ sequenceCharts } /> */ }
                     <section className="section section-container hide-line">
                         <div className="points">
                             <div className="point"></div>

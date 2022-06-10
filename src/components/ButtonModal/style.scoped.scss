@@ -12,8 +12,8 @@
     width: calc(50vw - rem(32px, 'small'));
     height: 1px;
     margin-top: rem(8px, 'small');
-    background-color: $color-white;
-    opacity: 0.2;
+    background-color: var(--color-theme-primary);
+    opacity: 0.7;
     @include respond-to('medium') {
         max-width: inherit;
         width: rem(232px, 'medium');

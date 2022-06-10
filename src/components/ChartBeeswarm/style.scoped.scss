@@ -13,7 +13,7 @@
         position: absolute;
         width: fit-content;
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: color-from-theme('green', 'primary');
+        background-color: var(--color-theme-primary);
         border-radius: rem(4px, 'small');
         color: $color-white;
         transform: translate(-50%, -100%);
@@ -42,7 +42,7 @@
             border-right-color: transparent;
             border-top-width: rem(9px, 'small');
             border-top-style: solid;
-            border-top-color: color-from-theme('green', 'primary');
+            border-top-color: var(--color-theme-primary);
             transform: translate(-50%, calc(100% - 1px));
             @include respond-to('medium') {
                 border-left-width: rem(9px, 'medium');
@@ -91,7 +91,7 @@
         text-anchor: middle;
     }
     .label {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
     }

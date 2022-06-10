@@ -31,7 +31,7 @@
     }
     .tag {
         margin-bottom: rem(32px, 'small');
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         @include respond-to('medium') {
             margin-bottom: rem(32px, 'medium');
         }

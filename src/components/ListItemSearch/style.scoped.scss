@@ -19,10 +19,10 @@
     text-align: left;
     transition: opacity 0.3s linear;
     &:hover {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
     }
     &.is-active {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
     }
     .ar & {
         text-align: right;

@@ -1,0 +1,71 @@
+
+
+.tutorial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: rem(175px, 'small');
+    @include respond-to('medium') {
+        margin-top: rem(175px, 'medium');
+    }
+    @include respond-to('large') {
+        margin-top: rem(175px, 'large');
+    }
+    .h6 {
+        margin-bottom: rem(44px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(44px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(44px, 'large');
+        }
+    }
+    .p3 {
+        margin-top: rem(16px, 'small');
+        @include respond-to('medium') {
+            margin-top: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-top: rem(16px, 'large');
+        }
+        color: var(--color-theme-secondary);
+    }
+    .icon {
+        position: relative;
+        width: rem(56px, 'small');
+        min-width: rem(56px, 'small');
+        height: rem(56px, 'small');
+        min-height: rem(56px, 'small');
+        margin: 0 auto;
+        border: 1px solid var(--color-theme-secondary);
+        border-radius: 100%;
+        @include respond-to('medium') {
+            width: rem(56px, 'medium');
+            min-width: rem(56px, 'medium');
+            height: rem(56px, 'medium');
+            min-height: rem(56px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(56px, 'large');
+            min-width: rem(56px, 'large');
+            height: rem(56px, 'large');
+            min-height: rem(56px, 'large');
+        }
+        svg {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate3d(-50%, -50%, 0);
+        }
+        .drag {
+            padding: rem(15px, 'small');
+            @include respond-to('medium') {
+                padding: rem(15px, 'medium');
+            }
+            @include respond-to('large') {
+                padding: rem(15px, 'large');
+            }
+        }
+    }
+}

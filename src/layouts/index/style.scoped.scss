@@ -11,3 +11,20 @@
     width: 100%;
     height: 100%;
 }
+
+.theme-default {
+    --color-theme-primary: #53565A;
+    --color-theme-secondary: #C8C9C7;
+}
+.theme-green {
+    --color-theme-primary: #034638;
+    --color-theme-secondary: #6ECEB2;
+}
+.theme-red {
+    --color-theme-primary: #8A1538;
+    --color-theme-secondary: #FF671F;
+}
+.theme-blue {
+    --color-theme-primary: #53565A;
+    --color-theme-secondary: #00BCE7;
+}

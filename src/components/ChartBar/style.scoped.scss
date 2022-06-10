@@ -12,7 +12,7 @@
 }
 
 .chart-bar {
-    fill: color-from-theme('green', 'secondary');
+    fill: var(--color-theme-secondary);
     margin-top: rem(62px, 'small');
     @include respond-to('medium') {
         margin-top: rem(66px, 'medium');
@@ -28,9 +28,9 @@
         text-anchor: start;
     }
     .label {
-        fill: color-from-theme('green', 'primary');
+        fill: var(--color-theme-primary);
     }
     .sublabel {
-        fill: color-from-theme('green', 'secondary');
+        fill: var(--color-theme-secondary);
     }
 }

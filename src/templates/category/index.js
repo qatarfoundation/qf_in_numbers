@@ -127,7 +127,6 @@ function CategoryTemplate(props) {
     }
 
     function buttonDiscoverClickHandler() {
-        console.log(enitity);
         const { slug, name } = enitity;
         navigate(slug);
         // Globals.webglApp.selectEntity(category.name, name);

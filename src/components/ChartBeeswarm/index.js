@@ -128,7 +128,7 @@ function ChartBeeswarm(props, ref) {
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`);
                 tooltipContainer
-                    .html(`<p class="p3">${ d.y }</p><p class="p4">${ d.group }</p>`);
+                    .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.group }</p>`);
                 arrow
                     .style('border-top-color', e.target.getAttribute('fill'));
             };

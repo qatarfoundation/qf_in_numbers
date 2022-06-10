@@ -4,8 +4,8 @@ import React from 'react';
 // CSS
 import './style.scoped.scss';
 
-function ThePreloader(props) {
-    return props.visible ? (
+function ThePreloader({ visible, ...props }) {
+    return visible ? (
         <div className="the-preloader">The preloader</div>
     ) : null;
 }

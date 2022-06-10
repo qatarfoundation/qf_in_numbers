@@ -27,20 +27,8 @@ export default function wrap(texts, width, center = false) {
             const tspans = d3.select(this).selectAll('tspan');
             tspans.each(function() {
                 const tspan = d3.select(this);
-                console.log('heightText', y, heightText, y - (heightText / 2));
                 tspan.attr('y', y - (heightText / 2));
             });
         }
     });
-    // texts.each(function() {
-    //     const text = d3.select(this);
-    //     const heightText = text.node().getBoundingClientRect().height;
-    //     const yText = parseInt(text.attr('y')) ? parseInt(text.attr('y')) : 0;
-    //     const tspans = d3.select(this).selectAll('tspan');
-    //     tspans.each(function() {
-    //         const tspan = d3.select(this);
-    //         console.log('heightText', yText, heightText, yText - (heightText / 2));
-    //         tspan.attr('y', yText - (heightText / 4));
-    //     });
-    // });
 }

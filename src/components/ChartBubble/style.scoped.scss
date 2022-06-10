@@ -13,7 +13,7 @@
         position: absolute;
         width: fit-content;
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: color-from-theme('green', 'primary');
+        background-color: var(--color-theme-primary);
         border-radius: rem(4px, 'small');
         color: $color-white;
         transform: translate(-50%, -100%);
@@ -42,7 +42,7 @@
             border-right-color: transparent;
             border-top-width: rem(9px, 'small');
             border-top-style: solid;
-            border-top-color: color-from-theme('green', 'primary');
+            border-top-color: var(--color-theme-primary);
             transform: translate(-50%, calc(100% - 1px));
             @include respond-to('medium') {
                 border-left-width: rem(9px, 'medium');
@@ -65,20 +65,20 @@
 
 .chart-bubble {
     min-width: 100%;
-    min-height: rem(20px, 'small');
+    min-height: rem(120px, 'small');
     @include respond-to('medium') {
-        min-height: rem(20px, 'medium');
+        min-height: rem(120px, 'medium');
     }
     @include respond-to('large') {
-        min-height: rem(20px, 'large');
+        min-height: rem(120px, 'large');
     }
     .can-hover {
         &:hover {
-            fill: color-from-theme('green', 'primary') !important;
+            fill: var(--color-theme-primary) !important;
         }
     }
     .label {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
         &.is-hidden {

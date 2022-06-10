@@ -66,5 +66,5 @@
 }
 
 .label {
-    color: color-from-theme('green', 'primary');
+    color: var(--color-theme-primary);
 }

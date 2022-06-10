@@ -34,7 +34,7 @@
 .button {
     position: relative;
     display: block;
-    color: color-from-theme('green', 'primary');
+    color: var(--color-theme-primary);
     opacity: 0.25;
     transition: opacity 0.3s linear;
     &:hover {

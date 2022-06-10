@@ -234,7 +234,11 @@ function parseEntities(data, baseSlug) {
             tags: item.fields.tags,
         };
 
-        if (item.fields.description) data.description = item.fields.description.content[0].content[0].value;
+        if (item.fields.description) {
+            data.description = item.fields.description.content[0].content[0].value;
+        } else {
+            data.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        }
         if (item.fields.highlightedChart) data.highlightedChart = item.fields.highlightedChart.fields;
         if (data.charts) data.charts = parseCharts(data.charts);
         if (data.relatedArticles) data.relatedArticles = parseRelatedArticles(data.relatedArticles);
@@ -271,6 +275,7 @@ function parseChart(data, type) {
         });
     }
     if (data.subtitle) chart.subtitle = data.subtitle;
+    if (data.labelTooltip) chart.labelTooltip = data.labelTooltip;
     switch (type) {
         case 'kpiChart':
             chart = { ...chart, ...parseKPIChart(data) };
@@ -310,8 +315,11 @@ function parseKPIChart(data) {
                 name: item.fields.title,
                 value: item.fields.value,
             };
-            if (item.fields.icon) field.icon = item.fields.icon;
-            if (item.fields.additionalInformation) field.additionalInformation = item.fields.additionalInformation;
+            if (item.fields.icon) {
+                field.icon = {};
+                field.icon.url = item.fields.icon.fields.file.url;
+                field.icon.alt = item.fields.icon.fields.title;
+            }
             chart.fields.push(field);
         });
         return chart;
@@ -381,7 +389,7 @@ function parseDonutChart(data) {
         });
         const maxValue = Math.max(...chart.fields.map(a => a.value));
         chart.fields.forEach(item => {
-            item.percent = Math.floor(item.value * 100 / maxValue);
+            item.percent = Math.floor(item.value * 100 / chart.length);
         });
         return chart;
     } else {

@@ -6,7 +6,7 @@
 .chart-donut {
     .can-hover {
         &:hover {
-            fill: color-from-theme('green', 'primary');
+            fill: var(--color-theme-primary);
         }
     }
     .label-container {
@@ -15,7 +15,7 @@
         }
     }
     .label {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
     }
@@ -36,7 +36,7 @@
         position: absolute;
         width: fit-content;
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: color-from-theme('green', 'primary');
+        background-color: var(--color-theme-primary);
         border-radius: rem(4px, 'small');
         color: $color-white;
         transform: translate(-50%, -50%);

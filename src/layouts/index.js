@@ -26,6 +26,7 @@ import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
 import useTemplateData from '@/hooks/useTemplateData';
+import Cursor from '@/components/Cursor/index';
 
 function Layout(props) {
     const containerRef = useRef();
@@ -43,7 +44,7 @@ function Layout(props) {
     /**
      * Stores
      */
-    const isTutorial = useStore(s => s.isTutorial);
+    const [isTutorial, themeCategory] = useStore((state) => [state.isTutorial, state.themeCategory]);
 
     /**
      * Data
@@ -68,6 +69,10 @@ function Layout(props) {
         }
     }, []);
 
+    useEffect(() => {
+        useStore.setState({ themeCategory: getThemeCategory(originalPath.split('/')[2]) });
+    }, [originalPath]);
+
     /**
      * Hooks
      */
@@ -80,8 +85,30 @@ function Layout(props) {
         setWebglAppState(state);
     }
 
+    /**
+     * Private
+     */
+    function getThemeCategory(categoryName) {
+        if (categoryName) {
+            let theme = 'theme-';
+            switch (categoryName) {
+                case 'community':
+                    theme += 'blue';
+                    break;
+                case 'research':
+                    theme += 'red';
+                    break;
+                case 'education':
+                    theme += 'green';
+                    break;
+            }
+            return theme;
+        }
+        return 'theme-default';
+    }
+
     return (
-        <div>
+        <div className={ themeCategory ? themeCategory : '' }>
             <Helmet
                 htmlAttributes={ { lang: language } }
                 bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }
@@ -98,6 +125,7 @@ function Layout(props) {
                         <AnimatePresence>
 
                             <div key={ originalPath } className="page">
+                                <Cursor />
                                 { children }
                                 <TheNavigation key={ `${ language }-navigation` } />
                                 {

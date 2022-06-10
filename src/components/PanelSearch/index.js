@@ -41,7 +41,7 @@ function PanelSearch(props, ref) {
     useEffect(() => {
         if (inputSearch != undefined) {
             const filteredData = staticItems.filter((item) => {
-                return item.value.substring(0, inputSearch.length).toLowerCase() == inputSearch.toLowerCase();
+                return item.value.toLowerCase().includes(inputSearch.toLowerCase());
             });
             setDynamicItems(filteredData);
         }

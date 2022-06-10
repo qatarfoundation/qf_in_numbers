@@ -15,6 +15,7 @@ const useStore = create((set) => {
         allEntities: [],
         allTags: [],
         isTutorial: false,
+        themeCategory: 'theme-default',
     };
 });
 

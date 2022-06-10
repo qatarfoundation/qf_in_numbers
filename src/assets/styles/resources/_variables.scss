@@ -4,6 +4,13 @@ $color-grey: #53565A;
 $color-grey-light: #C8C9C7;
 $color-white: #ffffff;
 
+$color-theme-current: 'default';
+
+$colors-theme-default: (
+    'primary': #53565A,// Dark grey
+    'secondary': #C8C9C7,// Light grey
+);
+
 $colors-theme-green: (
     'primary': #034638,// Dark green
     'secondary': #6ECEB2,// Light green
@@ -20,6 +27,7 @@ $colors-theme-red: (
 );
 
 $colors-themes: (
+    'default': $colors-theme-default,
     'green': $colors-theme-green,
     'blue': $colors-theme-blue,
     'red': $colors-theme-red,

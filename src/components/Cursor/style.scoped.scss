@@ -1,0 +1,37 @@
+.cursor {
+    position: fixed;
+    display: none;
+    transform: translate3d(-50%, -50%, 0);
+    pointer-events: none;
+    z-index: 999;
+    &.is-hovering {
+        display: block;
+        width: rem(80px, 'small');
+        height: rem(80px, 'small');
+        border: 1px solid #E5E6E6;
+        border-radius: 100%;
+        transition: 0.1s width ease-out, 0.1s height ease-out, 0.1s border ease-out;
+        @include respond-to('medium') {
+            width: rem(80px, 'medium');
+            height: rem(80px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(80px, 'large');
+            height: rem(80px, 'large');
+        }
+        &.is-grabbing {
+            width: rem(56px, 'small');
+            height: rem(56px, 'small');
+            border: 2px solid var(--color-theme-secondary);
+            transition: 0.1s width ease-in, 0.1s height ease-in, 0.1s border ease-in;
+            @include respond-to('medium') {
+                width: rem(56px, 'medium');
+                height: rem(56px, 'medium');
+            }
+            @include respond-to('large') {
+                width: rem(56px, 'large');
+                height: rem(56px, 'large');
+            }
+        }
+    }
+}

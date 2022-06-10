@@ -17,7 +17,7 @@
         top: 50%; left: 50%;
         width: fit-content;
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: color-from-theme('green', 'primary');
+        background-color: var(--color-theme-primary);
         border-radius: rem(4px, 'small');
         color: $color-white;
         transform: translate(calc(-50% + rem(18px, 'small')), calc(-100% + rem(74px, 'small')));
@@ -48,7 +48,7 @@
             border-right-color: transparent;
             border-top-width: rem(9px, 'small');
             border-top-style: solid;
-            border-top-color: color-from-theme('green', 'primary');
+            border-top-color: var(--color-theme-primary);
             transform: translate(-50%, calc(100% - 1px));
             @include respond-to('medium') {
                 border-left-width: rem(9px, 'medium');
@@ -86,6 +86,6 @@
         stroke: $color-grey-light;
     }
     .circle {
-        fill: color-from-theme('green', 'secondary');
+        fill: var(--color-theme-secondary);
     }
 }

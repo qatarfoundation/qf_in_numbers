@@ -17,7 +17,7 @@
 }
 
 .button {
-    color: color-from-theme('green', 'primary');
+    color: var(--color-theme-primary);
     white-space: nowrap;
     transition: color 0.3s ease-out;
     @include respond-to('medium') {

@@ -24,7 +24,7 @@ function ChartHeatmap(props, ref) {
     /**
      * Store
      */
-    const [scrolls, iScroll] = useStore((state) => [state.scrolls, state.iScroll]);
+    const [scrolls, iScroll, themeCategory] = useStore((state) => [state.scrolls, state.iScroll, state.themeCategory]);
     /**
      * Datas
      */
@@ -75,12 +75,17 @@ function ChartHeatmap(props, ref) {
                 .range([ 0, innerHeight ])
                 .domain(data.map(yValue).filter((item, pos) => data.map(yValue).indexOf(item) == pos))
                 .padding(0.2);
+            const percentScale = d3
+                .scaleLinear()
+                .range([0.25, 1])
+                .domain([d3.min(data, value), d3.max(data, value)]);
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
+            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
             const myColor = d3.scaleLinear()
-                .range(['#E9F8F3', '#6ECEB2'])
+                .range([`${ colorTheme }4D`, colorTheme])
                 .domain([0, 100]);
             const tooltip = dataviz
                 .append('div')
@@ -90,10 +95,21 @@ function ChartHeatmap(props, ref) {
                 tooltip.style('opacity', 1);
             };
             const mousemove = function(e, d) {
+                tooltip.classed('tooltip-label', false);
                 tooltip
                     .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.group }</p>`)
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
-                    .style('top', `${ e.target.cy.baseVal.value + margin.top - sizeCircle - 22 }px`);
+                    .style('top', `${ e.target.cy.baseVal.value + margin.top - sizeCircle }px`);
+            };
+            const mousemoveLabel = function(e, d) {
+                const parent = e.target.parentNode.parentNode;
+                const parentBounding = parent.getBoundingClientRect();
+                const parentTranslate = parent.getAttribute('transform').replace(/[^\d.,]/g, '').split(',');
+                tooltip
+                    .classed('tooltip-label', true)
+                    .html(`<p class="p6">${ d }</p>`)
+                    .style('left', `${ parseFloat(parentTranslate[0]) + margin.left + (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
+                    .style('top', `${ parseFloat(parentTranslate[1]) - parentBounding.height / 2 + margin.top - sizeCircle }px`);
             };
             const mouseleave = function(d) {
                 tooltip.style('opacity', 0);
@@ -111,10 +127,10 @@ function ChartHeatmap(props, ref) {
                     .data(data, function(d) {return d.group + ':' + d.name;})
                     .enter()
                     .append('circle')
-                    .attr('class', 'circle circle-graph')
+                    .attr('class', 'circle circle-graph can-hover')
                     .attr('cx', d => xScale(xValue(d)) + yScale.bandwidth() / 2)
                     .attr('cy', d => yScale(yValue(d)) + yScale.bandwidth() / 2)
-                    .attr('r', d => (yScale.bandwidth() / 2) * ((percent(d) <= 5 ? 5 : percent(d)) / 100) + 2.5)
+                    .attr('r', d => yScale.bandwidth() / 2 * percentScale(d.value))
                     .style('fill', function(d) { return myColor(percent(d));})
                     .on('mouseover', mouseover)
                     .on('mousemove', mousemove)
@@ -140,14 +156,29 @@ function ChartHeatmap(props, ref) {
                     .text(d => percent(d))
                     .attr('class', 'p6 label')
                     .attr('x', d => xScale(xValue(d)) + yScale.bandwidth() / 2)
-                    .attr('y', d => yScale(yValue(d)) + yScale.bandwidth() / 2 - 7.5)
-                    .attr('dy', '1em');
+                    .attr('y', d => yScale(yValue(d)) + yScale.bandwidth() / 2)
+                    .attr('dy', '0.82em');
             }
             chartContainer
                 .append('g')
                 .attr('class', 'axis axis-x')
                 .call(d3.axisTop(xScale).tickSize(0))
                 .selectAll('.tick text')
+                .call((texts) => {
+                    texts.each(function() {
+                        const text = d3.select(this);
+                        const maxLength = 19;
+                        if (text.text().length > maxLength) {
+                            let trimmedString = text.text().substr(0, maxLength);
+                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(' ')));
+                            trimmedString = trimmedString == '' ? text.text().split(' ')[0] : trimmedString;
+                            text.on('mouseover', mouseover)
+                                .on('mousemove', mousemoveLabel)
+                                .on('mouseleave', mouseleave);
+                            text.text(trimmedString + '\u00a0...');
+                        }
+                    });
+                })
                 .call(wrap, yScale.bandwidth(), true);
             chartContainer
                 .append('g')

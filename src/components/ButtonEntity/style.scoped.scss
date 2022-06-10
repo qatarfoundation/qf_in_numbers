@@ -1,10 +1,10 @@
 .button-entity {
-    color: color-from-theme('green', 'primary');
+    color: var(--color-theme-primary);
 
     transition: color 0.3s ease-out;
 
     &:hover {
-        color: color-from-theme('green', 'secondary');
+        color: var(--color-theme-secondary);
     }
 
     &.selected {

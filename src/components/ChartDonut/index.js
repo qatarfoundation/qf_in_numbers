@@ -14,6 +14,7 @@ import wrap from '@/utils/wrapTextSVG';
 
 // CSS
 import './style.scoped.scss';
+import useStore from '@/hooks/useStore';
 
 function ChartDonut(props, ref) {
     /**
@@ -36,6 +37,10 @@ function ChartDonut(props, ref) {
     const [width, setWidth] = useState(sizeCircle + margin.right + margin.left);
     const [height, setHeight] = useState(sizeCircle + margin.top + margin.bottom);
     /**
+     * Stores
+     */
+    const themeCategory = useStore(s => s.themeCategory);
+    /**
     * References
     */
     const refChart = useD3(
@@ -53,9 +58,10 @@ function ChartDonut(props, ref) {
             const percent = d3.scaleLinear()
                 .domain([0, data.length])
                 .range([0, 100]);
+            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
             const color = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
-                .range(['#E9F8F3', '#6ECEB2']);
+                .range([`${ colorTheme }4D`, colorTheme]);
             const pie = d3.pie()
                 .value(d => d.value).sort(null);
             const data_ready = pie(data);
@@ -144,7 +150,7 @@ function ChartDonut(props, ref) {
                 });
             labelContainer
                 .append('text')
-                .text(function(d) { return d.data.value; })
+                .text(function(d) { return d.data.percent + '%'; })
                 .attr('class', 'p3 label')
                 .attr('dy', '0.15em')
                 .style('text-anchor', function(d) {

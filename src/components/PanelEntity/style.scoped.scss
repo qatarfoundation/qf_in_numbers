@@ -71,7 +71,7 @@
     .point {
         width: rem(3.75px, 'small');
         height: rem(8.74px, 'small');
-        background: color-from-theme('green', 'secondary');
+        background: var(--color-theme-secondary);
         @include respond-to('medium') {
             width: rem(3.75px, 'medium');
             height: rem(8.74px, 'medium');
@@ -134,13 +134,13 @@
     .h1 {
         max-width: rem(164px, 'small');
         margin-bottom: rem(56px, 'small');
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         @include respond-to('medium') {
-            max-width: rem(272px, 'medium');
+            max-width: rem(350px, 'medium');
             margin-bottom: rem(56px, 'medium');
         }
         @include respond-to('large') {
-            max-width: rem(272px, 'large');
+            max-width: rem(350px, 'large');
             margin-bottom: rem(56px, 'large');
         }
     }
@@ -178,7 +178,7 @@
         margin-bottom: rem(170px, 'large');
     }
     .h8 {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         margin-bottom: rem(55px, 'small');
         @include respond-to('medium') {
             margin-bottom: rem(38px, 'medium');

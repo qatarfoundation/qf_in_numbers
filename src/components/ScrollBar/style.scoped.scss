@@ -38,10 +38,10 @@
     }
     &.scrollbar-colored {
         &::-webkit-scrollbar-thumb {
-          background: color-from-theme('green', 'secondary');
+          background: var(--color-theme-secondary);
         }
         &::-webkit-scrollbar-thumb:hover {
-          background: color-from-theme('green', 'secondary');
+          background: var(--color-theme-secondary);
         }
     }
 }

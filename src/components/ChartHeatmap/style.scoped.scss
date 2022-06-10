@@ -16,7 +16,7 @@
         position: absolute;
         width: fit-content;
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: color-from-theme('green', 'primary');
+        background-color: var(--color-theme-primary);
         border-radius: rem(4px, 'small');
         color: $color-white;
         transform: translate(-50%, -100%);
@@ -45,7 +45,7 @@
             border-right-color: transparent;
             border-top-width: rem(9px, 'small');
             border-top-style: solid;
-            border-top-color: color-from-theme('green', 'primary');
+            border-top-color: var(--color-theme-primary);
             transform: translate(-50%, calc(100% - 1px));
             @include respond-to('medium') {
                 border-left-width: rem(9px, 'medium');
@@ -57,6 +57,15 @@
                 border-right-width: rem(9px, 'large');
                 border-top-width: rem(9px, 'large');
             }
+        }
+    }
+    .tooltip-label {
+        max-width: rem(180px, 'small');
+        @include respond-to('medium') {
+            max-width: rem(180px, 'medium');
+        }
+        @include respond-to('large') {
+            max-width: rem(180px, 'large');
         }
     }
     .switch-container {
@@ -79,43 +88,50 @@
         text-anchor: start;
     }
     .axis-x .tick text {
-        transform: translate(rem(12px, 'small'), -rem(48px, 'small')) rotate(-45deg);
+        transform: translate(rem(24px, 'small'), rem(-24px, 'small')) rotate(-45deg);
         @include respond-to('medium') {
-            transform: translate(rem(12px, 'medium'), -rem(48px, 'medium')) rotate(-45deg);
+            transform: translate(rem(24px, 'medium'), rem(-24px, 'medium')) rotate(-45deg);
         }
         @include respond-to('large') {
-            transform: translate(rem(12px, 'large'), -rem(48px, 'large')) rotate(-45deg);
+            transform: translate(rem(24px, 'large'), rem(-24px, 'large')) rotate(-45deg);
         }
         .ar & {
-            transform: translate(0, -rem(48px, 'small')) rotate(45deg);
+            transform: translate(rem(24px, 'small'), rem(-24px, 'small')) rotate(45deg);
             @include respond-to('medium') {
-                transform: translate(0, -rem(48px, 'medium')) rotate(-45deg);
+                transform: translate(rem(24px, 'medium'), rem(-24px, 'medium')) rotate(-45deg);
             }
             @include respond-to('large') {
-                transform: translate(0, -rem(48px, 'large')) rotate(-45deg);
+                transform: translate(rem(24px, 'large'), rem(-24px, 'large')) rotate(-45deg);
             }
         }
     }
     .label {
-        color: color-from-theme('green', 'primary');
+        color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
+        transform: translate(0, rem(-6.5px, 'small'));
+        @include respond-to('medium') {
+            transform: translate(0, rem(-6.5px, 'medium'));
+        }
+        @include respond-to('large') {
+            transform: translate(0, rem(-6.5px, 'large'));
+        }
     }
     .circle-graph {
-        fill: color-from-theme('green', 'secondary');
+        fill: var(--color-theme-secondary);
         stroke: none;
         &:hover {
-            fill: color-from-theme('green', 'primary') !important;
+            fill: var(--color-theme-primary) !important;
             stroke: none;
         }
     }
     .circle-percent {
         fill: $color-white;
-        stroke: color-from-theme('green', 'secondary');
+        stroke: var(--color-theme-secondary);
         stroke-width: 2px;
         &:hover {
             fill: $color-white;
-            stroke: color-from-theme('green', 'primary') !important;
+            stroke: var(--color-theme-primary) !important;
         }
     }
 }
@@ -174,7 +190,7 @@
         &.is-active {
             svg {
                 circle {
-                    fill: color-from-theme('green', 'primary');
+                    fill: var(--color-theme-primary);
                 }
                 path {
                     fill: $color-white;

@@ -24,6 +24,7 @@
         width: rem(546px, 'small');
         height: rem(200px, 'small');
         background: linear-gradient(200deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
+        pointer-events: none;
         @include respond-to('medium') {
             bottom: rem(-34.5px, 'medium');
             width: rem(546px, 'medium');

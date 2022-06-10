@@ -14,6 +14,7 @@ import wrap from '@/utils/wrapTextSVG';
 
 // CSS
 import './style.scoped.scss';
+import useStore from '@/hooks/useStore';
 
 function ChartBubble(props, ref) {
     /**
@@ -26,17 +27,21 @@ function ChartBubble(props, ref) {
     const spaceTooltip = 12.5;
     const s = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.value)])
-        .range([8, 85]);
+        .range([12, 85]);
     let test = 0;
     data.forEach(d => {
         test += s(d.value);
     });
     /**
+     * Stores
+     */
+    const themeCategory = useStore(s => s.themeCategory);
+    /**
      * States
      */
     const [isResize, setIsResize] = useState(false);
     const [margin, setMargin] = useState({
-        top: 20,
+        top: heightTooltip + spaceTooltip,
         right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
         bottom: 10,
         left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
@@ -57,33 +62,34 @@ function ChartBubble(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
-            const mouseover = (e, d) => e.target.classList.contains('can-hover') && tooltip.style('opacity', 1);
+            const mouseover = (e, d) => tooltip.style('opacity', 1);
             const mousemove = (e, d) => {
-                e.target.classList.contains('can-hover') && tooltip
-                    .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.name }</p>`)
+                tooltip
+                    .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ e.target.classList.contains('can-hover') ? `<p class="p4">${ d.name }</p>` : '' }`)
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value - e.target.r.baseVal.value + margin.top - spaceTooltip }px`);
             };
-            const mouseleave = (e, d) => e.target.classList.contains('can-hover') && tooltip.style('opacity', 0);
+            const mouseleave = (e, d) => tooltip.style('opacity', 0);
             // Chart Container : contain all svg
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.right }, ${ margin.top })`);
             // ---
+            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
             const color = d3.scaleLinear()
-                .range(['#E9F8F3', '#6ECEB2'])
+                .range([`${ colorTheme }4D`, colorTheme])
                 .domain([d3.min(data, d => d.value), d3.max(data, d => d.value)]);
             const size = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
-                .range([8, 85]);
+                .range([12, 85]);
             const node = chartContainer.append('g')
                 .selectAll('circle')
                 .data(data)
                 .enter()
                 .append('circle')
                 .attr('class', function(d) {
-                    const isHide = size(d.value) <= 30 ? true : false;
+                    const isHide = size(d.value) <= 50 ? true : false;
                     return `node ${ isHide ? 'can-hover' : '' }`;
                 })
                 .attr('r', function(d) { return size(d.value);})
@@ -99,7 +105,7 @@ function ChartBubble(props, ref) {
                 .enter()
                 .append('svg:text')
                 .attr('class', function(d) {
-                    const isHide = size(d.value) <= 30 ? true : false;
+                    const isHide = size(d.value) <= 50 ? true : false;
                     return `p4 label ${ isHide ? 'is-hidden' : '' }`;
                 })
                 .attr('x', innerWidth / 2)
@@ -132,13 +138,12 @@ function ChartBubble(props, ref) {
                             el.parentNode.setAttribute('width', newWidth);
                             el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
                             el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
-                            const heightText = texts.node().getBoundingClientRect().height;
                             node
                                 .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
                                 .attr('cy', function(d) { return d.y + (bounding.height / 2); });
                             texts
                                 .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                                .attr('y', function(d) { return d.y + (bounding.height / 2) +  (heightText / 2); });
+                                .attr('y', function(d) { return d.y + (bounding.height / 2) + (this.getBoundingClientRect().height / 2); });
                             texts.call(wrap, 100, true);
                         }
                     }, 0);
@@ -161,7 +166,7 @@ function ChartBubble(props, ref) {
      */
     function resize() {
         setMargin({
-            top: 20,
+            top: heightTooltip + spaceTooltip,
             right: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
             bottom: 10,
             left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
