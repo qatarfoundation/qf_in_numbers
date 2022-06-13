@@ -23,7 +23,7 @@
     .charts-container {
         display: flex;
         gap: rem(90px, 'small');
-        width: fit-content;
+        margin: 0 auto;
         @include respond-to('medium') {
             gap: 0;
         }

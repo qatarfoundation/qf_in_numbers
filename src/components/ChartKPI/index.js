@@ -21,7 +21,7 @@ function ChartKPI(props, ref) {
     const data = chart.fields;
     chart.lastYearFields = chart.fields;
     // !!! Ask to Leo to get the last year value from each KPI chart
-    data[0].lastYearValue = 120;
+    // data[0].lastYearValue = 120;
     /**
      * Store
      */
