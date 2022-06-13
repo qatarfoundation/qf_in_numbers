@@ -30,11 +30,16 @@ export const COMPLETE = 'COMPLETE';
 
 function usePreloader() {
     const [state, setState] = useState(LOADING);
+    const [progress, setProgress] = useState(0);
     const environment = useEnvironment();
 
     useEffect(() => {
         const resourceLoader = new ResourceLoader();
         const isDevelopment = environment === DEVELOPMENT;
+
+        const handleProgress = (p) => {
+            setProgress(p);
+        };
 
         const handleComplete = () => {
             Globals.isResourcesLoaded = true;
@@ -52,17 +57,18 @@ function usePreloader() {
 
             // View resources
             addViewsResouces(resourceLoader, isDevelopment);
-
+            resourceLoader.addEventListener('progress', handleProgress);
             resourceLoader.addEventListener('complete', handleComplete);
             resourceLoader.preload();
         }
 
         return () => {
+            resourceLoader.removeEventListener('progress', handleProgress);
             resourceLoader.removeEventListener('complete', handleComplete);
         };
     }, []);
 
-    return state;
+    return { state, progress };
 }
 
 function addViewsResouces(resourceLoader, isDevelopment) {

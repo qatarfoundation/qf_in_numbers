@@ -56,6 +56,7 @@ function IndexPage(props, ref) {
     function transitionIn() {
         const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
         timeline.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+        timeline.add(Globals.webglApp.showTree(), null, 0);
         return timeline;
     }
 

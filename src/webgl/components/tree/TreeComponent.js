@@ -2,7 +2,6 @@
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { Object3D, Vector2, Raycaster, Color } from 'three';
-import { navigate } from 'gatsby';
 
 // Utils
 import Debugger from '@/utils/Debugger';
@@ -24,8 +23,6 @@ export default class TreeComponent extends component(Object3D) {
 
         // Setup
         this._isActive = true;
-        this._defaultBackgroundColor = new Color(this._config.renderer.clearColor);
-        this._backgroundColor = this._getBackgroundColor();
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(2, 2);
         this._debug = this._createDebug();
@@ -38,11 +35,13 @@ export default class TreeComponent extends component(Object3D) {
 
         // Settings
         this.rotation.y = Math.PI * 0.5;
+        this.visible = false;
     }
 
     destroy() {
         super.destroy();
         this._removeEventListeners();
+        this._timelineTransitionIn?.kill();
         this._timelineShow?.kill();
         this._timelineHide?.kill();
     }
@@ -50,6 +49,17 @@ export default class TreeComponent extends component(Object3D) {
     /**
      * Public
      */
+    transitionIn() {
+        this._isActive = true;
+
+        this._timelineTransitionIn = new gsap.timeline();
+        this._timelineTransitionIn.set(this, { visible: true }, 0);
+        // for (let i = 0, len = this._branches.length; i < len; i++) {
+        //     this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
+        // }
+        return this._timelineTransitionIn;
+    }
+
     show() {
         this._isActive = true;
 
@@ -104,8 +114,8 @@ export default class TreeComponent extends component(Object3D) {
                 index,
                 config: this._config,
                 debug: this._debug,
-                hoverColor: branch.hoverColor,
-                hoverBackgroundColor: branch.hoverBackgroundColor,
+                particleColors: branch.particleColors,
+                backgroundColor: branch.backgroundColor,
                 cameraManager: this._cameraManager,
                 anchorPosition: branch.anchorPosition,
                 subcategoriesAnchorPosition: branch.subcategoriesAnchorPosition,
@@ -151,7 +161,6 @@ export default class TreeComponent extends component(Object3D) {
             const branch = intersects[0].object.parent;
             if (this._activeBranch !== branch) {
                 this._activeBranch?.mouseLeave();
-                this._tweenBackgroundColor(branch.hoverBackgroundColor);
 
                 this._activeBranch = branch;
                 this._activeBranch.mouseEnter();
@@ -163,20 +172,9 @@ export default class TreeComponent extends component(Object3D) {
             if (this._activeBranch) {
                 this._activeBranch.mouseLeave();
                 this._activeBranch = null;
-                this._tweenBackgroundColor(this._defaultBackgroundColor);
                 this._fadeInBranches();
             }
         }
-    }
-
-    _tweenBackgroundColor(color) {
-        this._backgroundHoverTween?.kill();
-        this._backgroundHoverTween = gsap.to(this, 1, {
-            _backgroundColor: `#${ color.getHexString() }`,
-            onUpdate: () => {
-                this.$renderer.setClearColor(this._backgroundColor);
-            },
-        });
     }
 
     _fadeInBranches() {

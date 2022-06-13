@@ -15,6 +15,7 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useScrollList from './useScrollList';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -98,6 +99,7 @@ function CategoryTemplate(props) {
      * Events
      */
     useWindowResizeObserver(resizeHandler);
+    // useScrollList(category, subcategory);
 
     /**
      * Handlers
@@ -174,89 +176,3 @@ export const query = graphql`
         }
     }
 `;
-
-// useEffect(() => {
-//     const scrollList = [];
-//     let currentScrollIndex = -1;
-//     let isAnimating = false;
-//     const animationDelay = 1;
-//     let delayedCall = null;
-
-//     console.log('useEffect');
-
-//     category.subcategories.forEach((subcategory) => {
-//         scrollList.push({
-//             type: 'subcategory',
-//             slug: subcategory.slug,
-//             data: subcategory,
-//         });
-//         subcategory.entities.forEach((entity) => {
-//             scrollList.push({
-//                 type: 'entity',
-//                 name: entity.name,
-//                 data: entity,
-//             });
-//         });
-//     });
-
-//     scrollList.forEach((item, index) => {
-//         if (item.data === subcategory)  {
-//             currentScrollIndex = index;
-//         }
-//     });
-
-//     function goto(index) {
-//         const currentScrollItem = scrollList[index];
-//         if (!currentScrollItem) return;
-
-//         console.log(index);
-//         console.log(currentScrollItem);
-
-//         if (currentScrollItem.type === 'subcategory') {
-//             navigate(currentScrollItem.slug);
-//         } else if (currentScrollItem.type === 'entity') {
-//             Globals.webglApp.gotoEntity(category.name, currentScrollItem.name);
-//             useStore.setState({ selectedEntity: currentScrollItem.data });
-//         }
-
-//         delayedCall?.kill();
-//         delayedCall = gsap.delayedCall(animationDelay, () => {
-//             isAnimating = false;
-//         });
-//     }
-
-//     function gotoNextScrollItem() {
-//         if (isAnimating) return;
-//         isAnimating = true;
-
-//         if (currentScrollIndex < scrollList.length - 1) {
-//             currentScrollIndex++;
-//         }
-//         goto(currentScrollIndex);
-//     }
-
-//     function gotoPreviousScrollItem() {
-//         if (isAnimating) return;
-//         isAnimating = true;
-
-//         if (currentScrollIndex > 0) {
-//             currentScrollIndex--;
-//         }
-//         goto(currentScrollIndex);
-//     }
-
-//     function handler(e) {
-//         if (e.deltaY > 0) {
-//             gotoNextScrollItem();
-//         } else {
-//             gotoPreviousScrollItem();
-//         }
-//     }
-
-//     window.addEventListener('mousewheel', handler);
-
-//     return () => {
-//         window.removeEventListener('mousewheel', handler);
-//         delayedCall?.kill();
-//     };
-// }, []);

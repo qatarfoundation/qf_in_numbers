@@ -12,9 +12,9 @@ import Debugger from '@/utils/Debugger';
 import math from '@/utils/math';
 import number from '@/utils/number';
 import easings from '@/utils/easings';
+import TreeDataModel from '@/utils/TreeDataModel';
 
 // Components
-import BackgroundGradientsComponent from '@/webgl/components/BackgroundGradientsComponent';
 import TreeComponent from '@/webgl/components/tree/TreeComponent';
 import FloorComponent from '@/webgl/components/tree/FloorComponent';
 import LeavesComponent from '@/webgl/components/tree/LeavesComponent';
@@ -46,6 +46,7 @@ export default class HomeView extends component() {
         this._timelineGotoSubcategory?.kill();
         this._timelineGotoEntity?.kill();
         this._timelineGotoOverview?.kill();
+        this._timelineShowTree?.kill();
     }
 
     /**
@@ -84,6 +85,7 @@ export default class HomeView extends component() {
 
     gotoCategory(name) {
         this._timelineGotoCategory = new gsap.timeline();
+        this._timelineGotoCategory.call(this._setBackgroundColor(name), null, 0);
         this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
         this._timelineGotoCategory.add(this._components.tree.hide(), 6);
         this._timelineGotoCategory.add(this._components.generatedTree.gotoCategory(name), 6);
@@ -95,6 +97,7 @@ export default class HomeView extends component() {
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
 
         this._timelineGotoSubcategory = new gsap.timeline();
+        this._timelineGotoSubcategory.call(this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
         this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
@@ -105,6 +108,7 @@ export default class HomeView extends component() {
         const position = this._components.generatedTree.getEntityCameraPosition(categorySlug, name);
 
         this._timelineGotoEntity = new gsap.timeline();
+        this._timelineGotoEntity.call(this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
@@ -119,6 +123,13 @@ export default class HomeView extends component() {
         // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         // return this._timelineGotoEntity;
+    }
+
+    showTree() {
+        this._timelineShowTree = new gsap.timeline();
+        this._timelineShowTree.add(this._components.tree.transitionIn());
+        // this._timelineShowTree.add(this._components.floor.transitionIn());
+        return this._timelineShowTree;
     }
 
     /**
@@ -180,29 +191,24 @@ export default class HomeView extends component() {
         return container;
     }
 
+    _setBackgroundColor(name) {
+        const config = TreeDataModel.getBranch(name);
+        this.$composer.passes.backgroundGradient.color = config.backgroundColor;
+        this.$composer.passes.backgroundGradient.gradientType = 1;
+    }
+
     /**
      * Components
      */
     _createComponents() {
         const components = {};
-        // components.backgroundGradients = this._createBackgroundGradientsComponent();
         components.tree = this._createTreeComponent();
-        components.floor = this._createFloorComponent();
+        // components.floor = this._createFloorComponent();
         // components.leavesBasic = this._createLeavesBasicComponent();
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
         components.generatedTree = this._createGeneratedTreeComponent();
         return components;
-    }
-
-    _createBackgroundGradientsComponent() {
-        const component = new BackgroundGradientsComponent({
-            debugContainer: this._config.name,
-            data: this._config.backgroundGradients,
-            hidden: false,
-        });
-        this._scene.add(component);
-        return component;
     }
 
     _createTreeComponent() {

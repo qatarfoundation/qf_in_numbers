@@ -9,19 +9,30 @@ import TreeDataModel from '@/utils/TreeDataModel';
 import math from '@/utils/math';
 import device from '@/utils/device';
 
+// Components
+import GeneratedEntityComponent from '@/webgl/components/tree/GeneratedEntityComponent';
+
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles-generated/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.glsl';
 
+// Constants
+const PARTICLE_SIZE = 95;
+
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
         // Options
-        this._debug = options.debug;
+        this._index = options.index;
         this._data = options.data;
         this._scene = options.scene;
         this._colors = options.colors;
 
+        // Props
+        this._entities = {};
+        this._showCameraHelpers = false;
+
         // Setup
+        this._debug = this._createDebug(options.debug);
         this.hide();
     }
 
@@ -31,10 +42,11 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._curves = this._createCurves();
         this._particles = this._createParticles();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
-        this._cameraAnchorsEntities = this._createCameraAnchorsEntities();
-        this._labelAnchorsEntities = this._createLabelAnchorsEntities();
+        this._cameraAnchorsEntities = [];
+        // this._labelAnchorsEntities = this._createLabelAnchorsEntities();
         this._bindHandlers();
         this._setupEventListeners();
+        this._updateParticleSize(this._renderHeight, this._dpr);
     }
 
     destroy() {
@@ -58,7 +70,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     getCameraAnchorEntity(name) {
-        return this._cameraAnchorsEntities[name];
+        console.log(this._entities[name].cameraAnchor);
+        return this._entities[name].cameraAnchor;
     }
 
     getCameraAnchorSelectEntity(name) {
@@ -89,6 +102,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         const currentPosition = new Vector3(0, 13, 0);
         pointsCategories.push(currentPosition);
 
+        const startPosition = currentPosition.clone();
+
         const subcategoriesPoints = [];
         const subcategoriesEntries = {};
 
@@ -100,76 +115,54 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         const subcategoriesLength = subcategories.length;
         const angleStep = (Math.PI * 2) / subcategoriesLength;
         subcategories.forEach((subcategory, index) => {
-            const radius = 8;
-            const angle = index * angleStep;
+            const radius = 0;
+            const angle = 0;
 
             // Start position
-            subcategoriesPoints.push(currentPosition);
+            subcategoriesPoints.push(startPosition.clone());
 
             // End position
-            const length = subcategory.entities.length * 2;
-            const x = currentPosition.x + radius * Math.cos(angle);
-            const y = currentPosition.y + length;
-            const z = currentPosition.z + radius * Math.sin(angle);
+            const length = subcategory.entities.length * 1;
+            const x = startPosition.x + radius * Math.cos(angle);
+            const y = startPosition.y + length;
+            const z = startPosition.z + radius * Math.sin(angle);
             const endPosition = new Vector3(x, y, z);
-            subcategoriesPoints.push(endPosition);
+            subcategoriesPoints.push(endPosition.clone());
 
             subcategoriesEntries[subcategory.name] = {
-                start: currentPosition,
-                end: endPosition,
+                start: startPosition.clone(),
+                end: endPosition.clone(),
             };
 
             const direction = new Vector3();
-            direction.subVectors(endPosition, currentPosition);
+            direction.subVectors(endPosition, startPosition);
             direction.normalize();
 
             const entities = subcategory.entities;
             const entitiesLength = entities.length;
-            const points = [currentPosition, endPosition];
+            const points = [startPosition, endPosition];
             const curve = new CatmullRomCurve3(points, false, 'catmullrom', 0);
-            const frenetFrames = curve.computeFrenetFrames(points.length, false);
 
             entities.forEach((entity, index) => {
                 const step = (index + 1) / (entitiesLength + 1);
 
-                const pointProgress = Math.random();
                 const startPosition = curve.getPointAt(step);
                 entitiesPoints.push(startPosition);
 
-                const radius = 3;
-                const angle = Math.random() * Math.PI * 2;
-
-                const fract = pointProgress % 1;
-                const indexStart = Math.floor(pointProgress * (frenetFrames.normals.length - 1));
-                const indexEnd = Math.ceil(pointProgress * (frenetFrames.normals.length - 1));
-
-                const N = new Vector3().lerpVectors(frenetFrames.normals[indexStart], frenetFrames.normals[indexEnd], fract);
-                const B = new Vector3().lerpVectors(frenetFrames.binormals[indexStart], frenetFrames.binormals[indexEnd], fract);
-
-                const sin = Math.sin(angle);
-                const cos = -Math.cos(angle);
-
-                const normal = new Vector3();
-                normal.x = (cos * N.x + sin * B.x);
-                normal.y = (cos * N.y + sin * B.y);
-                normal.z = (cos * N.z + sin * B.z);
-                normal.normalize();
-
-                const angleOffset = new Vector3().lerpVectors(normal, direction, 0.4);
-
-                const endPosition = new Vector3();
-                endPosition.x = startPosition.x + radius * angleOffset.x;
-                endPosition.y = startPosition.y + radius * angleOffset.y;
-                endPosition.z = startPosition.z + radius * angleOffset.z;
-                entitiesPoints.push(endPosition);
-
                 const slug = entity.slug.split('/').slice(-1)[0];
 
-                entitiesEntries[slug] = {
-                    start: startPosition,
-                    end: endPosition,
-                };
+                const entityComponent = new GeneratedEntityComponent({
+                    slug,
+                    scene: this._scene,
+                });
+                entityComponent.position.copy(startPosition);
+                entityComponent.rotation.y = Math.PI * 2 * Math.random();
+                this.add(entityComponent);
+                this._entities[slug] = entityComponent;
             });
+
+            startPosition.copy(endPosition);
+            // startPosition.y += 1;
         });
 
         return {
@@ -178,10 +171,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 all: subcategoriesPoints,
                 entries: subcategoriesEntries,
             },
-            entities: {
-                all: entitiesPoints,
-                entries: entitiesEntries,
-            },
+            // entities: {
+            //     all: [],
+            //     entries: [],
+            // },
         };
     }
 
@@ -199,17 +192,12 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const line = new LineSegments(geometry, material);
             this.add(line);
         }
-
-        {
-            const material = new LineBasicMaterial({ color: 0xff0000 });
-            const geometry = new BufferGeometry().setFromPoints(this._points.entities.all);
-            const line = new LineSegments(geometry, material);
-            this.add(line);
-        }
     }
 
     _createCurves() {
-        const segments = [...this._points.categories, ...this._points.subcategories.all, ...this._points.entities.all];
+        const entitiesPoints = this._getEntitiesPoints();
+
+        const segments = [...this._points.categories, ...this._points.subcategories.all, ...entitiesPoints];
         const curves = [];
 
         for (let i = 0, len = segments.length; i < len; i += 2) {
@@ -231,10 +219,22 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         return curves;
     }
 
+    _getEntitiesPoints() {
+        const points = [];
+        for (const key in this._entities) {
+            const entity = this._entities[key];
+            points.push(entity.startPosition);
+            points.push(entity.endPosition);
+        }
+        return points;
+    }
+
     _createParticles() {
-        const amount = 2000;
+        const amount = 4000;
         const vertices = [];
         const normals = [];
+        const settings = [];
+        const colors = [];
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -243,7 +243,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const pointProgress = Math.random();
             const point = curve.getPointAt(pointProgress);
 
-            const radius = math.randomArbitrary(0, 0.4);
+            const radius = math.randomArbitrary(0, 0.1);
             const angle = Math.random() * Math.PI * 2;
 
             const fract = pointProgress % 1;
@@ -270,34 +270,45 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             vertex.z = point.z + radius * normal.z;
 
             vertices.push(vertex.x, vertex.y, vertex.z);
+
+            settings.push(math.randomArbitrary(0.2, 1)); // Radius
+            settings.push(math.randomArbitrary(0.5, 1)); // Scale
+            settings.push(math.randomArbitrary(0.5, 1)); // Alpha
+
+            colors.push(Math.random() > 0.5 ? 1 : 0);
         }
 
         const geometry = new BufferGeometry();
         geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
         geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
+        geometry.setAttribute('settings', new Float32BufferAttribute(settings, 3));
+        geometry.setAttribute('color', new Float32BufferAttribute(colors, 1));
 
         // const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
             fragmentShader,
             vertexShader,
             uniforms: {
-                uColor: { value: this._colors.primary },
-                // uColorGradient: { value: colorGradient },
-                uProgress: { value: 0.65 },
-                uPointSize: { value: device.dpr() > 1 ? 100 : 60 },
-                uRadius: { value: 0.71 },
-                uInnerGradient: { value: 0.88 },
-                uOuterGradient: { value: 0.07 },
-                uHoverColor: { value: this._hoverColor },
-                uShowHover: { value: 0 },
+                uColor1: { value: this._colors.primary },
+                uColor2: { value: this._colors.secondary },
+                uPointSize: { value: PARTICLE_SIZE },
+                uInnerGradient: { value: 0.77 },
+                uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
             },
             transparent: true,
-            // blending: AdditiveBlending,
+            blending: AdditiveBlending,
             depthWrite: false,
+            depthTest: false,
         });
         const mesh = new Points(geometry, material);
         this.add(mesh);
+
+        if (this._debug) {
+            this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
+            this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
+            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
+        }
 
         return mesh;
     }
@@ -311,150 +322,52 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const start = item.start;
             const end = item.end;
 
-            const position = new Vector3().lerpVectors(start, end, 0.2);
+            // Target
+            // const distance = start.distanceTo(end);
+            // const progress = 2 / distance;
+            const targetPosition = new Vector3().lerpVectors(start, end, 0);
+            const targetGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+            const targetMaterial = new MeshBasicMaterial({ color: 0xff0000 });
+            const targetMesh = new Mesh(targetGeometry, targetMaterial);
+            targetMesh.position.copy(targetPosition);
+            targetMesh.visible = this._showCameraHelpers;
+            this.add(targetMesh);
 
-            const geometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
-            const material = new MeshBasicMaterial({ color: 0xff0000 });
-            const mesh = new Mesh(geometry, material);
-            mesh.position.copy(position);
-            mesh.visible = false;
-            this.add(mesh);
-
-            const origin = position.clone();
+            // Position
+            const position = targetPosition.clone();
 
             const radius = 4;
             const angle = Math.random() * Math.PI * 2;
             // const angle = Math.PI * 0.4;
-            origin.x += radius * Math.cos(angle);
-            origin.z += radius * Math.sin(angle);
-            origin.set(0, 15, 0);
+            position.x += radius * Math.cos(angle);
+            position.z += radius * Math.sin(angle);
+            // position.set(0, 15, 0);
 
-            const geometryOrigin = new BoxBufferGeometry(0.1, 0.1, 0.1);
-            const materialOrigin = new MeshBasicMaterial({ color: 0xff00ff });
-            const meshOrigin = new Mesh(geometryOrigin, materialOrigin);
-            meshOrigin.position.copy(origin);
-            meshOrigin.visible = false;
-            this.add(meshOrigin);
+            const positionGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+            const positionMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
+            const positionMesh = new Mesh(positionGeometry, positionMaterial);
+            positionMesh.position.copy(position);
+            positionMesh.visible = this._showCameraHelpers;
+            this.add(positionMesh);
 
             const cameraPosition = new Vector3();
-            meshOrigin.updateMatrixWorld();
-            meshOrigin.getWorldPosition(cameraPosition);
+            positionMesh.updateMatrixWorld();
+            positionMesh.getWorldPosition(cameraPosition);
 
             const cameraTarget = new Vector3();
-            mesh.updateMatrixWorld();
-            mesh.getWorldPosition(cameraTarget);
+            targetMesh.updateMatrixWorld();
+            targetMesh.getWorldPosition(cameraTarget);
 
             const camera = new PerspectiveCamera(50, 1, 0.1, 1);
             this.add(camera);
-            camera.position.copy(origin);
+            camera.position.copy(position);
             camera.lookAt(cameraTarget);
             camera.updateMatrixWorld();
 
-            // const cameraHelper = new CameraHelper(camera);
-            // this._scene.add(cameraHelper);
-
-            anchors[key] = {
-                origin: cameraPosition,
-                target: cameraTarget,
-                camera,
-            };
-        }
-
-        return anchors;
-    }
-
-    _createCameraAnchorsEntities() {
-        const pointsEntities = this._points.entities.entries;
-        const anchors = {};
-
-        for (const key in pointsEntities) {
-            const item = pointsEntities[key];
-            const start = item.start;
-            const end = item.end;
-
-            const curve = new CatmullRomCurve3([start, end], false);
-            const frenetFrames = curve.computeFrenetFrames(2, false);
-            const normal = frenetFrames.normals[0];
-            const tangent = frenetFrames.tangents[0];
-            const binormal = frenetFrames.binormals[0];
-
-            const position = new Vector3().lerpVectors(start, end, 0.5);
-
-            const geometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
-            const material = new MeshBasicMaterial({ color: 0xff0000 });
-            const mesh = new Mesh(geometry, material);
-            mesh.position.copy(position);
-            mesh.visible = false;
-            this.add(mesh);
-
-            // const arrowHelper = new ArrowHelper(normal, position, 1, 0xff00ff);
-            // this.add(arrowHelper);
-
-            const p = position.clone();
-            p.add(normal.multiplyScalar(2));
-
-            const origin = position.clone();
-
-            const radius = 3;
-            const angle = Math.random() * Math.PI * 2;
-            // const angle = Math.PI * 0.4;
-            origin.x += radius * Math.cos(angle);
-            origin.z += radius * Math.sin(angle);
-            // origin.set(0, 15, 0);
-
-            const geometryOrigin = new BoxBufferGeometry(0.1, 0.1, 0.1);
-            const materialOrigin = new MeshBasicMaterial({ color: 0xff00ff });
-            const meshOrigin = new Mesh(geometryOrigin, materialOrigin);
-            meshOrigin.position.copy(p);
-            meshOrigin.visible = false;
-            this.add(meshOrigin);
-
-            const cameraPosition = new Vector3();
-            meshOrigin.updateMatrixWorld();
-            meshOrigin.getWorldPosition(cameraPosition);
-
-            const cameraTarget = new Vector3();
-            mesh.updateMatrixWorld();
-            mesh.getWorldPosition(cameraTarget);
-
-            const container = new Object3D();
-            container.position.copy(p);
-            this.add(container);
-
-            const camera = new PerspectiveCamera(50, 1, 0.1, 1);
-            camera.rotation.y = Math.PI;
-            // camera.rotation.z = binormal.z;
-            container.add(camera);
-            container.lookAt(cameraTarget);
-
-            camera.updateMatrixWorld();
-
-            // setInterval(() => {
-            //     camera.rotation.x += 0.01;
-            // }, 100);
-
-            // {
-            //     const arrowHelper = new ArrowHelper(binormal, cameraPosition, 1, 0x00ffff);
-            //     this.add(arrowHelper);
-            // }
-
-            // const cameraHelper = new CameraHelper(camera);
-            // this._scene.add(cameraHelper);
-
-            // {
-            //     const worldDirection = new Vector3();
-            //     camera.getWorldDirection(worldDirection);
-
-            //     // worldDirection.x += Math.PI * 0.5;
-
-            //     // const e = new Euler().setFromVector3(worldDirection);
-
-            //     // const arrowHelper = new ArrowHelper(worldDirection, cameraPosition, 1, 0xff0000);
-            //     // this._scene.add(arrowHelper);
-
-            //     // const angle = worldDirection.angleTo(binormal);
-            //     // camera.rotation.z = angle;
-            // }
+            if (this._showCameraHelpers) {
+                const cameraHelper = new CameraHelper(camera);
+                this._scene.add(cameraHelper);
+            }
 
             anchors[key] = {
                 origin: cameraPosition,
@@ -521,9 +434,20 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Resize
      */
-    onWindowResize({ renderWidth, renderHeight }) {
+
+    onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
+
+        this._renderHeight = renderHeight;
+        this._dpr = dpr;
+        this._updateParticleSize(renderHeight, dpr);
+    }
+
+    _updateParticleSize(renderHeight, dpr) {
+        if (!this._particles) return;
+        const scale = renderHeight / 1080;
+        this._particles.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
     }
 
     /**
@@ -531,5 +455,14 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      */
     _branchAddHandler(data) {
         // console.log(data);
+    }
+
+    /**
+     * Debug
+     */
+    _createDebug(debug) {
+        if (!debug) return;
+        const group = debug.addGroup('Branch #' + this._index);
+        return group;
     }
 }

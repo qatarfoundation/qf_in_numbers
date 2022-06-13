@@ -16,6 +16,9 @@ function usePopulateTreeDataModel(year, categories) {
             category.slug = category.slug.split('/').slice(-1)[0];
         });
 
+        // categories[0].subcategories = [];
+        // categories[1].subcategories = [];
+
         TreeDataModel.addBranchesData(categories);
     }, []);
 }

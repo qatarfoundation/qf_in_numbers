@@ -74,7 +74,7 @@ h6, .h6 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 300;
-    font-size: rem(30px, 'small');
+    font-size: rem(20px, 'small');
     line-height: 120%;
     @include respond-to('medium') {
         font-size: rem(30px, 'medium');

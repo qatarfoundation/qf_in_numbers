@@ -47,9 +47,9 @@ const YearTemplate = (props) => {
     const year = data.year[language];
     usePopulateTreeDataModel(year.year, year.categories);
 
-    useEffect(() => {
-        // console.log(currentCategory);
-    }, [currentCategory]);
+    // useEffect(() => {
+    //     console.log(currentCategory);
+    // }, [currentCategory]);
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -59,6 +59,7 @@ const YearTemplate = (props) => {
     useEffect(() => {
         Globals.webglApp.gotoOverview();
         Globals.webglApp.enableInteractions();
+        Globals.webglApp.showTree();
 
         useStore.setState({ currentCategory: null });
         useStore.setState({ currentSubcategory: null });

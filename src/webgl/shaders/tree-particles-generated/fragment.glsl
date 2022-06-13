@@ -1,7 +1,11 @@
+// Varyings
+varying vec4 vSettings;
+varying float vColor;
+
 // Uniforms
 uniform float uProgress;
-// uniform sampler2D uColorGradient;
-uniform vec3 uColor;
+uniform vec3 uColor1;
+uniform vec3 uColor2;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
 uniform float uOpacity;
@@ -13,14 +17,13 @@ float circle(vec2 st, float radius){
 
 void main() {
     // Color
-    // vec3 color = texture2D(uColorGradient, vec2(0.5, 0.5)).rgb;
-    vec3 color = uColor;
+    vec3 color = mix(uColor1, uColor2, vColor);
 
     // Alpha
     float alpha = circle(gl_PointCoord, 1.0);
-    // alpha *= vSettings.w;
+    alpha *= vSettings.z;
     alpha *= uOpacity;
 
     // Output
-    gl_FragColor = vec4(vec3(color), alpha);
+    gl_FragColor = vec4(vec3(color * alpha), alpha);
 }

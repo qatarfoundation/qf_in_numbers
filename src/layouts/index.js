@@ -76,7 +76,7 @@ function Layout(props) {
     /**
      * Hooks
      */
-    const preloaderState = usePreloader();
+    const { state, progress } = usePreloader();
 
     /**
      * Handlers
@@ -118,7 +118,7 @@ function Layout(props) {
 
                 <div className="container" ref={ containerRef }>
 
-                    <WebglApp preloaderState={ preloaderState } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
+                    <WebglApp preloaderState={ state } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
                     { webglAppState === 'started' &&
 
@@ -141,7 +141,11 @@ function Layout(props) {
 
                 </div>
 
-                <ThePreloader visible={ preloaderState === LOADING } />
+                <AnimatePresence>
+                    <ThePreloader visible={ state === LOADING } progress={ progress } />
+                </AnimatePresence>
+
+                { /* <ThePreloader visible={ true } progress={ progress } /> */ }
 
             </EnvironmentProvider>
         </div>

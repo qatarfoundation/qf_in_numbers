@@ -14,13 +14,16 @@ import TreeParser from '@/webgl/utils/TreeParser';
 import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
+// Constants
+const PARTICLE_SIZE = 95;
+
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
         // Options
         this._index = options.index;
         this._config = options.config;
-        this._hoverColor = options.hoverColor;
-        this._hoverBackgroundColor = options.hoverBackgroundColor;
+        this._particleColors = options.particleColors;
+        this._backgroundColor = options.backgroundColor;
         this._cameraManager = options.cameraManager;
         this._anchorPosition = options.anchorPosition;
         this._subcategoriesAnchorPosition = options.subcategoriesAnchorPosition;
@@ -62,8 +65,8 @@ export default class TreeBranchComponent extends component(Object3D) {
         return this._slug;
     }
 
-    get hoverBackgroundColor() {
-        return this._hoverBackgroundColor;
+    get backgroundColor() {
+        return this._backgroundColor;
     }
 
     /**
@@ -90,11 +93,21 @@ export default class TreeBranchComponent extends component(Object3D) {
     mouseEnter() {
         this._mouseHover(1);
         TreeDataModel.dispatchEvent('branch/mouseEnter', { index: this._index });
+
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
+        const { r, g, b } = this._backgroundColor;
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
     }
 
     mouseLeave() {
         this._mouseHover(0);
         TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
+
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
     }
 
     fadeIn() {
@@ -130,7 +143,6 @@ export default class TreeBranchComponent extends component(Object3D) {
 
             const curve = new CatmullRomCurve3(points, false, 'catmullrom', 0);
             const frenetFrames = curve.computeFrenetFrames(points.length, false);
-            const color = new Color(Math.random(), Math.random(), Math.random());
             const weight = curve.points.length;
 
             curves.push({
@@ -138,7 +150,6 @@ export default class TreeBranchComponent extends component(Object3D) {
                 endOrder,
                 curve,
                 frenetFrames,
-                color,
                 weight,
             });
         }
@@ -147,12 +158,12 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createMesh() {
-        const amount = 50000;
+        const amount = 40000;
         const vertices = [];
         const normals = [];
         const progress = [];
         const settings = [];
-        const colors = [];
+        const hoverColor = [];
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -197,10 +208,10 @@ export default class TreeBranchComponent extends component(Object3D) {
 
             settings.push(Math.random()); // Offset
             settings.push(math.randomArbitrary(0.2, 1)); // Radius
-            settings.push(math.randomArbitrary(0.7, 1)); // Scale
+            settings.push(math.randomArbitrary(0.5, 1)); // Scale
             settings.push(math.randomArbitrary(0.5, 1)); // Alpha
 
-            colors.push(data.color.r, data.color.g, data.color.b);
+            hoverColor.push(Math.random() > 0.5 ? 1.0 : 0.0);
         }
 
         const geometry = new BufferGeometry();
@@ -208,7 +219,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
         geometry.setAttribute('progress', new Float32BufferAttribute(progress, 1));
         geometry.setAttribute('settings', new Float32BufferAttribute(settings, 4));
-        geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
+        geometry.setAttribute('hoverColor', new Float32BufferAttribute(hoverColor, 1));
 
         const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
@@ -217,11 +228,12 @@ export default class TreeBranchComponent extends component(Object3D) {
             uniforms: {
                 uColorGradient: { value: colorGradient },
                 uProgress: { value: 0.65 },
-                uPointSize: { value: 47 },
-                uRadius: { value: 0.71 },
-                uInnerGradient: { value: 0.88 },
-                uOuterGradient: { value: 0.07 },
-                uHoverColor: { value: this._hoverColor },
+                uPointSize: { value: PARTICLE_SIZE },
+                uRadius: { value: 0.56 },
+                uInnerGradient: { value: 1.85 },
+                uOuterGradient: { value: 0 },
+                uHoverColor1: { value: this._particleColors.primary },
+                uHoverColor2: { value: this._particleColors.secondary },
                 uShowHover: { value: 0 },
                 uOpacity: { value: 1 },
             },
@@ -239,7 +251,6 @@ export default class TreeBranchComponent extends component(Object3D) {
             this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
             this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
             this._debug.add(material.uniforms.uRadius, 'value', { label: 'radius' });
-            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
             this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
         }
 
@@ -323,9 +334,15 @@ export default class TreeBranchComponent extends component(Object3D) {
     /**
      * Resize
      */
-    onWindowResize({ renderWidth, renderHeight }) {
+    onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
+        this._updateParticleSize(renderHeight, dpr);
+    }
+
+    _updateParticleSize(renderHeight, dpr) {
+        const scale = renderHeight / 1080;
+        this._mesh.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
     }
 
     /**
@@ -333,7 +350,7 @@ export default class TreeBranchComponent extends component(Object3D) {
      */
     _createDebug(debug) {
         if (!debug) return;
-        const group = debug.addGroup('Branch');
+        const group = debug.addGroup('Branch #' + this._index);
         group.add(this, 'position');
         group.add(this, 'rotation');
         return group;

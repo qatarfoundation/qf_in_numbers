@@ -54,4 +54,10 @@ export default {
     disableInteractions() {
         this._isInteractive = false;
     },
+
+    showTree() {
+        if (this.isHome()) {
+            return this._viewManager.active.showTree();
+        }
+    },
 };

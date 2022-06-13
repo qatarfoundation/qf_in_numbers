@@ -45,6 +45,10 @@ class WindowResizeObserver extends EventDispatcher {
         return this._fullHeight;
     }
 
+    get dpr() {
+        return this._dpr;
+    }
+
     /**
      * Public
      */
