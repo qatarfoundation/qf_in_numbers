@@ -261,6 +261,7 @@ export default class HomeView extends component() {
         const component = new GeneratedTreeComponent({
             debugContainer: this._config.name,
             scene: this._scene,
+            cameraManager: this._cameraManager,
         });
         this._container.add(component);
         return component;

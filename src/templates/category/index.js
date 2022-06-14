@@ -150,12 +150,14 @@ function CategoryTemplate(props) {
                 </Scrollbar>
             }
             { enitity &&
-                    <>
-                        { /* <LabelsEntities entities={ entities } /> */ }
-                        <ButtonPagination name={ breakpoints == 'small' ? `Tap to discover ${ enitity.name }` : 'Click to discover' } slug={ enitity.slug } direction='right' />
-                    </>
+                <ButtonPagination name={ breakpoints == 'small' ? `Tap to discover ${ enitity.name }` : 'Click to discover' } slug={ enitity.slug } direction='right' />
             }
-            { currentSubcategory && <ButtonScroll>{ `Scroll to explore the ${ currentSubcategory.name } branch` }</ButtonScroll> }
+            { currentSubcategory &&
+                <>
+                    <LabelsEntities entities={ entities } />
+                    <ButtonScroll>{ `Scroll to explore the ${ currentSubcategory.name } branch` }</ButtonScroll>
+                </>
+            }
 
         </div>
     );

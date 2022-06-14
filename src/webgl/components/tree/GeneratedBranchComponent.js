@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { AdditiveBlending, ArrowHelper, BoxBufferGeometry, BufferGeometry, CameraHelper, CatmullRomCurve3, Euler, Float32BufferAttribute, Line, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Points, ShaderMaterial, Vector3 } from 'three';
+import { AdditiveBlending, ArrowHelper, BoxBufferGeometry, BufferGeometry, CameraHelper, CatmullRomCurve3, Euler, Float32BufferAttribute, InstancedBufferAttribute, InstancedMesh, Line, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, Points, ShaderMaterial, Vector3 } from 'three';
 import { ResourceLoader } from 'resource-loader';
 
 // Utils
@@ -17,7 +17,7 @@ import vertexShader from '@/webgl/shaders/tree-particles-generated/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 95;
+const PARTICLE_SIZE = 0.26;
 
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -26,8 +26,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._data = options.data;
         this._scene = options.scene;
         this._colors = options.colors;
+        this._cameraManager = options.cameraManager;
 
         // Props
+        this._isActive = false;
         this._entities = {};
         this._showCameraHelpers = false;
 
@@ -43,10 +45,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._particles = this._createParticles();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
         this._cameraAnchorsEntities = [];
-        // this._labelAnchorsEntities = this._createLabelAnchorsEntities();
         this._bindHandlers();
         this._setupEventListeners();
-        this._updateParticleSize(this._renderHeight, this._dpr);
     }
 
     destroy() {
@@ -58,10 +58,12 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      * Public
      */
     show() {
-        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 1 });
+        this._isActive = true;
+        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 0.5 });
     }
 
     hide() {
+        this._isActive = false;
         if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
     }
 
@@ -70,12 +72,15 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     getCameraAnchorEntity(name) {
-        console.log(this._entities[name].cameraAnchor);
         return this._entities[name].cameraAnchor;
     }
 
     getCameraAnchorSelectEntity(name) {
         // console.log(this._cameraAnchorsEntities[name]);
+    }
+
+    getEntityLabelAnchor(name) {
+        return this._entities[name].labelAnchor;
     }
 
     /**
@@ -152,8 +157,9 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 const slug = entity.slug.split('/').slice(-1)[0];
 
                 const entityComponent = new GeneratedEntityComponent({
-                    slug,
+                    id: entity.slug,
                     scene: this._scene,
+                    cameraManager: this._cameraManager,
                 });
                 entityComponent.position.copy(startPosition);
                 entityComponent.rotation.y = Math.PI * 2 * Math.random();
@@ -230,7 +236,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     _createParticles() {
-        const amount = 4000;
+        const amount = 1500;
         const vertices = [];
         const normals = [];
         const settings = [];
@@ -243,7 +249,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const pointProgress = Math.random();
             const point = curve.getPointAt(pointProgress);
 
-            const radius = math.randomArbitrary(0, 0.1);
+            const radius = math.randomArbitrary(0, 0.2);
             const angle = Math.random() * Math.PI * 2;
 
             const fract = pointProgress % 1;
@@ -278,11 +284,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             colors.push(Math.random() > 0.5 ? 1 : 0);
         }
 
-        const geometry = new BufferGeometry();
-        geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
-        geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
-        geometry.setAttribute('settings', new Float32BufferAttribute(settings, 3));
-        geometry.setAttribute('color', new Float32BufferAttribute(colors, 1));
+        const geometry = new PlaneBufferGeometry(0.2, 0.2);
+        geometry.setAttribute('normal', new InstancedBufferAttribute(new Float32Array(normals), 3));
+        geometry.setAttribute('settings', new InstancedBufferAttribute(new Float32Array(settings), 3));
+        geometry.setAttribute('color', new InstancedBufferAttribute(new Float32Array(colors), 1));
 
         // const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
         const material = new ShaderMaterial({
@@ -301,13 +306,26 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             depthWrite: false,
             depthTest: false,
         });
-        const mesh = new Points(geometry, material);
+        const mesh = new InstancedMesh(geometry, material, amount);
+
+        let x, y, z;
+        const dummy = new Object3D();
+        for (let i = 0, len = vertices.length; i < len; i += 3) {
+            x = vertices[i + 0];
+            y = vertices[i + 1];
+            z = vertices[i + 2];
+            dummy.position.set(x, y, z);
+            dummy.updateMatrix();
+            mesh.setMatrixAt(i / 3, dummy.matrix);
+        }
+
         this.add(mesh);
 
         if (this._debug) {
             this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
             this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
-            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
+            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size' });
+            this._debug.add(material.uniforms.uOpacity, 'value', { label: 'opacity' });
         }
 
         return mesh;
@@ -379,28 +397,6 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         return anchors;
     }
 
-    _createLabelAnchorsEntities() {
-        const pointsEntities = this._points.entities.entries;
-        const anchors = {};
-
-        for (const key in pointsEntities) {
-            const item = pointsEntities[key];
-            const start = item.start;
-            const end = item.end;
-
-            const position = new Vector3().lerpVectors(start, end, 0.7);
-
-            const geometry = new BoxBufferGeometry(0.05, 0.05, 0.05);
-            const material = new MeshBasicMaterial({ color: 0xff0000 });
-            const mesh = new Mesh(geometry, material);
-            mesh.visible = false;
-            mesh.position.copy(position);
-            this.add(mesh);
-        }
-
-        return anchors;
-    }
-
     _getRandomCurve(curves) {
         let sumOfWeight = 0;
         for (let i = 0, len = curves.length; i < len; i++) {
@@ -420,15 +416,14 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      * Update
      */
     update() {
-        this._updateLabelAnchorsEntitesScreenSpacePosition();
+        if (!this._isActive) return;
+        this._updateEntities();
     }
 
-    _updateLabelAnchorScreenSpacePosition() {
-        // this._labelAnchorScreenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
-        // this._labelAnchorScreenSpacePosition.project(this._cameraManager.camera);
-        // this._labelAnchorScreenSpacePosition.x = (this._labelAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
-        // this._labelAnchorScreenSpacePosition.y = -(this._labelAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
-        // TreeDataModel.updateCategoryLabelPosition(this._index, this._labelAnchorScreenSpacePosition);
+    _updateEntities() {
+        for (const key in this._entities) {
+            this._entities[key].update();
+        }
     }
 
     /**
@@ -438,16 +433,6 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
-
-        this._renderHeight = renderHeight;
-        this._dpr = dpr;
-        this._updateParticleSize(renderHeight, dpr);
-    }
-
-    _updateParticleSize(renderHeight, dpr) {
-        if (!this._particles) return;
-        const scale = renderHeight / 1080;
-        this._particles.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
     }
 
     /**

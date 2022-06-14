@@ -145,8 +145,6 @@ function Layout(props) {
                     <ThePreloader visible={ state === LOADING } progress={ progress } />
                 </AnimatePresence>
 
-                { /* <ThePreloader visible={ true } progress={ progress } /> */ }
-
             </EnvironmentProvider>
         </div>
     );

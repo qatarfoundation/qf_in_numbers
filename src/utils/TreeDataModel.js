@@ -33,6 +33,7 @@ const MODEL = {
     subcategory: {
         active: null,
     },
+    entities: {},
 };
 
 class TreeDataModel extends EventDispatcher {
@@ -94,6 +95,21 @@ class TreeDataModel extends EventDispatcher {
     updateSubcategoriesAnchorPosition(index, position) {
         this._model.categories[index].categoriesAnchor.position = position;
         this.dispatchEvent(`category/${ index }/categoryAnchor/position`, position);
+    }
+
+    addEntity(id) {
+        this._model.entities[id] = {
+            labelPosition: {},
+        };
+    }
+
+    getEntity(id) {
+        return this._model.entities[id];
+    }
+
+    updateEntityLabelPosition(id, position, cameraSide) {
+        this._model.entities[id].labelPosition = position;
+        this._model.entities[id].cameraSide = cameraSide;
     }
 
     empty() {

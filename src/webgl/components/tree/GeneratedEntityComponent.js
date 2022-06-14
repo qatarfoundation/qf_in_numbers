@@ -2,32 +2,36 @@
 import { component } from '@/utils/bidello';
 import { BoxBufferGeometry, BufferGeometry, LineBasicMaterial, LineSegments, Matrix4, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Vector3 } from 'three';
 
+// Utils
+import TreeDataModel from '@/utils/TreeDataModel';
+
 // Constants
-const LENGTH = 1;
+const LENGTH = 1.5;
 const DEBUG = false;
 
 export default class GeneratedEntityComponent extends component(Object3D) {
     init(options) {
         // Options
-        this._slug = options.slug;
+        this._id = options.id;
         this._scene = options.scene;
+        this._cameraManager = options.cameraManager;
 
         // Setup
+        this._labelAnchorScreenSpacePosition = new Vector3();
         this._startPosition = new Vector3();
         this._endPosition = this._createEndPosition();
         if (DEBUG) this._skeleton = this._createSkeleton();
+        this._cameraSide = this._chooseCameraSide();
         this._cameraTarget = this._createCameraTarget();
         this._cameraPosition = this._createCameraPosition();
         this._camera = this._createCamera();
+        this._labelAnchor = this._createLabelAnchor();
+        this._addToModel();
     }
 
     /**
      * Public
      */
-    get slug() {
-        return this._slug;
-    }
-
     get cameraAnchor() {
         return {
             origin: this._getCameraOrigin(),
@@ -58,6 +62,11 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     /**
      * Private
      */
+    _chooseCameraSide() {
+        const side = Math.random() > 0.5 ? 1 : -1;
+        return side;
+    }
+
     _createEndPosition() {
         const endPosition = this._startPosition.clone();
         endPosition.x += LENGTH;
@@ -90,7 +99,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
 
     _createCameraPosition() {
         const position = this._cameraTarget.clone();
-        position.z += 2 * (Math.random() > 0.5 ? 1 : -1);
+        position.z += 2 * this._cameraSide;
 
         if (DEBUG) {
             const geometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
@@ -115,5 +124,48 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         const origin = new Vector3();
         this._camera.getWorldPosition(origin);
         return origin;
+    }
+
+    _createLabelAnchor() {
+        const position = this._endPosition;
+        const anchor = new Object3D();
+        anchor.position.copy(position);
+        this.add(anchor);
+
+        if (DEBUG) {
+            const geometry = new BoxBufferGeometry(0.01, 0.01, 0.01);
+            const material = new MeshBasicMaterial({ color: 0xff0000 });
+            const mesh = new Mesh(geometry, material);
+            anchor.add(mesh);
+        }
+
+        return anchor;
+    }
+
+    _addToModel() {
+        TreeDataModel.addEntity(this._id);
+    }
+
+    /**
+     * Update
+     */
+    update() {
+        this._updateLabelAnchorScreenSpacePosition();
+    }
+
+    _updateLabelAnchorScreenSpacePosition() {
+        this._labelAnchorScreenSpacePosition.setFromMatrixPosition(this._labelAnchor.matrixWorld);
+        this._labelAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        this._labelAnchorScreenSpacePosition.x = (this._labelAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._labelAnchorScreenSpacePosition.y = -(this._labelAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateEntityLabelPosition(this._id, this._labelAnchorScreenSpacePosition, this._cameraSide);
+    }
+
+    /**
+     * Resize
+     */
+    onWindowResize({ renderWidth, renderHeight }) {
+        this._halfRenderWidth = renderWidth * 0.5;
+        this._halfRenderHeight = renderHeight * 0.5;
     }
 }

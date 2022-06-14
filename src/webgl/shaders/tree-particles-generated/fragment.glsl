@@ -1,6 +1,7 @@
 // Varyings
 varying vec4 vSettings;
 varying float vColor;
+varying vec2 vUv;
 
 // Uniforms
 uniform float uProgress;
@@ -20,7 +21,7 @@ void main() {
     vec3 color = mix(uColor1, uColor2, vColor);
 
     // Alpha
-    float alpha = circle(gl_PointCoord, 1.0);
+    float alpha = circle(vUv, 1.0);
     alpha *= vSettings.z;
     alpha *= uOpacity;
 

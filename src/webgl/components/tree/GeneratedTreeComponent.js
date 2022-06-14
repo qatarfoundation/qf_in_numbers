@@ -14,6 +14,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         // Options
         this._debugContainer = options.debugContainer;
         this._scene = options.scene;
+        this._cameraManager = options.cameraManager;
 
         // Props
         this._activeBranch = null;
@@ -87,6 +88,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
                 data: branch.data,
                 scene: this._scene,
                 colors: branch.particleColors,
+                cameraManager: this._cameraManager,
             });
             this.add(component);
 
@@ -117,6 +119,15 @@ export default class GeneratedTreeComponent extends component(Object3D) {
             } else {
                 this._branches[key].hide();
             }
+        }
+    }
+
+    /**
+     * Update
+     */
+    update() {
+        for (const key in this._branches) {
+            this._branches[key].update();
         }
     }
 

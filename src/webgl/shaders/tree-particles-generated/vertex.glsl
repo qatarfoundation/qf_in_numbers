@@ -5,6 +5,7 @@ attribute float color;
 // Varyings
 varying vec4 vSettings;
 varying float vColor;
+varying vec2 vUv;
 
 // Uniforms
 uniform float uProgress;
@@ -16,15 +17,12 @@ void main() {
     vec3 transformed = position;
 
     // Output
-    vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
-    gl_Position = projectionMatrix * mvPosition;
-
-    // Point size
-    gl_PointSize = uPointSize;
-    gl_PointSize *= (1.0 / -mvPosition.z);
-    gl_PointSize *= settings.y;
+	vec4 mvPosition = modelViewMatrix * instanceMatrix * vec4( 0.0, 0.0, 0.0, 1.0 );
+    mvPosition.xy += position.xy * uPointSize * settings.y;
+	gl_Position = projectionMatrix * mvPosition;
 
     // Varyings
     vSettings = settings;
     vColor = color;
+    vUv = uv;
 }
