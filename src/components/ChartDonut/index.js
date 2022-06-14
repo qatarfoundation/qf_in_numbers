@@ -170,7 +170,7 @@ function ChartDonut(props, ref) {
             labelContainer.selectAll('.p6')
                 .call(wrap, 100);
         },
-        [data.length, width],
+        [data.length, width, themeCategory],
     );
     /**
      * Events
