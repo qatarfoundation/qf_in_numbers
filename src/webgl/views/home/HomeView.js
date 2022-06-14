@@ -29,6 +29,7 @@ export default class HomeView extends component() {
         // Props
         this._rotation = { current: 0, target: 0 };
         this._position = { current: 0, target: 0 };
+        this._activeEntity = null;
 
         // Setup
         this._debug = this._createDebug();
@@ -105,13 +106,15 @@ export default class HomeView extends component() {
     }
 
     gotoEntity(categorySlug, name) {
-        const position = this._components.generatedTree.getEntityCameraPosition(categorySlug, name);
+        this._activeEntity?.hide();
+        this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
         this._timelineGotoEntity = new gsap.timeline();
         this._timelineGotoEntity.call(this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
-        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
+        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
+        this._timelineGotoEntity.add(this._activeEntity.show(), 1);
         return this._timelineGotoEntity;
     }
 

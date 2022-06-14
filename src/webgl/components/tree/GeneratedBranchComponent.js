@@ -45,13 +45,11 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._particles = this._createParticles();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
         this._cameraAnchorsEntities = [];
-        this._bindHandlers();
-        this._setupEventListeners();
     }
 
     destroy() {
         super.destroy();
-        this._removeEventListeners();
+        this._destroyEntities();
     }
 
     /**
@@ -71,8 +69,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         return this._cameraAnchorsSubcategories[name];
     }
 
-    getCameraAnchorEntity(name) {
-        return this._entities[name].cameraAnchor;
+    getEntity(name) {
+        return this._entities[name];
     }
 
     getCameraAnchorSelectEntity(name) {
@@ -86,17 +84,6 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Private
      */
-    _bindHandlers() {
-        this._branchAddHandler = this._branchAddHandler.bind(this);
-    }
-
-    _setupEventListeners() {
-        TreeDataModel.addEventListener('branch/add', this._branchAddHandler);
-    }
-
-    _removeEventListeners() {
-        TreeDataModel.removeEventListener('branch/add', this._branchAddHandler);
-    }
 
     _createPoints() {
         const pointsCategories = [];
@@ -158,8 +145,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
 
                 const entityComponent = new GeneratedEntityComponent({
                     id: entity.slug,
+                    data: entity,
                     scene: this._scene,
                     cameraManager: this._cameraManager,
+                    color: this._colors.primary,
                 });
                 entityComponent.position.copy(startPosition);
                 entityComponent.rotation.y = Math.PI * 2 * Math.random();
@@ -412,6 +401,12 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         }
     }
 
+    _destroyEntities() {
+        for (const key in this._entities) {
+            this._entities[key].destroy();
+        }
+    }
+
     /**
      * Update
      */
@@ -429,17 +424,9 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Resize
      */
-
     onWindowResize({ renderWidth, renderHeight, dpr }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
-    }
-
-    /**
-     * Handlers
-     */
-    _branchAddHandler(data) {
-        // console.log(data);
     }
 
     /**

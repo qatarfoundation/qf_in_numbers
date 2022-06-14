@@ -1,9 +1,15 @@
 // Vendor
+import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { BoxBufferGeometry, BufferGeometry, LineBasicMaterial, LineSegments, Matrix4, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Vector3 } from 'three';
+import { AdditiveBlending, BoxBufferGeometry, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, LineBasicMaterial, LineSegments, Matrix4, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, ShaderMaterial, Vector3 } from 'three';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
+import randomArbitrary from '@/utils/math/randomArbitrary';
+
+// Shaders
+import vertexShader from '@/webgl/shaders/tree-particles-big/vertex.glsl';
+import fragmentShader from '@/webgl/shaders/tree-particles-big/fragment.glsl';
 
 // Constants
 const LENGTH = 1.5;
@@ -13,8 +19,10 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     init(options) {
         // Options
         this._id = options.id;
+        this._data = options.data;
         this._scene = options.scene;
         this._cameraManager = options.cameraManager;
+        this._color = options.color;
 
         // Setup
         this._labelAnchorScreenSpacePosition = new Vector3();
@@ -26,11 +34,17 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._cameraPosition = this._createCameraPosition();
         this._camera = this._createCamera();
         this._labelAnchor = this._createLabelAnchor();
+        this._bigParticles = this._createBigParticles();
         this._addToModel();
     }
 
+    destroy() {
+        this._timelineShow?.kill();
+        this._timelineHide?.kill();
+    }
+
     /**
-     * Public
+     * Getters & Setters
      */
     get cameraAnchor() {
         return {
@@ -57,6 +71,26 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         endPosition.setFromMatrixPosition(matrix);
 
         return endPosition;
+    }
+
+    /**
+     * Public
+     */
+    show() {
+        this._timelineShow = new gsap.timeline();
+        this._timelineShow.set(this._bigParticles, { visible: true });
+        this._timelineShow.to(this._bigParticles.material.uniforms.uOpacity, { duration: 1, value: 1 }, 0);
+        return this._timelineShow;
+    }
+
+    hide() {
+        this._timelineHide = new gsap.timeline({
+            onComplete: () => {
+                this._bigParticles.visible = false;
+            },
+        });
+        this._timelineHide.to(this._bigParticles.material.uniforms.uOpacity, { duration: 1, value: 0 }, 0);
+        return this._timelineHide;
     }
 
     /**
@@ -140,6 +174,55 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         }
 
         return anchor;
+    }
+
+    _createBigParticles() {
+        const charts = this._data.charts || [];
+        const amount = charts.length;
+
+        const startPosition = this._startPosition;
+        const endPosition = this._endPosition;
+
+        const sizes = [];
+
+        for (let i = 0; i < amount; i++) {
+            sizes.push(randomArbitrary(0.2, 1));
+        }
+
+        const geometry = new PlaneBufferGeometry(1.0, 1.0);
+        geometry.setAttribute('size', new InstancedBufferAttribute(new Float32Array(sizes), 1));
+
+        const material = new ShaderMaterial({
+            fragmentShader,
+            vertexShader,
+            uniforms: {
+                uColor: { value: new Color(this._color) },
+                uPointSize: { value: 0.15 },
+                uInnerGradient: { value: 0.1 },
+                uOuterGradient: { value: 0 },
+                uOpacity: { value: 0 },
+            },
+            transparent: true,
+            blending: AdditiveBlending,
+            depthWrite: false,
+            depthTest: false,
+        });
+        const mesh = new InstancedMesh(geometry, material, amount);
+        mesh.visible = false;
+        this.add(mesh);
+
+        const offset = 0.2;
+        const dummy = new Object3D();
+        for (let i = 0; i < amount; i++) {
+            const step = 0.95 - (i / amount) * (1 - offset);
+            const position = new Vector3().lerpVectors(startPosition, endPosition, step);
+            dummy.position.copy(position);
+            dummy.position.y += (Math.random() * 2 - 1) * 0.2;
+            dummy.updateMatrix();
+            mesh.setMatrixAt(i, dummy.matrix);
+        }
+
+        return mesh;
     }
 
     _addToModel() {

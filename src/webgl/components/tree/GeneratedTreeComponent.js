@@ -50,9 +50,9 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         return branch.getCameraAnchorSubcategory(name);
     }
 
-    getEntityCameraPosition(categorySlug, name) {
+    getEntity(categorySlug, name) {
         const branch = this._getBranch(categorySlug);
-        return branch.getCameraAnchorEntity(name);
+        return branch.getEntity(name);
     }
 
     getEntitySelectCameraPosition(categorySlug, name) {
