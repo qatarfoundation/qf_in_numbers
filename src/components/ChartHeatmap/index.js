@@ -198,7 +198,7 @@ function ChartHeatmap(props, ref) {
                 .selectAll('.tick text')
                 .call(wrap, (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499) / 2, true);
         },
-        [data.length, width, chartActive, percentActive],
+        [data.length, width, chartActive, percentActive, themeCategory],
     );
     /**
      * Effects

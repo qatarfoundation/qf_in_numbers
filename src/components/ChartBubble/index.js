@@ -149,7 +149,7 @@ function ChartBubble(props, ref) {
                     }, 0);
                 });
         },
-        [data.length, isResize],
+        [data.length, isResize, themeCategory],
     );
     /**
      * Events

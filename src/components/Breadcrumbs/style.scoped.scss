@@ -1,10 +1,13 @@
 ul {
     display: block;
+    margin-top: rem(-10px, 'small');
     margin-left: rem(28px, 'small');
     @include respond-to('medium') {
+        margin-top: rem(-10px, 'medium');
         margin-left: rem(82px, 'medium');
     }
     @include respond-to('large') {
+        margin-top: rem(-10px, 'large');
         margin-left: rem(82px, 'large');
     }
     .ar & {
@@ -23,11 +26,14 @@ li {
     position: relative;
     display: inline-block;
     margin: 0 rem(5px, 'small');
+    padding: 0 rem(10px, 'small');
     @include respond-to('medium') {
         margin: 0 rem(5px, 'medium');
+        padding: 0 rem(10px, 'medium');
     }
     @include respond-to('large') {
         margin: 0 rem(5px, 'large');
+        padding: 0 rem(10px, 'large');
     }
     &:not(:last-child) {
         display: none;
