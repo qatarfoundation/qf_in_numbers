@@ -6,6 +6,7 @@ import { AdditiveBlending, BoxBufferGeometry, BufferGeometry, Color, InstancedBu
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import randomArbitrary from '@/utils/math/randomArbitrary';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles-big/vertex.glsl';
@@ -24,8 +25,11 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._cameraManager = options.cameraManager;
         this._color = options.color;
 
-        // Setup
+        // Props
         this._labelAnchorScreenSpacePosition = new Vector3();
+        this._buttonAnchorScreenSpacePosition = new Vector3();
+
+        // Setup
         this._startPosition = new Vector3();
         this._endPosition = this._createEndPosition();
         if (DEBUG) this._skeleton = this._createSkeleton();
@@ -34,6 +38,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._cameraPosition = this._createCameraPosition();
         this._camera = this._createCamera();
         this._labelAnchor = this._createLabelAnchor();
+        this._buttonAnchor = this._createButtonAnchor();
         this._bigParticles = this._createBigParticles();
         this._addToModel();
     }
@@ -133,7 +138,8 @@ export default class GeneratedEntityComponent extends component(Object3D) {
 
     _createCameraPosition() {
         const position = this._cameraTarget.clone();
-        position.z += 2 * this._cameraSide;
+        const distance = Breakpoints.active('small') ? 4 : 2;
+        position.z += distance * this._cameraSide;
 
         if (DEBUG) {
             const geometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
@@ -169,6 +175,23 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         if (DEBUG) {
             const geometry = new BoxBufferGeometry(0.01, 0.01, 0.01);
             const material = new MeshBasicMaterial({ color: 0xff0000 });
+            const mesh = new Mesh(geometry, material);
+            anchor.add(mesh);
+        }
+
+        return anchor;
+    }
+
+    _createButtonAnchor() {
+        const position = new Vector3().lerpVectors(this._startPosition, this._endPosition, 0.7);
+        const anchor = new Object3D();
+        anchor.position.copy(position);
+        anchor.position.y -= 0.15;
+        this.add(anchor);
+
+        if (DEBUG) {
+            const geometry = new BoxBufferGeometry(0.01, 0.01, 0.01);
+            const material = new MeshBasicMaterial({ color: 0xffff00 });
             const mesh = new Mesh(geometry, material);
             anchor.add(mesh);
         }
@@ -234,6 +257,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
      */
     update() {
         this._updateLabelAnchorScreenSpacePosition();
+        this._updateButtonAnchorScreenSpacePosition();
     }
 
     _updateLabelAnchorScreenSpacePosition() {
@@ -242,6 +266,14 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._labelAnchorScreenSpacePosition.x = (this._labelAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
         this._labelAnchorScreenSpacePosition.y = -(this._labelAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
         TreeDataModel.updateEntityLabelPosition(this._id, this._labelAnchorScreenSpacePosition, this._cameraSide);
+    }
+
+    _updateButtonAnchorScreenSpacePosition() {
+        this._buttonAnchorScreenSpacePosition.setFromMatrixPosition(this._buttonAnchor.matrixWorld);
+        this._buttonAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        this._buttonAnchorScreenSpacePosition.x = (this._buttonAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._buttonAnchorScreenSpacePosition.y = -(this._buttonAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateEntityButtonPosition(this._id, this._buttonAnchorScreenSpacePosition);
     }
 
     /**

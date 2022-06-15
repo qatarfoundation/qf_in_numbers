@@ -112,6 +112,10 @@ class TreeDataModel extends EventDispatcher {
         this._model.entities[id].cameraSide = cameraSide;
     }
 
+    updateEntityButtonPosition(id, position) {
+        this._model.entities[id].buttonPosition = position;
+    }
+
     empty() {
         this._model = JSON.parse(JSON.stringify(MODEL));
         this._isEmpty = true;

@@ -149,8 +149,8 @@ function CategoryTemplate(props) {
                     </div>
                 </Scrollbar>
             }
-            { enitity &&
-                <ButtonPagination name={ breakpoints == 'small' ? `Tap to discover ${ enitity.name }` : 'Click to discover' } slug={ enitity.slug } direction='right' />
+            { enitity && breakpoints == 'small' &&
+                <ButtonPagination name={ enitity.name } slug={ enitity.slug } direction='right' />
             }
             { currentSubcategory &&
                 <>

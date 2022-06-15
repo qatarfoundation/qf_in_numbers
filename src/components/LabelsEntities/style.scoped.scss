@@ -10,6 +10,12 @@ li {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.label {
+    position: absolute;
+    top: 0;
+    left: 0;
 
     width: 1px;
     height: 1px;
@@ -37,14 +43,112 @@ li {
             transform: translate(100%, -50%);
         }
     }
+
+    span {
+        position: absolute;
+
+        width: rem(120px, 'large');
+
+        font-size: rem(16px, 'large');
+        color: var(--color-theme-secondary);
+        line-height: 1;
+    }
 }
 
-span {
+.button {
+    display: none;
+
     position: absolute;
+    top: 0;
+    left: 0;
 
-    width: rem(120px, 'large');
+    width: 1px;
+    height: 1px;
 
-    font-size: rem(16px, 'large');
-    color: var(--color-theme-secondary);
-    line-height: 1;
+    .button__content {
+        position: absolute;
+
+        @include respond-to('large') {
+            height: rem(55px, 'large');
+        }
+    }
+
+    &.left .button__content {
+        transform: translate(-100%, 0%);
+
+        .ar & {
+            transform: translate(0%, 0%);
+        }
+    }
+
+    &.right .button__content {
+        .ar & {
+            transform: translate(100%, 0%);
+        }
+    }
+
+    .button__icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        border: 1px solid var(--color-theme-secondary);
+        border-radius: 50%;
+
+        &:before {
+            content: '';
+
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            margin: auto;
+
+            background-color: var(--color-theme-secondary);
+            border-radius: 50%;
+
+            @include respond-to('large') {
+                width: rem(6px, 'large');
+                height: rem(6px, 'large');
+            }
+        }
+
+        @include respond-to('large') {
+            width: rem(55px, 'large');
+            height: rem(55px, 'large');
+        }
+    }
+
+    &.left .button__icon {
+        left: auto;
+        right: 0;
+    }
+
+    .button__label {
+        display: block;
+
+        text-align: left;
+        color: var(--color-theme-secondary);
+
+        @include respond-to('large') {
+            padding-left: rem(75px, 'large');
+
+            width: rem(200px, 'large');
+
+            font-size: rem(16px, 'large');
+            line-height: rem(48px, 'large');
+        }
+    }
+
+    &.left .button__label {
+        text-align: right;
+
+        @include respond-to('large') {
+            padding-right: rem(75px, 'large');
+            padding-left: 0;
+        }
+    }
 }
