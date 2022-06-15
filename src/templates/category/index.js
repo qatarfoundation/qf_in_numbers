@@ -25,10 +25,10 @@ import Breakpoints from '@/utils/Breakpoints';
 // Components
 import ListSubcategories from '@/components/ListSubcategories';
 import LabelsEntities from '@/components/LabelsEntities';
-import Scrollbar from '@/components/ScrollBar/index';
-import SliderSubcategories from '@/components/SliderSubcategories/index';
-import ButtonPagination from '@/components/ButtonPagination/index';
-import ButtonScroll from '@/components/ButtonScroll/index';
+import Scrollbar from '@/components/ScrollBar';
+import SliderSubcategories from '@/components/SliderSubcategories';
+import ButtonDiscover from '@/components/ButtonDiscover';
+import ButtonScroll from '@/components/ButtonScroll';
 
 function CategoryTemplate(props) {
     /**
@@ -150,7 +150,7 @@ function CategoryTemplate(props) {
                 </Scrollbar>
             }
             { enitity && breakpoints == 'small' &&
-                <ButtonPagination name={ enitity.name } slug={ enitity.slug } direction='right' />
+                <ButtonDiscover name={ enitity.name } slug={ enitity.slug } direction='right' />
             }
             { currentSubcategory &&
                 <>
