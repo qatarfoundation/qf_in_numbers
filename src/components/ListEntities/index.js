@@ -39,7 +39,6 @@ function ListEntities(props) {
     /**
      * Private
      */
-
     function resize() {
         setBreakpoints(Breakpoints.current);
     }
@@ -49,9 +48,12 @@ function ListEntities(props) {
 
             {
                 entities.map((entity, index) => {
+                    const name = entity.name ? entity.name : 'Not translation'; // TMP
                     return (
                         <li className="list-item" key={ index }>
-                            <ButtonEntity className="heading-list-subcategory" categorySlug={ categorySlug } entity={ entity }>{ breakpoints == 'small' ? index + 1 : entity.name }</ButtonEntity>
+                            <ButtonEntity className="heading-list-subcategory" categorySlug={ categorySlug } entity={ entity }>
+                                { breakpoints == 'small' ? index + 1 : name }
+                            </ButtonEntity>
                         </li>
                     );
                 })
