@@ -28,6 +28,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         // Props
         this._labelAnchorScreenSpacePosition = new Vector3();
         this._buttonAnchorScreenSpacePosition = new Vector3();
+        this._highlightAnchorScreenSpacePosition = new Vector3();
 
         // Setup
         this._startPosition = new Vector3();
@@ -39,6 +40,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._camera = this._createCamera();
         this._labelAnchor = this._createLabelAnchor();
         this._buttonAnchor = this._createButtonAnchor();
+        this._highlightAnchor = this._createHighlightAnchor();
         this._bigParticles = this._createBigParticles();
         this._addToModel();
     }
@@ -199,6 +201,23 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         return anchor;
     }
 
+    _createHighlightAnchor() {
+        const position = new Vector3().lerpVectors(this._startPosition, this._endPosition, randomArbitrary(0.3, 0.9));
+        const anchor = new Object3D();
+        anchor.position.copy(position);
+        anchor.position.y += 0.2;
+        this.add(anchor);
+
+        if (DEBUG) {
+            const geometry = new BoxBufferGeometry(0.01, 0.01, 0.01);
+            const material = new MeshBasicMaterial({ color: 0xff00ff });
+            const mesh = new Mesh(geometry, material);
+            anchor.add(mesh);
+        }
+
+        return anchor;
+    }
+
     _createBigParticles() {
         const charts = this._data.charts || [];
         const amount = charts.length;
@@ -258,6 +277,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     update() {
         this._updateLabelAnchorScreenSpacePosition();
         this._updateButtonAnchorScreenSpacePosition();
+        this._updateHighlightAnchorScreenSpacePosition();
     }
 
     _updateLabelAnchorScreenSpacePosition() {
@@ -274,6 +294,14 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._buttonAnchorScreenSpacePosition.x = (this._buttonAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
         this._buttonAnchorScreenSpacePosition.y = -(this._buttonAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
         TreeDataModel.updateEntityButtonPosition(this._id, this._buttonAnchorScreenSpacePosition);
+    }
+
+    _updateHighlightAnchorScreenSpacePosition() {
+        this._highlightAnchorScreenSpacePosition.setFromMatrixPosition(this._highlightAnchor.matrixWorld);
+        this._highlightAnchorScreenSpacePosition.project(this._cameraManager.camera);
+        this._highlightAnchorScreenSpacePosition.x = (this._highlightAnchorScreenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+        this._highlightAnchorScreenSpacePosition.y = -(this._highlightAnchorScreenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        TreeDataModel.updateEntityHighlightPosition(this._id, this._highlightAnchorScreenSpacePosition);
     }
 
     /**

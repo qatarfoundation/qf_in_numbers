@@ -152,3 +152,49 @@ li {
         }
     }
 }
+
+.highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 1px;
+}
+
+.highlight__content {
+    position: absolute;
+
+    width: rem(120px);
+
+    transform: translate(0%, -100%);
+
+    @include respond-to('large') {
+        width: rem(120px, 'large');
+    }
+}
+
+.highlight__value {
+    display: block;
+
+    margin-bottom: rem(12px);
+
+    font-weight: 300;
+    font-size: rem(36px);
+
+    @include respond-to('large') {
+        margin-bottom: rem(12px, 'large');
+        font-size: rem(36px, 'large');
+    }
+}
+
+.highlight__title {
+    display: block;
+
+    line-height: 1;
+    font-size: rem(16px);
+
+    @include respond-to('large') {
+        font-size: rem(16px, 'large');
+    }
+}

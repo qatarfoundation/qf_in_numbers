@@ -15,11 +15,13 @@ function LabelsEntities(props) {
 
     const itemsLabelRef = useRef({});
     const itemsButtonRef = useRef({});
+    const itemsHighlightRef = useRef({});
 
     useEffect(() => {
         const handler = () => {
             for (const key in itemsLabelRef.current) {
                 const elementLabel = itemsLabelRef.current[key];
+                const elementHighlight = itemsHighlightRef.current[key];
                 const elementButton = itemsButtonRef.current[key];
                 const model = TreeDataModel.getEntity(key);
 
@@ -28,6 +30,13 @@ function LabelsEntities(props) {
                     elementLabel.style.display = 'block';
                     elementLabel.style.transform = `translate(${ labelPosition.x }px, ${ labelPosition.y }px)`;
                     elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
+                }
+
+                if (elementHighlight) {
+                    const hightlightPosition = model.highlightPosition;
+                    elementHighlight.style.display = 'block';
+                    elementHighlight.style.transform = `translate(${ hightlightPosition.x }px, ${ hightlightPosition.y }px)`;
+                    elementHighlight.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                 }
 
                 if (!Breakpoints.active('small')) {
@@ -47,15 +56,20 @@ function LabelsEntities(props) {
             gsap.ticker.remove(handler);
             for (const key in itemsLabelRef.current) {
                 const elementLabel = itemsLabelRef.current[key];
+                const elementHighlight = itemsHighlightRef.current[key];
                 const elementButton = itemsButtonRef.current[key];
                 if (elementLabel) {
                     elementLabel.style.display = 'none';
+                }
+                if (elementHighlight) {
+                    elementHighlight.style.display = 'none';
                 }
                 if (elementButton) {
                     elementButton.style.display = 'none';
                 }
             }
             itemsLabelRef.current = {};
+            itemsHighlightRef.current = {};
             itemsButtonRef.current = {};
         };
     }, [entities]);
@@ -75,6 +89,14 @@ function LabelsEntities(props) {
                                     <span className='button__label'><Trans>Click to discover</Trans></span>
                                 </div>
                             </button>
+                            { entity.highlighted &&
+                                <div className="highlight" ref={ el => itemsHighlightRef.current[entity.slug] = el }>
+                                    <div className="highlight__content">
+                                        <span className="highlight__value">{ entity.highlightedChart.value }</span>
+                                        <span className="highlight__title">{ entity.highlightedChart.title }</span>
+                                    </div>
+                                </div>
+                            }
                         </li>
                     );
                 })

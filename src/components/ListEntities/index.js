@@ -48,7 +48,7 @@ function ListEntities(props) {
 
             {
                 entities.map((entity, index) => {
-                    const name = entity.name ? entity.name : 'Not translation'; // TMP
+                    const name = entity.name ? entity.name : 'Not translated'; // TMP
                     return (
                         <li className="list-item" key={ index }>
                             <ButtonEntity className="heading-list-subcategory" categorySlug={ categorySlug } entity={ entity }>
