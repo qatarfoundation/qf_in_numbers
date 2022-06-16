@@ -5,14 +5,18 @@ import { Trans } from 'gatsby-plugin-react-i18next';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
+import Breakpoints from '@/utils/Breakpoints';
 
 // CSS
 import './style.scoped.scss';
-import Breakpoints from '@/utils/Breakpoints';
+
+// Hooks
+import useStore from '@/hooks/useStore';
 
 function LabelsEntities(props) {
     const { entities } = props;
 
+    const itemsRef = useRef({});
     const itemsLabelRef = useRef({});
     const itemsButtonRef = useRef({});
     const itemsHighlightRef = useRef({});
@@ -74,12 +78,25 @@ function LabelsEntities(props) {
         };
     }, [entities]);
 
+    const selectedEntity = useStore((state) => state.selectedEntity);
+
+    useEffect(() => {
+        for (const key in itemsRef.current) {
+            const element = itemsRef.current[key];
+            if (selectedEntity.slug === key) {
+                gsap.to(element, { duration: 1, delay: 1, opacity: 1 });
+            } else {
+                gsap.to(element, { duration: 1, opacity: 0 });
+            }
+        }
+    }, [selectedEntity]);
+
     return (
         <ul>
             {
                 entities.map((entity, index) => {
                     return (
-                        <li key={ index }>
+                        <li key={ index } ref={ el => itemsRef.current[entity.slug] = el }>
                             <div className="label" ref={ el => itemsLabelRef.current[entity.slug] = el }>
                                 <span>{ entity.name }</span>
                             </div>
