@@ -65,20 +65,17 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
     }
 
+    transitionOut() {
+        this._isActive = false;
+        if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
+    }
+
     getCameraAnchorSubcategory(name) {
         return this._cameraAnchorsSubcategories[name];
     }
 
     getEntity(name) {
         return this._entities[name];
-    }
-
-    getCameraAnchorSelectEntity(name) {
-        // console.log(this._cameraAnchorsEntities[name]);
-    }
-
-    getEntityLabelAnchor(name) {
-        return this._entities[name].labelAnchor;
     }
 
     /**

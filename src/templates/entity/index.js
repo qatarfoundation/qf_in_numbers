@@ -54,7 +54,8 @@ function EntityTemplate(props) {
     useEffect(() => {
         useStore.setState({ currentCategory: category });
         useStore.setState({ currentSubcategory: subcategory });
-        Globals.webglApp.gotoEntity(category.slug, entity.slug);
+        // Globals.webglApp.gotoEntity(category.slug, entity.slug);
+        Globals.webglApp.selectEntity(category.name, entity.name);
     }, []);
 
     /**

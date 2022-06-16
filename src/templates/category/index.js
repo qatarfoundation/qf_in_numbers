@@ -128,12 +128,6 @@ function CategoryTemplate(props) {
         safeToRemove();
     }
 
-    function buttonDiscoverClickHandler() {
-        const { slug, name } = enitity;
-        navigate(slug);
-        // Globals.webglApp.selectEntity(category.name, name);
-    }
-
     function resize() {
         setBreakpoints(Breakpoints.current);
     }

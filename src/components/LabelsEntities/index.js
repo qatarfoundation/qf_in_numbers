@@ -1,7 +1,7 @@
 // React
 import { gsap } from 'gsap';
 import React, { useRef, useEffect } from 'react';
-import { Trans } from 'gatsby-plugin-react-i18next';
+import { Trans, Link } from 'gatsby-plugin-react-i18next';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -72,15 +72,13 @@ function LabelsEntities(props) {
                     elementButton.style.display = 'none';
                 }
             }
-            itemsLabelRef.current = {};
-            itemsHighlightRef.current = {};
-            itemsButtonRef.current = {};
         };
     }, [entities]);
 
     const selectedEntity = useStore((state) => state.selectedEntity);
 
     useEffect(() => {
+        if (!selectedEntity) return;
         for (const key in itemsRef.current) {
             const element = itemsRef.current[key];
             if (selectedEntity.slug === key) {
@@ -100,12 +98,12 @@ function LabelsEntities(props) {
                             <div className="label" ref={ el => itemsLabelRef.current[entity.slug] = el }>
                                 <span>{ entity.name }</span>
                             </div>
-                            <button className="button" ref={ el => itemsButtonRef.current[entity.slug] = el }>
+                            <Link to={ entity.slug } className="button" ref={ el => itemsButtonRef.current[entity.slug] = el }>
                                 <div className="button__content">
                                     <div className="button__icon"></div>
                                     <span className='button__label'><Trans>Click to discover</Trans></span>
                                 </div>
-                            </button>
+                            </Link>
                             { entity.highlighted &&
                                 <div className="highlight" ref={ el => itemsHighlightRef.current[entity.slug] = el }>
                                     <div className="highlight__content">

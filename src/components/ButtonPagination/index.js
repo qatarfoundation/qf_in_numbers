@@ -1,12 +1,12 @@
 // React
 import React from 'react';
+import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
 
 // Components
 import Arrow from '@/assets/icons/arrow.svg';
-import { Link } from 'gatsby-plugin-react-i18next';
 
 function ButtonPagination(props, ref) {
     /**

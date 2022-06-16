@@ -20,6 +20,7 @@ import FloorComponent from '@/webgl/components/tree/FloorComponent';
 import LeavesComponent from '@/webgl/components/tree/LeavesComponent';
 import LeavesBasicComponent from '@/webgl/components/tree/LeavesBasicComponent';
 import GeneratedTreeComponent from '@/webgl/components/tree/GeneratedTreeComponent';
+import EntityComponent from '@/webgl/components/tree/EntityComponent';
 
 export default class HomeView extends component() {
     init(options = {}) {
@@ -119,8 +120,8 @@ export default class HomeView extends component() {
     }
 
     selectEntity(categorySlug, name) {
-        const position = this._components.generatedTree.getEntitySelectCameraPosition(categorySlug, name);
-
+        this._activeEntity?.hide();
+        this._components.generatedTree.hideActiveBranch();
         // this._timelineGotoEntity = new gsap.timeline();
         // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
@@ -211,6 +212,7 @@ export default class HomeView extends component() {
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
         components.generatedTree = this._createGeneratedTreeComponent();
+        components.entity = this._createEntityComponent();
         return components;
     }
 
@@ -266,6 +268,12 @@ export default class HomeView extends component() {
             scene: this._scene,
             cameraManager: this._cameraManager,
         });
+        this._container.add(component);
+        return component;
+    }
+
+    _createEntityComponent() {
+        const component = new EntityComponent();
         this._container.add(component);
         return component;
     }
