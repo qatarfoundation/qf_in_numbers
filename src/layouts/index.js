@@ -73,6 +73,10 @@ function Layout(props) {
         useStore.setState({ themeCategory: getThemeCategory(originalPath.split('/')[2]) });
     }, [originalPath]);
 
+    useEffect(() => {
+        useStore.setState({ locale: language });
+    }, []);
+
     /**
      * Hooks
      */
