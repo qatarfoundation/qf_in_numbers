@@ -28,11 +28,11 @@ function Breakcrumbs(props) {
     };
     return (
         <ul>
-            { currentYear &&
+            { /* { currentYear &&
                 <li  className='breadcrumb-year'>
                     <Link className="text-breadcrumb" to={ '/' + currentYear }>{ currentYear }</Link>
                 </li>
-            }
+            } */ }
 
             { currentCategory && currentCategory.slug && currentCategory.name ?
                 !modalEntityIsOpen ?

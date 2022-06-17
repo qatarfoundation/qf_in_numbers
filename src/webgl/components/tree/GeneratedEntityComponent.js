@@ -104,7 +104,8 @@ export default class GeneratedEntityComponent extends component(Object3D) {
      * Private
      */
     _chooseCameraSide() {
-        const side = Math.random() > 0.5 ? 1 : -1;
+        // const side = Math.random() > 0.5 ? 1 : -1;
+        const side = 1;
         return side;
     }
 

@@ -215,6 +215,7 @@ export default class EntityComponent extends component(Object3D) {
     }
 
     _destroyChartParticles() {
+        if (!this._chartParticles) return;
         this._chartParticles.removeFromParent();
         this._chartParticles.material.dispose();
         this._chartParticles.geometry.dispose();

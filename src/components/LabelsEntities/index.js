@@ -6,6 +6,7 @@ import { Trans, Link } from 'gatsby-plugin-react-i18next';
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import Breakpoints from '@/utils/Breakpoints';
+import Globals from '@/utils/Globals';
 
 // CSS
 import './style.scoped.scss';
@@ -78,14 +79,21 @@ function LabelsEntities(props) {
     const selectedEntity = useStore((state) => state.selectedEntity);
 
     useEffect(() => {
-        if (!selectedEntity) return;
-        for (const key in itemsRef.current) {
-            const element = itemsRef.current[key];
-            if (selectedEntity.slug === key) {
-                gsap.to(element, { duration: 1, delay: 1, opacity: 1 });
-            } else {
+        if (selectedEntity) {
+            for (const key in itemsRef.current) {
+                const element = itemsRef.current[key];
+                if (selectedEntity.slug === key) {
+                    gsap.to(element, { duration: 1, delay: 1, opacity: 1 });
+                } else {
+                    gsap.to(element, { duration: 1, opacity: 0 });
+                }
+            }
+        } else {
+            for (const key in itemsRef.current) {
+                const element = itemsRef.current[key];
                 gsap.to(element, { duration: 1, opacity: 0 });
             }
+            Globals.webglApp.hideCurrentEntity();
         }
     }, [selectedEntity]);
 
