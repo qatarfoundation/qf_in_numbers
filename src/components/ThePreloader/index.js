@@ -38,15 +38,13 @@ function ThePreloader({ visible, progress, ...props }) {
             }
         }
     `);
-    const years = data.allContentfulYear.edges;
-    years.sort((a, b) => b.node.year - a.node.year);
     const { i18n } = useTranslation();
-    years.filter(function(object, i) {
+    const years = data.allContentfulYear.edges.filter(function(object, i) {
         const year = object.node.year;
         if (object.node.node_locale === i18n.language) {
             return object;
         }
-    });
+    }).sort((a, b) => b.node.year - a.node.year);
     const timeline = new gsap.timeline();
     /**
      * Effects
@@ -56,7 +54,7 @@ function ThePreloader({ visible, progress, ...props }) {
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
     useEffect(() => {
-        yearsRef.current = yearsRef.current.slice(0, years.length / 2);
+        yearsRef.current = yearsRef.current.slice(0, years.length);
     }, [years]);
     useEffect(() => {
         let tick = 0;

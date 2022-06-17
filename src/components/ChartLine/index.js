@@ -26,16 +26,16 @@ function ChartLine(props, ref) {
     const spaceAxisX = 20;
     const widthAxisY = 14;
     const spaceAxisY = 45;
-    let margin = {
-        top: 0 + heightTooltip + spaceTooltip,
-        right: language !== 'ar-QA' ? 44 : (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY,
-        bottom: 30 + heightAxisX + spaceAxisX,
-        left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY : 44,
-    };
     /**
      * States
      */
     const [isResize, setIsResize] = useState(false);
+    const [margin, setMargin] = useState({
+        top: 0 + heightTooltip + spaceTooltip,
+        right: language !== 'ar-QA' ? 44 : (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY,
+        bottom: 30 + heightAxisX + spaceAxisX,
+        left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY : 44,
+    });
     const [height, setHeight] = useState(255 + margin.top + margin.bottom);
     /**
     * References
@@ -127,7 +127,7 @@ function ChartLine(props, ref) {
                 .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
-        [data.length, isResize],
+        [data.length, margin],
     );
     /**
      * Events
@@ -143,13 +143,12 @@ function ChartLine(props, ref) {
      * Private
      */
     function resize() {
-        margin = {
+        setMargin({
             top: 0 + heightTooltip + spaceTooltip,
             right: language !== 'ar-QA' ? 44 : (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY,
             bottom: 30 + heightAxisX + spaceAxisX,
             left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + spaceAxisY + widthAxisY : 44,
-        };
-        setIsResize(!isResize);
+        });
     }
     return (
         <>

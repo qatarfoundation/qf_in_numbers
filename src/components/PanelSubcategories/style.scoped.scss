@@ -1,0 +1,194 @@
+.panel-subcategories {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: $color-white;
+    z-index: 99;
+    .ar & {
+        right: 0;
+        left: inherit;
+    }
+    @include respond-to('medium') {
+        top: 0;
+        left: 0;
+        width: rem(460px, 'medium');
+        height: 100vh;
+        .ar & {
+            right: 0;
+            left: inherit;
+        }
+    }
+    @include respond-to('large') {
+        width: rem(460px, 'large');
+    }
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: rem(36px, 'small') rem(28px, 'small') rem(28px, 'small') rem(53px, 'small');
+    .ar & {
+        padding: rem(36px, 'small') rem(53px, 'small') rem(28px, 'small') rem(28px, 'small');
+    }
+    @include respond-to('medium') {
+        padding: rem(36px, 'medium') rem(28px, 'medium') rem(28px, 'medium') rem(53px, 'medium');
+        .ar & {
+            padding: rem(36px, 'medium') rem(53px, 'medium') rem(28px, 'medium') rem(28px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        padding: rem(36px, 'large') rem(28px, 'large') rem(28px, 'large') rem(53px, 'large');
+        .ar & {
+            padding: rem(36px, 'large') rem(53px, 'large') rem(28px, 'large') rem(28px, 'large');
+        }
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: $color-grey;
+        opacity: 0.15;
+        .ar & {
+            right: 0;
+            left: inherit;
+        }
+    }
+    .breadcrumbs {
+        margin-left: 0;
+        .ar & {
+            margin-right: 0;
+            margin-left: inherit;
+        }
+        li::before {
+            border-top: rem(4px, 'small') solid var(--color-theme-secondary);
+            @include respond-to('medium') {
+                border-top: rem(4px, 'medium') solid var(--color-theme-secondary);
+            }
+            @include respond-to('large') {
+                border-top: rem(4px, 'large') solid var(--color-theme-secondary);
+            }
+        }
+        .text-breadcrumb {
+            font-weight: 700;
+            color: var(--color-theme-primary);
+        }
+    }
+}
+
+.list-subcategories {
+    display: block;
+    padding: rem(36px, 'small') rem(28px, 'small') rem(28px, 'small') rem(53px, 'small');
+    .ar & {
+        padding: rem(36px, 'small') rem(53px, 'small') rem(28px, 'small') rem(28px, 'small');
+    }
+    @include respond-to('medium') {
+        padding: rem(36px, 'medium') rem(28px, 'medium') rem(28px, 'medium') rem(53px, 'medium');
+        .ar & {
+            padding: rem(36px, 'medium') rem(53px, 'medium') rem(28px, 'medium') rem(28px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        padding: rem(36px, 'large') rem(28px, 'large') rem(28px, 'large') rem(53px, 'large');
+        .ar & {
+            padding: rem(36px, 'large') rem(53px, 'large') rem(28px, 'large') rem(28px, 'large');
+        }
+    }
+}
+
+.item-subcategories {
+    &:not(:last-child) {
+        margin-bottom: rem(16px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
+}
+
+.button-entity {
+    position: relative;
+    display: block;
+    width: 100%;
+    color: $color-grey;
+    text-align: left;
+    transition: opacity 0.3s linear;
+    &:not(:last-child) {
+        margin-bottom: rem(5px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(5px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(5px, 'large');
+        }
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        display: none;
+        width: 0;
+        height: 0;
+        border-left: rem(4px, 'small') solid transparent;
+        border-right: rem(4px, 'small') solid transparent;
+        border-top: rem(4px, 'small') solid var(--color-theme-secondary);
+        transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, 90deg);
+        @include respond-to('medium') {
+            border-left: rem(4px, 'medium') solid transparent;
+            border-right: rem(4px, 'medium') solid transparent;
+            border-top: rem(4px, 'medium') solid var(--color-theme-secondary);
+        }
+        @include respond-to('large') {
+            border-left: rem(4px, 'large') solid transparent;
+            border-right: rem(4px, 'large') solid transparent;
+            border-top: rem(4px, 'large') solid var(--color-theme-secondary);
+        }
+        .ar & {
+            right: inherit;
+            left: 0;
+            transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, -90deg);
+        }
+    }
+    &:hover {
+        color: var(--color-theme-secondary);
+    }
+    &.is-active {
+        color: var(--color-theme-secondary);
+        font-weight: 700;
+        &::after {
+            display: block;
+        }
+    }
+    .ar & {
+        text-align: right;
+    }
+}
+
+.title-subcategory {
+    max-width: rem(300px, 'small');
+    margin-bottom: rem(16px, 'small');
+    color: var(--color-theme-primary);
+    @include respond-to('medium') {
+        max-width: rem(300px, 'medium');
+        margin-bottom: rem(16px, 'medium');
+    }
+    @include respond-to('large') {
+        max-width: rem(300px, 'large');
+        margin-bottom: rem(16px, 'large');
+    }
+}
+.label {
+    color: var(--color-theme-primary);
+}

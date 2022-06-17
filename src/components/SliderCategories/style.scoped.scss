@@ -26,6 +26,13 @@
         width: calc(75vw - 8px);
         width: auto;
         flex-shrink: inherit;
+        padding: 0 rem(8px, 'small');
+        @include respond-to('medium') {
+            padding: 0 rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            padding: 0 rem(8px, 'large');
+        }
         &:last-child {
             max-width: 100%;
             width: calc(100vw - 16px);
@@ -36,12 +43,19 @@
                 }
             }
         }
+        &.swiper-slide-active {
+            .list-item-category .button {
+                opacity: 1;
+            }
+        }
         .list-item-category {
             width: auto;
-            padding: inherit;
+            padding: 0;
             .button {
+                color: $color-white;
                 text-align: left;
                 white-space: inherit;
+                opacity: 0.5;
                 .ar & {
                     text-align: right;
                 }

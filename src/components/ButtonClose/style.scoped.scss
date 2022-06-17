@@ -2,15 +2,21 @@
     position: relative;
     width: rem(32px, 'small');
     height: rem(32px, 'small');
+    min-width: rem(32px, 'small');
+    min-height: rem(32px, 'small');
     border: 1px solid $color-grey;
     border-radius: 100%;
     @include respond-to('medium') {
         width: rem(32px, 'medium');
         height: rem(32px, 'medium');
+        min-width: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
     }
     @include respond-to('large') {
         width: rem(32px, 'large');
         height: rem(32px, 'large');
+        min-width: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
     }
 
     &:hover {

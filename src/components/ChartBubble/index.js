@@ -131,7 +131,7 @@ function ChartBubble(props, ref) {
                         .attr('x', function(d) { return d.x; })
                         .attr('y', function(d) { return d.y; });
                     setTimeout(() =>{
-                        if (refChart.current && el) {
+                        if (refChart.current && el && el.parentNode) {
                             const bounding = el.getBoundingClientRect();
                             const isNew = refChart.current.clientWidth < bounding.width;
                             const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;
@@ -149,7 +149,7 @@ function ChartBubble(props, ref) {
                     }, 0);
                 });
         },
-        [data.length, isResize, themeCategory],
+        [data.length, margin, themeCategory],
     );
     /**
      * Events
@@ -171,7 +171,6 @@ function ChartBubble(props, ref) {
             bottom: 10,
             left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) : (window.innerWidth >= 500 ? 58 : 18),
         });
-        setIsResize(!isResize);
     }
     return (
         <>

@@ -7,7 +7,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 
 // CSS
 import './style.scoped.scss';
-import ButtonPagination from '../ButtonPagination/index';
+import ButtonExplore from '../ButtonExplore/index';
 
 const LabelMainCategory = (props) => {
     const { index: categoryIndex, anchor } = props;
@@ -51,11 +51,11 @@ const LabelMainCategory = (props) => {
     });
 
     return (
-        <div className={ `label ${ props.anchor }` } ref={ labelRef }>
+        <div className={ `label ${ props.anchor } ${ isHover ? 'is-hover' : '' }` } ref={ labelRef }>
             <div className="copy h4">
                 { props.label }
             </div>
-            { isHover && <ButtonPagination name='Click to discover' direction={ anchor == 'right' ? 'left' : 'right' } /> }
+            <ButtonExplore name='Click to discover' direction={ anchor == 'right' ? 'left' : 'right' } />
         </div>
     );
 };

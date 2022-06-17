@@ -155,7 +155,7 @@ function ChartBeeswarm(props, ref) {
                 .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
-        [data.length, isResize],
+        [data.length, margin],
     );
     /**
      * Events
@@ -177,7 +177,6 @@ function ChartBeeswarm(props, ref) {
             bottom: 30 + heightAxisX + spaceAxisX,
             left: language !== 'ar-QA' ? (window.innerWidth >= 500 ? 58 : 18) + radiusPoint : (window.innerWidth >= 500 ? 58 : 18) + radiusPoint,
         });
-        setIsResize(!isResize);
     }
     return (
         <>

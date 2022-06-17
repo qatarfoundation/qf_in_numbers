@@ -1,5 +1,5 @@
 // React
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
@@ -12,6 +12,12 @@ import ListItemSubcategory from '@/components/ListItemSubcategory';
 import LabelMainCategory from '../LabelMainCategory/index';
 import ListItemCategory from '../ListItemCategory/index';
 
+// Utils
+import Globals from '@/utils/Globals';
+
+// Hooks
+import useStore from '@/hooks/useStore';
+
 // Components
 
 function SliderCategories(props, ref) {
@@ -21,9 +27,24 @@ function SliderCategories(props, ref) {
     const { categories } = props;
 
     /**
+     * States
+     */
+    const [indexActiveCategory, setIndexActiveCategory] = useState(0);
+
+    /**
      * References
      */
     const swiperRef = useRef(null);
+
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        let slug = categories[indexActiveCategory % categories.length].slug;
+        slug = slug.split('/').slice(-1)[0];
+        setTimeout(() => Globals.webglApp.gotoCategory(slug), 0);
+        useStore.setState({ currentCategory: categories[indexActiveCategory % categories.length] });
+    }, [indexActiveCategory]);
 
     return (
         <Swiper
@@ -31,7 +52,10 @@ function SliderCategories(props, ref) {
             className="slider-categories"
             slidesPerView='auto'
             slideToClickedSlide={ true }
-            spaceBetween={ 16 }
+            loop={ true }
+            centeredSlides={ true }
+            on={ { reachEnd() { this.snapGrid = [...this.slidesGrid]; } } }
+            onSlideChange={ (swiper) => setIndexActiveCategory(swiper.activeIndex) }
         >
             { categories[0] &&
                 <SwiperSlide key={ `category-${ 0 }` } virtualIndex={ 0 }>

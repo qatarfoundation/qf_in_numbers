@@ -1,53 +1,289 @@
 .template-category {
     height: 100vh;
     opacity: 0;
-    .container {
-        @include respond-to('medium') {
-            padding-top: rem(169px, 'medium');
-            padding-bottom: rem(169px, 'medium');
-        }
-        @include respond-to('large') {
-            padding-top: rem(169px, 'large');
-            padding-bottom: rem(169px, 'large');
-        }
-    }
-    .container-page {
+    .slider-subcategories {
+        position: absolute;
+        bottom: rem(100px, 'small');
+        left: 50%;
         width: 100%;
+        transform: translate3d(-50%, -50%, 0);
         @include respond-to('medium') {
-            width: calc(100vw - #{rem(53px * 2, 'medium')});
-            margin: auto;
+            top: 50%;
+            bottom: inherit;
+        }
+        .swiper-wrapper {
+            display: inline-flex;
+        }
+        .swiper-slide {
+            width: auto;
+            max-width: 65%;
+            height: 100%;
+            margin: 0 rem(16px, 'small') rem(5px, 'small');
+            @include respond-to('medium') {
+                max-width: 75%;
+                margin: 0 rem(53px, 'medium') rem(5px, 'medium');
+            }
+            @include respond-to('large') {
+                margin: 0 rem(53px, 'large') rem(5px, 'large');
+            }
+            &:last-child {
+                width: 100vw !important;
+            }
+            p {
+                font-size: rem(24px, 'small');
+                @include respond-to('medium') {
+                    font-size: rem(96px, 'medium');
+                }
+                @include respond-to('large') {
+                    font-size: rem(96px, 'large');
+                };
+                opacity: 0.5;
+
+            }
+        }
+        .swiper-slide-active {
+            p {
+                opacity: 1;
+            }
+        }
+    }
+    .slider-entities {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        padding-right: rem(16px, 'small');
+        padding-bottom: rem(100px, 'small');
+        padding-left: rem(16px, 'small');
+        @include respond-to('medium') {
+            align-items: center;
+            justify-content: inherit;
+            padding-right: inherit;
+            padding-bottom: inherit;
+            padding-left: rem(53px, 'medium');
         }
         @include respond-to('large') {
-            width: calc(100vw - #{rem(53px * 2, 'large')});
+            padding-left: rem(53px, 'large');
+        }
+        .ar & {
+            @include respond-to('medium') {
+                padding-right: inherit;
+                padding-left: rem(53px, 'medium');
+            }
+            @include respond-to('large') {
+                padding-left: rem(53px, 'large');
+            }
+        }
+        .slider-navigation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: rem(16px, 'small');
+            @include respond-to('medium') {
+                gap: rem(16px, 'medium');
+            }
+            @include respond-to('large') {
+                gap: rem(16px, 'large');
+            }
+            .ar & {
+                order: 2;
+            }
+            .button-navigation {
+                position: relative;
+                width: rem(32px, 'small');
+                height: rem(32px, 'small');
+                @include respond-to('medium') {
+                    width: rem(32px, 'medium');
+                    height: rem(32px, 'medium');
+                }
+                @include respond-to('large') {
+                    width: rem(32px, 'large');
+                    height: rem(32px, 'large');
+                }
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%; left: 50%;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    border: 1px solid var(--color-theme-secondary);
+                    border-radius: 100%;
+                    opacity: 0.5;
+                    transform: translate3d(-50%, -50%, 0);
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    border-left: rem(4px, 'small') solid transparent;
+                    border-right: rem(4px, 'small') solid transparent;
+                    border-top: rem(4px, 'small') solid $color-white;
+                    @include respond-to('medium') {
+                        border-left: rem(4px, 'medium') solid transparent;
+                        border-right: rem(4px, 'medium') solid transparent;
+                        border-top: rem(4px, 'medium') solid $color-white;
+                    }
+                    @include respond-to('large') {
+                        border-left: rem(4px, 'large') solid transparent;
+                        border-right: rem(4px, 'large') solid transparent;
+                        border-top: rem(4px, 'large') solid $color-white;
+                    }
+                }
+                &.button-navigation-top {
+                    &::after {
+                        transform: translate3d(-50%, -50%, 0) rotate3D(0, 0, 1, 180deg);
+                    }
+                }
+                &.button-navigation-bottom {
+                    &::after {
+                        transform: translate3d(-50%, -50%, 0) rotate3D(0, 0, 1, 0deg);
+                    }
+                }
+                &.is-inactive {
+                    cursor: inherit;
+                    opacity: 0.5;
+                }
+                &:hover {
+                    &::before {
+                        border: 1px solid $color-white;
+                    }
+                }
+            }
+        }
+        .slider-content {
+            position: relative;
+            margin-right: rem(32px, 'small');
+            .ar & {
+                order: 1;
+            }
+            @include respond-to('medium') {
+                margin-right: inherit;
+                margin-left: rem(32px, 'medium');
+            }
+            @include respond-to('large') {
+                margin-left: rem(32px, 'large');
+            }
+            .ar & {
+                margin-left: rem(32px, 'small');
+                margin-right: inherit;
+                @include respond-to('medium') {
+                    margin-left: inherit;
+                    margin-right: rem(32px, 'medium');
+                }
+                @include respond-to('large') {
+                    margin-left: inherit;
+                    margin-right: rem(32px, 'large');
+                }
+            }
+            .slider-subcategory-title {
+                max-width: rem(400px, 'small');
+                padding-bottom: rem(11px, 'small');
+                font-size: rem(24px, 'small');
+                line-height: rem(30px, 'small');
+                @include respond-to('medium') {
+                    max-width: rem(400px, 'medium');
+                    padding-bottom: rem(21px, 'medium');
+                    font-size: rem(64px, 'medium');
+                    line-height: rem(77px, 'medium');
+                }
+                @include respond-to('large') {
+                    max-width: rem(400px, 'large');
+                    padding-bottom: rem(21px, 'large');
+                    font-size: rem(64px, 'large');
+                    line-height: rem(77px, 'large');
+                }
+            }
+            .list-entities {
+                position: absolute;
+                bottom: 0;
+                display: flex;
+                gap: rem(6px, 'small');
+                transform: translate3d(0, 100%, 0);
+            }
+            .item-entities {
+                &.is-active {
+                    .slider-entity-title {
+                        color: var(--color-theme-secondary);
+                    }
+                }
+            }
+            .slider-entity-title {
+                color: var(--color-theme-primary);
+                @include respond-to('medium') {
+                    position: absolute;
+                    bottom: 0;
+                    color: var(--color-theme-secondary);
+                    transform: translate3d(0, 100%, 0);
+                }
+            }
         }
     }
-}
-
-.button-scroll {
-    position: absolute;
-    top: 70%;
-    right: rem(16px, 'small');
-    transform: translate3d(0, -50%, 0);
-    @include respond-to('medium') {
-        right: rem(53px, 'medium');
+    .button-scroll {
+        position: absolute;
+        left: 50%;
+        bottom: 40%;
+        transform: translate3d(-50%, -50%, 0);
+        @include respond-to('medium') {
+            left: inherit;
+            right: 5%;
+            bottom: 20%;
+        }
     }
-    @include respond-to('large') {
-        right: rem(53px, 'large');
+    .interaction-sentence {
+        position: absolute;
+        left: 50%;
+        bottom: rem(50px, 'small');
+        opacity: 0;
+        color: var(--color-theme-secondary);
+        transform: translate3d(-50%, 0, 0);
+        @include respond-to('medium') {
+            opacity: 0.5;
+            bottom: rem(50px, 'medium');
+        }
+        @include respond-to('large') {
+            bottom: rem(50px, 'large');
+        }
+        a {
+            color: var(--color-theme-secondary);
+            text-decoration: underline;
+        }
     }
-    .ar & {
-        right: inherit;
+    .button-pagination {
+        position: fixed;
+        top: rem(75px, 'small');
         left: rem(16px, 'small');
+        .ar & {
+            right: rem(16px, 'small');
+            left: inherit;
+        }
         @include respond-to('medium') {
+            top: rem(111.5px, 'medium');
             left: rem(53px, 'medium');
+            .ar & {
+                right: rem(53px, 'small');
+                left: inherit;
+            }
         }
         @include respond-to('large') {
+            top: rem(111.5px, 'large');
             left: rem(53px, 'large');
+            .ar & {
+                right: rem(53px, 'small');
+                left: inherit;
+            }
+        }
+        .icon-arrow {
+            margin-right: 16px;
+            border: 1px solid $color-white;
+            .arrow {
+                fill: $color-white;
+            }
         }
     }
-}
-
-.button-pagination {
-    position: absolute;
-    right: rem(20px);
-    bottom: rem(210px);
 }
