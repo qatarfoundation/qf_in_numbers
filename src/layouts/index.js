@@ -127,9 +127,9 @@ function Layout(props) {
                             <div key={ originalPath } className="page">
                                 <Cursor />
                                 { children }
-                                <TheNavigation key={ `${ language }-navigation` } />
                                 {
                                     !isTutorial && <>
+                                        <TheNavigation key={ `${ language }-navigation` } />
                                         <TheFooter key={ `${ language }-footer` } />
                                     </>
                                 }

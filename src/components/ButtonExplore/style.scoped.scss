@@ -1,0 +1,268 @@
+.button-explore {
+    position: absolute;
+    top: rem(-40px, 'small');
+    width: rem(205px, 'small');
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.5s ease;
+    @include respond-to('medium') {
+        top: calc(50% + rem(5px, 'medium'));
+        width: rem(205px, 'medium');
+    }
+    @include respond-to('large') {
+        top: calc(50% + rem(5px, 'large'));
+        width: rem(205px, 'large');
+    }
+    .is-hover.left & {
+        @include respond-to('medium') {
+            left: rem(50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(50px, 'large');
+        }
+        .ar & {
+            @include respond-to('medium') {
+                right: rem(50px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(50px, 'large');
+            }
+        }
+    }
+    .is-hover.right & {
+        @include respond-to('medium') {
+            left: rem(-50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(-50px, 'large');
+        };
+        .ar & {
+            @include respond-to('medium') {
+                right: rem(-50px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(-50px, 'large');
+            }
+        }
+    }
+    .is-hover & {
+        @include respond-to('medium') {
+            top: rem(-40px, 'medium');
+        }
+        @include respond-to('large') {
+            top: rem(-40px, 'large');
+        }
+        transition: all 0.5s ease;
+        p, .icon::before  {
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+        .icon {
+            @include respond-to('medium') {
+                width: rem(56px, 'medium');
+                min-width: rem(56px, 'medium');
+                height: rem(56px, 'medium');
+                min-height: rem(56px, 'medium');
+                opacity: 1;
+            }
+            @include respond-to('large') {
+                width: rem(56px, 'large');
+                min-width: rem(56px, 'large');
+                height: rem(56px, 'large');
+                min-height: rem(56px, 'large');
+            }
+        }
+    }
+    .left & {
+        left: rem(50px, 'small');
+        @include respond-to('medium') {
+            left: 0;
+        }
+        @include respond-to('large') {
+            left: 0;
+        }
+        transform: translate(-100%, -50%);
+        .ar & {
+            left: inherit;
+            right: rem(50px, 'small');
+            @include respond-to('medium') {
+                right: 0;
+            }
+            @include respond-to('large') {
+                right: 0;
+            }
+            transform: translate(0, -50%);
+        }
+    }
+    .right & {
+        left: rem(-50px, 'small');
+        @include respond-to('medium') {
+            left: rem(-50px, 'medium');
+        }
+        @include respond-to('large') {
+            left: rem(-50px, 'large');
+        }
+        transform: translate(0, -50%);
+        .ar & {
+            left: inherit;
+            right: rem(-50px, 'small');
+            @include respond-to('medium') {
+                right: rem(-50px, 'medium');
+            }
+            @include respond-to('large') {
+                right: rem(-50px, 'large');
+            }
+            transform: translate(100%, -50%);
+        }
+    }
+    &.right {
+        .icon-arrow {
+            order: 2;
+            margin-right: 0;
+            margin-left: rem(23px, 'small');
+            @include respond-to('medium') {
+                margin-left: rem(23px, 'medium');
+            }
+            @include respond-to('large') {
+                margin-left: rem(23px, 'large');
+            }
+            .ar & {
+                margin-right: rem(23px, 'small');
+                margin-left: 0;
+                @include respond-to('medium') {
+                    margin-right: rem(23px, 'medium');
+                }
+                @include respond-to('large') {
+                    margin-right: rem(23px, 'large');
+                }
+            }
+        }
+        .p3 {
+            order: 1;
+            text-align: right;
+            .ar & {
+                text-align: left;
+            }
+        }
+    }
+    p {
+        white-space: nowrap;
+        color: var(--color-theme-secondary);
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+    .icon {
+        position: relative;
+        width: rem(56px, 'small');
+        min-width: rem(56px, 'small');
+        height: rem(56px, 'small');
+        min-height: rem(56px, 'small');
+        border-color: var(--color-theme-secondary);
+        transition: all 0.5s ease;
+        @include respond-to('medium') {
+            width: rem(100px, 'medium');
+            min-width: rem(100px, 'medium');
+            height: rem(100px, 'medium');
+            min-height: rem(100px, 'medium');
+            opacity: 0.5;
+        }
+        @include respond-to('large') {
+            width: rem(100px, 'large');
+            min-width: rem(100px, 'large');
+            height: rem(100px, 'large');
+            min-height: rem(100px, 'large');
+        }
+        svg {
+            display: block;
+            padding: rem(20px, 'small');
+            fill: var(--color-theme-secondary);
+            @include respond-to('medium') {
+                display: none;
+            }
+        }
+        &::before {
+            content: '';
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: var(--color-theme-secondary);
+            border-radius: 50%;
+            opacity: 0;
+            transform: translate3d(-50%, -50%, 0);
+            @include respond-to('medium') {
+                display: block;
+                width: rem(6px, 'medium');
+                height: rem(6px, 'medium');
+            }
+            @include respond-to('large') {
+                width: rem(6px, 'large');
+                height: rem(6px, 'large');
+            }
+        }
+    }
+}
+
+.icon-arrow {
+    position: relative;
+    width: rem(32px, 'small');
+    min-width: rem(32px, 'small');
+    height: rem(32px, 'small');
+    min-height: rem(32px, 'small');
+    margin-right: rem(23px, 'small');
+    border: 1px solid $color-grey;
+    border-radius: 100%;
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        min-width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
+        margin-right: rem(23px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        min-width: rem(32px, 'large');
+        height: rem(32px, 'large');
+        min-height: rem(32px, 'large');
+        margin-right: rem(23px, 'large');
+    }
+    .ar & {
+        margin-right: 0;
+        margin-left: rem(23px, 'small');
+        @include respond-to('medium') {
+            margin-left: rem(23px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-left: rem(23px, 'large');
+        }
+    }
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    padding: rem(8px, 'small');
+    fill: $color-grey;
+    transform: translate3d(-50%, -50%, 0);
+    @include respond-to('medium') {
+        padding: rem(8px, 'medium');
+    }
+    @include respond-to('large') {
+        padding: rem(8px, 'large');
+    }
+    &.left {
+        transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+        .ar & {
+            transform: translate3d(-50%, -50%, 0);
+        }
+    }
+    &.right {
+        transform: translate3d(-50%, -50%, 0);
+        .ar & {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+        }
+    }
+}

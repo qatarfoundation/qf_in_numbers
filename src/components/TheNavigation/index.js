@@ -8,6 +8,9 @@ import { usePresence } from 'framer-motion';
 // CSS
 import './style.scoped.scss';
 
+// Hooks
+import useStore from '@/hooks/useStore';
+
 // Components
 import ButtonHome from '@/components/ButtonHome';
 import LangSwitch from '@/components/LangSwitch';
@@ -19,6 +22,11 @@ function TheNavigation(props) {
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
+
+    /**
+     * Stores
+     */
+    const modalSubcategoriesIsOpen = useStore((s) => s.modalSubcategoriesIsOpen);
 
     /**
      * Effects
@@ -60,7 +68,7 @@ function TheNavigation(props) {
 
                 <div className="col-left">
                     <ButtonHome />
-                    <Breadcrumbs />
+                    { !modalSubcategoriesIsOpen && <Breadcrumbs /> }
                 </div>
 
                 <div className="col-right">

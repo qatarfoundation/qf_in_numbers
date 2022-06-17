@@ -46,9 +46,6 @@ function useScrollList(category, subcategory) {
             const currentScrollItem = scrollList[index];
             if (!currentScrollItem) return;
 
-            console.log(index);
-            console.log(currentScrollItem);
-
             if (currentScrollItem.type === 'subcategory') {
                 navigate(currentScrollItem.slug);
             } else if (currentScrollItem.type === 'entity') {
