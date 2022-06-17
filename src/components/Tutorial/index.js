@@ -36,7 +36,7 @@ function Tutorial(props) {
             const years = props.years;
             years.sort((a, b) => b.node.year - a.node.year);
             useStore.setState({ isTutorial: false });
-            navigate(years[0].node.year);
+            navigate('/' +  years[0].node.year);
         };
         document.body.addEventListener('click', clickTutorial);
         return () => {

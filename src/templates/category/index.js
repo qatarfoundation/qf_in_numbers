@@ -278,6 +278,7 @@ function CategoryTemplate(props) {
                                 }
                             </div>
                         </div>
+                        <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' />
                         <p className='p4 interaction-sentence'>Scroll to see more entities</p>
                     </>
             }

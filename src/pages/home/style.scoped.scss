@@ -42,6 +42,9 @@
         @include respond-to('large') {
             margin-bottom: rem(25px, 'large');
         }
+        .line .char {
+            opacity: 0;
+        }
     }
     .label {
         color: color-from-theme('green', 'secondary');
