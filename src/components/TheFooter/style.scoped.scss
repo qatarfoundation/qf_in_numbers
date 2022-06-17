@@ -20,12 +20,13 @@
         position: absolute;
         left: 0;
         bottom: rem(-20px, 'small');
-        display: block;
+        display: none;
         width: rem(546px, 'small');
         height: rem(200px, 'small');
         background: linear-gradient(200deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
         pointer-events: none;
         @include respond-to('medium') {
+            display: block;
             bottom: rem(-34.5px, 'medium');
             width: rem(546px, 'medium');
             height: rem(200px, 'medium');

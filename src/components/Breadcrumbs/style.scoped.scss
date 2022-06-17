@@ -1,13 +1,10 @@
 ul {
     display: block;
-    margin-top: rem(-10px, 'small');
     margin-left: rem(28px, 'small');
     @include respond-to('medium') {
-        margin-top: rem(-10px, 'medium');
         margin-left: rem(82px, 'medium');
     }
     @include respond-to('large') {
-        margin-top: rem(-10px, 'large');
         margin-left: rem(82px, 'large');
     }
     .ar & {
@@ -26,14 +23,14 @@ li {
     position: relative;
     display: inline-block;
     margin: 0 rem(5px, 'small');
-    padding: 0 rem(10px, 'small');
+    padding: 0 rem(5px, 'small');
     @include respond-to('medium') {
         margin: 0 rem(5px, 'medium');
-        padding: 0 rem(10px, 'medium');
+        padding: 0 rem(5px, 'medium');
     }
     @include respond-to('large') {
         margin: 0 rem(5px, 'large');
-        padding: 0 rem(10px, 'large');
+        padding: 0 rem(5px, 'large');
     }
     &:not(:last-child) {
         display: none;
@@ -44,7 +41,7 @@ li {
     &::before {
         content: '';
         position: absolute;
-        top: 50%;
+        top: rem(14px, 'small');
         left: 0;
         display: block;
         width: 0;
@@ -54,11 +51,13 @@ li {
         border-top: rem(4px, 'small') solid var(--color-theme-primary);
         transform: translate3d(-100%, 50%, 0) rotate3D(0, 0, 1, -90deg);
         @include respond-to('medium') {
+            top: rem(14px, 'medium');
             border-left: rem(4px, 'medium') solid transparent;
             border-right: rem(4px, 'medium') solid transparent;
             border-top: rem(4px, 'medium') solid var(--color-theme-primary);
         }
         @include respond-to('large') {
+            top: rem(14px, 'large');
             border-left: rem(4px, 'large') solid transparent;
             border-right: rem(4px, 'large') solid transparent;
             border-top: rem(4px, 'large') solid var(--color-theme-primary);

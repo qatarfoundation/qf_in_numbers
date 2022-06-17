@@ -33,15 +33,15 @@ function ChartMap(props, ref) {
     const isWorld = chart.isWorld ? chart.isWorld : true;
     const heightTooltip = 80;
     const spaceTooltip = 5;
-    const margin = {
+    /**
+     * States
+     */
+    const [margin, setMargin] = useState({
         top: 0,
         right: 0,
         bottom: 0,
         left: 0,
-    };
-    /**
-     * States
-     */
+    });
     const [isResize, setIsResize] = useState(false);
     const [height, setHeight] = useState(434 + margin.top + margin.bottom);
     /**
@@ -107,7 +107,7 @@ function ChartMap(props, ref) {
                 .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
-        [data.length, isResize],
+        [data.length, margin],
     );
     /**
      * Events
@@ -123,7 +123,12 @@ function ChartMap(props, ref) {
      * Private
      */
     function resize() {
-        setIsResize(!isResize);
+        setMargin({
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+        });
     }
     return (
         <>

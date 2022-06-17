@@ -27,7 +27,7 @@ function Breakcrumbs(props) {
         setIsActiveCategory(!isActiveCategory);
     };
     return (
-        <ul>
+        <ul className='breadcrumbs'>
             { currentYear &&
                 <li  className='breadcrumb-year'>
                     <Link className="text-breadcrumb" to={ '/' + currentYear }>{ currentYear }</Link>

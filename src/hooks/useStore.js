@@ -5,6 +5,7 @@ const useStore = create((set) => {
         modalYearIsOpen: false,
         modalSearchIsOpen: false,
         modalEntityIsOpen: false,
+        modalSubcategoriesIsOpen: false,
         currentYear: '2021',
         filterType: 'entities',
         scrolls: [],
@@ -16,6 +17,8 @@ const useStore = create((set) => {
         allTags: [],
         isTutorial: false,
         themeCategory: 'theme-default',
+        indexActiveSubcategory: 0,
+        indexActiveEntity: 0,
     };
 });
 
