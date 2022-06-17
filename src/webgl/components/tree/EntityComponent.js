@@ -230,12 +230,14 @@ export default class EntityComponent extends component(Object3D) {
 
     _groupCharts(charts) {
         const groups = {};
-        for (let i = 0, len = charts.length; i < len; i++) {
-            const item = charts[i];
-            if (!groups[item.type]) {
-                groups[item.type] = [];
+        if (charts) {
+            for (let i = 0, len = charts.length; i < len; i++) {
+                const item = charts[i];
+                if (!groups[item.type]) {
+                    groups[item.type] = [];
+                }
+                groups[item.type].push(item);
             }
-            groups[item.type].push(item);
         }
         return groups;
     }
