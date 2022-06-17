@@ -71,7 +71,6 @@ class Breakpoints {
      */
     active() {
         // return true;
-        console.log();
         for (let i = 0, len = arguments.length; i < len; i++) {
             if (arguments[i] === this._active) return true;
         }

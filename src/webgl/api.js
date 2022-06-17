@@ -41,9 +41,15 @@ export default {
         }
     },
 
-    selectEntity(categorySlug, name) {
+    selectEntity(entity, category) {
         if (this.isHome()) {
-            this._viewManager.active.selectEntity(categorySlug, name);
+            this._viewManager.active.selectEntity(entity, category);
+        }
+    },
+
+    hideCurrentEntity() {
+        if (this.isHome()) {
+            this._viewManager.active.hideCurrentEntity();
         }
     },
 

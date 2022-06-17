@@ -30,7 +30,8 @@ function EntityTemplate(props) {
     /**
      * States
      */
-    const [isPresent, safeToRemove] = usePresence();/**
+    const [isPresent, safeToRemove] = usePresence();
+    /**
     * Store
     */
     const [modalEntityIsOpen] = useStore(s => [s.modalEntityIsOpen]);
@@ -55,7 +56,7 @@ function EntityTemplate(props) {
         useStore.setState({ currentCategory: category });
         useStore.setState({ currentSubcategory: subcategory });
         // Globals.webglApp.gotoEntity(category.slug, entity.slug);
-        Globals.webglApp.selectEntity(category.name, entity.name);
+        Globals.webglApp.selectEntity(entity, category.slug.split('/')[2]);
     }, []);
 
     /**
@@ -78,6 +79,9 @@ function EntityTemplate(props) {
     function transitionOut() {
         const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
         timeline.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
+
+        Globals.webglApp.hideCurrentEntity();
+
         return timeline;
     }
 

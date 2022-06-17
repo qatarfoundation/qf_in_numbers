@@ -56,6 +56,7 @@ function PanelEntity(props, ref) {
     useEffect(() => {
         useStore.setState({ modalEntityIsOpen: true });
     }, []);
+
     /**
      * Private
      */

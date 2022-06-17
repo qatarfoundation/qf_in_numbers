@@ -43,6 +43,10 @@ export default class Composer extends component() {
     render(view) {
         this._passes.viewRender.scene = view.scene;
         this._passes.viewRender.camera = view.camera;
+
+        this._passes.entityRender.scene = view.components.entity._scene;
+        this._passes.entityRender.camera = view.components.entity._camera;
+
         this._composer.render();
     }
 
@@ -81,6 +85,7 @@ export default class Composer extends component() {
         const passes = {};
         passes.backgroundGradient = this._createBackgroundGradientPass();
         passes.viewRender = this._createViewRenderPass();
+        passes.entityRender = this._createEntityRenderPass();
         passes.final = this._createFinalPass();
         return passes;
     }
@@ -94,6 +99,13 @@ export default class Composer extends component() {
     }
 
     _createViewRenderPass() {
+        const pass = new RenderPass(null, null);
+        pass.clear = false;
+        this._composer.addPass(pass);
+        return pass;
+    }
+
+    _createEntityRenderPass() {
         const pass = new RenderPass(null, null);
         pass.clear = false;
         this._composer.addPass(pass);

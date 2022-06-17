@@ -62,6 +62,10 @@ export default class HomeView extends component() {
         return this._cameraManager.camera;
     }
 
+    get components() {
+        return this._components;
+    }
+
     /**
      * Public
      */
@@ -119,14 +123,19 @@ export default class HomeView extends component() {
         return this._timelineGotoEntity;
     }
 
-    selectEntity(categorySlug, name) {
+    selectEntity(entity, category) {
         this._activeEntity?.hide();
         this._components.generatedTree.hideActiveBranch();
+        this._components.entity.show(entity, category);
         // this._timelineGotoEntity = new gsap.timeline();
         // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         // return this._timelineGotoEntity;
+    }
+
+    hideCurrentEntity() {
+        this._components.entity.hide();
     }
 
     showTree() {
@@ -273,7 +282,9 @@ export default class HomeView extends component() {
     }
 
     _createEntityComponent() {
-        const component = new EntityComponent();
+        const component = new EntityComponent({
+            config: this._config,
+        });
         this._container.add(component);
         return component;
     }

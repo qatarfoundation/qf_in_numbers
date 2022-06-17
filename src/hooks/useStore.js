@@ -16,6 +16,7 @@ const useStore = create((set) => {
         allTags: [],
         isTutorial: false,
         themeCategory: 'theme-default',
+        locale: null,
     };
 });
 

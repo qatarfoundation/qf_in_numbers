@@ -22,7 +22,7 @@ export default class TreeComponent extends component(Object3D) {
         this._cameraManager = options.cameraManager;
 
         // Setup
-        this._isActive = true;
+        this._isActive = false;
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(2, 2);
         this._debug = this._createDebug();
