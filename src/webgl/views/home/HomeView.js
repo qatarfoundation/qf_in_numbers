@@ -85,6 +85,7 @@ export default class HomeView extends component() {
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(name), 0);
         this._timelineGotoOverview.add(this._components.tree.show(), 6);
         this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
+        this._timelineGotoOverview.call(() => this._components.leavesBasic.show(), null, 3);
         this._timelineGotoOverview.timeScale(5);
         return this._timelineGotoOverview;
     }
@@ -95,6 +96,7 @@ export default class HomeView extends component() {
         this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
         this._timelineGotoCategory.add(this._components.tree.hide(), 6);
         this._timelineGotoCategory.add(this._components.generatedTree.gotoCategory(name), 6);
+        this._timelineGotoCategory.call(() => this._components.leavesBasic.hide(), null, 4);
         this._timelineGotoCategory.timeScale(5);
         return this._timelineGotoCategory;
     }
@@ -217,7 +219,7 @@ export default class HomeView extends component() {
         const components = {};
         components.tree = this._createTreeComponent();
         // components.floor = this._createFloorComponent();
-        // components.leavesBasic = this._createLeavesBasicComponent();
+        components.leavesBasic = this._createLeavesBasicComponent();
         // components.leaves = this._createLeavesComponent();
         // components.leaves2 = this._createLeaves2Component();
         components.generatedTree = this._createGeneratedTreeComponent();
@@ -246,6 +248,7 @@ export default class HomeView extends component() {
     _createLeavesBasicComponent() {
         const component = new LeavesBasicComponent({
             debugContainer: this._config.name,
+            config: this._config,
         });
         this._container.add(component);
         return component;

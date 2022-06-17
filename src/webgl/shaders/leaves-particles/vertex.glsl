@@ -2,10 +2,12 @@
 attribute float offset;
 attribute float scale;
 attribute float alpha;
+attribute float hoverColor;
 
 // Varyings
 varying float vOffset;
 varying float vAlpha;
+varying float vHoverColor;
 
 // Uniforms
 uniform float uPointSize;
@@ -26,6 +28,7 @@ void main() {
     // Varyings
     vAlpha = alpha;
     vOffset = offset;
+    vHoverColor = hoverColor;
 
     // Fog
     #include <fog_vertex>

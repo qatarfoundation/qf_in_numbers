@@ -11,20 +11,22 @@ export default class LeavesComponent extends component(Object3D) {
     init(options = {}) {
         this._mesh = this._createMesh();
 
-        this._progress = 0;
+        this._progress = 1;
 
         // this.visible = false;
 
-        gsap.fromTo(this, 4, { _progress: 0 }, { _progress: 1, repeat: 0, repeatDelay: 2, delay: options.delay, onStart: () => {
-            this.visible = true;
-            this._start = true;
+        // gsap.fromTo(this, 4, { _progress: 0 }, {
+        //     _progress: 1, repeat: 0, repeatDelay: 2, delay: options.delay, onStart: () => {
+        //         this.visible = true;
+        //         this._start = true;
 
-            let item;
-            for (let i = 0, len = this._points.length; i < len; i++) {
-                item = this._points[i];
-                item.mesh.material.opacity = math.randomArbitrary(0.1, 1.0);
-            }
-        } });
+        //         let item;
+        //         for (let i = 0, len = this._points.length; i < len; i++) {
+        //             item = this._points[i];
+        //             item.mesh.material.opacity = math.randomArbitrary(0.1, 1.0);
+        //         }
+        //     },
+        // });
 
         if (Debugger) {
             const debug = Debugger.addGroup('Leaves', { container: 'Home' });
@@ -48,7 +50,7 @@ export default class LeavesComponent extends component(Object3D) {
             const material = new MeshBasicMaterial({ color: 0xff0000 });
             const mesh = new Mesh(geometry, material);
             mesh.position.copy(startPoint);
-            // this.add(mesh);
+            this.add(mesh);
         }
 
         this._points = [];
@@ -92,7 +94,7 @@ export default class LeavesComponent extends component(Object3D) {
             const lineGeometry = new BufferGeometry().setFromPoints(points);
             const lineMaterial = new LineBasicMaterial({ color: 0xffffff });
             const curveObject = new Line(lineGeometry, lineMaterial);
-            // this.add(curveObject);
+            this.add(curveObject);
 
             {
                 const geometry = new BoxBufferGeometry(0.05, 0.05, 0.05);
@@ -127,21 +129,21 @@ export default class LeavesComponent extends component(Object3D) {
     /**
      * Update
      */
-    update({ time, delta }) {
-        // const progress = time * 0.1 % 1;
+    // update({ time, delta }) {
+    //     // const progress = time * 0.1 % 1;
 
-        if (!this._start) return;
+    //     if (!this._start) return;
 
-        let item;
-        for (let i = 0, len = this._points.length; i < len; i++) {
-            item = this._points[i];
+    //     let item;
+    //     for (let i = 0, len = this._points.length; i < len; i++) {
+    //         item = this._points[i];
 
-            item.progress += 0.009;
+    //         item.progress += 0.009;
 
-            const progress = math.clamp(item.progress, 0, 1);
+    //         const progress = math.clamp(item.progress, 0, 1);
 
-            const position = item.curve.getPointAt(this._progress * item.speed);
-            item.mesh.position.copy(position);
-        }
-    }
+    //         const position = item.curve.getPointAt(this._progress * item.speed);
+    //         item.mesh.position.copy(position);
+    //     }
+    // }
 }
