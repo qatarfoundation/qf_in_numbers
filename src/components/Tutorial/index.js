@@ -9,6 +9,9 @@ import Select from '@/assets/icons/select.svg';
 // CSS
 import './style.scoped.scss';
 
+// Hooks
+import useStore from '@/hooks/useStore';
+
 function Tutorial(props) {
     /**
      * References
@@ -32,7 +35,8 @@ function Tutorial(props) {
         const clickTutorial = () => {
             const years = props.years;
             years.sort((a, b) => b.node.year - a.node.year);
-            navigate(years[0].node.year);
+            useStore.setState({ isTutorial: false });
+            navigate('/' +  years[0].node.year);
         };
         document.body.addEventListener('click', clickTutorial);
         return () => {

@@ -1,7 +1,5 @@
 // Vendor
-import gsap, { Power0, Power2 } from 'gsap';
-import SplitText from '@/assets/scripts/SplitText';
-gsap.registerPlugin(SplitText);
+import { gsap } from 'gsap';
 
 // React
 import React, { useEffect, useRef, useState } from 'react';
@@ -47,24 +45,10 @@ function IndexPage(props, ref) {
         Globals.webglApp.disableInteractions();
     }, []);
 
-    useEffect(() => {
-        if (titleRef.current) {
-            const timeline = new gsap.timeline();
-            timeline.to(titleRef.current, 0, { opacity: 1 });
-            const amorceSplitText = new SplitText(titleRef.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
-            const lines = amorceSplitText.lines;
-            timeline.add('charsLineIn');
-            lines.forEach((line, i) => {
-                timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn');
-            });
-        }
-    }, [titleRef]);
-
     /**
      * Refs
      */
     const el = useRef();
-    const titleRef = useRef();
 
     /**
      * Private
@@ -104,7 +88,7 @@ function IndexPage(props, ref) {
                 {
                     isInitiation ?
                         <div className="initiation">
-                            <h1 ref={ titleRef } className="h4 title">Welcome to Qatar Foundation in Numbers</h1>
+                            <h1 className="h4 title">Welcome to Qatar Foundation in Numbers</h1>
                             <p className="p4 label">Click to Enter to continue</p>
                             <button className="button button-enter p4" onClick={ clickHandlerButtonInitiation }>Enter</button>
                             <p className='p4 cookie-sentence'>By entering the site, you agree to our use of cookies. Fore more info check our <Link to={ '/' } className="p4">Privacy Policy</Link></p>

@@ -141,9 +141,9 @@ function Layout(props) {
 
                 </div>
 
-                { /* <AnimatePresence>
+                <AnimatePresence>
                     <ThePreloader visible={ state === LOADING } progress={ progress } />
-                </AnimatePresence> */ }
+                </AnimatePresence>
 
             </EnvironmentProvider>
         </div>
