@@ -7,6 +7,7 @@ import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Object
 import math from '@/utils/math/index';
 import TreeDataModel from '@/utils/TreeDataModel';
 import Debugger from '@/utils/Debugger';
+import dpr from '@/utils/device/dpr';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/leaves-particles/vertex.glsl';
@@ -107,7 +108,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
                 {
                     uColor: { value: new Color(0x6eceb2) },
                     uProgress: { value: 0.65 },
-                    uPointSize: { value: 900 },
+                    uPointSize: { value: dpr() > 1 ? 900 : 400 },
                     uInnerGradient: { value: 0.88 },
                     uOuterGradient: { value: 0.07 },
                     uOpacity: { value: 0 },
