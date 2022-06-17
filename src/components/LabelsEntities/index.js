@@ -93,7 +93,7 @@ function LabelsEntities(props) {
                 const element = itemsRef.current[key];
                 gsap.to(element, { duration: 1, opacity: 0 });
             }
-            Globals.webglApp.hideCurrentEntity();
+            // Globals.webglApp.hideCurrentEntity();
         }
     }, [selectedEntity, entities]);
 

@@ -57,6 +57,7 @@ export default class EntityComponent extends component(Object3D) {
     }
 
     hide() {
+        console.trace();
         this._timelineHide = new gsap.timeline({
             onComplete: () => {
                 this._destroyChartParticles();

@@ -3,6 +3,9 @@ import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { AdditiveBlending, BoxBufferGeometry, BufferGeometry, Color, InstancedBufferAttribute, InstancedMesh, LineBasicMaterial, LineSegments, Matrix4, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, ShaderMaterial, Vector3 } from 'three';
 
+// Hooks
+import useStore from '@/hooks/useStore';
+
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import randomArbitrary from '@/utils/math/randomArbitrary';
@@ -104,8 +107,8 @@ export default class GeneratedEntityComponent extends component(Object3D) {
      * Private
      */
     _chooseCameraSide() {
-        // const side = Math.random() > 0.5 ? 1 : -1;
-        const side = 1;
+        const locale = useStore.getState().locale;
+        const side = locale === 'ar-QA' ? -1 : 1;
         return side;
     }
 
