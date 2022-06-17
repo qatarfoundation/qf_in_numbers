@@ -110,7 +110,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
                     uPointSize: { value: 900 },
                     uInnerGradient: { value: 0.88 },
                     uOuterGradient: { value: 0.07 },
-                    uOpacity: { value: OPACITY },
+                    uOpacity: { value: 0 },
                     uShowHover: { value: 0 },
                     uHoverColor1: { value: this._particleColors.primary },
                     uHoverColor2: { value: this._particleColors.secondary },
