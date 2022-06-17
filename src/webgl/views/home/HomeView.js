@@ -92,7 +92,7 @@ export default class HomeView extends component() {
 
     gotoCategory(name) {
         this._timelineGotoCategory = new gsap.timeline();
-        this._timelineGotoCategory.call(this._setBackgroundColor(name), null, 0);
+        this._timelineGotoCategory.call(() => this._setBackgroundColor(name), null, 0);
         this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
         this._timelineGotoCategory.add(this._components.tree.hide(), 6);
         this._timelineGotoCategory.add(this._components.generatedTree.gotoCategory(name), 6);

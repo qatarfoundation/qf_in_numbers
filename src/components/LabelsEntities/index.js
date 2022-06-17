@@ -30,7 +30,7 @@ function LabelsEntities(props) {
                 const elementButton = itemsButtonRef.current[key];
                 const model = TreeDataModel.getEntity(key);
 
-                if (elementLabel) {
+                if (elementLabel && model.labelPosition) {
                     const labelPosition = model.labelPosition;
                     elementLabel.style.display = 'block';
                     elementLabel.style.transform = `translate(${ labelPosition.x }px, ${ labelPosition.y }px)`;
@@ -95,7 +95,7 @@ function LabelsEntities(props) {
             }
             Globals.webglApp.hideCurrentEntity();
         }
-    }, [selectedEntity]);
+    }, [selectedEntity, entities]);
 
     return (
         <ul>
