@@ -144,7 +144,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
 
     _createCameraPosition() {
         const position = this._cameraTarget.clone();
-        const distance = Breakpoints.active('small') ? 4 : 2;
+        const distance = Breakpoints.active('small') ? 5 : 2;
         position.z += distance * this._cameraSide;
 
         if (DEBUG) {

@@ -28,18 +28,28 @@ li {
         top: rem(-30px, 'large');
         left: rem(-20px, 'large');
 
-        transform: translate(-100%, -50%);
+
+
+        @include respond-to('large') {
+            top: rem(-30px);
+            left: rem(-20px);
+        }
 
         .ar & {
-            transform: translate(0, -50%);
+            transform: translate(100%, -50%);
         }
     }
 
     &.right span {
-        top: rem(-30px, 'large');
-        left: rem(20px, 'large');
+        top: rem(-30px);
+        left: rem(20px);
 
         transform: translate(0, -50%);
+
+        @include respond-to('large') {
+            top: rem(-30px, 'large');
+            left: rem(20px, 'large');
+        }
 
         .ar & {
             transform: translate(100%, -50%);
@@ -49,11 +59,16 @@ li {
     span {
         position: absolute;
 
-        width: rem(120px, 'large');
+        width: rem(120px);
 
-        font-size: rem(16px, 'large');
+        font-size: rem(16px);
         color: var(--color-theme-secondary);
         line-height: 1;
+
+        @include respond-to('large') {
+            width: rem(120px, 'large');
+            font-size: rem(16px, 'large');
+        }
     }
 }
 

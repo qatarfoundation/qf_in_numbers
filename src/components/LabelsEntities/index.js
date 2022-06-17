@@ -6,7 +6,6 @@ import { Trans, Link } from 'gatsby-plugin-react-i18next';
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import Breakpoints from '@/utils/Breakpoints';
-import Globals from '@/utils/Globals';
 
 // CSS
 import './style.scoped.scss';
