@@ -20,4 +20,36 @@
             }
         }
     }
+    .button-back {
+        position: fixed;
+        top: rem(75px, 'small');
+        left: rem(16px, 'small');
+        .ar & {
+            right: rem(16px, 'small');
+            left: inherit;
+        }
+        @include respond-to('medium') {
+            top: rem(111.5px, 'medium');
+            left: rem(53px, 'medium');
+            .ar & {
+                right: rem(53px, 'medium');
+                left: inherit;
+            }
+        }
+        @include respond-to('large') {
+            top: rem(111.5px, 'large');
+            left: rem(53px, 'large');
+            .ar & {
+                right: rem(53px, 'large');
+                left: inherit;
+            }
+        }
+        .icon-arrow {
+            margin-right: 16px;
+            border: 1px solid $color-white;
+            .arrow {
+                fill: $color-white;
+            }
+        }
+    }
 }

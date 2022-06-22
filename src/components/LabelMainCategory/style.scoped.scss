@@ -22,10 +22,18 @@
         }
     }
 }
+.container-button {
+    opacity: 0;
+}
 
 .copy {
     position: absolute;
     @include antialised;
+    white-space: nowrap;
+    .line .char {
+        opacity: 0;
+        transform: translateY(5px);
+    }
 }
 
 

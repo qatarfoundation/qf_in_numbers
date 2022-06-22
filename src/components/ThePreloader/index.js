@@ -10,7 +10,7 @@ gsap.registerPlugin(SplitText);
 // CSS
 import './style.scoped.scss';
 
-function ThePreloader({ visible, progress, ...props }) {
+function ThePreloader({ visible, progress, setIsFinishAnimPreload, ...props }) {
     /**
      * States
      */
@@ -135,6 +135,7 @@ function ThePreloader({ visible, progress, ...props }) {
 
     function transitionOutCompleted() {
         // Unmount
+        setIsFinishAnimPreload(true);
         setHide(true);
         // safeToRemove();
     }

@@ -1,5 +1,6 @@
 // React
 import React, { useState, useRef, useEffect } from 'react';
+import gsap from 'gsap';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Modules
@@ -49,6 +50,7 @@ function PanelEntity(props, ref) {
     /**
      * References
      */
+    const panelRef = useRef();
     const swiperRef = useRef(null);
     /**
      * Effects
@@ -56,17 +58,29 @@ function PanelEntity(props, ref) {
     useEffect(() => {
         useStore.setState({ modalEntityIsOpen: true });
     }, []);
+    useEffect(() => {
+        const timeline = new gsap.timeline();
+        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100 }, { xPercent: 0, ease: 'ease.easeout' });
+        return () => {
+            timeline.kill();
+        };
+    }, []);
 
     /**
      * Private
      */
     function clickHandler() {
-        useStore.setState({ modalEntityIsOpen: false });
+        const timeline = new gsap.timeline({
+            onComplete: () => {
+                useStore.setState({ modalEntityIsOpen: false });
+            },
+        });
+        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100, ease: 'ease.easein' });
         navigate(entity.slug.slice(0, entity.slug.lastIndexOf('/')));
     }
     return (
         <>
-            <div className="panel panel-entity" data-name="entity">
+            <div ref={ panelRef } className="panel panel-entity" data-name="entity">
                 <Scrollbar revert={ false }>
                     <ButtonClose onClick={ clickHandler } />
                     { /* <SequenceCharts charts={ sequenceCharts } /> */ }

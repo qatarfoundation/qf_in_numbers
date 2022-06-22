@@ -1,12 +1,16 @@
 .template-category {
     height: 100vh;
     opacity: 0;
+    .container-categories {
+        height: 100vh;
+    }
     .slider-subcategories {
         position: absolute;
         bottom: rem(100px, 'small');
         left: 50%;
         width: 100%;
         transform: translate3d(-50%, -50%, 0);
+        z-index: 0;
         @include respond-to('medium') {
             top: 50%;
             bottom: inherit;
@@ -252,7 +256,7 @@
             text-decoration: underline;
         }
     }
-    .button-pagination {
+    .button-back {
         position: fixed;
         top: rem(75px, 'small');
         left: rem(16px, 'small');
@@ -360,6 +364,12 @@
                 @include respond-to('large') {
                     width: rem(6px, 'large');
                     height: rem(6px, 'large');
+                }
+                animation: yoyoOpacity 2s linear infinite;
+                @keyframes yoyoOpacity {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                    100% { opacity: 1; }
                 }
             }
         }

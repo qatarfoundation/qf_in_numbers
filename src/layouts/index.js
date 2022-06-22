@@ -40,6 +40,7 @@ function Layout(props) {
      * States
      */
     const [webglAppState, setWebglAppState] = useState(undefined);
+    const [isFinishAnimPreload, setIsFinishAnimPreload] = useState(false);
 
     /**
      * Stores
@@ -124,7 +125,7 @@ function Layout(props) {
 
                     <WebglApp preloaderState={ state } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
-                    { webglAppState === 'started' &&
+                    { webglAppState === 'started' && isFinishAnimPreload &&
 
                         <AnimatePresence>
 
@@ -146,7 +147,7 @@ function Layout(props) {
                 </div>
 
                 <AnimatePresence>
-                    <ThePreloader visible={ state === LOADING } progress={ progress } />
+                    <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
                 </AnimatePresence>
 
             </EnvironmentProvider>

@@ -131,6 +131,12 @@ li {
                 width: rem(6px, 'large');
                 height: rem(6px, 'large');
             }
+            animation: yoyoOpacity 2s linear infinite;
+            @keyframes yoyoOpacity {
+                0% { opacity: 1; }
+                50% { opacity: 0.5; }
+                100% { opacity: 1; }
+            }
         }
 
         @include respond-to('large') {

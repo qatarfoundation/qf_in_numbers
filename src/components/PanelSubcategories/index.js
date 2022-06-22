@@ -1,6 +1,8 @@
 // React
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'gatsby-plugin-react-i18next';
+import gsap from 'gsap';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -18,25 +20,45 @@ function PanelSubcategories(props, ref) {
      * Datas
      */
     const { subcategories } = props;
+    const { language } = useI18next();
     /**
      * Store
      */
     const isOpen = useStore((state) => state.modalSubcategoriesIsOpen);
     /**
+     * References
+     */
+    const panelRef = useRef();
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        const timeline = new gsap.timeline();
+        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100 }, { xPercent: 0, ease: 'ease.easeout' });
+        return () => {
+            timeline.kill();
+        };
+    }, []);
+    /**
      * Private
      */
     function clickHandler(e, indexSubcategory, indexEntity) {
-        if (indexSubcategory !== undefined) {
-            useStore.setState({ indexActiveSubcategory: indexSubcategory });
-        }
-        if (indexEntity !== undefined) {
-            useStore.setState({ indexActiveEntity: indexEntity });
-        }
-        useStore.setState({ modalSubcategoriesIsOpen: !isOpen });
+        const timeline = new gsap.timeline({
+            onComplete: () => {
+                if (indexSubcategory !== undefined) {
+                    useStore.setState({ indexActiveSubcategory: indexSubcategory });
+                }
+                if (indexEntity !== undefined) {
+                    useStore.setState({ indexActiveEntity: indexEntity });
+                }
+                useStore.setState({ modalSubcategoriesIsOpen: !isOpen });
+            },
+        });
+        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100, ease: 'ease.easein' });
     }
     return (
         <>
-            <div className="panel panel-subcategories" data-name="subcategories">
+            <div ref={ panelRef } className="panel panel-subcategories" data-name="subcategories">
                 <div className="header">
                     <Breakcrumbs />
                     <ButtonClose onClick={ clickHandler } />

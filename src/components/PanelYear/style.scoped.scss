@@ -8,6 +8,7 @@
     width: 100vw;
     height: auto;
     background-color: $color-white;
+    z-index: 20;
     .ar & {
         right: 0;
         left: inherit;

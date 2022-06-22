@@ -4,6 +4,7 @@
     width: 100%;
     padding-left: rem(18px, 'small');
     overflow: inherit;
+    z-index: 0;
     .ar & {
         padding-left: 0;
         padding-right: rem(18px, 'small');

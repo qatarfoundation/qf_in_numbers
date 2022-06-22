@@ -1,5 +1,7 @@
 // React
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -16,6 +18,14 @@ import useStore from '@/hooks/useStore';
 
 function PanelSearch(props, ref) {
     /**
+     * Datas
+     */
+    const { language } = useI18next();
+    /**
+     * References
+     */
+    const panelRef = useRef();
+    /**
      * Store
      */
     const [isOpen, allEntities, allTags, filterType] = useStore((state) => [state.modalSearchIsOpen, state.allEntities, state.allTags, state.filterType]);
@@ -28,6 +38,14 @@ function PanelSearch(props, ref) {
     /**
      * Effects
      */
+    useEffect(() => {
+        const timeline = new gsap.timeline();
+        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100 }, { xPercent: 0, ease: 'ease.easeout' });
+        return () => {
+            timeline.kill();
+        };
+    }, []);
+
     useEffect(() => {
         if (filterType == 'entities') {
             setStaticItems(allEntities);
@@ -50,14 +68,15 @@ function PanelSearch(props, ref) {
      * Private
      */
     function clickHandler() {
-        useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' });
+        const timeline = new gsap.timeline({ onComplete: () => { useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' }); } });
+        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100, ease: 'ease.easein' });
     }
     function changeHandler(e) {
         setInputSearch(e.target.value);
     }
     return (
         <>
-            <div className="panel panel-search">
+            <div ref={ panelRef } className="panel panel-search">
                 <div className="header-container">
                     <div className="header">
                         <p className='label h8'>Find data</p>

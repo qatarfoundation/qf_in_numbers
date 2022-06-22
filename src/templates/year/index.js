@@ -91,7 +91,7 @@ const YearTemplate = (props) => {
     }
 
     function transitionOut() {
-        return gsap.to(el.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
+        return gsap.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
     }
 
     function transitionInCompleted() {

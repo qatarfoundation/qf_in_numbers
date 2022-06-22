@@ -14,11 +14,15 @@
     .h6 {
         margin-bottom: rem(104px, 'small');
         text-align: center;
+        opacity: 0;
         @include respond-to('medium') {
             margin-bottom: rem(44px, 'medium');
         }
         @include respond-to('large') {
             margin-bottom: rem(44px, 'large');
+        }
+        .line .char {
+            opacity: 0;
         }
     }
     .p3 {

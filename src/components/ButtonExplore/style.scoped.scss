@@ -71,6 +71,14 @@
                 height: rem(56px, 'large');
                 min-height: rem(56px, 'large');
             }
+            &::before {
+                animation: yoyoOpacity 2s linear infinite;
+                @keyframes yoyoOpacity {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                    100% { opacity: 1; }
+                }
+            }
         }
     }
     .left & {
@@ -150,6 +158,9 @@
         color: var(--color-theme-secondary);
         opacity: 0;
         transition: all 0.5s ease;
+        .line .char {
+            opacity: 0;
+        }
     }
     .icon {
         position: relative;

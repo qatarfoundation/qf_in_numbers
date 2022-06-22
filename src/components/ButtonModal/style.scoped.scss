@@ -1,8 +1,100 @@
 .button-modal {
+    position: relative;
     text-align: left;
     &:hover {
-        opacity: 0.7;
-        transition: opacity 0.3s ease-in-out;
+        .text-init {
+            opacity: 0;
+            transform: translate3d(0, -50%, 0);
+            transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+        }
+        .text-hover {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            transition: opacity 0.45s ease-out 0.25s, transform 0.45s ease-out;
+        }
+        .arrow-init {
+            top: rem(19px, 'small');
+            opacity: 0;
+            @include respond-to('medium') {
+                top: rem(19px, 'medium');
+            }
+            @include respond-to('large') {
+                top: rem(19px, 'large');
+            }
+            transition: opacity 0.45s ease-out, top 0.45s ease-out;
+        }
+        .arrow-hover {
+            top: rem(14px, 'small');
+            opacity: 1;
+            @include respond-to('medium') {
+                top: rem(14px, 'medium');
+            }
+            @include respond-to('large') {
+                top: rem(14px, 'large');
+            }
+            transition: opacity 0.45s ease-out, top 0.45s ease-out;
+        }
+        .line-hover {
+            width: 100%;
+            transition: width 0.45s ease-out;
+        }
+    }
+}
+
+.text {
+    display: block;
+    &.text-init {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        transition: opacity 0.35s ease-in 0.25s, transform 0.35s ease-in;
+    }
+    &.text-hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--color-theme-secondary);
+        opacity: 0;
+        transform: translate3d(0, 50%, 0);
+        transition: opacity 0.25s ease-in, transform 0.35s ease-in;
+    }
+}
+
+.arrow {
+    position: absolute;
+    top: rem(14px, 'small');
+    right: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: rem(4px, 'small') solid transparent;
+    border-right: rem(4px, 'small') solid transparent;
+    border-top: rem(4px, 'small') solid var(--color-theme-primary);
+    transform: translate3d(-100%, 50%, 0);
+    transition: opacity 0.35s ease-in, top 0.35s ease-in;
+    @include respond-to('medium') {
+        top: rem(14px, 'medium');
+        border-left: rem(4px, 'medium') solid transparent;
+        border-right: rem(4px, 'medium') solid transparent;
+        border-top: rem(4px, 'medium') solid var(--color-theme-primary);
+    }
+    @include respond-to('large') {
+        top: rem(14px, 'large');
+        border-left: rem(4px, 'large') solid transparent;
+        border-right: rem(4px, 'large') solid transparent;
+        border-top: rem(4px, 'large') solid var(--color-theme-primary);
+    }
+    &.arrow-hover {
+        position: absolute;
+        top: rem(5px, 'small');
+        @include respond-to('medium') {
+            top: rem(5px, 'medium');
+        }
+        @include respond-to('large') {
+            top: rem(5px, 'large');
+        }
+        border-top-color: var(--color-theme-secondary);
+        opacity: 0;
+        transition: opacity 0.35s ease-in, top 0.35s ease-in;
     }
 }
 
@@ -14,6 +106,7 @@
     margin-top: rem(8px, 'small');
     background-color: var(--color-theme-primary);
     opacity: 0.7;
+    transition: background-color 0.3s ease-in;
     @include respond-to('medium') {
         max-width: inherit;
         width: rem(232px, 'medium');
@@ -22,5 +115,12 @@
     @include respond-to('large') {
         width: rem(232px, 'large');
         margin-top: rem(8px, 'large');
+    }
+    &.line-hover {
+        position: absolute;
+        bottom: 0;
+        width: 0;
+        background-color: var(--color-theme-secondary);
+        transition: width 0.35s ease-in;
     }
 }

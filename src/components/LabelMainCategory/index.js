@@ -1,5 +1,7 @@
 // Vendor
-import { gsap } from 'gsap';
+import gsap, { Power0, Power2 } from 'gsap';
+import SplitText from '@/assets/scripts/SplitText';
+gsap.registerPlugin(SplitText);
 import React, { useEffect, useRef, useState } from 'react';
 
 // Utils
@@ -50,12 +52,35 @@ const LabelMainCategory = (props) => {
         };
     });
 
+    /**
+     * References
+     */
+    const titleRef = useRef();
+    const buttonRef = useRef();
+
+    /**
+     * Effects
+     */
+    useEffect(() => {
+        const timeline = new gsap.timeline();
+        const titleSplitText = new SplitText(titleRef.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
+        const lines = titleSplitText.lines;
+        timeline.to(titleRef.current, 0, { opacity: 1 });
+        timeline.to(buttonRef.current, 1, { opacity: 1, stagger: 0.05, ease: 'ease.easeOut' }, 1);
+        timeline.add('charsLineIn');
+        lines.forEach((line, i) => {
+            timeline.to(line.querySelectorAll('.char'), 0.35, { opacity: 1, y: 0, stagger: 0.05, ease: 'ease.easeInOut' }, 'charsLineIn');
+        });
+    }, []);
+
     return (
         <div className={ `label ${ props.anchor } ${ isHover ? 'is-hover' : '' }` } ref={ labelRef }>
-            <div className="copy h4">
+            <p ref={ titleRef } className="copy h4">
                 { props.label }
+            </p>
+            <div ref={ buttonRef } className="container-button">
+                <ButtonExplore name='Click to discover' direction={ anchor == 'right' ? 'left' : 'right' } />
             </div>
-            <ButtonExplore name='Click to discover' direction={ anchor == 'right' ? 'left' : 'right' } />
         </div>
     );
 };

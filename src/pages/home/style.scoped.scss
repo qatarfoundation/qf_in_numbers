@@ -1,8 +1,6 @@
 .page {
     position: relative;
 
-    opacity: 0;
-
     display: flex;
 
     justify-content: center;
@@ -36,6 +34,7 @@
     .title {
         text-align: center;
         margin-bottom: rem(25px, 'small');
+        opacity: 0;
         @include respond-to('medium') {
             margin-bottom: rem(25px, 'medium');
         }
@@ -49,6 +48,7 @@
     .label {
         color: color-from-theme('green', 'secondary');
         margin-bottom: rem(56px, 'small');
+        opacity: 0;
         @include respond-to('medium') {
             margin-bottom: rem(56px, 'medium');
         }
@@ -62,7 +62,9 @@
         min-width: rem(100px, 'small');
         height: rem(100px, 'small');
         min-height: rem(100px, 'small');
-        transition: all 0.8s ease-in;
+        opacity: 0;
+        transform: scale3d(0.5, 0.5, 0.5);
+        transition: color 0.25s ease-in;
         @include respond-to('medium') {
             width: rem(100px, 'medium');
             min-width: rem(100px, 'medium');
@@ -77,7 +79,7 @@
         }
         &:hover {
             color: color-from-theme('green', 'secondary');
-            transition: all 0.25s linear;
+            transition: color 0.25s linear;
             &::before {
                 width: rem(124px, 'small');
                 height: rem(124px, 'small');
@@ -90,7 +92,7 @@
                     height: rem(124px, 'large');
                 }
                 border: 2px solid color-from-theme('green', 'secondary');
-                transition: all 0.35s ease;
+                transition: width 0.35s ease, height 0.35s ease;
             }
         }
         &::before {
@@ -104,14 +106,19 @@
             border: 1px solid color-from-theme('green', 'secondary');
             border-radius: 100%;
             transform: translate3d(-50%, -50%, 0);
-            transition: all 0.35s ease;
+            transition: width 0.35s ease, height 0.35s ease;
             filter: blur(0.7px);
+        }
+        span {
+            display: block;
+            opacity: 0;
+            transform: translateY(5px);
         }
     }
     .cookie-sentence {
         position: absolute;
         bottom: rem(50px, 'small');
-        opacity: 0.5;
+        opacity: 0;
         color: color-from-theme('green', 'secondary');
         padding: 0 rem(53px, 'small');
         text-align: center;

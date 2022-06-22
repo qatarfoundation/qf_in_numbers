@@ -11,7 +11,8 @@ function ButtonScroll(props, ref) {
     return (
         <button { ...props } className={ `button button-scroll p4 ${ props.className }` }>
             <div className="icon icon-arrow">
-                <ArrowLong className='arrow' />
+                <ArrowLong className='arrow arrow-init' />
+                <ArrowLong className='arrow arrow-hover' />
             </div>
             <p className='p3'>{ props.children }</p>
         </button>

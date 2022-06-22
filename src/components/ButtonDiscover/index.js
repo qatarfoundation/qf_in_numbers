@@ -14,7 +14,7 @@ function ButtonPagination(props, ref) {
      */
     const { name, slug } = props;
     return (
-        <Link to={ slug ? slug : '' } { ...props } className={ `button button-pagination ${ props.direction }` }>
+        <Link to={ slug ? slug : '' } { ...props } className={ `button button-discover ${ props.direction }` }>
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>
