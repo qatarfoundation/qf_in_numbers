@@ -15,33 +15,6 @@
     @include respond-to('large') {
         bottom: rem(34.5px, 'large');
     }
-    &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: rem(-20px, 'small');
-        display: none;
-        width: rem(546px, 'small');
-        height: rem(200px, 'small');
-        background: linear-gradient(200deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
-        pointer-events: none;
-        @include respond-to('medium') {
-            display: block;
-            bottom: rem(-34.5px, 'medium');
-            width: rem(546px, 'medium');
-            height: rem(200px, 'medium');
-        }
-        @include respond-to('large') {
-            bottom: rem(-34.5px, 'large');
-            width: rem(546px, 'large');
-            height: rem(200px, 'large');
-        }
-        .ar & {
-            left: inherit;
-            right: 0;
-            background: linear-gradient(150deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
-        }
-    }
 }
 
 .row {

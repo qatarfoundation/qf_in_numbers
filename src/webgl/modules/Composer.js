@@ -9,9 +9,14 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 // Utils
 import Debugger from '@/utils/Debugger';
 
+// Passes
+import FinalPass from '@/webgl/passes/Final';
+
 // Shaders
 import BackgroundGradientPass from '@/webgl/passes/BackgroundGradient';
-import FinalPass from '@/webgl/passes/Final';
+
+// Hooks
+import useStore from '@/hooks/useStore';
 
 export default class Composer extends component() {
     init(options = {}) {
@@ -113,8 +118,27 @@ export default class Composer extends component() {
     }
 
     _createFinalPass() {
-        const pass = new FinalPass();
+        const locale = useStore.getState().locale;
+        const vignetteDirection = locale === 'ar-QA' ? -1 : 1;
+
+        const pass = new FinalPass({
+            vignette: {
+                offset: 0.37,
+                darkness: 0.31,
+                direction: vignetteDirection,
+            },
+        });
         this._composer.addPass(pass);
+
+        if (this._debug) {
+            const debug = this._debug.addGroup('Final');
+            debug.add(pass, 'enabled');
+
+            const debugVignette = debug.addGroup('Vignette');
+            debugVignette.add(pass, 'vignetteOffset', { label: 'offset', min: 0, max: 1 });
+            debugVignette.add(pass, 'vignetteDarkness', { label: 'darkness', min: 0, max: 1 });
+        }
+
         return pass;
     }
 

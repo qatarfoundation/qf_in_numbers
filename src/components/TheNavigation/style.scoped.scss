@@ -17,33 +17,6 @@
     @include respond-to('large') {
         top: rem(34.5px, 'large');
     }
-    &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: rem(-20px, 'small');
-        display: none;
-        width: rem(546px, 'small');
-        height: rem(200, 'small');
-        background: linear-gradient(340deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
-        pointer-events: none;
-        @include respond-to('medium') {
-            display: block;
-            top: rem(-34.5px, 'medium');
-            width: rem(546px, 'medium');
-            height: rem(200, 'medium');
-        }
-        @include respond-to('large') {
-            top: rem(-34.5px, 'large');
-            width: rem(546px, 'large');
-            height: rem(200, 'large');
-        }
-        .ar & {
-            left: inherit;
-            right: 0;
-            background: linear-gradient(30deg, rgba(19, 20, 21, 0) 50.28%, #121213 85.37%);
-        }
-    }
 }
 
 .row {
