@@ -53,6 +53,12 @@ function Breakcrumbs(props) {
                 : ''
             }
 
+            { currentSubcategory && currentSubcategory.slug && currentSubcategory.name && type !== 'big' &&
+                <li className='breadcrumb-subcategory'>
+                    <Link className="text-breadcrumb" to={ currentSubcategory.slug }>{ currentSubcategory.name }</Link>
+                </li>
+            }
+
         </ul>
     );
 }
