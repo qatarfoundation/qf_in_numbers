@@ -53,7 +53,11 @@ export default class TreeCamera extends component() {
         const center = new Vector3(0, 5, 0);
         const maxRadius = this._position.z;
 
-        const tween = gsap.to(this, 10, {
+        this._gotoOverviewAnimation?.kill();
+        this._gotoCategoryAnimation?.kill();
+        this._gotoPositionAnimation?.kill();
+
+        this._gotoOverviewAnimation = gsap.to(this, 10, {
             _categoryProgress: 0,
             ease: 'power2.inOut',
             onUpdate: () => {
@@ -66,7 +70,7 @@ export default class TreeCamera extends component() {
                 this._camera.lookAt(this._target);
             },
         });
-        return tween;
+        return this._gotoOverviewAnimation;
     }
 
     gotoCategory(slug) {
@@ -76,7 +80,11 @@ export default class TreeCamera extends component() {
         const center = new Vector3(0, 5, 0);
         const maxRadius = this._position.z;
 
-        const tween = gsap.to(this, 10, {
+        this._gotoOverviewAnimation?.kill();
+        this._gotoCategoryAnimation?.kill();
+        this._gotoPositionAnimation?.kill();
+
+        this._gotoCategoryAnimation = gsap.to(this, 10, {
             _categoryProgress: 1,
             ease: 'power2.inOut',
             onUpdate: () => {
@@ -93,7 +101,7 @@ export default class TreeCamera extends component() {
                 this._camera.lookAt(this._target);
             },
         });
-        return tween;
+        return this._gotoCategoryAnimation;
     }
 
     gotoPosition(position) {
@@ -107,7 +115,11 @@ export default class TreeCamera extends component() {
         const rotationStart = this._camera.quaternion.clone();
         const rotationEnd = new Quaternion();
 
-        return gsap.to(animation, 2, {
+        this._gotoOverviewAnimation?.kill();
+        this._gotoCategoryAnimation?.kill();
+        this._gotoPositionAnimation?.kill();
+
+        this._gotoPositionAnimation = gsap.to(animation, 2, {
             progress: 1,
             ease: 'power3.inOut',
             onUpdate: () => {
@@ -117,6 +129,8 @@ export default class TreeCamera extends component() {
                 this._camera.quaternion.slerpQuaternions(rotationStart, rotationEnd, animation.progress);
             },
         });
+
+        return this._gotoPositionAnimation;
     }
 
     /**

@@ -116,7 +116,7 @@ function CategoryTemplate(props) {
             updateHistoryState(subcategory);
         } else {
             const slug = categorySlug.split('/').slice(-1)[0];
-            Globals.webglApp.gotoSubcategory(slug, subcategory.name);
+            // Globals.webglApp.gotoSubcategory(slug, subcategory.name);
             TreeDataModel.setSubcategory(subcategory.name);
         }
     }, [selectedSubcategory, useStore((state) => state.indexActiveSubcategory), useStore((state) => state.indexActiveEntity)]);
