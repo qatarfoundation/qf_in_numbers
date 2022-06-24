@@ -10,7 +10,7 @@ import './style.scoped.scss';
 // Components
 import ButtonClose from '@/components/ButtonClose';
 import Scrollbar from '@/components/ScrollBar';
-import Breakcrumbs from '@/components/Breadcrumbs';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 // Hooks
 import useStore from '@/hooks/useStore';
@@ -60,7 +60,7 @@ function PanelSubcategories(props, ref) {
         <>
             <div ref={ panelRef } className="panel panel-subcategories" data-name="subcategories">
                 <div className="header">
-                    <Breakcrumbs />
+                    <Breadcrumbs type="big" />
                     <ButtonClose onClick={ clickHandler } />
                 </div>
                 <Scrollbar revert={ true }>

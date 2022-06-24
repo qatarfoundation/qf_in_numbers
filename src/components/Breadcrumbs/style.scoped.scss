@@ -67,6 +67,10 @@ li {
             right: 0;
             transform: translate3d(100%, 50%, 0) rotate3D(0, 0, 1, 90deg);
         }
+
+        .big & {
+            display: none;
+        }
     }
     & > * {
         margin: 0 rem(4px, 'small');
@@ -116,9 +120,28 @@ li {
             }
         }
     }
+
+    .big & {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 a {
     color: $color-white;
     pointer-events: auto;
+
+    .big & {
+        margin: 0;
+
+        font-size: rem(25px);
+
+        @include respond-to('medium') {
+            font-size: rem(25px, 'medium');
+        }
+
+        @include respond-to('large') {
+            font-size: rem(25px, 'large');
+        }
+    }
 }

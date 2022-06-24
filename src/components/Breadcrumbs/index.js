@@ -10,6 +10,10 @@ import useStore from '@/hooks/useStore';
 
 function Breakcrumbs(props) {
     /**
+     * Props
+     */
+    const { type = '' } = props;
+    /**
      * Store
      */
     const currentYear = useStore((state) => state.currentYear);
@@ -27,7 +31,7 @@ function Breakcrumbs(props) {
         setIsActiveCategory(!isActiveCategory);
     };
     return (
-        <ul className='breadcrumbs'>
+        <ul className={ `breadcrumbs ${ type }` }>
             { /* { currentYear &&
                 <li  className='breadcrumb-year'>
                     <Link className="text-breadcrumb" to={ '/' + currentYear }>{ currentYear }</Link>
@@ -49,11 +53,6 @@ function Breakcrumbs(props) {
                 : ''
             }
 
-            { currentSubcategory && currentSubcategory.slug && currentSubcategory.name &&
-                <li className='breadcrumb-subcategory'>
-                    <Link className="text-breadcrumb" to={ currentSubcategory.slug }>{ currentSubcategory.name }</Link>
-                </li>
-            }
         </ul>
     );
 }
