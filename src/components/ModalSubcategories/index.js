@@ -19,6 +19,7 @@ function ModalSubcategories(props, ref) {
      * Store
      */
     const [isOpen] = useStore((state) => [state.modalSubcategoriesIsOpen]);
+
     /**
      * Private
      */

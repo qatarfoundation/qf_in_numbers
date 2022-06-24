@@ -16,7 +16,6 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
-import useScrollList from './useScrollList';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -24,15 +23,11 @@ import TreeDataModel from '@/utils/TreeDataModel';
 import Breakpoints from '@/utils/Breakpoints';
 
 // Components
-import ListSubcategories from '@/components/ListSubcategories';
 import LabelsEntities from '@/components/LabelsEntities';
-import Scrollbar from '@/components/ScrollBar';
-import SliderSubcategories from '@/components/SliderSubcategories';
-import ButtonDiscover from '@/components/ButtonDiscover';
 import ButtonScroll from '@/components/ButtonScroll';
-import ModalSubcategories from '@/components/ModalSubcategories/index';
-import ButtonPagination from '@/components/ButtonPagination/index';
-import ButtonBack from '@/components/ButtonBack/index';
+import ButtonPagination from '@/components/ButtonPagination';
+import ButtonBack from '@/components/ButtonBack';
+import SliderEntities from '@/components/SliderEntities';
 
 function CategoryTemplate(props) {
     /**
@@ -98,7 +93,7 @@ function CategoryTemplate(props) {
     useEffect(() => {
         const splitPath = window.location.pathname.split('/');
         if (language === splitPath[1]) splitPath.splice(1, 1);
-        console.log(splitPath);
+        // console.log(splitPath);
         setSelectedSubcategory(splitPath.length - 1 == 3 ? true : false);
         let indexSubcategory = splitPath.length - 1 == 2 ? 0 : indexActiveSubcategory;
         const indexEntity = splitPath.length - 1 == 2 ? 0 : indexActiveEntity;
@@ -111,7 +106,7 @@ function CategoryTemplate(props) {
     }, []);
 
     useEffect(() => {
-        console.log('Subcategory : ', indexActiveSubcategory, 'Entity : ', indexActiveEntity);
+        // console.log('Subcategory : ', indexActiveSubcategory, 'Entity : ', indexActiveEntity);
         const subcategory = category.subcategories[indexActiveSubcategory];
         if (selectedSubcategory) {
             useStore.setState({ currentSubcategory: subcategory });
@@ -205,34 +200,6 @@ function CategoryTemplate(props) {
         });
     }
 
-    function clickHandlerTop() {
-        const newIndexActiveEntity = indexActiveEntity - 1;
-        if (newIndexActiveEntity >= 0) {
-            useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-        } else {
-            const newIndexActiveSubcategory = indexActiveSubcategory - 1;
-            if (newIndexActiveSubcategory >= 0) {
-                useStore.setState({ indexActiveEntity: category.subcategories[newIndexActiveSubcategory].entities.length - 1 });
-                useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-            }
-        }
-    }
-
-    function clickHandlerBottom() {
-        const newIndexActiveEntity = indexActiveEntity + 1;
-        const lengthEntities = category.subcategories[indexActiveSubcategory].entities.length - 1;
-        if (newIndexActiveEntity <= lengthEntities) {
-            useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-        } else {
-            const newIndexActiveSubcategory = indexActiveSubcategory + 1;
-            const lengthSubcategories = category.subcategories.length - 1;
-            if (newIndexActiveSubcategory <= lengthSubcategories) {
-                useStore.setState({ indexActiveEntity: 0 });
-                useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-            }
-        }
-    }
-
     return (
         <div className="template-category" ref={ el }>
             {
@@ -277,28 +244,7 @@ function CategoryTemplate(props) {
                                 },
                             });
                         } } />
-
-                        <div className="slider-entities">
-                            <div className="slider-navigation">
-                                { breakpoints != 'small' && <button className={ `button button-navigation button-navigation-top ${ indexActiveSubcategory == 0 && indexActiveEntity == 0 ? 'is-inactive' : '' }` } onClick={ clickHandlerTop }></button> }
-                                <ModalSubcategories subcategories={ category.subcategories } />
-                                { breakpoints != 'small' && <button className={ `button button-navigation button-navigation-bottom ${ indexActiveSubcategory == category.subcategories.length - 1 && indexActiveEntity == category.subcategories[indexActiveSubcategory].entities.length - 1 ? 'is-inactive' : '' }` } onClick={ clickHandlerBottom }></button> }
-                            </div>
-                            <div className="slider-content">
-                                <p className="slider-subcategory-title h3">{ category.subcategories[indexActiveSubcategory].name }</p>
-                                { breakpoints == 'small' ?
-                                    <ul className="list-entities">
-                                        { category.subcategories[indexActiveSubcategory].entities.map((entity, index) => {
-                                            return (<li key={ `entity-${ index }` } className={ `item-entities ${ index == indexActiveEntity ? 'is-active' : '' }` }>
-                                                <p className="slider-entity-title p1">{ index + 1 }</p>
-                                            </li>);
-                                        }) }
-                                    </ul>
-                                    :
-                                    <p className="slider-entity-title p1">{ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].name }</p>
-                                }
-                            </div>
-                        </div>
+                        <SliderEntities category={ category } />
                         { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
                         <p className='p4 interaction-sentence'>Scroll to see more entities</p>
                     </>

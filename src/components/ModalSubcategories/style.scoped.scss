@@ -4,12 +4,12 @@
         width: rem(56px, 'small');
         height: rem(56px, 'small');
         @include respond-to('medium') {
-            width: rem(96px, 'medium');
-            height: rem(96px, 'medium');
+            width: rem(32px, 'medium');
+            height: rem(32px, 'medium');
         }
         @include respond-to('large') {
-            width: rem(96px, 'large');
-            height: rem(96px, 'large');
+            width: rem(32px, 'large');
+            height: rem(32px, 'large');
         }
         &::before {
             content: '';
@@ -24,6 +24,27 @@
             transform: translate3d(-50%, -50%, 0);
         }
         svg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            width: rem(20px);
+            height: rem(20px);
+
+            margin: auto;
+
+            @include respond-to('medium') {
+                width: rem(14px, 'medium');
+                height: rem(14px, 'medium');
+            }
+
+            @include respond-to('large') {
+                width: rem(14px, 'large');
+                height: rem(14px, 'large');
+            }
+
             .ar & {
                 transform: rotate3d(0, 1, 0, 180deg);
             }
@@ -32,6 +53,14 @@
             &::before {
                 border: 1px solid $color-white;
             }
+        }
+
+        @include respond-to('medium') {
+            margin-top: rem(50px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-top: rem(50px, 'large');
         }
     }
 }
