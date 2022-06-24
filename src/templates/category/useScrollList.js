@@ -11,46 +11,53 @@ import useStore from '@/hooks/useStore';
 // Utils
 import Globals from '@/utils/Globals';
 
-function useScrollList(category, subcategory) {
+function useScrollList(category) {
     const { navigate } = useI18next();
+
+    /**
+     * Store
+     */
+    const [indexActiveSubcategory] = useStore((state) => [
+        state.indexActiveSubcategory,
+    ]);
+
+    let isAnimating = false;
 
     useEffect(() => {
         const scrollList = [];
-        let currentScrollIndex = -1;
-        let isAnimating = false;
+
         const animationDelay = 1;
         let delayedCall = null;
 
-        category.subcategories.forEach((subcategory) => {
-            scrollList.push({
-                type: 'subcategory',
-                slug: subcategory.slug,
-                data: subcategory,
-            });
-            subcategory.entities.forEach((entity) => {
-                scrollList.push({
-                    type: 'entity',
-                    name: entity.name,
-                    data: entity,
-                });
-            });
-        });
+        const entities = category.subcategories[indexActiveSubcategory].entities;
 
-        scrollList.forEach((item, index) => {
-            if (item.data === subcategory)  {
-                currentScrollIndex = index;
-            }
+        entities.forEach((entity, index) => {
+            scrollList.push({
+                type: 'entity',
+                index,
+                name: entity.name,
+                data: entity,
+            });
         });
 
         function goto(index) {
             const currentScrollItem = scrollList[index];
-            if (!currentScrollItem) return;
 
-            if (currentScrollItem.type === 'subcategory') {
-                navigate(currentScrollItem.slug);
-            } else if (currentScrollItem.type === 'entity') {
-                Globals.webglApp.gotoEntity(category.slug, currentScrollItem.data.slug);
-                useStore.setState({ selectedEntity: currentScrollItem.data });
+            if (index > scrollList.length - 1) {
+                const newIndexActiveSubcategory = indexActiveSubcategory + 1;
+                const lengthSubcategories = category.subcategories.length - 1;
+                if (newIndexActiveSubcategory <= lengthSubcategories) {
+                    useStore.setState({ indexActiveEntity: 0 });
+                    useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
+                }
+            } else if (index < 0) {
+                const newIndexActiveSubcategory = indexActiveSubcategory - 1;
+                if (newIndexActiveSubcategory >= 0) {
+                    useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
+                    useStore.setState({ indexActiveEntity: category.subcategories[newIndexActiveSubcategory].entities.length - 1 });
+                }
+            } else {
+                useStore.setState({ indexActiveEntity: currentScrollItem.index });
             }
 
             delayedCall?.kill();
@@ -63,20 +70,18 @@ function useScrollList(category, subcategory) {
             if (isAnimating) return;
             isAnimating = true;
 
-            if (currentScrollIndex < scrollList.length - 1) {
-                currentScrollIndex++;
-            }
-            goto(currentScrollIndex);
+            const indexActiveEntity = useStore.getState().indexActiveEntity;
+
+            goto(indexActiveEntity + 1);
         }
 
         function gotoPreviousScrollItem() {
             if (isAnimating) return;
             isAnimating = true;
 
-            if (currentScrollIndex > 0) {
-                currentScrollIndex--;
-            }
-            goto(currentScrollIndex);
+            const indexActiveEntity = useStore.getState().indexActiveEntity;
+
+            goto(indexActiveEntity - 1);
         }
 
         function handler(e) {
@@ -93,7 +98,7 @@ function useScrollList(category, subcategory) {
             window.removeEventListener('mousewheel', handler);
             delayedCall?.kill();
         };
-    }, []);
+    }, [indexActiveSubcategory]);
 }
 
 export default useScrollList;

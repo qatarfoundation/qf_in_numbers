@@ -16,6 +16,7 @@ import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import useTemplateData from '@/hooks/useTemplateData';
 import useStore from '@/hooks/useStore';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useScrollList from './/useScrollList';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -143,7 +144,7 @@ function CategoryTemplate(props) {
      * Events
      */
     useWindowResizeObserver(resizeHandler);
-    // useScrollList(category, subcategory);
+    useScrollList(category);
 
     /**
      * Handlers

@@ -44,6 +44,7 @@ function SliderEntities(props) {
     const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
     const [activeSubcategoryNumeral, setActiveSubcategoryNumeral] = useState(null);
     const [activeIndexOffset, setActiveIndexOffset] = useState(0);
+    const [previousIndexActiveEntity, setPreviousIndexActiveEntity] = useState(null);
     const [entitiesTitleHeight, setEntitiesTitleHeight] = useState([]);
 
     /**
@@ -64,6 +65,22 @@ function SliderEntities(props) {
         setActiveSubcategoryNumeral(roman);
     }, [indexActiveSubcategory]);
 
+    useEffect(() => {
+        if (indexActiveEntity > previousIndexActiveEntity) {
+            setActiveIndexOffset(-indexActiveEntity);
+            const offset = entitiesTitleHeight[indexActiveEntity];
+            gsap.to(listEntities.current, { duration: 1, y: -offset, delay: 0.2, ease: 'power1.inOut' });
+        } else {
+            const offset = entitiesTitleHeight[indexActiveEntity];
+            gsap.to(listEntities.current, { duration: 1, y: -offset, ease: 'power1.inOut' });
+            gsap.delayedCall(0.8, () => {
+                setActiveIndexOffset(-indexActiveEntity);
+            });
+        }
+
+        setPreviousIndexActiveEntity(indexActiveEntity);
+    }, [indexActiveEntity]);
+
     /**
      * Functions
      */
@@ -83,19 +100,11 @@ function SliderEntities(props) {
         const newIndexActiveEntity = indexActiveEntity - 1;
         if (newIndexActiveEntity >= 0) {
             useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-
-            const offset = entitiesTitleHeight[newIndexActiveEntity];
-            gsap.to(listEntities.current, { duration: 1, y: -offset, ease: 'power1.inOut' });
-            gsap.delayedCall(0.8, () => {
-                setActiveIndexOffset(-newIndexActiveEntity);
-            });
         } else {
             const newIndexActiveSubcategory = indexActiveSubcategory - 1;
             if (newIndexActiveSubcategory >= 0) {
                 useStore.setState({ indexActiveEntity: category.subcategories[newIndexActiveSubcategory].entities.length - 1 });
                 useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-
-                gsap.killTweensOf(listEntities.current);
             }
         }
     }
@@ -105,18 +114,12 @@ function SliderEntities(props) {
         const lengthEntities = category.subcategories[indexActiveSubcategory].entities.length - 1;
         if (newIndexActiveEntity <= lengthEntities) {
             useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-
-            setActiveIndexOffset(-newIndexActiveEntity);
-            const offset = entitiesTitleHeight[newIndexActiveEntity];
-            gsap.to(listEntities.current, { duration: 1, y: -offset, delay: 0.2, ease: 'power1.inOut' });
         } else {
             const newIndexActiveSubcategory = indexActiveSubcategory + 1;
             const lengthSubcategories = category.subcategories.length - 1;
             if (newIndexActiveSubcategory <= lengthSubcategories) {
                 useStore.setState({ indexActiveEntity: 0 });
                 useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-
-                gsap.killTweensOf(listEntities.current);
             }
         }
     }
