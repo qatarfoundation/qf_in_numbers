@@ -62,8 +62,10 @@ const YearTemplate = (props) => {
         Globals.webglApp.showTree();
 
         useStore.setState({ currentCategory: null });
-        useStore.setState({ currentSubcategory: null });
         useStore.setState({ selectedEntity: null });
+        useStore.setState({ currentSubcategory: null });
+        useStore.setState({ indexActiveSubcategory: 0 });
+        useStore.setState({ indexActiveEntity: 0 });
     }, []);
 
     /**

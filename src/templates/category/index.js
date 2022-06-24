@@ -42,7 +42,7 @@ function CategoryTemplate(props) {
     const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
     const [isPresent, safeToRemove] = usePresence();
     const { navigate, path } = useI18next();
-    const [selectedSubcategory, setSelectedSubcategory] = useState(false);
+    const [selectedSubcategory, setSelectedSubcategory] = useState(true);
 
     /**
      * Store
@@ -95,7 +95,7 @@ function CategoryTemplate(props) {
         const splitPath = window.location.pathname.split('/');
         if (language === splitPath[1]) splitPath.splice(1, 1);
         // console.log(splitPath);
-        setSelectedSubcategory(splitPath.length - 1 == 3 ? true : false);
+        // setSelectedSubcategory(splitPath.length - 1 == 3 ? true : false);
         let indexSubcategory = splitPath.length - 1 == 2 ? 0 : indexActiveSubcategory;
         const indexEntity = splitPath.length - 1 == 2 ? 0 : indexActiveEntity;
         const prefix = language === 'en-US' ? '' : `${ language }`;
@@ -183,72 +183,92 @@ function CategoryTemplate(props) {
         window.history.replaceState({}, null, slug);
     }
 
-    function dragHandler() {
-        gsap.to(el.current, {
-            duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: () => {
-                const subcategory = category.subcategories[indexActiveSubcategory];
-                useStore.setState({ currentCategory: category });
-                useStore.setState({ currentSubcategory: subcategory });
-                const slug = categorySlug.split('/').slice(-1)[0];
-                useStore.setState({ currentSubcategory: subcategory });
-                Globals.webglApp.gotoEntity(categorySlug, category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug);
-                useStore.setState({ selectedEntity: category.subcategories[indexActiveSubcategory].entities[indexActiveEntity] });
-                updateHistoryState(subcategory);
-                useStore.setState({ selectedEntity: null });
-                setSelectedSubcategory(true);
-                gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' });
-            },
-        });
-    }
+    // function dragHandler() {
+    //     gsap.to(el.current, {
+    //         duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: () => {
+    //             const subcategory = category.subcategories[indexActiveSubcategory];
+    //             useStore.setState({ currentCategory: category });
+    //             useStore.setState({ currentSubcategory: subcategory });
+    //             const slug = categorySlug.split('/').slice(-1)[0];
+    //             useStore.setState({ currentSubcategory: subcategory });
+    //             Globals.webglApp.gotoEntity(categorySlug, category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug);
+    //             useStore.setState({ selectedEntity: category.subcategories[indexActiveSubcategory].entities[indexActiveEntity] });
+    //             updateHistoryState(subcategory);
+    //             useStore.setState({ selectedEntity: null });
+    //             setSelectedSubcategory(true);
+    //             gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' });
+    //         },
+    //     });
+    // }
 
     return (
         <div className="template-category" ref={ el }>
             {
-                !selectedSubcategory ?
-                    <>
-                        <div className="container-categories" onMouseUp={ dragHandler }>
-                            <Swiper
-                                ref={ swiperSubcategoriesRef }
-                                className="slider-subcategories"
-                                slidesPerView='auto'
-                                slideToClickedSlide={ true }
-                                onReachEnd={ (swiper) => {
-                                    swiper.snapGrid = [...swiper.slidesGrid];
-                                } }
-                                onSlideChange={ (swiper) => useStore.setState({ indexActiveSubcategory: swiper.activeIndex }) }
-                                onInit={ (swiper) => {
-                                    swiper.slides.forEach(slide => {
-                                        slide.style.width = slide.firstChild.getBoundingClientRect().width + 'px';
-                                    });
-                                } }
-                            >
-                                { category.subcategories.map((subcategory, index) => (
-                                    <SwiperSlide key={ `subcategory-${ index }` } virtualIndex={ index }>
-                                        <p className="h2">{ subcategory.name }</p>
-                                    </SwiperSlide>
-                                )) }
-                            </Swiper>
-                            <ButtonScroll>Drag to select sub-branch</ButtonScroll>
-                            <p className='p4 interaction-sentence'>Drag to select sub-branch</p>
-                        </div>
-                    </>
-                    :
-                    <>
-                        <ButtonBack  name='Back' slug={ window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/')) } onClick={ (e) => {
-                            e.preventDefault();
-                            gsap.to(el.current, {
-                                duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: () => {
-                                    useStore.setState({ currentSubcategory: undefined });
-                                    setSelectedSubcategory(false);
-                                    window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/'));
-                                    gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' });
-                                },
-                            });
-                        } } />
-                        <SliderEntities category={ category } />
-                        { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
-                        <p className='p4 interaction-sentence'>Scroll to see more entities</p>
-                    </>
+                <>
+                    <ButtonBack name='Back' slug={ '/' + year.year } onClick={ (e) => {
+                        useStore.setState({ currentSubcategory: 0 });
+                        useStore.setState({ indexActiveSubcategory: 0 });
+                        setSelectedSubcategory(false);
+
+                        // e.preventDefault();
+                        // gsap.to(el.current, {
+                        //     duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: () => {
+                        //         useStore.setState({ currentSubcategory: undefined });
+                        //         setSelectedSubcategory(false);
+                        //         window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/'));
+                        //         gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' });
+                        //     },
+                        // });
+                    } } />
+                    <SliderEntities category={ category } />
+                    { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
+                    <p className='p4 interaction-sentence'>Scroll to see more entities</p>
+                </>
+                // !selectedSubcategory ?
+                //     <>
+                //         <div className="container-categories" onMouseUp={ dragHandler }>
+                //             <Swiper
+                //                 ref={ swiperSubcategoriesRef }
+                //                 className="slider-subcategories"
+                //                 slidesPerView='auto'
+                //                 slideToClickedSlide={ true }
+                //                 onReachEnd={ (swiper) => {
+                //                     swiper.snapGrid = [...swiper.slidesGrid];
+                //                 } }
+                //                 onSlideChange={ (swiper) => useStore.setState({ indexActiveSubcategory: swiper.activeIndex }) }
+                //                 onInit={ (swiper) => {
+                //                     swiper.slides.forEach(slide => {
+                //                         slide.style.width = slide.firstChild.getBoundingClientRect().width + 'px';
+                //                     });
+                //                 } }
+                //             >
+                //                 { category.subcategories.map((subcategory, index) => (
+                //                     <SwiperSlide key={ `subcategory-${ index }` } virtualIndex={ index }>
+                //                         <p className="h2">{ subcategory.name }</p>
+                //                     </SwiperSlide>
+                //                 )) }
+                //             </Swiper>
+                //             <ButtonScroll>Drag to select sub-branch</ButtonScroll>
+                //             <p className='p4 interaction-sentence'>Drag to select sub-branch</p>
+                //         </div>
+                //     </>
+                //     :
+                //     <>
+                //         <ButtonBack  name='Back' slug={ window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/')) } onClick={ (e) => {
+                //             e.preventDefault();
+                //             gsap.to(el.current, {
+                //                 duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: () => {
+                //                     useStore.setState({ currentSubcategory: undefined });
+                //                     setSelectedSubcategory(false);
+                //                     window.location.pathname.slice(0, window.location.pathname.lastIndexOf('/'));
+                //                     gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' });
+                //                 },
+                //             });
+                //         } } />
+                //         <SliderEntities category={ category } />
+                //         { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
+                //         <p className='p4 interaction-sentence'>Scroll to see more entities</p>
+                //     </>
             }
             { currentSubcategory &&
                 <>
