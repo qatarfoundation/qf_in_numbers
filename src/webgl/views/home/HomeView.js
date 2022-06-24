@@ -81,6 +81,12 @@ export default class HomeView extends component() {
     }
 
     gotoOverview() {
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineShowTree?.kill();
+
         this._timelineGotoOverview = new gsap.timeline();
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(name), 0);
         this._timelineGotoOverview.add(this._components.tree.show(), 6);

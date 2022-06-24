@@ -48,7 +48,11 @@ function Tutorial(props) {
         });
         timeline.add('fadeIn');
         timeline.to(dragRef.current, { duration: 0.75, alpha: 1, ease: 'sine.inOut' }, 'fadeIn');
+
+        let clicked = false;
         const clickTutorial = () => {
+            if (clicked) return;
+            clicked = true;
             const timeline = new gsap.timeline({
                 onComplete: () => {
                     const years = props.years;

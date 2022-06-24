@@ -206,7 +206,7 @@ function CategoryTemplate(props) {
             {
                 <>
                     <ButtonBack name='Back' slug={ '/' + year.year } onClick={ (e) => {
-                        useStore.setState({ currentSubcategory: 0 });
+                        useStore.setState({ currentSubcategory: null });
                         useStore.setState({ indexActiveSubcategory: 0 });
                         setSelectedSubcategory(false);
 
