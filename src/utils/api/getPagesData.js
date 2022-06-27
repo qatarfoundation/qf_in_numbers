@@ -163,6 +163,15 @@ function createPages(languages) {
         });
     }
 
+    // Home page
+    pages.push({
+        path: '/',
+        type: 'home',
+        context: {
+            home,
+        },
+    });
+
     return pages;
 }
 

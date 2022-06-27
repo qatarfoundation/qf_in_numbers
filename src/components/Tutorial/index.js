@@ -71,19 +71,19 @@ function Tutorial(props) {
     }, []);
     return (
         <div ref={ tutorialRef } className="tutorial">
-            <h2 ref={ titleRef } className='h6'>Explore the Qatar Foundation in numbers.</h2>
+            <h2 ref={ titleRef } className='h6'>{ props.heading }</h2>
             <div className="container-icons">
                 <div ref={ dragRef } className='container-drag'>
                     <div className="icon icon-drag">
                         <div className='drag' />
                     </div>
-                    <p className='p3'>Drag right / left to start experience</p>
+                    <p className='p3'>{ props.tutorial1 }</p>
                 </div>
                 <div ref={ selectRef } className='container-select'>
                     <div className="icon icon-select">
                         <Select className='select' />
                     </div>
-                    <p className='p3'>Select a node to explore Numbers</p>
+                    <p className='p3'>{ props.tutorial2 }</p>
                 </div>
             </div>
         </div>

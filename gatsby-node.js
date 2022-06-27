@@ -40,11 +40,13 @@ exports.createPages = async({ actions }) => {
     const { createPage } = actions;
 
     // Templates
+    const HomeTemplate = path.resolve('src/templates/home/index.js');
     const YearTemplate = path.resolve('src/templates/year/index.js');
     const CategoryTemplate = path.resolve('src/templates/category/index.js');
     const EntityTemplate = path.resolve('src/templates/entity/index.js');
 
     const templates = {
+        home: HomeTemplate,
         year: YearTemplate,
         category: CategoryTemplate,
         subcategory: CategoryTemplate,

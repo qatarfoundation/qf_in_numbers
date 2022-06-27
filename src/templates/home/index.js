@@ -10,7 +10,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
-import '@/pages/home/style.scoped.scss';
+import './style.scoped.scss';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -22,7 +22,12 @@ import { Link } from 'gatsby-plugin-react-i18next';
 import useStore from '@/hooks/useStore';
 import Tutorial from '@/components/Tutorial/index';
 
-function IndexPage(props, ref) {
+function HomeTemplate(props, ref) {
+    /**
+     * Data
+     */
+    const { language } = props.pageContext;
+
     /**
      * States
      */
@@ -122,20 +127,20 @@ function IndexPage(props, ref) {
                 {
                     isInitiation ?
                         <div className="initiation">
-                            <h1 ref={ titleRef } className="h4 title">Welcome to Qatar Foundation in Numbers</h1>
+                            <h1 ref={ titleRef } className="h4 title">{ props.pageContext.home[language].introduction }</h1>
                             <p ref={ labelRef } className="p4 label">Click to Enter to continue</p>
                             <button ref={ buttonRef } className="button button-enter p4" onClick={ clickHandlerButtonInitiation }><span ref={ textButtonRef }>Enter</span></button>
                             <p ref={ sentenceRef } className='p4 cookie-sentence'>By entering the site, you agree to our use of cookies. Fore more info check our <Link to={ '/' } className="p4">Privacy Policy</Link></p>
                         </div>
                         :
-                        <Tutorial years={ props.data.allContentfulYear.edges } />
+                        <Tutorial years={ props.data.allContentfulYear.edges } heading={ props.pageContext.home[language].heading } tutorial1={ props.pageContext.home[language].tutorial1 } tutorial2={ props.pageContext.home[language].tutorial2 } />
                 }
             </div>
         </div>
     );
 }
 
-export default IndexPage;
+export default HomeTemplate;
 
 export const query = graphql`
     query ($language: String!) {
