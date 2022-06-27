@@ -20,7 +20,7 @@ import TheFooter from '@/components/TheFooter';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Providers
-import { EnvironmentProvider } from '@/contexts/EnvironmentContext';
+import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/EnvironmentContext';
 
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
@@ -40,7 +40,7 @@ function Layout(props) {
      * States
      */
     const [webglAppState, setWebglAppState] = useState(undefined);
-    const [isFinishAnimPreload, setIsFinishAnimPreload] = useState(false);
+    const [isFinishAnimPreload, setIsFinishAnimPreload] = useState(getEnvironment() === DEVELOPMENT);
 
     /**
      * Stores
@@ -147,7 +147,9 @@ function Layout(props) {
                 </div>
 
                 <AnimatePresence>
-                    <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
+                    { getEnvironment() !== DEVELOPMENT &&
+                            <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
+                    }
                 </AnimatePresence>
 
             </EnvironmentProvider>

@@ -12,11 +12,7 @@ const EnvironmentContext = createContext();
 export const PRODUCTION = 'PRODUCTION';
 export const DEVELOPMENT = 'DEVELOPMENT';
 
-export function useEnvironment() {
-    return useContext(EnvironmentContext);
-}
-
-export function EnvironmentProvider({ children }) {
+export function getEnvironment() {
     const parsed = isBrowser ? queryString.parse(location.search) : {};
     const isProduction = parsed.production || parsed.production === null || process.env.NODE_ENV === 'production';
 
@@ -24,6 +20,16 @@ export function EnvironmentProvider({ children }) {
     if (!isProduction && process.env.NODE_ENV === 'development') {
         environment = DEVELOPMENT;
     }
+
+    return environment;
+}
+
+export function useEnvironment() {
+    return useContext(EnvironmentContext);
+}
+
+export function EnvironmentProvider({ children }) {
+    const environment = getEnvironment();
 
     return (
         <EnvironmentContext.Provider value={ environment }>
