@@ -40,6 +40,7 @@
     }
     .text {
         display: block;
+        margin-bottom: rem(5px, 'small');
         &.text-init {
             opacity: 1;
             transform: translate3d(0, 0, 0);
@@ -57,6 +58,12 @@
                 left: inherit;
                 right: 0;
             }
+        }
+        @include respond-to('medium') {
+            margin-bottom: rem(5px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(5px, 'large');
         }
     }
     .icon-arrow {
