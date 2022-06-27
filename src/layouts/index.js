@@ -25,7 +25,6 @@ import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/Env
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
-import useTemplateData from '@/hooks/useTemplateData';
 import Cursor from '@/components/Cursor/index';
 
 function Layout(props) {
@@ -117,7 +116,10 @@ function Layout(props) {
             <Helmet
                 htmlAttributes={ { lang: language } }
                 bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }
-            />
+            >
+                <title>{ props.pageContext.home[language].seo.fields.seoMetaTitle }</title>
+                <meta name="description" content={ props.pageContext.home[language].seo.fields.seoMetaDescription } />
+            </Helmet>
 
             <EnvironmentProvider>
 

@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
+import { Helmet } from 'react-helmet';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
@@ -97,6 +98,9 @@ function EntityTemplate(props) {
 
     return (
         <div className="template-entity" ref={ el }>
+            <Helmet>
+                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` }</title>
+            </Helmet>
             <ButtonBack  name='Back' slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } onClick={ clickHandler } />
             <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
         </div>

@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
+import { Helmet } from 'react-helmet';
 
 // Hooks
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
@@ -111,6 +112,10 @@ const YearTemplate = (props) => {
 
     return (
         <div className="template-year" ref={ el }>
+
+            <Helmet>
+                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year }` }</title>
+            </Helmet>
 
             { breakpoints == 'small' ?
                 <SliderCategories categories={ year.categories } />

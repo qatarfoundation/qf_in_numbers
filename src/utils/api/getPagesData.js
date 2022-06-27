@@ -8,12 +8,14 @@ async function getPagesData() {
     const promises = [
         api.getEntriesByType('year', { locale: 'en-US' }),
         api.getEntriesByType('year', { locale: 'ar-QA' }),
+        api.getEntryById('6MQqDDNf97Z5Vjof3kZOC7', { locale: 'en-US' }),
+        api.getEntryById('6MQqDDNf97Z5Vjof3kZOC7', { locale: 'ar-QA' }),
     ];
 
     const result = await Promise.all(promises);
     const languages = parseLanguages({
-        'en-US': result[0],
-        'ar-QA': result[1],
+        'en-US': { years: result[0], home: result[2] },
+        'ar-QA': { years: result[1], home: result[3] },
     });
     const pages = createPages(languages);
 
@@ -22,6 +24,11 @@ async function getPagesData() {
 
 function createPages(languages) {
     const pages = [];
+
+    const home = {
+        'en-US': languages[0].home,
+        'ar-QA': languages[1].home,
+    };
 
     const years = {
         'en-US': languages[0].years,
@@ -111,6 +118,7 @@ function createPages(languages) {
                         path: entityPath,
                         type: 'entity',
                         context: {
+                            home,
                             year: yearItem,
                             category: categoryItem,
                             subcategory: subcategoryItem,
@@ -124,6 +132,7 @@ function createPages(languages) {
                     path: subcategoryPath,
                     type: 'subcategory',
                     context: {
+                        home,
                         year: yearItem,
                         category: categoryItem,
                         subcategory: subcategoryItem,
@@ -136,6 +145,7 @@ function createPages(languages) {
                 path: categoryPath,
                 type: 'category',
                 context: {
+                    home,
                     year: yearItem,
                     category: categoryItem,
                 },
@@ -147,6 +157,7 @@ function createPages(languages) {
             path: yearPath,
             type: 'year',
             context: {
+                home,
                 year: yearItem,
             },
         });
@@ -160,7 +171,8 @@ function parseLanguages(data) {
     for (const key in data) {
         languages.push({
             locale: key,
-            years: parseYears(data[key].items),
+            home: data[key].home.fields,
+            years: parseYears(data[key].years.items),
         });
     }
     return languages;

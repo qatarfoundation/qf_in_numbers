@@ -7,6 +7,7 @@ import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Helmet } from 'react-helmet';
 
 // CSS
 import './style.scoped.scss';
@@ -203,6 +204,13 @@ function CategoryTemplate(props) {
 
     return (
         <div className="template-category" ref={ el }>
+            <Helmet>
+                {
+                    subcategory ?
+                        <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name }` }</title> :
+                        <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` }</title>
+                }
+            </Helmet>
             {
                 <>
                     <ButtonBack name='Back' slug={ '/' + year.year } onClick={ (e) => {
