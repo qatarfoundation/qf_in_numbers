@@ -5,6 +5,7 @@
         left: 50%;
         width: 80%;
         transform: translate3d(-50%, -50%, 0);
+        text-align: center;
     }
     .h4 {
         width: 100%;
@@ -21,8 +22,6 @@
     }
     .button-pagination {
         position: relative;
-        left: 50%;
-        transform: translate3d(-50%, 0, 0);
         display: inline-flex;
         align-items: center;
         &:hover {

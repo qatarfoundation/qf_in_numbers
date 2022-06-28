@@ -117,8 +117,8 @@ function Layout(props) {
                 htmlAttributes={ { lang: language } }
                 bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }
             >
-                <title>{ props.pageContext.home[language].seo.fields.seoMetaTitle }</title>
-                <meta name="description" content={ props.pageContext.home[language].seo.fields.seoMetaDescription } />
+                <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
+                <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
             </Helmet>
 
             <EnvironmentProvider>
