@@ -79,7 +79,7 @@ function useScrollList(category) {
         }
 
         function handler(e) {
-            if (useStore.getState().modalYearIsOpen || useStore.getState().modalSearchIsOpen) return;
+            if (useStore.getState().modalYearIsOpen || useStore.getState().modalSearchIsOpen || useStore.getState().modalSubcategoriesIsOpen) return;
 
             if (e.deltaY > 0) {
                 gotoNextScrollItem();
