@@ -82,6 +82,14 @@ li {
     width: 1px;
     height: 1px;
 
+    &:hover {
+        .button__icon {
+            &:after {
+                transform: scale(0.9);
+            }
+        }
+    }
+
     .button__content {
         position: absolute;
 
@@ -109,9 +117,6 @@ li {
         top: 0;
         left: 0;
 
-        border: 1px solid var(--color-theme-secondary);
-        border-radius: 50%;
-
         &:before {
             content: '';
 
@@ -137,6 +142,22 @@ li {
                 50% { opacity: 0.5; }
                 100% { opacity: 1; }
             }
+        }
+
+        &:after {
+            content: '';
+
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            border: 1px solid var(--color-theme-secondary);
+            border-radius: 50%;
+
+            transition: transform 0.3s $sine-in-out;
         }
 
         @include respond-to('large') {

@@ -1,7 +1,7 @@
 // React
 import { gsap } from 'gsap';
 import React, { useRef, useEffect } from 'react';
-import { Trans, Link } from 'gatsby-plugin-react-i18next';
+import { Trans, Link, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -15,6 +15,8 @@ import useStore from '@/hooks/useStore';
 
 function LabelsEntities(props) {
     const { entities } = props;
+
+    const { t } = useTranslation();
 
     const itemsRef = useRef({});
     const itemsLabelRef = useRef({});
@@ -110,7 +112,7 @@ function LabelsEntities(props) {
                             <Link to={ entity.slug } className="button" ref={ el => itemsButtonRef.current[entity.slug] = el }>
                                 <div className="button__content">
                                     <div className="button__icon"></div>
-                                    <span className='button__label'><Trans>Click to discover</Trans></span>
+                                    <span className='button__label'><Trans>{ t('Click to discover') }</Trans></span>
                                 </div>
                             </Link>
                             { entity.highlighted &&
