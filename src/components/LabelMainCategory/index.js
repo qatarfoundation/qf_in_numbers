@@ -36,7 +36,11 @@ const LabelMainCategory = (props) => {
     }, [labelRef]);
 
     useEffect(() => {
+        let hasMouseMoved = false;
+
         const mouseEnterHandler = ({ index }) => {
+            if (!hasMouseMoved) return;
+
             if (categoryIndex !== index) {
                 setIsHover(false);
                 gsap.to(labelRef.current, { duration: 0.5, alpha: 0.3 });
@@ -50,12 +54,19 @@ const LabelMainCategory = (props) => {
             gsap.to(labelRef.current, { duration: 0.5, alpha: 1 });
         };
 
+        const mousemoveHandler = () => {
+            hasMouseMoved = true;
+        };
+
+        window.addEventListener('mousemove', mousemoveHandler);
+
         TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
         TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
 
         return () => {
             TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
             TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
+            window.removeEventListener('mousemove', mousemoveHandler);
         };
     });
 
@@ -81,7 +92,7 @@ const LabelMainCategory = (props) => {
     }, []);
 
     return (
-        <div className={ `label ${ props.anchor } ${ isHover ? 'is-hover' : '' }` } ref={ labelRef }>
+        <div className={ `label ${ props.anchor } ${ isHover ? 'is-hover' : '' } ${ props.color }` } ref={ labelRef }>
             <p ref={ titleRef } className="copy h4">
                 { props.label }
             </p>
