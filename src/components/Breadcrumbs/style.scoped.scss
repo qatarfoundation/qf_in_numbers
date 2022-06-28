@@ -41,7 +41,7 @@ li {
     &::before {
         content: '';
         position: absolute;
-        top: 55%;
+        top: 42%;
         left: 0;
         display: block;
         width: 0;
@@ -51,13 +51,11 @@ li {
         border-top: rem(4px, 'small') solid var(--color-theme-primary);
         transform: translate3d(-100%, 50%, 0) rotate3D(0, 0, 1, -90deg);
         @include respond-to('medium') {
-            top: 55%;
             border-left: rem(4px, 'medium') solid transparent;
             border-right: rem(4px, 'medium') solid transparent;
             border-top: rem(4px, 'medium') solid var(--color-theme-primary);
         }
         @include respond-to('large') {
-            top: 55%;
             border-left: rem(4px, 'large') solid transparent;
             border-right: rem(4px, 'large') solid transparent;
             border-top: rem(4px, 'large') solid var(--color-theme-primary);
