@@ -6,6 +6,9 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import ButtonClose from '@/components/ButtonClose';
 import ListYears from '@/components/ListYears';
@@ -33,6 +36,8 @@ function PanelYear(props, ref) {
      * Effects
      */
     useEffect(() => {
+        Globals.webglApp.disableInteractions();
+
         const timeline = new gsap.timeline();
         timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100 }, { xPercent: 0, ease: 'ease.easeout' });
         return () => {
@@ -43,7 +48,12 @@ function PanelYear(props, ref) {
      * Private
      */
     function clickHandler() {
-        const timeline = new gsap.timeline({ onComplete: () => { useStore.setState({ modalYearIsOpen: !isOpen }); } });
+        const timeline = new gsap.timeline({
+            onComplete: () => {
+                useStore.setState({ modalYearIsOpen: !isOpen });
+                Globals.webglApp.enableInteractions();
+            },
+        });
         timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100, ease: 'ease.easein' });
     }
     return (
