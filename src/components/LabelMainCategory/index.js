@@ -39,12 +39,14 @@ const LabelMainCategory = (props) => {
         const mouseEnterHandler = ({ index }) => {
             if (categoryIndex !== index) {
                 setIsHover(false);
-                gsap.to(labelRef.current, { duration: 0.5, alpha: 0.15 });
+                gsap.to(labelRef.current, { duration: 0.5, alpha: 0.3 });
+            } else {
+                setIsHover(true);
             }
         };
 
         const mouseLeaveHandler = () => {
-            setIsHover(true);
+            setIsHover(false);
             gsap.to(labelRef.current, { duration: 0.5, alpha: 1 });
         };
 
