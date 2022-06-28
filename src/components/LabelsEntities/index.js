@@ -46,9 +46,11 @@ function LabelsEntities(props) {
                 if (!Breakpoints.active('small')) {
                     if (elementButton) {
                         const buttonPosition = model.buttonPosition;
-                        elementButton.style.display = 'block';
-                        elementButton.style.transform = `translate(${ buttonPosition.x }px, ${ buttonPosition.y }px)`;
-                        elementButton.classList.add(model.cameraSide > 0 ? 'right' : 'left');
+                        if (buttonPosition) {
+                            elementButton.style.display = 'block';
+                            elementButton.style.transform = `translate(${ buttonPosition.x }px, ${ buttonPosition.y }px)`;
+                            elementButton.classList.add(model.cameraSide > 0 ? 'right' : 'left');
+                        }
                     }
                 }
             }
