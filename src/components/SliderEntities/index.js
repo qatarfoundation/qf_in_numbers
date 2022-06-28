@@ -46,6 +46,7 @@ function SliderEntities(props) {
     const [activeIndexOffset, setActiveIndexOffset] = useState(0);
     const [previousIndexActiveEntity, setPreviousIndexActiveEntity] = useState(null);
     const [entitiesTitleHeight, setEntitiesTitleHeight] = useState([]);
+    const [firstPageLoad, setFirstPageLoad] = useState(true);
 
     /**
      * Events
@@ -66,6 +67,8 @@ function SliderEntities(props) {
     }, [indexActiveSubcategory]);
 
     useEffect(() => {
+        if (firstPageLoad) return;
+
         if (indexActiveEntity > previousIndexActiveEntity) {
             setActiveIndexOffset(-indexActiveEntity);
             const offset = entitiesTitleHeight[indexActiveEntity];
@@ -80,6 +83,10 @@ function SliderEntities(props) {
 
         setPreviousIndexActiveEntity(indexActiveEntity);
     }, [indexActiveEntity]);
+
+    useEffect(() => {
+        setFirstPageLoad(false);
+    }, []);
 
     /**
      * Functions

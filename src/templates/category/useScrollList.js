@@ -3,17 +3,11 @@ import { gsap } from 'gsap';
 
 // React
 import { useEffect } from 'react';
-import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Hooks
 import useStore from '@/hooks/useStore';
 
-// Utils
-import Globals from '@/utils/Globals';
-
 function useScrollList(category) {
-    const { navigate } = useI18next();
-
     /**
      * Store
      */
@@ -85,6 +79,8 @@ function useScrollList(category) {
         }
 
         function handler(e) {
+            if (useStore.getState().modalYearIsOpen || useStore.getState().modalSearchIsOpen || useStore.getState().modalSubcategoriesIsOpen) return;
+
             if (e.deltaY > 0) {
                 gotoNextScrollItem();
             } else {

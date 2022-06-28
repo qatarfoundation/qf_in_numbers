@@ -183,6 +183,8 @@
         }
 
         .list-entities {
+            pointer-events: none;
+
             position: absolute;
             bottom: 0;
             display: flex;

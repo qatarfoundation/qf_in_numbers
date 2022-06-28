@@ -6,6 +6,9 @@ import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import ButtonClose from '@/components/ButtonClose';
 import ListSearch from '@/components/ListSearch';
@@ -40,6 +43,8 @@ function PanelSearch(props, ref) {
      * Effects
      */
     useEffect(() => {
+        Globals.webglApp.disableInteractions();
+
         const timeline = new gsap.timeline();
         timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100 }, { xPercent: 0, ease: 'ease.easeout' });
         return () => {
@@ -69,7 +74,12 @@ function PanelSearch(props, ref) {
      * Private
      */
     function clickHandler() {
-        const timeline = new gsap.timeline({ onComplete: () => { useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' }); } });
+        const timeline = new gsap.timeline({
+            onComplete: () => {
+                useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' });
+                Globals.webglApp.enableInteractions();
+            },
+        });
         timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100, ease: 'ease.easein' });
     }
     function changeHandler(e) {
