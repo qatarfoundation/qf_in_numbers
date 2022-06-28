@@ -1,8 +1,11 @@
+// React
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
+
 // Vendor
 import gsap, { Power0, Power2 } from 'gsap';
 import SplitText from '@/assets/scripts/SplitText';
 gsap.registerPlugin(SplitText);
-import React, { useEffect, useRef, useState } from 'react';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -13,6 +16,8 @@ import ButtonExplore from '../ButtonExplore/index';
 
 const LabelMainCategory = (props) => {
     const { index: categoryIndex, anchor } = props;
+
+    const { t } = useTranslation();
 
     const labelRef = useRef();
 
@@ -79,7 +84,7 @@ const LabelMainCategory = (props) => {
                 { props.label }
             </p>
             <div ref={ buttonRef } className="container-button">
-                <ButtonExplore name='Click to discover' direction={ anchor == 'right' ? 'left' : 'right' } />
+                <ButtonExplore name={ t('Click to discover') } direction={ anchor == 'right' ? 'left' : 'right' } />
             </div>
         </div>
     );

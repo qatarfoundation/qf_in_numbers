@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 
 // React
 import React, { useRef, useEffect, useState } from 'react';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useI18next } from 'gatsby-plugin-react-i18next';
@@ -35,6 +36,7 @@ function CategoryTemplate(props) {
     /**
      * Data
      */
+    const { t } = useTranslation();
     const { language } = props.pageContext;
     /**
      * States
@@ -213,7 +215,7 @@ function CategoryTemplate(props) {
             </Helmet>
             {
                 <>
-                    <ButtonBack name='Back' slug={ '/' + year.year } onClick={ (e) => {
+                    <ButtonBack name={ t('Back') } slug={ '/' + year.year } onClick={ (e) => {
                         useStore.setState({ currentSubcategory: null });
                         useStore.setState({ indexActiveSubcategory: 0 });
                         setSelectedSubcategory(false);
@@ -229,8 +231,8 @@ function CategoryTemplate(props) {
                         // });
                     } } />
                     <SliderEntities category={ category } />
-                    { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
-                    <p className='p4 interaction-sentence'>Scroll to see more entities</p>
+                    { breakpoints == 'small' && <ButtonPagination className="explore" name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug } direction='right' /> }
+                    <p className='p4 interaction-sentence'>{ t('Scroll to see more entities') }</p>
                 </>
                 // !selectedSubcategory ?
                 //     <>

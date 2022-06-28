@@ -7,7 +7,7 @@ gsap.registerPlugin(SplitText);
 import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql, useStaticQuery } from 'gatsby';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -21,12 +21,14 @@ import Select from '@/assets/icons/select.svg';
 import { Link } from 'gatsby-plugin-react-i18next';
 import useStore from '@/hooks/useStore';
 import Tutorial from '@/components/Tutorial/index';
+import RichText from '@/components/RichText/index';
 
 function HomeTemplate(props, ref) {
     /**
      * Data
      */
     const { language } = props.pageContext;
+    const { t } = useTranslation();
 
     /**
      * States
@@ -128,9 +130,12 @@ function HomeTemplate(props, ref) {
                     isInitiation ?
                         <div className="initiation">
                             <h1 ref={ titleRef } className="h4 title">{ props.pageContext.home[language].introduction }</h1>
-                            <p ref={ labelRef } className="p4 label">Click to Enter to continue</p>
-                            <button ref={ buttonRef } className="button button-enter p4" onClick={ clickHandlerButtonInitiation }><span ref={ textButtonRef }>Enter</span></button>
-                            <p ref={ sentenceRef } className='p4 cookie-sentence'>By entering the site, you agree to our use of cookies. Fore more info check our <Link to={ '/' } className="p4">Privacy Policy</Link></p>
+                            <p ref={ labelRef } className="p4 label">{ t('Click enter to continue') }</p>
+                            <button ref={ buttonRef } className="button button-enter p4" onClick={ clickHandlerButtonInitiation }><span ref={ textButtonRef }>{ t('Enter') }</span></button>
+
+                            <div ref={ sentenceRef } className='p4 cookie-sentence'>
+                                <RichText data={ props.data.allContentfulGlobal.edges[0].node.cookies } />
+                            </div>
                         </div>
                         :
                         <Tutorial years={ props.data.allContentfulYear.edges } heading={ props.pageContext.home[language].heading } tutorial1={ props.pageContext.home[language].tutorial1 } tutorial2={ props.pageContext.home[language].tutorial2 } />
@@ -157,6 +162,15 @@ export const query = graphql`
             edges {
                 node {
                     year
+                }
+            }
+        }
+        allContentfulGlobal(filter: {node_locale: {eq: $language}}) {
+            edges {
+                node {
+                    cookies {
+                        raw
+                    }
                 }
             }
         }

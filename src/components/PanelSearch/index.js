@@ -1,7 +1,7 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -21,6 +21,7 @@ function PanelSearch(props, ref) {
      * Datas
      */
     const { language } = useI18next();
+    const { t } = useTranslation();
     /**
      * References
      */
@@ -79,17 +80,17 @@ function PanelSearch(props, ref) {
             <div ref={ panelRef } className="panel panel-search">
                 <div className="header-container">
                     <div className="header">
-                        <p className='label h8'>Find data</p>
+                        <p className='label h8'>{ t('Find data') }</p>
                         <ButtonClose onClick={ clickHandler } />
                     </div>
                     <div className="search">
-                        <input type="text" className="input input-search p6" placeholder='search entity, metric or tag...' onChange={ changeHandler } />
+                        <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
                         <ButtonSearch />
                     </div>
                 </div>
                 <div className="filters">
-                    <ButtonFilter name="All entities" type="entities" />
-                    <ButtonFilter name="Tags" type="tags" />
+                    <ButtonFilter name={ t('All entities') } type="entities" />
+                    <ButtonFilter name={ t('Tags') } type="tags" />
                 </div>
                 <Scrollbar revert={ false } data-name="search">
                     <ListSearch items={ dynamicItems } />

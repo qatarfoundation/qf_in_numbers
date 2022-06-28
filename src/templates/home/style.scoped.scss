@@ -63,7 +63,7 @@
         height: rem(100px, 'small');
         min-height: rem(100px, 'small');
         opacity: 0;
-        transform: scale3d(0.5, 0.5, 0.5);
+        transform: scale3d(1, 1, 1);
         transition: color 0.25s ease-in;
         @include respond-to('medium') {
             width: rem(100px, 'medium');
@@ -81,16 +81,8 @@
             color: color-from-theme('green', 'secondary');
             transition: color 0.25s linear;
             &::before {
-                width: rem(124px, 'small');
-                height: rem(124px, 'small');
-                @include respond-to('medium') {
-                    width: rem(124px, 'medium');
-                    height: rem(124px, 'medium');
-                }
-                @include respond-to('large') {
-                    width: rem(124px, 'large');
-                    height: rem(124px, 'large');
-                }
+                width: 110%;
+                height: 110%;
                 border: 2px solid color-from-theme('green', 'secondary');
                 transition: width 0.35s ease, height 0.35s ease;
             }
@@ -107,12 +99,17 @@
             border-radius: 100%;
             transform: translate3d(-50%, -50%, 0);
             transition: width 0.35s ease, height 0.35s ease;
-            filter: blur(0.7px);
         }
         span {
             display: block;
             opacity: 0;
-            transform: translateY(5px);
+            margin-bottom: rem(3px, 'small');
+            @include respond-to('medium') {
+                margin-bottom: rem(5px, 'medium');
+            }
+            @include respond-to('large') {
+                margin-bottom: rem(5px, 'large');
+            }
         }
     }
     .cookie-sentence {
@@ -122,15 +119,20 @@
         color: color-from-theme('green', 'secondary');
         padding: 0 rem(53px, 'small');
         text-align: center;
+        font-weight: 400;
+
         @include respond-to('medium') {
             bottom: rem(50px, 'medium');
             padding: 0 rem(53px, 'medium');
             text-align: inherit;
+            font-size: rem(16px, 'medium');
         }
         @include respond-to('large') {
             bottom: rem(50px, 'large');
             padding: 0 rem(53px, 'large');
+            font-size: rem(16px, 'large');
         }
+
         a {
             color: color-from-theme('green', 'secondary');
             text-decoration: underline;

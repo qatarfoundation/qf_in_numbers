@@ -128,7 +128,7 @@ h6, .h6 {
     }
 }
 
-p, a, button, li, span .p1 {
+.p1 {
     font-family: 'DIN Next LT Pro';
     font-style: normal;
     font-weight: 400;
@@ -141,6 +141,20 @@ p, a, button, li, span .p1 {
         font-size: rem(24px, 'large');
     }
 }
+
+// p, a, button, li, span .p1 {
+//     font-family: 'DIN Next LT Pro';
+//     font-style: normal;
+//     font-weight: 400;
+//     font-size: rem(21px, 'small');
+//     line-height: 120%;
+//     @include respond-to('medium') {
+//         font-size: rem(24px, 'medium');
+//     }
+//     @include respond-to('large') {
+//         font-size: rem(24px, 'large');
+//     }
+// }
 
 .p2 {
     font-family: 'DIN Next LT Pro';

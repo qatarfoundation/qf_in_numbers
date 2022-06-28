@@ -1,7 +1,7 @@
 // React
 import React, { useRef } from 'react';
 import gsap from 'gsap';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -21,6 +21,7 @@ function PanelYear(props, ref) {
      */
     const { years } = props;
     const { language } = useI18next();
+    const { t } = useTranslation();
     /**
      * References
      */
@@ -50,7 +51,7 @@ function PanelYear(props, ref) {
         <>
             <div ref={ panelRef } className="panel panel-year" data-name="year">
                 <div className="header">
-                    <p className='label h8'>Year selection</p>
+                    <p className='label h8'>{ t('Year selection') }</p>
                     <ButtonClose onClick={ clickHandler } />
                 </div>
                 <Scrollbar revert={ false }>

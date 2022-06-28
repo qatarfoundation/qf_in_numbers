@@ -1,5 +1,6 @@
 // React
 import React, { useState } from 'react';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -12,6 +13,11 @@ import PanelSearch from '@/components/PanelSearch';
 import useStore from '@/hooks/useStore';
 
 function ModalSearch(props, ref) {
+    /**
+     * Data
+     */
+    const { t } = useTranslation();
+
     /**
      * Store
      */
@@ -26,7 +32,7 @@ function ModalSearch(props, ref) {
     return (
         <>
             <div className="modal modal-year">
-                <ButtonModal name="Find data" onClick={ clickHandler }  />
+                <ButtonModal name={ t('Find data') } onClick={ clickHandler }  />
                 { isOpen ? <PanelSearch isOpen={ isOpen } yearDatas={ yearDatas } /> : '' }
             </div>
         </>
