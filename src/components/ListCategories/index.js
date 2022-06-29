@@ -10,8 +10,6 @@ import LabelMainCategory from '@/components/LabelMainCategory';
 function ListCategories(props) {
     const { categories, year } = props;
 
-    console.log(props);
-
     const colors = ['blue', 'red', 'green'];
 
     return (
@@ -25,13 +23,13 @@ function ListCategories(props) {
 
             { categories[1] &&
                 <li className="list-item">
-                    <LabelMainCategory index={ 1 } slug={ `/${ year }/community` } label={ categories[1].name } category="research" color={ colors[1] } anchor="left" />
+                    <LabelMainCategory index={ 1 } slug={ `/${ year }/research` } label={ categories[1].name } category="research" color={ colors[1] } anchor="left" />
                 </li>
             }
 
             { categories[2] &&
                 <li className="list-item">
-                    <LabelMainCategory index={ 2 } slug={ `/${ year }/community` } label={ categories[2].name } category="education" color={ colors[2] } anchor="right" />
+                    <LabelMainCategory index={ 2 } slug={ `/${ year }/education` } label={ categories[2].name } category="education" color={ colors[2] } anchor="right" />
                 </li>
             }
 
