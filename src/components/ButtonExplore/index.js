@@ -25,8 +25,6 @@ function ButtonExplore(props) {
         Globals.webglApp.categoryMouseLeave(category);
     }
 
-    console.log({ slug });
-
     return (
         <Link to={ slug ? slug : '' } { ...props } className={ `button button-explore ${ props.direction } ${ props.className }` } onMouseEnter={ mouseEnterHandler } onMouseLeave={ mouseLeaveHandler }>
             <div className="icon icon-arrow">
