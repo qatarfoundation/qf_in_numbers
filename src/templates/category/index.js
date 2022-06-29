@@ -67,16 +67,16 @@ function CategoryTemplate(props) {
         else if (!isPresent) transitionOut(safeToRemove);
     }, [isPresent]);
 
-    useEffect(() => {
-        useStore.setState({ currentCategory: category });
-        useStore.setState({ currentSubcategory: subcategory });
-        const slug = category.slug.split('/').slice(-1)[0];
-        if (subcategory) {
-            Globals.webglApp.gotoSubcategory(slug, subcategory.name);
-        } else {
-            Globals.webglApp.gotoCategory(slug);
-        }
-    }, []);
+    // useEffect(() => {
+    //     useStore.setState({ currentCategory: category });
+    //     useStore.setState({ currentSubcategory: subcategory });
+    //     const slug = category.slug.split('/').slice(-1)[0];
+    //     if (subcategory) {
+    //         Globals.webglApp.gotoSubcategory(slug, subcategory.name);
+    //     } else {
+    //         Globals.webglApp.gotoCategory(slug);
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (subcategory) setEntities(subcategory.entities);
@@ -112,13 +112,15 @@ function CategoryTemplate(props) {
     useEffect(() => {
         // console.log('Subcategory : ', indexActiveSubcategory, 'Entity : ', indexActiveEntity);
         const subcategory = category.subcategories[indexActiveSubcategory];
+        const slug = categorySlug.split('/').slice(-1)[0];
         if (selectedSubcategory) {
+            useStore.setState({ currentCategory: category });
             useStore.setState({ currentSubcategory: subcategory });
+            Globals.webglApp.gotoCategory(slug);
             Globals.webglApp.gotoEntity(categorySlug, category.subcategories[indexActiveSubcategory].entities[indexActiveEntity].slug);
             useStore.setState({ selectedEntity: category.subcategories[indexActiveSubcategory].entities[indexActiveEntity] });
             updateHistoryState(subcategory);
         } else {
-            const slug = categorySlug.split('/').slice(-1)[0];
             // Globals.webglApp.gotoSubcategory(slug, subcategory.name);
             TreeDataModel.setSubcategory(subcategory.name);
         }
