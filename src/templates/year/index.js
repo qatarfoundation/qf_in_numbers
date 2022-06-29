@@ -48,10 +48,6 @@ const YearTemplate = (props) => {
     const year = data.year[language];
     usePopulateTreeDataModel(year.year, year.categories);
 
-    // useEffect(() => {
-    //     console.log(currentCategory);
-    // }, [currentCategory]);
-
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut(safeToRemove);
