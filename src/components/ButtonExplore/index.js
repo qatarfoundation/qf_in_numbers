@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
@@ -17,16 +17,22 @@ function ButtonExplore(props) {
      */
     const { name, slug, category } = props;
 
+    const [isClicked, setIsClicked] = useState(false);
+
     function mouseEnterHandler() {
         Globals.webglApp.categoryMouseEnter(category);
     }
 
     function mouseLeaveHandler() {
-        Globals.webglApp.categoryMouseLeave(category);
+        if (!isClicked) Globals.webglApp.categoryMouseLeave(category);
+    }
+
+    function clickHandler() {
+        setIsClicked(true);
     }
 
     return (
-        <Link to={ slug ? slug : '' } { ...props } className={ `button button-explore ${ props.direction } ${ props.className }` } onMouseEnter={ mouseEnterHandler } onMouseLeave={ mouseLeaveHandler }>
+        <Link to={ slug ? slug : '' } { ...props } className={ `button button-explore ${ props.direction } ${ props.className }` } onMouseEnter={ mouseEnterHandler } onMouseLeave={ mouseLeaveHandler } onClick={ clickHandler }>
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>

@@ -94,7 +94,6 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     }
 
     hide() {
-        console.log('hide');
         this._timelineHide = new gsap.timeline({
             onComplete: () => {
                 this._bigParticles.visible = false;
