@@ -37,7 +37,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._debug = this._createDebug(options.debug);
         this._curves = this._createCurves();
         this._mesh = this._createMesh();
-        this._hitArea = this._createHitArea();
+        // this._hitArea = this._createHitArea();
         this._labelAnchor = this._createLabelAnchor();
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
@@ -267,7 +267,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
         const material = new MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
         const mesh = new Mesh(mergedGeometry, material);
-        mesh.visible = false;
+        mesh.visible = true;
         this.add(mesh);
         return mesh;
     }

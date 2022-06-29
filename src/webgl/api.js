@@ -66,4 +66,16 @@ export default {
             return this._viewManager.active.showTree();
         }
     },
+
+    categoryMouseEnter(name) {
+        if (this.isHome()) {
+            this._viewManager.active.categoryMouseEnter(name);
+        }
+    },
+
+    categoryMouseLeave(name) {
+        if (this.isHome()) {
+            this._viewManager.active.categoryMouseLeave(name);
+        }
+    },
 };

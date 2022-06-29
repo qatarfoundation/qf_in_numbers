@@ -159,6 +159,14 @@ export default class HomeView extends component() {
         return this._timelineShowTree;
     }
 
+    categoryMouseEnter(name) {
+        this._components.tree.categoryMouseEnter(name);
+    }
+
+    categoryMouseLeave(name) {
+        this._components.tree.categoryMouseLeave(name);
+    }
+
     /**
      * Private
      */

@@ -3,19 +3,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Vendor
-import gsap, { Power0, Power2 } from 'gsap';
+import gsap from 'gsap';
 import SplitText from '@/assets/scripts/SplitText';
 gsap.registerPlugin(SplitText);
+
+// CSS
+import './style.scoped.scss';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 
-// CSS
-import './style.scoped.scss';
-import ButtonExplore from '../ButtonExplore/index';
+// Components
+import ButtonExplore from '@/components/ButtonExplore';
 
 const LabelMainCategory = (props) => {
-    const { index: categoryIndex, anchor } = props;
+    const { index: categoryIndex, anchor, category, slug } = props;
 
     const { t } = useTranslation();
 
@@ -35,40 +37,40 @@ const LabelMainCategory = (props) => {
         };
     }, [labelRef]);
 
-    useEffect(() => {
-        let hasMouseMoved = false;
+    // useEffect(() => {
+    //     let hasMouseMoved = false;
 
-        const mouseEnterHandler = ({ index }) => {
-            if (!hasMouseMoved) return;
+    //     const mouseEnterHandler = ({ index }) => {
+    //         if (!hasMouseMoved) return;
 
-            if (categoryIndex !== index) {
-                setIsHover(false);
-                gsap.to(labelRef.current, { duration: 0.5, alpha: 0.3 });
-            } else {
-                setIsHover(true);
-            }
-        };
+    //         if (categoryIndex !== index) {
+    //             setIsHover(false);
+    //             gsap.to(labelRef.current, { duration: 0.5, alpha: 0.3 });
+    //         } else {
+    //             setIsHover(true);
+    //         }
+    //     };
 
-        const mouseLeaveHandler = () => {
-            setIsHover(false);
-            gsap.to(labelRef.current, { duration: 0.5, alpha: 1 });
-        };
+    //     const mouseLeaveHandler = () => {
+    //         setIsHover(false);
+    //         gsap.to(labelRef.current, { duration: 0.5, alpha: 1 });
+    //     };
 
-        const mousemoveHandler = () => {
-            hasMouseMoved = true;
-        };
+    //     const mousemoveHandler = () => {
+    //         hasMouseMoved = true;
+    //     };
 
-        window.addEventListener('mousemove', mousemoveHandler);
+    //     window.addEventListener('mousemove', mousemoveHandler);
 
-        TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
-        TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
+    //     TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
+    //     TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
 
-        return () => {
-            TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
-            TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
-            window.removeEventListener('mousemove', mousemoveHandler);
-        };
-    });
+    //     return () => {
+    //         TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
+    //         TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
+    //         window.removeEventListener('mousemove', mousemoveHandler);
+    //     };
+    // });
 
     /**
      * References
@@ -97,7 +99,7 @@ const LabelMainCategory = (props) => {
                 { props.label }
             </p>
             <div ref={ buttonRef } className="container-button">
-                <ButtonExplore name={ t('Click to discover') } direction={ anchor == 'right' ? 'left' : 'right' } />
+                <ButtonExplore slug={ slug } name={ t('Click to discover') } category={ category } direction={ anchor == 'right' ? 'left' : 'right' } />
             </div>
         </div>
     );
