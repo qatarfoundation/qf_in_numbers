@@ -54,9 +54,9 @@ export default class TreeComponent extends component(Object3D) {
 
         this._timelineTransitionIn = new gsap.timeline();
         this._timelineTransitionIn.set(this, { visible: true }, 0);
-        // for (let i = 0, len = this._branches.length; i < len; i++) {
-        //     this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
-        // }
+        for (let i = 0, len = this._branches.length; i < len; i++) {
+            this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
+        }
         return this._timelineTransitionIn;
     }
 
