@@ -283,9 +283,7 @@ function CategoryTemplate(props) {
                 //     </>
             }
             { currentSubcategory &&
-                <>
-                    <LabelsEntities key={ indexActiveSubcategory } entities={ category.subcategories[indexActiveSubcategory].entities } />
-                </>
+                <LabelsEntities key={ indexActiveSubcategory } entities={ category.subcategories[indexActiveSubcategory].entities } />
             }
         </div>
     );

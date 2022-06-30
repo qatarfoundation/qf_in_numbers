@@ -48,6 +48,8 @@ function SliderEntities(props) {
     const [entitiesTitleHeight, setEntitiesTitleHeight] = useState([]);
     const [firstPageLoad, setFirstPageLoad] = useState(true);
 
+    const isSubcategoryChanged = useRef(false);
+
     /**
      * Events
      */
@@ -58,17 +60,19 @@ function SliderEntities(props) {
      */
     useEffect(() => {
         setActiveIndexOffset(-indexActiveEntity);
-        resize();
     }, [entities]);
 
     useEffect(() => {
         const roman = romanize(indexActiveSubcategory + 1);
         setActiveSubcategoryNumeral(roman);
+        resize();
+        isSubcategoryChanged.current = true;
     }, [indexActiveSubcategory]);
 
     useEffect(() => {
         if (firstPageLoad) return;
 
+        // if (!isSubcategoryChanged.current) {
         if (indexActiveEntity > previousIndexActiveEntity) {
             setActiveIndexOffset(-indexActiveEntity);
             const offset = entitiesTitleHeight[indexActiveEntity];
@@ -80,8 +84,10 @@ function SliderEntities(props) {
                 setActiveIndexOffset(-indexActiveEntity);
             });
         }
+        // }
 
         setPreviousIndexActiveEntity(indexActiveEntity);
+        isSubcategoryChanged.current = false;
     }, [indexActiveEntity]);
 
     useEffect(() => {
@@ -155,7 +161,8 @@ function SliderEntities(props) {
     }
 
     function setListOffset(heights) {
-        const offset = heights[indexActiveEntity];
+        const activeIndex = useStore.getState().indexActiveEntity;
+        const offset = heights[activeIndex];
         gsap.set(listEntities.current, { y: -offset });
     }
 
