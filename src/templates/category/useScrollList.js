@@ -20,7 +20,7 @@ function useScrollList(category) {
     useEffect(() => {
         const scrollList = [];
 
-        const animationDelay = 1;
+        const animationDelay = 2;
         let delayedCall = null;
 
         const entities = category.subcategories[indexActiveSubcategory].entities;

@@ -26,9 +26,9 @@ export default class TreeComponent extends component(Object3D) {
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(2, 2);
         this._debug = this._createDebug();
-        this._raycaster = this._createRaycaster();
+        // this._raycaster = this._createRaycaster();
         this._branches = this._createBranches();
-        this._hitAreas = this._createHitAreas();
+        // this._hitAreas = this._createHitAreas();
 
         this._bindHandlers();
         this._setupEventListeners();
@@ -54,9 +54,9 @@ export default class TreeComponent extends component(Object3D) {
 
         this._timelineTransitionIn = new gsap.timeline();
         this._timelineTransitionIn.set(this, { visible: true }, 0);
-        // for (let i = 0, len = this._branches.length; i < len; i++) {
-        //     this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
-        // }
+        for (let i = 0, len = this._branches.length; i < len; i++) {
+            this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
+        }
         return this._timelineTransitionIn;
     }
 
@@ -79,6 +79,16 @@ export default class TreeComponent extends component(Object3D) {
             this._timelineHide.add(this._branches[i].hide(), 0);
         }
         return this._timelineHide;
+    }
+
+    categoryMouseEnter(name) {
+        const branch = this._getBranch(name);
+        branch.mouseEnter();
+    }
+
+    categoryMouseLeave(name) {
+        const branch = this._getBranch(name);
+        branch.mouseLeave();
     }
 
     /**
@@ -130,6 +140,14 @@ export default class TreeComponent extends component(Object3D) {
         return branches;
     }
 
+    _getBranch(slug) {
+        let item;
+        for (let i = 0, len = this._branches.length; i < len; i++) {
+            item = this._branches[i];
+            if (item.slug === slug) return item;
+        }
+    }
+
     _createHitAreas() {
         const hitAreas = [];
         this._branches.forEach((branch) => {
@@ -144,7 +162,7 @@ export default class TreeComponent extends component(Object3D) {
     update({ time, delta }) {
         if (!this._isActive) return;
         this._updateBranches({ time, delta });
-        if (this.$root.isInteractive) this._updateMouseInteractions();
+        // if (this.$root.isInteractive) this._updateMouseInteractions();
     }
 
     _updateBranches({ time, delta }) {
@@ -153,29 +171,29 @@ export default class TreeComponent extends component(Object3D) {
         }
     }
 
-    _updateMouseInteractions() {
-        this._raycaster.setFromCamera(this._mousePosition, this._cameraManager.camera);
-        const intersects = this._raycaster.intersectObjects(this._hitAreas);
-        if (intersects.length > 0) {
-            Cursor.pointer();
-            const branch = intersects[0].object.parent;
-            if (this._activeBranch !== branch) {
-                this._activeBranch?.mouseLeave();
+    // _updateMouseInteractions() {
+    //     this._raycaster.setFromCamera(this._mousePosition, this._cameraManager.camera);
+    //     const intersects = this._raycaster.intersectObjects(this._hitAreas);
+    //     if (intersects.length > 0) {
+    //         Cursor.pointer();
+    //         const branch = intersects[0].object.parent;
+    //         if (this._activeBranch !== branch) {
+    //             this._activeBranch?.mouseLeave();
 
-                this._activeBranch = branch;
-                this._activeBranch.mouseEnter();
+    //             this._activeBranch = branch;
+    //             this._activeBranch.mouseEnter();
 
-                this._fadeOutBranches(branch);
-            }
-        } else {
-            Cursor.auto();
-            if (this._activeBranch) {
-                this._activeBranch.mouseLeave();
-                this._activeBranch = null;
-                this._fadeInBranches();
-            }
-        }
-    }
+    //             this._fadeOutBranches(branch);
+    //         }
+    //     } else {
+    //         Cursor.auto();
+    //         if (this._activeBranch) {
+    //             this._activeBranch.mouseLeave();
+    //             this._activeBranch = null;
+    //             this._fadeInBranches();
+    //         }
+    //     }
+    // }
 
     _fadeInBranches() {
         this._branches.forEach((branch) => {

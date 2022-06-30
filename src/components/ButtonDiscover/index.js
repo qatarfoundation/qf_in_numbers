@@ -8,7 +8,7 @@ import './style.scoped.scss';
 import Arrow from '@/assets/icons/arrow.svg';
 import { Link } from 'gatsby-plugin-react-i18next';
 
-function ButtonPagination(props, ref) {
+function ButtonPagination(props) {
     /**
      * Datas
      */

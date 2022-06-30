@@ -75,32 +75,32 @@ export default class TreeCamera extends component() {
 
     gotoCategory(slug) {
         this._currentBranch = TreeDataModel.getBranch(slug);
-        const config = this._currentBranch.camera;
+        // const config = this._currentBranch.camera;
 
-        const center = new Vector3(0, 5, 0);
-        const maxRadius = this._position.z;
+        // const center = new Vector3(0, 5, 0);
+        // const maxRadius = this._position.z;
 
-        this._gotoOverviewAnimation?.kill();
-        this._gotoCategoryAnimation?.kill();
-        this._gotoPositionAnimation?.kill();
+        // this._gotoOverviewAnimation?.kill();
+        // this._gotoCategoryAnimation?.kill();
+        // this._gotoPositionAnimation?.kill();
 
-        this._gotoCategoryAnimation = gsap.to(this, 10, {
-            _categoryProgress: 1,
-            ease: 'power2.inOut',
-            onUpdate: () => {
-                const radius = maxRadius - this._categoryProgress * config.radiusOffset;
-                const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
-                const x = radius * Math.cos(angle);
-                const y = this._position.y + Y_OFFSET * this._categoryProgress;
-                const z = radius * Math.sin(angle);
-                this._camera.position.set(x, y, z);
+        // this._gotoCategoryAnimation = gsap.to(this, 10, {
+        //     _categoryProgress: 1,
+        //     ease: 'power2.inOut',
+        //     onUpdate: () => {
+        //         const radius = maxRadius - this._categoryProgress * config.radiusOffset;
+        //         const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
+        //         const x = radius * Math.cos(angle);
+        //         const y = this._position.y + Y_OFFSET * this._categoryProgress;
+        //         const z = radius * Math.sin(angle);
+        //         this._camera.position.set(x, y, z);
 
-                // this._target.copy(center);
+        //         // this._target.copy(center);
 
-                // center.y = y;
-                this._camera.lookAt(this._target);
-            },
-        });
+        //         // center.y = y;
+        //         this._camera.lookAt(this._target);
+        //     },
+        // });
         return this._gotoCategoryAnimation;
     }
 

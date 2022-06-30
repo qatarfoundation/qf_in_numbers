@@ -82,12 +82,12 @@ function HomeTemplate(props, ref) {
             lines.forEach((line, i) => {
                 timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn');
             });
-            timeline.add(Globals.webglApp.showTree(), null, 'charsLineIn');
             timeline.add('fadeIn');
             timeline.to(labelRef.current, { duration: 0.75, alpha: 1, ease: 'sine.inOut' }, 'fadeIn');
             timeline.to(buttonRef.current, { duration: 0.5, alpha: 1, scale: 1, ease: 'sine.inOut' }, 'fadeIn');
             timeline.to(sentenceRef.current, { duration: 0.75, alpha: 0.5, ease: 'sine.inOut' }, 'fadeIn');
             timeline.to(textButtonRef.current, { duration: 0.7, alpha: 1, y: 0, ease: 'sine.inOut' }, '-=0.45');
+            timeline.call(() => Globals.webglApp.showTree(), null, 0.0);
         }, 0);
         return timeline;
     }
@@ -114,7 +114,6 @@ function HomeTemplate(props, ref) {
         lines.forEach((line, i) => {
             timeline.to(line.querySelectorAll('.char'), 1, { opacity: 0, stagger: 0.015, ease: Power0.easeIn }, 'fadeOut');
         });
-        timeline.add(Globals.webglApp.showTree(), null, 'fadeOut');
         timeline.to(labelRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
         timeline.to(buttonRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
         timeline.to(sentenceRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');

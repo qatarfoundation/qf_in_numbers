@@ -37,7 +37,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._debug = this._createDebug(options.debug);
         this._curves = this._createCurves();
         this._mesh = this._createMesh();
-        this._hitArea = this._createHitArea();
+        // this._hitArea = this._createHitArea();
         this._labelAnchor = this._createLabelAnchor();
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
@@ -73,8 +73,8 @@ export default class TreeBranchComponent extends component(Object3D) {
      * Public
      */
     transitionIn() {
-        this._timelineTransitionIn = new gsap.timeline({ delay: 2.5 });
-        this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 7, { value: 0 }, { value: 0.6, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
+        this._timelineTransitionIn = new gsap.timeline();
+        this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 10, { value: 0 }, { value: 0.65, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
         return this._timelineTransitionIn;
     }
 
@@ -227,7 +227,7 @@ export default class TreeBranchComponent extends component(Object3D) {
             vertexShader,
             uniforms: {
                 uColorGradient: { value: colorGradient },
-                uProgress: { value: 0.65 },
+                uProgress: { value: 0 },
                 uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.56 },
                 uInnerGradient: { value: 1.85 },
@@ -267,7 +267,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
         const material = new MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
         const mesh = new Mesh(mergedGeometry, material);
-        mesh.visible = false;
+        mesh.visible = true;
         this.add(mesh);
         return mesh;
     }

@@ -56,7 +56,6 @@ const YearTemplate = (props) => {
     useEffect(() => {
         Globals.webglApp.gotoOverview();
         Globals.webglApp.enableInteractions();
-        Globals.webglApp.showTree();
 
         useStore.setState({ currentCategory: null });
         useStore.setState({ selectedEntity: null });
@@ -117,7 +116,7 @@ const YearTemplate = (props) => {
                 <SliderCategories categories={ year.categories } />
                 :
                 <div className="container-page container">
-                    <ListCategories categories={ year.categories } />
+                    <ListCategories year={ year.year } categories={ year.categories } />
                 </div>
             }
 
