@@ -114,7 +114,6 @@ function HomeTemplate(props, ref) {
         lines.forEach((line, i) => {
             timeline.to(line.querySelectorAll('.char'), 1, { opacity: 0, stagger: 0.015, ease: Power0.easeIn }, 'fadeOut');
         });
-        timeline.add(Globals.webglApp.showTree(), null, 'fadeOut');
         timeline.to(labelRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
         timeline.to(buttonRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
         timeline.to(sentenceRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
