@@ -9,7 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Components
 import ListItemSubcategory from '@/components/ListItemSubcategory';
-import LabelMainCategory from '../LabelMainCategory/index';
+import ButtonMainCategory from '../ButtonMainCategory/index';
 import ListItemCategory from '../ListItemCategory/index';
 
 // Utils

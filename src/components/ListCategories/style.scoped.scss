@@ -5,6 +5,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
+
     @include respond-to('medium') {
         justify-content: center;
         align-items: center;
@@ -14,10 +15,12 @@
 .list-item {
     padding-left: rem(10px, 'small');
     padding-right: rem(10px, 'small');
+
     @include respond-to('medium') {
         padding-left: rem(10px, 'medium');
         padding-right: rem(10px, 'medium');
     }
+
     @include respond-to('large') {
         padding-left: rem(10px, 'large');
         padding-right: rem(10px, 'large');

@@ -5,31 +5,29 @@ import React, { useEffect } from 'react';
 import './style.scoped.scss';
 
 // Components
-import LabelMainCategory from '@/components/LabelMainCategory';
+import ButtonMainCategory from '@/components/ButtonMainCategory';
 
 function ListCategories(props) {
     const { categories } = props;
-
-    const colors = ['blue', 'red', 'green'];
 
     return (
         <ul className="list-categories">
 
             { categories[0] &&
                 <li className="list-item">
-                    <LabelMainCategory index={ 0 } label={ categories[0].name } color={ colors[0] } anchor="left" />
+                    <ButtonMainCategory index={ 0 } label={ categories[0].name } color="blue" anchorX="left" anchorY="top" />
                 </li>
             }
 
             { categories[1] &&
                 <li className="list-item">
-                    <LabelMainCategory index={ 1 } label={ categories[1].name } color={ colors[1] } anchor="left" />
+                    <ButtonMainCategory index={ 1 } label={ categories[1].name } color="red" anchorX="left" anchorY="top" />
                 </li>
             }
 
             { categories[2] &&
                 <li className="list-item">
-                    <LabelMainCategory index={ 2 } label={ categories[2].name } color={ colors[2] } anchor="right" />
+                    <ButtonMainCategory index={ 2 } label={ categories[2].name } color="green" anchorX="right" anchorY="top" />
                 </li>
             }
 
