@@ -1,6 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'gatsby-plugin-react-i18next';
+import { useTranslation, Link } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import gsap from 'gsap';
@@ -8,12 +8,18 @@ import SplitText from '@/assets/scripts/SplitText';
 gsap.registerPlugin(SplitText);
 
 // Utils
+import Globals from '@/utils/Globals';
 import TreeDataModel from '@/utils/TreeDataModel';
 
 // CSS
 import './style.scoped.scss';
 
 const ButtonMainCategory = (props) => {
+    /**
+     * Props
+     */
+    const { isNotActive } = props;
+
     /**
      * Data
      */
@@ -65,19 +71,23 @@ const ButtonMainCategory = (props) => {
      * Handlers
      */
     function anchorPositionChangedHandler(position) {
-        el.current.style.transform = `translate(${ position.x }px, ${ position.y }px)`;
+        // el.current.style.transform = `translate(${ position.x }px, ${ position.y }px)`;
+        el.current.style.left = `${ position.x }px`;
+        el.current.style.top = `${ position.y }px`;
     }
 
     function mouseenterHandler() {
         timelines.current.mouseleave?.kill();
 
         timelines.current.mouseenter = new gsap.timeline();
-        timelines.current.mouseenter.to(labelRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
         timelines.current.mouseenter.to(coloredCircleRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
         timelines.current.mouseenter.to(circleRef.current, { duration: 1, scale: 0.55, ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(circleRef.current, { duration: 1, y: '-50%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(dotRef.current, { duration: 1, y: '-50%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(dotRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0.3);
+        timelines.current.mouseenter.to(circleRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.to(dotRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.to(labelRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.mouseenter.to(dotRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+
+        Globals.webglApp.categoryMouseEnter(props.categoryId);
     }
 
     function mouseleaveHandler() {
@@ -90,10 +100,12 @@ const ButtonMainCategory = (props) => {
         timelines.current.mouseleave.to(circleRef.current, { duration: 1, scale: 1, ease: 'power3.out' }, 0);
         timelines.current.mouseleave.to(circleRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
         timelines.current.mouseleave.to(dotRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
+
+        Globals.webglApp.categoryMouseLeave(props.categoryId);
     }
 
     return (
-        <div className={ `button-main-category anchor-${ props.anchorX } ${ props.color }` } ref={ el } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
+        <Link to={ props.slug ? props.slug : '' } className={ `button-main-category anchor-x-${ props.anchorX } anchor-y-${ props.anchorY } ${ props.color } ${ isNotActive ? 'is-not-active' : '' }` } ref={ el } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
 
             <div className="click-area copy h4">{ props.label }</div>
 
@@ -117,7 +129,7 @@ const ButtonMainCategory = (props) => {
 
             </div>
 
-        </div>
+        </Link>
     );
 };
 

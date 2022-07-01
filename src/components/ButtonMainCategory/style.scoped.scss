@@ -8,7 +8,11 @@
 
     pointer-events: none;
 
-    &.anchor-left {
+    color: $color-white;
+
+    cursor: pointer;
+
+    &.anchor-x-left {
         .content {
             transform: translateX(-100%);
         }
@@ -24,9 +28,9 @@
 }
 
 .circle-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* & * {
+        display: none;
+    } */
 
     position: absolute;
     left: rem(-50px, 'small');
@@ -53,7 +57,7 @@
         height: rem(100px, 'large');
     }
 
-    .anchor-left & {
+    .anchor-x-left & {
         left: auto;
         right: rem(-50px, 'large');
 
@@ -77,6 +81,8 @@
 
     border-radius: 50%;
     border: solid 1px rgba(255, 255, 255, 0.3);
+
+    will-change: transform;
 }
 
 .colored-circle {
@@ -92,6 +98,8 @@
     border-radius: 50%;
 
     border: solid 1px rgba(255, 255, 255, 0.3);
+
+    will-change: transform;
 
     .button-main-category.blue & {
         border-color: color-from-theme("blue", "secondary");
@@ -111,6 +119,8 @@
 
     width: 100%;
     height: 100%;
+
+    will-change: transform;
 
     &:before {
         content: '';
@@ -158,9 +168,14 @@
         left: rem(45px, 'large');
     }
 
-    .anchor-left & {
+    .anchor-x-left & {
         left: auto;
         right: rem(45px, 'large');
+    }
+
+    .anchor-y-bottom & {
+        bottom: auto;
+        top: 110%;
     }
 
     .button-main-category.blue & {
@@ -179,8 +194,6 @@
 
 .click-area {
     opacity: 0;
-    color: transparent;
-    border: solid 1px red;
 
     position: absolute;
     left: rem(-50px, 'large');
@@ -193,7 +206,7 @@
     pointer-events: all;
     cursor: pointer;
 
-    .anchor-left & {
+    .anchor-x-left & {
         left: auto;
         right: rem(-50px, 'large');
 

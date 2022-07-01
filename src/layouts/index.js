@@ -25,7 +25,6 @@ import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/Env
 // Hooks
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
-import Cursor from '@/components/Cursor/index';
 
 function Layout(props) {
     const containerRef = useRef();
@@ -132,7 +131,6 @@ function Layout(props) {
                         <AnimatePresence>
 
                             <div key={ originalPath } className="page">
-                                <Cursor />
                                 { children }
                                 {
                                     !isTutorial && <>

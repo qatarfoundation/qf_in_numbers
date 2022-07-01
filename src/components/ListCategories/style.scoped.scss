@@ -13,6 +13,8 @@
 }
 
 .list-item {
+    opacity: 1;
+
     padding-left: rem(10px, 'small');
     padding-right: rem(10px, 'small');
 
@@ -24,5 +26,11 @@
     @include respond-to('large') {
         padding-left: rem(10px, 'large');
         padding-right: rem(10px, 'large');
+    }
+
+    transition: opacity 0.5s $sine-in-out;
+
+    &.is-not-active {
+        opacity: 0.2;
     }
 }
