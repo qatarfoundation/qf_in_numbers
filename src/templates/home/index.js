@@ -1,13 +1,16 @@
 // Vendor
-import gsap, { Power0, Power2 } from 'gsap';
+import gsap from 'gsap';
 import SplitText from '@/assets/scripts/SplitText';
 gsap.registerPlugin(SplitText);
 
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
-import { graphql, useStaticQuery } from 'gatsby';
-import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
+import { graphql } from 'gatsby';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
+
+// Hooks
+import useStore from '@/hooks/useStore';
 
 // CSS
 import './style.scoped.scss';
@@ -16,49 +19,21 @@ import './style.scoped.scss';
 import Globals from '@/utils/Globals';
 
 // Components
-import Drag from '@/assets/icons/drag.svg';
-import Select from '@/assets/icons/select.svg';
-import { Link } from 'gatsby-plugin-react-i18next';
-import useStore from '@/hooks/useStore';
-import Tutorial from '@/components/Tutorial/index';
 import RichText from '@/components/RichText/index';
+import ButtonStart from '@/components/ButtonStart/index';
 
 function HomeTemplate(props, ref) {
     /**
      * Data
      */
-    const { language } = props.pageContext;
+    const { years, language } = props.pageContext;
     const { t } = useTranslation();
+    const currentYear = years['en-US'][years['en-US'].length - 1];
 
     /**
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
-    const [isInitiation, setIsInitiation] = useState(true);
-
-    /**
-     * Stores
-     */
-    const isTutorial = useStore(s => s.isTutorial);
-
-    /**
-     * Effects
-     */
-    useEffect(() => {
-        if (isPresent) transitionIn();
-        else if (!isPresent) transitionOut(safeToRemove);
-    }, [isPresent]);
-
-    useEffect(() => {
-        if (!isTutorial) useStore.setState({ isTutorial: true });
-        Globals.webglApp.disableInteractions();
-    }, []);
-
-    useEffect(() => {
-        if (titleRef.current) {
-            new SplitText(titleRef.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
-        }
-    }, [titleRef]);
 
     /**
      * Refs
@@ -67,35 +42,67 @@ function HomeTemplate(props, ref) {
     const titleRef = useRef();
     const labelRef = useRef();
     const buttonRef = useRef();
-    const textButtonRef = useRef();
-    const sentenceRef = useRef();
+    const cookieRef = useRef();
+    const timelines = useRef({
+        transitionIn: null,
+        transitionOut: null,
+    });
+    const headingLinesSplitText = useRef();
+
+    /**
+     * Watchers
+     */
+    useEffect(() => {
+        // if (isPresent) transitionIn();
+        if (!isPresent) transitionOut(safeToRemove);
+    }, [isPresent]);
+
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy();
+    }, []);
+
+    function mounted() {
+        headingLinesSplitText.current = new SplitText(titleRef.current, {
+            type: 'lines',
+            linesClass: 'split-line',
+        });
+
+        transitionIn();
+    }
+
+    function destroy() {
+
+    }
 
     /**
      * Private
      */
     function transitionIn() {
-        const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
-        setTimeout(() => {
-            timeline.to(titleRef.current, 0, { opacity: 1 });
-            const lines = titleRef.current.querySelectorAll('.line');
-            timeline.add('charsLineIn');
-            lines.forEach((line, i) => {
-                timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn');
-            });
-            timeline.add('fadeIn');
-            timeline.to(labelRef.current, { duration: 0.75, alpha: 1, ease: 'sine.inOut' }, 'fadeIn');
-            timeline.to(buttonRef.current, { duration: 0.5, alpha: 1, scale: 1, ease: 'sine.inOut' }, 'fadeIn');
-            timeline.to(sentenceRef.current, { duration: 0.75, alpha: 0.5, ease: 'sine.inOut' }, 'fadeIn');
-            timeline.to(textButtonRef.current, { duration: 0.7, alpha: 1, y: 0, ease: 'sine.inOut' }, '-=0.45');
-            timeline.call(() => Globals.webglApp.showTree(), null, 0.0);
-        }, 0);
-        return timeline;
+        timelines.current.transitionOut?.kill();
+
+        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted, delay: 1 });
+
+        timelines.current.transitionIn.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionIn.to(headingLinesSplitText.current.lines, { duration: 1.5, alpha: 1, stagger: 0.1, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionIn.to(headingLinesSplitText.current.lines, { duration: 1.5, rotation: '0deg', stagger: 0.1, ease: 'power3.out' }, 0);
+        timelines.current.transitionIn.to(headingLinesSplitText.current.lines, { duration: 1.5, y: '0%', stagger: 0.1, ease: 'power3.out' }, 0);
+        timelines.current.transitionIn.to(labelRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 0.2);
+        timelines.current.transitionIn.add(buttonRef.current.show(), 0.5);
+        timelines.current.transitionIn.to(cookieRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 1);
+        // timelines.current.transitionIn.call(() => { Globals.webglApp.showTree(); }, null, 0);
     }
 
     function transitionOut() {
-        // const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
-        // timeline.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
-        // return timeline;
+        timelines.current.transitionIn?.kill();
+
+        timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
+
+        timelines.current.transitionOut.add(buttonRef.current.hide(), 0);
+        timelines.current.transitionOut.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
     }
 
     function transitionInCompleted() {
@@ -103,43 +110,29 @@ function HomeTemplate(props, ref) {
     }
 
     function transitionOutCompleted() {
-        // Unmount
         safeToRemove();
-    }
-
-    function clickHandlerButtonInitiation() {
-        const timeline = new gsap.timeline({ onComplete: () => setIsInitiation(false) });
-        const lines = titleRef.current.querySelectorAll('.line');
-        timeline.add('fadeOut');
-        lines.forEach((line, i) => {
-            timeline.to(line.querySelectorAll('.char'), 1, { opacity: 0, stagger: 0.015, ease: Power0.easeIn }, 'fadeOut');
-        });
-        timeline.to(labelRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
-        timeline.to(buttonRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
-        timeline.to(sentenceRef.current, { duration: 0.75, alpha: 0, ease: 'sine.inOut' }, 'fadeOut');
     }
 
     /**
      * Render
      */
     return (
-        <div className="page" ref={ el }>
-            <div className="container-page">
-                {
-                    isInitiation ?
-                        <div className="initiation">
-                            <h1 ref={ titleRef } className="h4 title">{ props.pageContext.home[language].introduction }</h1>
-                            <p ref={ labelRef } className="p4 label">{ t('Click enter to continue') }</p>
-                            <button ref={ buttonRef } className="button button-enter p4" onClick={ clickHandlerButtonInitiation }><span ref={ textButtonRef }>{ t('Enter') }</span></button>
+        <div className="page-home" ref={ el }>
 
-                            <div ref={ sentenceRef } className='p4 cookie-sentence'>
-                                <RichText data={ props.data.allContentfulGlobal.edges[0].node.cookies } />
-                            </div>
-                        </div>
-                        :
-                        <Tutorial years={ props.data.allContentfulYear.edges } heading={ props.pageContext.home[language].heading } tutorial1={ props.pageContext.home[language].tutorial1 } tutorial2={ props.pageContext.home[language].tutorial2 } />
-                }
+            <div className="initiation">
+
+                <h1 ref={ titleRef } className="h4 title">{ props.pageContext.home[language].introduction }</h1>
+
+                <p ref={ labelRef } className="p4 label">{ t('Click enter to continue') }</p>
+
+                <ButtonStart ref={ buttonRef } to={ currentYear.slug } label={ t('Enter') } className="button button-enter p4" />
+
             </div>
+
+            <div ref={ cookieRef } className='p4 cookie'>
+                <RichText data={ props.data.allContentfulGlobal.edges[0].node.cookies } />
+            </div>
+
         </div>
     );
 }

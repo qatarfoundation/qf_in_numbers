@@ -169,6 +169,7 @@ function createPages(languages) {
         type: 'home',
         context: {
             home,
+            years,
         },
     });
 

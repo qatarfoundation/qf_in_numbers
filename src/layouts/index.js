@@ -112,10 +112,7 @@ function Layout(props) {
 
     return (
         <div className={ themeCategory ? themeCategory : '' }>
-            <Helmet
-                htmlAttributes={ { lang: language } }
-                bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }
-            >
+            <Helmet htmlAttributes={ { lang: language } } bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }>
                 <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
                 <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
             </Helmet>
@@ -128,16 +125,16 @@ function Layout(props) {
 
                     { webglAppState === 'started' && isFinishAnimPreload &&
 
-                        <AnimatePresence>
+                        <AnimatePresence exitBeforeEnter>
 
                             <div key={ originalPath } className="page">
                                 { children }
-                                {
+                                { /* {
                                     !isTutorial && <>
                                         <TheNavigation key={ `${ language }-navigation` } />
                                         <TheFooter key={ `${ language }-footer` } />
                                     </>
-                                }
+                                } */ }
                             </div>
 
                         </AnimatePresence>
@@ -147,8 +144,10 @@ function Layout(props) {
                 </div>
 
                 <AnimatePresence>
-                    { getEnvironment() !== DEVELOPMENT &&
-                            <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
+                    {
+                        getEnvironment() !== DEVELOPMENT
+                        &&
+                        <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
                     }
                 </AnimatePresence>
 
