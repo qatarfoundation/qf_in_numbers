@@ -1,0 +1,58 @@
+.main-breadcrumb-item {
+    position: relative;
+
+    padding-left: rem(14px, 'small');
+    padding-right: rem(10px, 'small');
+
+    pointer-events: all;
+
+    font-weight: 400;
+    font-size: rem(13px, 'small');
+    line-height: rem(16px, 'small');
+    color: $color-white;
+
+    @include respond-to('medium') {
+        padding-left: rem(14px, 'medium');
+        padding-right: rem(10px, 'medium');
+
+        font-size: rem(13px, 'medium');
+        line-height: rem(16px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-left: rem(14px, 'large');
+        padding-right: rem(10px, 'large');
+
+        font-size: rem(13px, 'large');
+        line-height: rem(16px, 'large');
+    }
+}
+
+.icon {
+    position: absolute;
+    left: 0;
+    top: 7px;
+
+    display: inline-block;
+
+    margin: auto;
+
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 4px 0 4px 4px;
+
+    border-color: transparent transparent transparent color-from-theme('green', 'primary');
+
+    .theme-green & {
+        border-color: transparent transparent transparent color-from-theme('green', 'primary');
+    }
+
+    .theme-blue & {
+        border-color: transparent transparent transparent color-from-theme('blue', 'primary');
+    }
+
+    .theme-red & {
+        border-color: transparent transparent transparent color-from-theme('red', 'primary');
+    }
+}

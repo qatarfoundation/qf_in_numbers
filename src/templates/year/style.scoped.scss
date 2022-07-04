@@ -1,4 +1,8 @@
 .template-year {
+    position: fixed;
+    left: 0;
+    top: 0;
+
     opacity: 0;
 
     width: 100%;
@@ -85,4 +89,10 @@
             }
         }
     }
+}
+
+.button-discover-mobile-container {
+    position: absolute;
+    bottom: rem(169px, 'small');
+    right: rem(16px, 'small');
 }

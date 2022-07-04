@@ -21,7 +21,6 @@ import PanelEntity from '@/components/PanelEntity';
 
 // Utils
 import Globals from '@/utils/Globals';
-import ButtonPagination from '@/components/ButtonPagination/index';
 import ButtonBack from '@/components/ButtonBack/index';
 
 function EntityTemplate(props) {

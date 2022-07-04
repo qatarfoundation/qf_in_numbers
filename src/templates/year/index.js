@@ -120,11 +120,13 @@ const YearTemplate = (props) => {
                 </div>
             }
 
-            { year.categories[0] && <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } /> }
+            { /* { year.categories[0] && <SubcategoriesLabel index={ 0 } subcategories={ year.categories[0].subcategories } /> }
             { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
-            { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> }
+            { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> } */ }
 
-            { currentCategory && <ButtonPagination name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ currentCategory.slug } direction='right' /> }
+            <div className="button-discover-mobile-container">
+                { currentCategory && <ButtonPagination name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ currentCategory.slug } direction='right' /> }
+            </div>
 
         </div>
     );

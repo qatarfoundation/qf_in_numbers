@@ -1,9 +1,11 @@
 .template-category {
     height: 100vh;
     opacity: 0;
+
     .container-categories {
         height: 100vh;
     }
+
     .slider-subcategories {
         position: absolute;
         bottom: rem(100px, 'small');
@@ -133,31 +135,22 @@
         left: inherit;
         right: rem(16px, 'small');
         bottom: rem(175px, 'small');
-        max-width: 65%;
-        @include respond-to('medium') {
-            top: 0;
-            bottom: 0;
-            left: inherit;
-            right: rem(50px, 'medium');
-            margin: auto 0;
-        }
-        @include respond-to('large') {
-            bottom: 0;
-            left: inherit;
-            right: rem(50px, 'large');
-        }
+
         .ar & {
             left: rem(16px, 'small');
             right: inherit;
+
             @include respond-to('medium') {
                 left: rem(50px, 'medium');
                 right: inherit;
             }
+
             @include respond-to('large') {
                 left: rem(50px, 'large');
                 right: inherit;
             }
         }
+
         .icon {
             position: relative;
             width: rem(56px, 'small');

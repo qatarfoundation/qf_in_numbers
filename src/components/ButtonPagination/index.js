@@ -13,12 +13,13 @@ function ButtonPagination(props, ref) {
      * Datas
      */
     const { name, slug } = props;
+
     return (
         <Link to={ slug ? slug : '' } { ...props } className={ `button button-pagination ${ props.direction } ${ props.className ? props.className : '' }` }>
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>
-            <p className='p3'>{ name }</p>
+            <p className='p3 label'>{ name }</p>
         </Link>
     );
 }

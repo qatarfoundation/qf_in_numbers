@@ -1,10 +1,12 @@
 .button-pagination {
     display: inline-flex;
     align-items: center;
+
     &:hover {
         opacity: 0.7;
         transition: opacity 0.3s ease-in-out;
     }
+
     &.right {
         .icon-arrow {
             order: 2;
@@ -39,18 +41,23 @@
 
 .icon-arrow {
     position: relative;
-    width: rem(32px, 'small');
-    min-width: rem(32px, 'small');
-    height: rem(32px, 'small');
-    min-height: rem(32px, 'small');
+
+    width: rem(56px, 'small');
+    min-width: rem(56px, 'small');
+    height: rem(56px, 'small');
+    min-height: rem(56px, 'small');
+
     margin-right: rem(23px, 'small');
-    border: 1px solid $color-grey;
+
+    border: 1px solid $color-white;
     border-radius: 100%;
+
     @include respond-to('medium') {
         width: rem(32px, 'medium');
         min-width: rem(32px, 'medium');
         height: rem(32px, 'medium');
         min-height: rem(32px, 'medium');
+
         margin-right: rem(23px, 'medium');
     }
     @include respond-to('large') {
@@ -58,6 +65,7 @@
         min-width: rem(32px, 'large');
         height: rem(32px, 'large');
         min-height: rem(32px, 'large');
+
         margin-right: rem(23px, 'large');
     }
     .ar & {
@@ -74,29 +82,31 @@
 
 .arrow {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    padding: rem(8px, 'small');
-    fill: $color-grey;
-    transform: translate3d(-50%, -50%, 0);
-    @include respond-to('medium') {
-        padding: rem(8px, 'medium');
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    width: rem(16px, 'small');
+    height: rem(16px, 'small');
+
+    margin: auto;
+
+    fill: $color-white;
+
+    .ar & {
+        transform: scaleX(-1);
     }
-    @include respond-to('large') {
-        padding: rem(8px, 'large');
-    }
+
     &.left {
-        transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+        transform: scaleX(-1);
+
         .ar & {
-            transform: translate3d(-50%, -50%, 0);
+            transform: scaleX(1);
         }
     }
-    &.right {
-        transform: translate3d(-50%, -50%, 0);
-        .ar & {
-            transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
-        }
-    }
+}
+
+.label {
+    margin-bottom: rem(6px, 'small');
 }
