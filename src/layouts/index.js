@@ -128,8 +128,6 @@ function Layout(props) {
                     { /* WebGL */ }
                     <WebglApp preloaderState={ state } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
-                    { /* <TheFooter key={ `${ language }-footer` } /> */ }
-
                     { /* Page */ }
                     { webglAppState === 'started' && isFinishAnimPreload &&
 
@@ -146,12 +144,14 @@ function Layout(props) {
                     { /* Navigation */ }
                     { originalPath !== '/' &&
 
-                        <AnimatePresence exitBeforeEnter>
+                        <TheNavigation pageContext={ props.pageContext } />
 
-                            <TheNavigation key={ `${ language }-navigation` } />
+                    }
 
-                        </AnimatePresence>
+                    { /* Footer */ }
+                    { originalPath !== '/' &&
 
+                        <TheFooter key={ `${ language }-footer` } />
                     }
 
                 </div>

@@ -10,6 +10,11 @@
     font-size: 13px;
     line-height: 16px;
     color: $color-white;
+
+    .ar & {
+        padding-left: 10px;
+        padding-right: 14px;
+    }
 }
 
 .icon {
@@ -38,5 +43,12 @@
 
     .theme-red & {
         border-color: transparent transparent transparent color-from-theme('red', 'primary');
+    }
+
+    .ar & {
+        left: auto;
+        right: 0;
+
+        transform: scaleX(-1);
     }
 }

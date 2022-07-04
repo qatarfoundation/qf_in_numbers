@@ -68,7 +68,7 @@ function TheNavigation(props) {
 
                 <div className="col-left">
                     <ButtonHome />
-                    <MainBreadcrumbs />
+                    <MainBreadcrumbs pageContext={ props.pageContext } />
                 </div>
 
                 <div className="col-right">

@@ -15,7 +15,7 @@ import './style.scoped.scss';
 import useTemplateData from '@/hooks/useTemplateData';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
-function CategoryTemplate(props) {
+function SubcategoryTemplate(props) {
     /**
      * Data
      */
@@ -33,6 +33,7 @@ function CategoryTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
+    const subcategory = data.subcategory ? data.subcategory[language] : null;
 
     useEffect(() => {
         if (isPresent) transitionIn();
@@ -77,11 +78,11 @@ function CategoryTemplate(props) {
     }
 
     return (
-        <div className="template-category" ref={ el }>
+        <div className="template-subcategory" ref={ el }>
 
             <Helmet>
                 {
-                    <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` }</title>
+                    <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name }` }</title>
                 }
             </Helmet>
 
@@ -89,7 +90,7 @@ function CategoryTemplate(props) {
     );
 }
 
-export default CategoryTemplate;
+export default SubcategoryTemplate;
 
 export const query = graphql`
     query ($language: String!) {

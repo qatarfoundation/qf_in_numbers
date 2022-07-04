@@ -1,6 +1,6 @@
 // React
 import React, { useState } from 'react';
-import { Link } from 'gatsby-plugin-react-i18next';
+import { Link, useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -8,19 +8,14 @@ import './style.scoped.scss';
 // Components
 import MainBreadcrumbItem from '@/components/MainBreadcrumbItem';
 
-// Hooks
-import useStore from '@/hooks/useStore';
-
 function MainBreakcrumbs(props) {
     /**
-     * Props
+     * Data
      */
+    const { language } = useI18next();
 
-    /**
-     * Store
-     */
-    const currentCategory = useStore((state) => state.currentCategory);
-    const currentSubcategory = useStore((state) => state.currentSubcategory);
+    const currentCategory = props.pageContext.category ? props.pageContext.category[language] : null;
+    const currentSubcategory = props.pageContext.subcategory ? props.pageContext.subcategory[language] : null;
 
     return (
         <div className={ 'main-breadcrumbs' }>

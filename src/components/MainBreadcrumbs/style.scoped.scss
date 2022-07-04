@@ -18,4 +18,9 @@
         margin-top: rem(-20px, 'large');
         margin-left: rem(54px, 'large');
     }
+
+    .ar & {
+        margin-left: 0;
+        margin-right: rem(28px, 'small');
+    }
 }
