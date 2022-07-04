@@ -27,6 +27,9 @@ import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
 
 function Layout(props) {
+    /**
+     * Refs
+     */
     const containerRef = useRef();
 
     /**
@@ -43,7 +46,7 @@ function Layout(props) {
     /**
      * Stores
      */
-    const [isTutorial, themeCategory] = useStore((state) => [state.isTutorial, state.themeCategory]);
+    const [themeCategory] = useStore((state) => [state.themeCategory]);
 
     /**
      * Data
@@ -55,7 +58,6 @@ function Layout(props) {
     /**
      * Effects
      */
-
     useEffect(() => {
         if (props.pageContext.year) {
             const entities = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => {
@@ -112,6 +114,8 @@ function Layout(props) {
 
     return (
         <div className={ themeCategory ? themeCategory : '' }>
+
+            { /* SEO */ }
             <Helmet htmlAttributes={ { lang: language } } bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }>
                 <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
                 <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
@@ -121,21 +125,30 @@ function Layout(props) {
 
                 <div className="container" ref={ containerRef }>
 
+                    { /* WebGL */ }
                     <WebglApp preloaderState={ state } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
+                    { /* <TheFooter key={ `${ language }-footer` } /> */ }
+
+                    { /* Page */ }
                     { webglAppState === 'started' && isFinishAnimPreload &&
 
                         <AnimatePresence exitBeforeEnter>
 
                             <div key={ originalPath } className="page">
                                 { children }
-                                { /* {
-                                    !isTutorial && <>
-                                        <TheNavigation key={ `${ language }-navigation` } />
-                                        <TheFooter key={ `${ language }-footer` } />
-                                    </>
-                                } */ }
                             </div>
+
+                        </AnimatePresence>
+
+                    }
+
+                    { /* Navigation */ }
+                    { originalPath !== '/' &&
+
+                        <AnimatePresence exitBeforeEnter>
+
+                            <TheNavigation key={ `${ language }-navigation` } />
 
                         </AnimatePresence>
 
@@ -143,12 +156,11 @@ function Layout(props) {
 
                 </div>
 
+                { /* Preloader */ }
                 <AnimatePresence>
-                    {
-                        getEnvironment() !== DEVELOPMENT
-                        &&
-                        <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } />
-                    }
+
+                    { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } /> }
+
                 </AnimatePresence>
 
             </EnvironmentProvider>

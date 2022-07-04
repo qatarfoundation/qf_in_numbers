@@ -28,6 +28,7 @@ function ButtonStart(props, ref) {
         mouseleave: null,
     });
 
+    const isTransitioning = useRef(false);
     const isHovering = useRef(false);
     const isHoverAllowed = useRef(false);
 
@@ -57,16 +58,19 @@ function ButtonStart(props, ref) {
     function show() {
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline({ onComplete: showCompletedHandler });
+        timelines.current.show.call(() => { isTransitioning.current = true; }, 0);
         timelines.current.show.fromTo(circleRef.current, { scale: 0.5 }, { duration: 1.5, scale: 1, ease: 'power4.out' }, 0);
         timelines.current.show.to(circleRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
         timelines.current.show.to(labelRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0.5);
         timelines.current.show.fromTo(labelRef.current, { y: '50%' }, { duration: 1, y: 0, ease: 'power3.out' }, 0.5);
+        timelines.current.show.call(() => { isTransitioning.current = false; });
         return timelines.current.show;
     }
 
     function hide() {
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
+        timelines.current.hide.call(() => { isTransitioning.current = true; }, 0);
         timelines.current.hide.to(elRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' });
         return timelines.current.hide;
     }
@@ -119,7 +123,7 @@ function ButtonStart(props, ref) {
 
     function mouseenterHandler() {
         isHovering.current = true;
-        if (!isHoverAllowed.current) return;
+        if (!isHoverAllowed.current || isTransitioning.current) return;
 
         isHoverAllowed.current = false;
         mouseenter();
@@ -127,7 +131,7 @@ function ButtonStart(props, ref) {
 
     function mouseleaveHandler() {
         isHovering.current = false;
-        if (!isHoverAllowed.current) return;
+        if (!isHoverAllowed.current || isTransitioning.current) return;
 
         isHoverAllowed.current = false;
         mouseleave();

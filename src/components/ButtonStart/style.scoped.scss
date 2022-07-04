@@ -67,6 +67,16 @@
 
     will-change: transform;
 
+    font-size: rem(16px, 'small');
+
+    @include respond-to('medium') {
+        font-size: rem(16px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(16px, 'large');
+    }
+
     &.clone {
         position: absolute;
         left: 0;

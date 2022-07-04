@@ -52,15 +52,7 @@
     display: flex;
     align-items: center;
 
-    height: rem(45px, 'small');
-
-    @include respond-to('medium') {
-        height: rem(45px, 'medium');
-    }
-
-    @include respond-to('large') {
-        height: rem(45px, 'large');
-    }
+    height: 45px;
 
     button {
         &:first-child {

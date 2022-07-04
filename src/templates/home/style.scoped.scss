@@ -78,7 +78,7 @@
     padding-left: rem(40px, 'small');
     padding-right: rem(40px, 'small');
 
-    font-size: rem(14px, 'small');
+    font-size: 13px;
 
     text-align: center;
 
@@ -94,7 +94,7 @@
 
         padding: 0;
 
-        font-size: rem(16px, 'medium');
+        font-size: 16px;
     }
 
     @include respond-to('large') {
@@ -102,126 +102,7 @@
 
         padding: 0;
 
-        font-size: rem(16px, 'large');
+        font-size: 16px;
     }
 }
 
-/* .initiation {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: rem(600px, 'small');
-    margin-top: rem(75px, 'small');
-    margin-left: auto;
-    margin-right: auto;
-    @include respond-to('medium') {
-        max-width: rem(600px, 'medium');
-        margin-top: rem(175px, 'medium');
-    }
-    @include respond-to('large') {
-        max-width: rem(600px, 'large');
-        margin-top: rem(175px, 'large');
-    }
-    .title {
-        text-align: center;
-        margin-bottom: rem(25px, 'small');
-
-        @include respond-to('medium') {
-            margin-bottom: rem(25px, 'medium');
-        }
-        @include respond-to('large') {
-            margin-bottom: rem(25px, 'large');
-        }
-    }
-    .label {
-        color: color-from-theme('green', 'secondary');
-        margin-bottom: rem(56px, 'small');
-        @include respond-to('medium') {
-            margin-bottom: rem(56px, 'medium');
-        }
-        @include respond-to('large') {
-            margin-bottom: rem(56px, 'large');
-        }
-    }
-    .button-enter {
-        position: relative;
-        width: rem(100px, 'small');
-        min-width: rem(100px, 'small');
-        height: rem(100px, 'small');
-        min-height: rem(100px, 'small');
-        transform: scale3d(1, 1, 1);
-        transition: color 0.25s ease-in;
-        @include respond-to('medium') {
-            width: rem(100px, 'medium');
-            min-width: rem(100px, 'medium');
-            height: rem(100px, 'medium');
-            min-height: rem(100px, 'medium');
-        }
-        @include respond-to('large') {
-            width: rem(100px, 'large');
-            min-width: rem(100px, 'large');
-            height: rem(100px, 'large');
-            min-height: rem(100px, 'large');
-        }
-        &:hover {
-            color: color-from-theme('green', 'secondary');
-            transition: color 0.25s linear;
-            &::before {
-                width: 110%;
-                height: 110%;
-                border: 2px solid color-from-theme('green', 'secondary');
-                transition: width 0.35s ease, height 0.35s ease;
-            }
-        }
-        &::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            display: block;
-            width: 100%;
-            height: 100%;
-            border: 1px solid color-from-theme('green', 'secondary');
-            border-radius: 100%;
-            transform: translate3d(-50%, -50%, 0);
-            transition: width 0.35s ease, height 0.35s ease;
-        }
-        span {
-            display: block;
-            margin-bottom: rem(3px, 'small');
-            @include respond-to('medium') {
-                margin-bottom: rem(5px, 'medium');
-            }
-            @include respond-to('large') {
-                margin-bottom: rem(5px, 'large');
-            }
-        }
-    }
-    .cookie-sentence {
-        position: absolute;
-        bottom: rem(50px, 'small');
-        color: color-from-theme('green', 'secondary');
-        padding: 0 rem(53px, 'small');
-        text-align: center;
-        font-weight: 400;
-
-        @include respond-to('medium') {
-            bottom: rem(50px, 'medium');
-            padding: 0 rem(53px, 'medium');
-            text-align: inherit;
-            font-size: rem(16px, 'medium');
-        }
-        @include respond-to('large') {
-            bottom: rem(50px, 'large');
-            padding: 0 rem(53px, 'large');
-            font-size: rem(16px, 'large');
-        }
-
-        a {
-            color: color-from-theme('green', 'secondary');
-            text-decoration: underline;
-        }
-    }
-}
- */

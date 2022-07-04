@@ -33,7 +33,7 @@ function TheNavigation(props) {
      */
     useEffect(() => {
         if (isPresent) transitionIn();
-        else if (!isPresent) transitionOut(safeToRemove);
+        else if (!isPresent) transitionOut();
     }, [isPresent]);
 
     /**
@@ -45,11 +45,11 @@ function TheNavigation(props) {
      * Private
      */
     function transitionIn() {
-        return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
+        return gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
     }
 
     function transitionOut() {
-        return gsap.set(el.current, { alpha: 0, onComplete: transitionOutCompleted });
+        return gsap.to(el.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
     }
 
     function transitionInCompleted() {

@@ -3,14 +3,6 @@
 }
 
 .logo {
-    width: rem(60px, 'small');
-    height: rem(40px, 'small');
-    @include respond-to('medium') {
-        width: rem(60px, 'medium');
-        height: rem(40px, 'medium');
-    }
-    @include respond-to('large') {
-        width: rem(60px, 'large');
-        height: rem(40px, 'large');
-    }
+    width: 60px;
+    height: 40px;
 }
