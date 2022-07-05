@@ -1,13 +1,10 @@
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
-
-// Utils
-import Globals from '@/utils/Globals';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';
@@ -25,89 +22,177 @@ function PanelSearch(props, ref) {
      */
     const { language } = useI18next();
     const { t } = useTranslation();
+
     /**
      * References
      */
-    const panelRef = useRef();
-    /**
-     * Store
-     */
-    const [isOpen, allEntities, allTags, filterType] = useStore((state) => [state.modalSearchIsOpen, state.allEntities, state.allTags, state.filterType]);
+    const elRef = useRef();
+    const timelines = useRef({
+        show: null,
+        hide: null,
+    });
+
     /**
      * State
      */
-    const [staticItems, setStaticItems] = useState(allEntities);
-    const [dynamicItems, setDynamicItems] = useState(allEntities);
-    const [inputSearch, setInputSearch] = useState();
+    const [allEntities, setAllEntities] = useState([]);
+    const [filteredEntities, setFilteredEntities] = useState([]);
+
+    const [allTags, setAllTags] = useState([]);
+    const [filteredTags, setFilteredTags] = useState([]);
+
+    const [inputSearch, setInputSearch] = useState('');
+
+    const [filterType, setFilterType] = useState('entities');
+
     /**
-     * Effects
+     * Watchers
      */
     useEffect(() => {
-        Globals.webglApp.disableInteractions();
+        dispatchData();
+    }, [inputSearch]);
 
-        const timeline = new gsap.timeline();
-        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100 }, { xPercent: 0, ease: 'ease.easeout' });
-        return () => {
-            timeline.kill();
-        };
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
     }, []);
 
-    useEffect(() => {
-        if (filterType == 'entities') {
-            setStaticItems(allEntities);
-            setDynamicItems(allEntities);
-        } else if (filterType == 'tags') {
-            setStaticItems(allTags);
-            setDynamicItems(allTags);
-        }
-    }, [filterType]);
+    function mounted() {
+        dispatchData();
+    }
 
-    useEffect(() => {
-        if (inputSearch != undefined) {
-            const filteredData = staticItems.filter((item) => {
-                return item.value.toLowerCase().includes(inputSearch.toLowerCase());
-            });
-            setDynamicItems(filteredData);
-        }
-    }, [inputSearch]);
+    function destroy() {
+
+    }
+
+    /**
+     * Public
+     */
+    function show() {
+        timelines.current.hide?.kill();
+        timelines.current.show = new gsap.timeline();
+        timelines.current.show.to(elRef.current, { duration: 1, x: '0%', ease: 'power3.out' });
+        return timelines.current.show;
+    }
+
+    function hide() {
+        const translateX = language === 'ar-QA' ? '-105%' : '105%';
+
+        timelines.current.show?.kill();
+        timelines.current.hide = new gsap.timeline();
+        timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, ease: 'power3.out' });
+        return timelines.current.hide;
+    }
+
+    /**
+     * Expose public
+     */
+    useImperativeHandle(ref, () => ({
+        show,
+        hide,
+    }));
+
     /**
      * Private
      */
-    function clickHandler() {
-        const timeline = new gsap.timeline({
-            onComplete: () => {
-                useStore.setState({ modalSearchIsOpen: !isOpen, filterType: 'entities' });
-                Globals.webglApp.enableInteractions();
-            },
+    function dispatchData() {
+        // Entities
+        const entities = getAllEntities(props.year);
+
+        const filteredEntities = entities.filter((item) => {
+            if (inputSearch === '') return true;
+            return item.name.toLowerCase().includes(inputSearch.toLowerCase());
         });
-        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100, ease: 'ease.easein' });
+
+        setAllEntities(entities);
+        setFilteredEntities(filteredEntities);
+
+        // Tags
+        const tags = getAllTags(props.year);
+
+        const filteredTags = tags.filter((item) => {
+            if (inputSearch === '') return true;
+            return item.name.toLowerCase().includes(inputSearch.toLowerCase());
+        });
+
+        setAllTags(entities);
+        setFilteredTags(filteredTags);
     }
+
+    function getAllEntities(year) {
+        return year.categories.map((category) => {
+            return category.subcategories.map((subcategory) => {
+                return subcategory.entities;
+            });
+        }).flat(2);
+    }
+
+    function getAllTags(year) {
+        return year.categories.map((category) => {
+            return category.subcategories.map((subcategory) => {
+                return subcategory.entities.map((entity) => {
+                    return entity.tags;
+                });
+            });
+        }).flat(3).filter(item => !!item);
+    }
+
+    /**
+     * Handlers
+     */
     function changeHandler(e) {
         setInputSearch(e.target.value);
     }
+
+    function onClickButtonFilter(e) {
+        setFilterType(e.currentTarget.dataset.type);
+    }
+
     return (
-        <>
-            <div ref={ panelRef } className="panel panel-search">
-                <div className="header-container">
-                    <div className="header">
-                        <p className='label h8'>{ t('Find data') }</p>
-                        <ButtonClose onClick={ clickHandler } />
-                    </div>
-                    <div className="search">
-                        <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
-                        <ButtonSearch />
-                    </div>
+        <div ref={ elRef } className="panel-search">
+
+            <div className="header-container">
+
+                <div className="header">
+
+                    <p className='label h8'>{ t('Find data') }</p>
+                    <ButtonClose onClick={ props.onClickClose } />
+
                 </div>
-                <div className="filters">
-                    <ButtonFilter name={ t('All entities') } type="entities" />
-                    <ButtonFilter name={ t('Tags') } type="tags" />
+
+                <div className="search">
+
+                    <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
+                    <ButtonSearch />
+
                 </div>
-                <Scrollbar revert={ false } data-name="search">
-                    <ListSearch items={ dynamicItems } />
-                </Scrollbar>
+
             </div>
-        </>
+
+            <div className="filters">
+
+                <div className="filters-container">
+
+                    <ButtonFilter name={ t('All entities') } type="entities" onClick={ onClickButtonFilter } active={ filterType === 'entities' } />
+                    <ButtonFilter name={ t('Tags') } type="tags" onClick={ onClickButtonFilter } active={ filterType === 'tags' } />
+
+                    <div className="active-indicator"></div>
+
+                </div>
+
+            </div>
+
+            <Scrollbar revert={ false } data-name="search">
+
+                <ListSearch items={ filterType === 'entities' ? filteredEntities : filteredTags } />
+
+            </Scrollbar>
+
+        </div>
     );
 }
 
-export default PanelSearch;
+export default forwardRef(PanelSearch);

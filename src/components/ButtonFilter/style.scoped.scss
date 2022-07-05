@@ -1,53 +1,63 @@
 .button-filter {
     position: relative;
+
+    padding-bottom: rem(10px, 'small');
+
     color: $color-grey-light;
+
     @include respond-to('medium') {
+        padding-bottom: rem(10px, 'medium');
+
         color: $color-grey;
     }
+
+    @include respond-to('large') {
+        padding-bottom: rem(10px, 'large');
+    }
+
     &:not(:last-child) {
         margin-right: rem(32px, 'small');
+
         @include respond-to('medium') {
             margin-right: rem(32px, 'medium');
         }
+
         @include respond-to('large') {
             margin-right: rem(32px, 'large');
         }
+
         .ar & {
             margin-left: rem(32px, 'small');
             margin-right: 0;
+
             @include respond-to('medium') {
                 margin-left: rem(32px, 'medium');
             }
+
             @include respond-to('large') {
                 margin-left: rem(32px, 'large');
             }
         }
     }
-    &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: rem(-10px, 'small');
-        display: block;
-        width: 100%;
-        height: 1px;
-        background-color: var(--color-theme-primary);
-        opacity: 0;
-        @include respond-to('medium') {
-            bottom: rem(-10px, 'medium');
-        }
-        @include respond-to('large') {
-            bottom: rem(-10px, 'large');
-        }
-        .ar & {
-            left: inherit;
-            right: 0;
-        }
-    }
-    &.is-active {
-        color: var(--color-theme-primary);
-        &::after {
-            opacity: 1;
-        }
+}
+
+.border {
+    opacity: 0;
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 0;
+
+    border: solid 1px var(--color-theme-primary);
+
+    transition: opacity 0.1s $sine-in-out;
+
+    .button-filter.is-active & {
+        opacity: 1;
+
+        transition: opacity 0.2s $sine-in-out;
     }
 }

@@ -16,7 +16,8 @@ import Globals from '@/utils/Globals';
 // Components
 import ThePreloader from '@/components/ThePreloader';
 import TheNavigation from '@/components/TheNavigation';
-import TheFooter from '@/components/TheFooter';
+import ModalYear from '@/components/ModalYear';
+import ModalSearch from '@/components/ModalSearch';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Providers
@@ -148,12 +149,6 @@ function Layout(props) {
 
                     }
 
-                    { /* Footer */ }
-                    { originalPath !== '/' &&
-
-                        <TheFooter key={ `${ language }-footer` } />
-                    }
-
                 </div>
 
                 { /* Preloader */ }
@@ -162,6 +157,10 @@ function Layout(props) {
                     { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } /> }
 
                 </AnimatePresence>
+
+                { /* Modals */ }
+                { originalPath !== '/' && <ModalYear pageContext={ props.pageContext } /> }
+                { originalPath !== '/' && <ModalSearch pageContext={ props.pageContext } /> }
 
             </EnvironmentProvider>
         </div>

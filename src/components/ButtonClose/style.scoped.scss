@@ -1,42 +1,48 @@
 .button-close {
     position: relative;
+
     width: rem(32px, 'small');
     height: rem(32px, 'small');
+
     min-width: rem(32px, 'small');
     min-height: rem(32px, 'small');
+
     border: 1px solid $color-grey;
     border-radius: 100%;
+
     @include respond-to('medium') {
         width: rem(32px, 'medium');
         height: rem(32px, 'medium');
+
         min-width: rem(32px, 'medium');
         min-height: rem(32px, 'medium');
     }
+
     @include respond-to('large') {
         width: rem(32px, 'large');
         height: rem(32px, 'large');
+
         min-width: rem(32px, 'large');
         min-height: rem(32px, 'large');
-    }
-
-    &:hover {
-        opacity: 0.7;
-        transition: opacity 0.3s ease-in-out;
     }
 }
 
 .line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: block;
-  height: 50%;
-  width: 1px;
-  background-color: $color-grey;
-  &.line-left {
-    transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, 45deg);
-  }
-  &.line-right {
-    transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, -45deg);
-  }
+    display: block;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    height: 43%;
+    width: 1px;
+
+    background-color: $color-grey;
+
+    &.line-left {
+        transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, 45deg);
+    }
+    &.line-right {
+        transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, -45deg);
+    }
 }

@@ -1,75 +1,129 @@
 // React
-import React, { useRef } from 'react';
-import gsap from 'gsap';
-import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import { useTranslation, useI18next } from 'gatsby-plugin-react-i18next';
+import { gsap } from 'gsap';
+
+// Utils
+import Breakpoints from '@/utils/Breakpoints';
 
 // CSS
 import './style.scoped.scss';
 
-// Utils
-import Globals from '@/utils/Globals';
+// Hooks
+import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';
 import ListYears from '@/components/ListYears';
 import Scrollbar from '@/components/ScrollBar';
-
-// Hooks
-import useStore from '@/hooks/useStore';
 import { useEffect } from 'react';
 
 function PanelYear(props, ref) {
     /**
      * Datas
      */
-    const { years } = props;
     const { language } = useI18next();
+    const { years } = props;
     const { t } = useTranslation();
+
     /**
      * References
      */
-    const panelRef = useRef();
+    const elRef = useRef();
+    const timelines = useRef({
+        show: null,
+        hide: null,
+    });
+
+    useEffect(() => {
+        // Note: On locale switch kill all tweens and clear tween props
+        // As the transform values are different between languages...
+        reset();
+    }, [language]);
+
     /**
-     * Store
-     */
-    const isOpen = useStore((state) => state.modalYearIsOpen);
-    /**
-     * Effects
+     * Lifecycle
      */
     useEffect(() => {
-        Globals.webglApp.disableInteractions();
-
-        const timeline = new gsap.timeline();
-        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100 }, { xPercent: 0, ease: 'ease.easeout' });
-        return () => {
-            timeline.kill();
-        };
+        mounted();
+        return destroy;
     }, []);
+
+    function mounted() {
+
+    }
+
+    function destroy() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+    }
+
+    /**
+     * Public
+     */
+    function show() {
+        timelines.current.hide?.kill();
+        timelines.current.show = new gsap.timeline();
+        timelines.current.show.to(elRef.current, { duration: 1, x: '0%', y: '0%', ease: 'power3.out' });
+        return timelines.current.show;
+    }
+
+    function hide() {
+        const isTranslateY = Breakpoints.current === 'small';
+        const translateX = !isTranslateY ? (language === 'ar-QA' ? '105%' : '-105%') : null;
+        const translateY = isTranslateY ? '105%' : null;
+
+        timelines.current.show?.kill();
+        timelines.current.hide = new gsap.timeline();
+        timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, y: translateY, ease: 'power3.out' });
+        return timelines.current.hide;
+    }
+
+    /**
+     * Expose public
+     */
+    useImperativeHandle(ref, () => ({
+        show,
+        hide,
+    }));
+
     /**
      * Private
      */
-    function clickHandler() {
-        const timeline = new gsap.timeline({
-            onComplete: () => {
-                useStore.setState({ modalYearIsOpen: !isOpen });
-                Globals.webglApp.enableInteractions();
-            },
-        });
-        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? -100 : 100, ease: 'ease.easein' });
+    function reset() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+        gsap.set(elRef.current, { clearProps: true });
     }
+
+    /**
+     * Events
+     */
+    useWindowResizeObserver(resizeHandler);
+
+    function resizeHandler(e) {
+
+    }
+
     return (
-        <>
-            <div ref={ panelRef } className="panel panel-year" data-name="year">
-                <div className="header">
-                    <p className='label h8'>{ t('Year selection') }</p>
-                    <ButtonClose onClick={ clickHandler } />
-                </div>
-                <Scrollbar revert={ false }>
-                    <ListYears years={ years } />
-                </Scrollbar>
+        <div ref={ elRef } className="panel panel-year" data-name="year">
+
+            <div className="header">
+
+                <p className="label h8">{ t('Year selection') }</p>
+
+                <ButtonClose onClick={ props.onClickClose } />
+
             </div>
-        </>
+
+            <Scrollbar revert={ false }>
+
+                <ListYears years={ years } />
+
+            </Scrollbar>
+
+        </div>
     );
 }
 
-export default PanelYear;
+export default forwardRef(PanelYear);

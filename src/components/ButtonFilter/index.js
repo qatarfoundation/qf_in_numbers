@@ -8,18 +8,14 @@ import useStore from '@/hooks/useStore';
 import './style.scoped.scss';
 
 function ButtonFilter(props, ref) {
-    /**
-     * Store
-     */
-    const filterType = useStore((state) => state.filterType);
-    /**
-     * Private
-     */
-    function clickHandler() {
-        useStore.setState({ filterType: props.type });
-    }
     return (
-        <button className={ `button button-filter h9 ${ props.type == filterType ? 'is-active' : ''  }` } onClick={ clickHandler }>{ props.name }</button>
+        <button onClick={ props.onClick } data-type={ props.type } className={ `button button-filter h9 ${ props.active ? 'is-active' : ''  }` }>
+
+            <span>{ props.name }</span>
+
+            <div className="border"></div>
+
+        </button>
     );
 }
 

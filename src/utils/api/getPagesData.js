@@ -123,6 +123,7 @@ function createPages(languages) {
                             category: categoryItem,
                             subcategory: subcategoryItem,
                             entity: data,
+                            years,
                         },
                     });
                 });
@@ -136,6 +137,7 @@ function createPages(languages) {
                         year: yearItem,
                         category: categoryItem,
                         subcategory: subcategoryItem,
+                        years,
                     },
                 });
             });
@@ -148,6 +150,7 @@ function createPages(languages) {
                     home,
                     year: yearItem,
                     category: categoryItem,
+                    years,
                 },
             });
         });
@@ -159,6 +162,7 @@ function createPages(languages) {
             context: {
                 home,
                 year: yearItem,
+                years,
             },
         });
     }
