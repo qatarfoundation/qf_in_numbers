@@ -5,9 +5,9 @@ import { Link } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
-function ListItemSearch(props) {
+function ListItemSearchEntities(props) {
     return (
-        <li className="list-item-search">
+        <li className="list-item-search-entities">
 
             <Link to={ props.item.slug } className="link-search p4">
                 { props.item.name }
@@ -17,4 +17,4 @@ function ListItemSearch(props) {
     );
 }
 
-export default ListItemSearch;
+export default ListItemSearchEntities;

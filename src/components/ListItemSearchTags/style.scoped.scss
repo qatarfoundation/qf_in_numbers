@@ -1,0 +1,114 @@
+.list-item-search-tags {
+    position: relative;
+    display: block;
+
+    &:not(:last-child) {
+        margin-bottom: rem(19px, 'small');
+
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 5px;
+    height: 5px;
+
+    margin: auto;
+}
+
+.tag {
+    position: relative;
+    display: block;
+    color: $color-grey;
+    text-align: left;
+
+    font-weight: 400;
+    font-size: rem(18px, 'small');
+    line-height: rem(22px, 'small');
+
+    transition: color 0.3s $sine-in-out;
+
+    &:hover {
+        color: var(--color-theme-primary);
+    }
+
+    .ar & {
+        text-align: right;
+    }
+
+    .list-item-search-tags.is-open & {
+        color: var(--color-theme-primary);
+        font-weight: 600;
+    }
+
+    @include respond-to('medium') {
+        font-size: rem(18px, 'medium');
+        line-height: rem(22px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
+        line-height: rem(22px, 'large');
+    }
+}
+
+.list-entities {
+    display: none;
+
+    padding-top: rem(19px, 'small');
+
+    @include respond-to('medium') {
+        padding-top: rem(19px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-top: rem(19px, 'large');
+    }
+
+    .list-item-search-tags.is-open & {
+        display: block;
+    }
+}
+
+.link-entity {
+    padding-left: rem(28px, 'small');
+
+    color: $color-grey;
+
+    font-weight: 400;
+    font-size: rem(18px, 'small');
+    line-height: rem(22px, 'small');
+
+    transition: color 0.3s $sine-in-out;
+
+    &:hover {
+        color: var(--color-theme-primary);
+    }
+
+    @include respond-to('medium') {
+        padding-left: rem(28px, 'medium');
+
+        font-weight: 400;
+        font-size: rem(18px, 'medium');
+        line-height: rem(22px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-left: rem(28px, 'large');
+
+        font-weight: 400;
+        font-size: rem(18px, 'large');
+        line-height: rem(22px, 'large');
+    }
+}

@@ -9,10 +9,22 @@
     font-size: rem(32px, 'small');
     line-height: rem(38px, 'small');
 
+    transition: color 0.1s $sine-in-out;
+
+    &.is-active {
+        color: var(--color-theme-primary);
+
+        transition: opacity 0.2s $sine-in-out;
+    }
+
+    &:hover {
+        color: var(--color-theme-primary);
+
+        transition: color 0.3s $sine-in-out;
+    }
+
     @include respond-to('medium') {
         padding-bottom: rem(17px, 'medium');
-
-        color: $color-grey;
 
         font-size: rem(32px, 'medium');
         line-height: rem(38px, 'medium');

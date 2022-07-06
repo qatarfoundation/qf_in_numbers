@@ -8,7 +8,8 @@ import './style.scoped.scss';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';
-import ListSearch from '@/components/ListSearch';
+import ListSearchEntities from '@/components/ListSearchEntities';
+import ListSearchTags from '@/components/ListSearchTags';
 import Scrollbar from '@/components/ScrollBar';
 import ButtonSearch from '@/components/ButtonSearch';
 import ButtonFilter from '../ButtonFilter/index';
@@ -118,7 +119,7 @@ function PanelSearch(props, ref) {
         setFilteredEntities(filteredEntities);
 
         // Tags
-        const tags = getAllTags(props.year);
+        const tags = getAllTags(props.year, entities);
 
         const filteredTags = tags.filter((item) => {
             if (inputSearch === '') return true;
@@ -137,14 +138,23 @@ function PanelSearch(props, ref) {
         }).flat(2);
     }
 
-    function getAllTags(year) {
-        return year.categories.map((category) => {
+    function getAllTags(year, entities) {
+        const tags = year.categories.map((category) => {
             return category.subcategories.map((subcategory) => {
                 return subcategory.entities.map((entity) => {
                     return entity.tags;
                 });
             });
         }).flat(3).filter(item => !!item);
+
+        for (let i = 0; i < tags.length; i++) {
+            const tag = tags[i];
+            tag.entities = entities.filter((entity) => {
+                return entity.tags && entity.tags.includes(tag);
+            });
+        }
+
+        return tags;
     }
 
     /**
@@ -175,6 +185,7 @@ function PanelSearch(props, ref) {
                 <div className="header">
 
                     <p className='label h8'>{ t('Find data') }</p>
+
                     <ButtonClose onClick={ props.onClickClose } />
 
                 </div>
@@ -182,6 +193,7 @@ function PanelSearch(props, ref) {
                 <div className="search">
 
                     <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
+
                     <ButtonSearch />
 
                 </div>
@@ -195,15 +207,13 @@ function PanelSearch(props, ref) {
                     <ButtonFilter name={ t('All entities') } type="entities" onClick={ onClickButtonFilter } active={ filterType === 'entities' } />
                     <ButtonFilter name={ t('Tags') } type="tags" onClick={ onClickButtonFilter } active={ filterType === 'tags' } />
 
-                    <div className="active-indicator"></div>
-
                 </div>
 
             </div>
 
             <Scrollbar revert={ false } data-name="search">
 
-                <ListSearch items={ filterType === 'entities' ? filteredEntities : filteredTags } />
+                { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : <ListSearchTags items={ filteredTags } /> }
 
             </Scrollbar>
 
