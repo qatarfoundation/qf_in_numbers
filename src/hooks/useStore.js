@@ -12,7 +12,6 @@ const useStore = create((set) => {
         currentSubcategory: {},
         allEntities: [],
         allTags: [],
-        isTutorial: false,
         themeCategory: 'theme-default',
         locale: null,
         indexActiveSubcategory: 0,

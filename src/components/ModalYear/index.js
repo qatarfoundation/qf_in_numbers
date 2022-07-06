@@ -24,8 +24,9 @@ function ModalYear(props, ref) {
      */
     const { language } = useI18next();
     const years = props.pageContext.years[language];
-    const currentYear = props.pageContext.year[language];
+    const currentYear = props.pageContext.year ? props.pageContext.year[language] : null;
     years.sort((a, b) => b.year - a.year);
+    const allowedPagesType = ['year', 'category', 'subcategory'];
 
     /**
      * States
@@ -39,7 +40,10 @@ function ModalYear(props, ref) {
     const panelRef = useRef();
     const overlayRef = useRef();
     const buttonContainerRef = useRef();
+    const buttonRef = useRef();
     const timelines = useRef({
+        show: null,
+        hide: null,
         open: null,
         close: null,
     });
@@ -47,6 +51,11 @@ function ModalYear(props, ref) {
     /**
      * Watchers
      */
+    useEffect(() => {
+        if (allowedPagesType.includes(props.pageContext.type)) show();
+        else hide();
+    }, [props.pageContext.type]);
+
     useEffect(() => {
         setOpen(false);
     }, [currentYear]);
@@ -78,7 +87,21 @@ function ModalYear(props, ref) {
     /**
      * Private
      */
+    function show() {
+        timelines.current.hide?.kill();
+        timelines.current.show = new gsap.timeline();
+        timelines.current.show.add(buttonRef.current.show(), 0);
+    }
+
+    function hide() {
+        timelines.current.show?.kill();
+        timelines.current.hide = new gsap.timeline();
+        timelines.current.hide.add(buttonRef.current.hide(), 0);
+    }
+
     function open() {
+        if (!elRef.current) return;
+
         Globals.webglApp?.disableInteractions();
 
         // set zIndex on top of everything on open to prevent click on other overlays
@@ -90,6 +113,8 @@ function ModalYear(props, ref) {
     }
 
     function close() {
+        if (!elRef.current) return;
+
         Globals.webglApp?.enableInteractions();
 
         // reset zIndex
@@ -139,19 +164,25 @@ function ModalYear(props, ref) {
     }
 
     return (
-        <div ref={ elRef } className={ `modal-year ${ isOpen ? 'is-open' : '' }` }>
+        <>
+            {
+                currentYear &&
 
-            <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
+                <div ref={ elRef } className={ `modal-year ${ isOpen ? 'is-open' : '' }` }>
 
-            <div ref={ buttonContainerRef } className="button-container">
-                <ButtonModal name={ currentYear.year } onClick={ buttonModalClickHandler } />
-            </div>
+                    <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
-            <div className="panel-container">
-                <PanelYear ref={ panelRef } isOpen={ isOpen } years={ years } currentYear={ currentYear } onClickClose={ buttonCloseClickHandler } />
-            </div>
+                    <div ref={ buttonContainerRef } className="button-container">
+                        <ButtonModal ref={ buttonRef } name={ currentYear.year } onClick={ buttonModalClickHandler } />
+                    </div>
 
-        </div>
+                    <div className="panel-container">
+                        <PanelYear ref={ panelRef } isOpen={ isOpen } years={ years } currentYear={ currentYear } onClickClose={ buttonCloseClickHandler } />
+                    </div>
+
+                </div>
+            }
+        </>
     );
 }
 

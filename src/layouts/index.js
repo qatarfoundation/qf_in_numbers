@@ -159,8 +159,8 @@ function Layout(props) {
                 </AnimatePresence>
 
                 { /* Modals */ }
-                { originalPath !== '/' && <ModalYear pageContext={ props.pageContext } /> }
-                { originalPath !== '/' && <ModalSearch pageContext={ props.pageContext } /> }
+                <ModalYear pageContext={ props.pageContext } />
+                <ModalSearch pageContext={ props.pageContext } />
 
             </EnvironmentProvider>
         </div>

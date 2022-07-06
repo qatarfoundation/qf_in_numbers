@@ -61,7 +61,7 @@ exports.createPages = async({ actions }) => {
 
         createPage({
             ...page,
-            component: templates[page.type],
+            component: templates[page.context.type],
         });
     }
 };

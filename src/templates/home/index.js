@@ -9,9 +9,6 @@ import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
-// Hooks
-import useStore from '@/hooks/useStore';
-
 // CSS
 import './style.scoped.scss';
 
@@ -28,7 +25,8 @@ function HomeTemplate(props, ref) {
      */
     const { years, language } = props.pageContext;
     const { t } = useTranslation();
-    const currentYear = years['en-US'][years['en-US'].length - 1];
+    // const currentYear = years['en-US'][years['en-US'].length - 1];
+    const currentYear = years['en-US'][0];
 
     /**
      * States

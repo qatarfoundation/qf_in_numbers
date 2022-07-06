@@ -116,7 +116,6 @@ function createPages(languages) {
                     // Create Entity pages
                     pages.push({
                         path: entityPath,
-                        type: 'entity',
                         context: {
                             home,
                             year: yearItem,
@@ -124,6 +123,7 @@ function createPages(languages) {
                             subcategory: subcategoryItem,
                             entity: data,
                             years,
+                            type: 'entity',
                         },
                     });
                 });
@@ -131,13 +131,13 @@ function createPages(languages) {
                 // Create Subcategory pages
                 pages.push({
                     path: subcategoryPath,
-                    type: 'subcategory',
                     context: {
                         home,
                         year: yearItem,
                         category: categoryItem,
                         subcategory: subcategoryItem,
                         years,
+                        type: 'subcategory',
                     },
                 });
             });
@@ -145,12 +145,12 @@ function createPages(languages) {
             // Category pages
             pages.push({
                 path: categoryPath,
-                type: 'category',
                 context: {
                     home,
                     year: yearItem,
                     category: categoryItem,
                     years,
+                    type: 'category',
                 },
             });
         });
@@ -158,11 +158,11 @@ function createPages(languages) {
         // Year pages
         pages.push({
             path: yearPath,
-            type: 'year',
             context: {
                 home,
                 year: yearItem,
                 years,
+                type: 'year',
             },
         });
     }
@@ -170,10 +170,10 @@ function createPages(languages) {
     // Home page
     pages.push({
         path: '/',
-        type: 'home',
         context: {
             home,
             years,
+            type: 'home',
         },
     });
 

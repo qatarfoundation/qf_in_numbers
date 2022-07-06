@@ -25,8 +25,9 @@ function ModalSearch(props, ref) {
     const { t } = useTranslation();
     const { language, originalPath } = useI18next();
     const years = props.pageContext.years[language];
-    const currentYear = props.pageContext.year[language];
+    const currentYear = props.pageContext.year ? props.pageContext.year[language] : null;
     years.sort((a, b) => b.year - a.year);
+    const allowedPagesType = ['year', 'category', 'subcategory'];
 
     /**
      * States
@@ -40,7 +41,10 @@ function ModalSearch(props, ref) {
     const elRef = useRef();
     const overlayRef = useRef();
     const buttonContainerRef = useRef();
+    const buttonRef = useRef();
     const timelines = useRef({
+        show: null,
+        hide: null,
         open: null,
         close: null,
     });
@@ -48,6 +52,11 @@ function ModalSearch(props, ref) {
     /**
      * Watchers
      */
+    useEffect(() => {
+        if (allowedPagesType.includes(props.pageContext.type)) show();
+        else hide();
+    }, [props.pageContext.type]);
+
     useEffect(() => {
         setOpen(false);
     }, [originalPath]);
@@ -79,7 +88,21 @@ function ModalSearch(props, ref) {
     /**
      * Private
      */
+    function show() {
+        timelines.current.hide?.kill();
+        timelines.current.show = new gsap.timeline();
+        timelines.current.show.add(buttonRef.current.show(), 0);
+    }
+
+    function hide() {
+        timelines.current.show?.kill();
+        timelines.current.hide = new gsap.timeline();
+        timelines.current.hide.add(buttonRef.current.hide(), 0);
+    }
+
     function open() {
+        if (!elRef.current) return;
+
         Globals.webglApp?.disableInteractions();
 
         // set zIndex on top of everything on open to prevent click on other overlays
@@ -91,6 +114,8 @@ function ModalSearch(props, ref) {
     }
 
     function close() {
+        if (!elRef.current) return;
+
         Globals.webglApp?.enableInteractions();
 
         // reset zIndex
@@ -140,23 +165,29 @@ function ModalSearch(props, ref) {
     }
 
     return (
-        <div ref={ elRef } className={ `modal-search ${ isOpen ? 'is-open' : '' }` }>
+        <>
+            {
+                currentYear &&
 
-            <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
+                <div ref={ elRef } className={ `modal-search ${ isOpen ? 'is-open' : '' }` }>
 
-            <div ref={ buttonContainerRef } className="button-container">
+                    <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
-                <ButtonModal name={ t('Find data') } onClick={ buttonModalClickHandler } />
+                    <div ref={ buttonContainerRef } className="button-container">
 
-            </div>
+                        <ButtonModal ref={ buttonRef } name={ t('Find data') } onClick={ buttonModalClickHandler } />
 
-            <div className="panel-container">
+                    </div>
 
-                <PanelSearch ref={ panelRef } isOpen={ isOpen } year={ currentYear } onClickClose={ buttonCloseClickHandler } />
+                    <div className="panel-container">
 
-            </div>
+                        <PanelSearch ref={ panelRef } isOpen={ isOpen } year={ currentYear } onClickClose={ buttonCloseClickHandler } />
 
-        </div>
+                    </div>
+
+                </div>
+            }
+        </>
     );
 }
 

@@ -1,6 +1,13 @@
 .button-modal {
+    opacity: 0;
+    visibility: hidden;
+
     position: relative;
     text-align: left;
+
+    .ar & {
+        text-align: right;
+    }
 }
 
 .text {
@@ -38,6 +45,19 @@
     border-top: rem(4px, 'small') solid var(--color-theme-primary);
 
     transform: translate3d(-100%, 50%, 0);
+
+    .ar & {
+        right: auto;
+        left: rem(8px, 'small');
+
+        @include respond-to('medium') {
+            left: rem(8px, 'medium');
+        }
+
+        @include respond-to('large') {
+            left: rem(8px, 'large');
+        }
+    }
 
     @include respond-to('medium') {
         top: rem(14px, 'medium');
