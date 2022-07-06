@@ -22,10 +22,12 @@ function ListItemSearchTags(props) {
         <li className={ `list-item-search-tags ${ isOpen ? 'is-open' : '' }` }>
 
             <button className="button tag p4" onClick={ clickHandler }>
-                { props.tag.name }
-            </button>
 
-            <div className="icon"></div>
+                <span>{ props.tag.name }</span>
+
+                <div className="icon"></div>
+
+            </button>
 
             <ul className="list-entities">
 
