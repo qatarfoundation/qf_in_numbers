@@ -9,7 +9,7 @@
     height: 100vh;
     background-color: $color-white;
     color: $color-grey;
-    z-index: 9;
+    z-index: 10000;
     @include respond-to('medium') {
         left: inherit;
         right: 0;

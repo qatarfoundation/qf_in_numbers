@@ -66,11 +66,21 @@
 
     margin: auto;
 
+    .ar & {
+        right: auto;
+        left: rem(7px, 'small');
+    }
+
     @include respond-to('medium') {
         right: rem(7px, 'medium');
 
         width: rem(8px, 'medium');
         height: rem(8px, 'medium');
+
+        .ar & {
+            right: auto;
+            left: rem(7px, 'medium');
+        }
     }
 
     @include respond-to('large') {
@@ -78,6 +88,11 @@
 
         width: rem(8px, 'large');
         height: rem(8px, 'large');
+
+        .ar & {
+            right: auto;
+            left: rem(7px, 'large');
+        }
     }
 
     &:before {

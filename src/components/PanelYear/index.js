@@ -1,5 +1,5 @@
 // React
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
 import { useTranslation, useI18next } from 'gatsby-plugin-react-i18next';
 import { gsap } from 'gsap';
 
@@ -16,14 +16,13 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 import ButtonClose from '@/components/ButtonClose';
 import ListYears from '@/components/ListYears';
 import Scrollbar from '@/components/ScrollBar';
-import { useEffect } from 'react';
 
 function PanelYear(props, ref) {
     /**
      * Datas
      */
     const { language } = useI18next();
-    const { years } = props;
+    const { years, currentYear } = props;
     const { t } = useTranslation();
 
     /**
@@ -118,7 +117,7 @@ function PanelYear(props, ref) {
 
             <Scrollbar revert={ false }>
 
-                <ListYears years={ years } />
+                <ListYears years={ years } currentYear={ currentYear } />
 
             </Scrollbar>
 

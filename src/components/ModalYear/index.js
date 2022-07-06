@@ -148,7 +148,7 @@ function ModalYear(props, ref) {
             </div>
 
             <div className="panel-container">
-                <PanelYear ref={ panelRef } isOpen={ isOpen } years={ years } onClickClose={ buttonCloseClickHandler } />
+                <PanelYear ref={ panelRef } isOpen={ isOpen } years={ years } currentYear={ currentYear } onClickClose={ buttonCloseClickHandler } />
             </div>
 
         </div>

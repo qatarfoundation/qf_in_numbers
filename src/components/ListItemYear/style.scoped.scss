@@ -46,7 +46,7 @@
         opacity: 1;
     }
 
-    &.is-active {
+    .list-item-year.is-active & {
         opacity: 1;
     }
 }

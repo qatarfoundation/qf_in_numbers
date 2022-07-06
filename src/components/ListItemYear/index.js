@@ -9,10 +9,10 @@ function ListItemYear(props) {
     /**
      * Data
      */
-    const { year } = props;
+    const { year, active } = props;
 
     return (
-        <li className="list-item-year">
+        <li className={ `list-item-year ${ active ? 'is-active' : '' }` }>
             <Link to={ year.slug } className={ 'button button-year h4' }>
                 { year.year }
             </Link>

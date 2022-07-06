@@ -11,12 +11,12 @@ function ListYears(props, ref) {
     /**
      * Data
      */
-    const { years } = props;
+    const { years, currentYear } = props;
 
     return (
         <ul className="list-years">
 
-            { years.map((item, i) => <ListItemYear key={ i } year={ item } />) }
+            { years.map((item, i) => <ListItemYear key={ i } year={ item } active={ item.year === currentYear.year } />) }
 
         </ul>
     );
