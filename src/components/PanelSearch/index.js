@@ -49,6 +49,13 @@ function PanelSearch(props, ref) {
      * Watchers
      */
     useEffect(() => {
+        // Note: On locale switch kill all tweens and clear tween props
+        // As the transform values are different between languages...
+        reset();
+        dispatchData();
+    }, [language]);
+
+    useEffect(() => {
         dispatchData();
     }, [inputSearch]);
 
@@ -138,6 +145,15 @@ function PanelSearch(props, ref) {
                 });
             });
         }).flat(3).filter(item => !!item);
+    }
+
+    /**
+     * Private
+     */
+    function reset() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+        gsap.set(elRef.current, { clearProps: true });
     }
 
     /**

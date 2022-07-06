@@ -1,18 +1,28 @@
 .button-filter {
     position: relative;
 
-    padding-bottom: rem(10px, 'small');
+    padding-bottom: rem(17px, 'small');
 
     color: $color-grey-light;
 
+    font-weight: 300;
+    font-size: rem(32px, 'small');
+    line-height: rem(38px, 'small');
+
     @include respond-to('medium') {
-        padding-bottom: rem(10px, 'medium');
+        padding-bottom: rem(17px, 'medium');
 
         color: $color-grey;
+
+        font-size: rem(32px, 'medium');
+        line-height: rem(38px, 'medium');
     }
 
     @include respond-to('large') {
-        padding-bottom: rem(10px, 'large');
+        padding-bottom: rem(17px, 'large');
+
+        font-size: rem(32px, 'large');
+        line-height: rem(38px, 'large');
     }
 
     &:not(:last-child) {

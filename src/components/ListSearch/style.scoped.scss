@@ -1,16 +1,32 @@
 .list-search {
     display: block;
-    padding: rem(32px, 'small') rem(16px, 'small') rem(54px, 'small');
+
+    padding-top: rem(32px, 'small');
+    padding-right: rem(16px, 'small');
+    padding-bottom: rem(54px, 'small');
+    padding-left: rem(16px, 'small');
+
     @include respond-to('medium') {
-        padding: rem(29px, 'medium') 0 rem(29px, 'medium') rem(53px, 'medium');
+        padding-top: rem(29px, 'medium');
+        padding-right: 0;
+        padding-bottom: rem(29px, 'medium');
+        padding-left: rem(53px, 'medium');
+
         .ar & {
-            padding: rem(29px, 'medium') rem(53px, 'medium') rem(29px, 'medium') 0;
+            padding-right: rem(53px, 'medium');
+            padding-left: 0;
         }
     }
+
     @include respond-to('large') {
-        padding: rem(29px, 'large') 0 rem(29px, 'large') rem(53px, 'large');
+        padding-top: rem(29px, 'large');
+        padding-right: 0;
+        padding-bottom: rem(29px, 'large');
+        padding-left: rem(60px, 'large');
+
         .ar & {
-            padding: rem(29px, 'large') rem(53px, 'large') rem(29px, 'large') 0;
+            padding-right: rem(53px, 'large');
+            padding-left: 0;
         }
     }
 }
