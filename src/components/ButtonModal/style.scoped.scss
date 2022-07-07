@@ -5,6 +5,8 @@
     position: relative;
     text-align: left;
 
+    /* pointer-events: none; */
+
     .ar & {
         text-align: right;
     }
@@ -13,10 +15,7 @@
 .text {
     display: block;
 
-    &.text-init {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+    will-change: transform;
 
     &.text-hover {
         opacity: 0;
@@ -26,7 +25,6 @@
         left: 0;
 
         color: var(--color-theme-secondary);
-        transform: translate3d(0, 50%, 0);
     }
 }
 
@@ -44,7 +42,7 @@
     border-right: rem(4px, 'small') solid transparent;
     border-top: rem(4px, 'small') solid var(--color-theme-primary);
 
-    transform: translate3d(-100%, 50%, 0);
+    will-change: transform;
 
     .ar & {
         right: auto;
@@ -76,19 +74,11 @@
     }
 
     &.arrow-hover {
-        position: absolute;
-        top: rem(5px, 'small');
-
-        border-top-color: var(--color-theme-secondary);
         opacity: 0;
 
-        @include respond-to('medium') {
-            top: rem(5px, 'medium');
-        }
+        position: absolute;
 
-        @include respond-to('large') {
-            top: rem(5px, 'large');
-        }
+        border-top-color: var(--color-theme-secondary);
     }
 }
 
@@ -105,11 +95,13 @@
 
     background-color: var(--color-theme-primary);
 
+    will-change: transform;
+
     &.line-hover {
         position: absolute;
         bottom: 0;
 
-        width: 0;
+        transform: scaleX(0);
 
         background-color: var(--color-theme-secondary);
     }

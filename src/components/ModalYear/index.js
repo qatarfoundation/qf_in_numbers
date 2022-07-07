@@ -88,12 +88,16 @@ function ModalYear(props, ref) {
      * Private
      */
     function show() {
+        if (!elRef.current) return;
+
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
         timelines.current.show.add(buttonRef.current.show(), 0);
     }
 
     function hide() {
+        if (!elRef.current) return;
+
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
         timelines.current.hide.add(buttonRef.current.hide(), 0);
