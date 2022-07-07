@@ -31,6 +31,11 @@
             display: none;
         }
     }
+
+    /* Debug */
+    & * {
+        visibility: hidden;
+    }
 }
 
 .button-close {

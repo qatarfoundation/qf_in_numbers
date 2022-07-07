@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
@@ -13,15 +13,43 @@ function ButtonBack(props, ref) {
      * Datas
      */
     const { name, slug } = props;
+
+    /**
+     * Refs
+     */
+    const elRef = useRef();
+
+    const arrowContainerInitRef = useRef();
+    const arrowContainerHoverRef = useRef();
+
+    const timelines = useRef({
+        show: null,
+        hide: null,
+        mouseenter: null,
+        mouseleave: null,
+    });
+
     return (
-        <Link to={ slug ? slug : '' } { ...props } className={ `button button-back ${ props.className ? props.className : '' }` }>
+        <Link ref={ elRef } to={ slug ? slug : '' } { ...props } className={ `button button-back ${ props.className ? props.className : '' }` }>
+
             <div className="icon icon-arrow">
-                <Arrow className={ 'arrow arrow-init' } />
-                <Arrow className={ 'arrow arrow-hover' } />
+
+                <div ref={ arrowContainerInitRef } className="arrow-container arrow-container-init">
+                    <Arrow className={ 'arrow arrow-init' } />
+                </div>
+
+                <div ref={ arrowContainerHoverRef } className="arrow-container arrow-container-hover">
+                    <Arrow className={ 'arrow arrow-hover' } />
+                </div>
+
+                <div className="circle"></div>
+
             </div>
+
             <p className='p3'><span className="text text-init">{ name }</span><span className="text text-hover">{ name }</span></p>
+
         </Link>
     );
 }
 
-export default ButtonBack;
+export default forwardRef(ButtonBack);
