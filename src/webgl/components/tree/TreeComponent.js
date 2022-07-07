@@ -21,6 +21,30 @@ export default class TreeComponent extends component(Object3D) {
         this._debugContainer = options.debugContainer;
         this._cameraManager = options.cameraManager;
 
+        // Settings
+        this._settings = {
+            initialPosition: {
+                x: 0,
+                y: 0,
+                z: 17.31,
+            },
+            targetPosition: {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+            initialRotation: {
+                x: 0,
+                y: 4.63,
+                z: -0.52,
+            },
+            targetRotation: {
+                x: 0,
+                y: Math.PI * 0.5,
+                z: 0,
+            },
+        };
+
         // Setup
         this._isActive = false;
         this._activeBranch = undefined;
@@ -33,9 +57,15 @@ export default class TreeComponent extends component(Object3D) {
         this._bindHandlers();
         this._setupEventListeners();
 
-        // Settings
-        this.rotation.y = Math.PI * 0.5;
-        this.visible = false;
+        this.visible = true;
+
+        this.position.x = this._settings.initialPosition.x;
+        this.position.y = this._settings.initialPosition.y;
+        this.position.z = this._settings.initialPosition.z;
+
+        this.rotation.x = this._settings.initialRotation.x;
+        this.rotation.y = this._settings.initialRotation.y;
+        this.rotation.z = this._settings.initialRotation.z;
     }
 
     destroy() {
@@ -53,10 +83,17 @@ export default class TreeComponent extends component(Object3D) {
         this._isActive = true;
 
         this._timelineTransitionIn = new gsap.timeline();
-        this._timelineTransitionIn.set(this, { visible: true }, 0);
-        for (let i = 0, len = this._branches.length; i < len; i++) {
-            this._timelineTransitionIn.add(this._branches[i].transitionIn(), 0);
-        }
+
+        // Position
+        this._timelineTransitionIn.fromTo(this.position, { x: this._settings.initialPosition.x }, { duration: 3, x: this._settings.targetPosition.x, ease: 'power3.inOut' }, 0);
+        this._timelineTransitionIn.fromTo(this.position, { y: this._settings.initialPosition.y }, { duration: 3, y: this._settings.targetPosition.y, ease: 'power3.inOut' }, 0);
+        this._timelineTransitionIn.fromTo(this.position, { z: this._settings.initialPosition.z }, { duration: 3, z: this._settings.targetPosition.z, ease: 'power3.inOut' }, 0);
+
+        // Rotation
+        this._timelineTransitionIn.fromTo(this.rotation, { x: this._settings.initialRotation.x }, { duration: 3, x: this._settings.targetRotation.x, ease: 'power3.inOut' }, 0);
+        this._timelineTransitionIn.fromTo(this.rotation, { y: this._settings.initialRotation.y }, { duration: 3, y: this._settings.targetRotation.y, ease: 'power3.inOut' }, 0);
+        this._timelineTransitionIn.fromTo(this.rotation, { z: this._settings.initialRotation.z }, { duration: 3, z: this._settings.targetRotation.z, ease: 'power3.inOut' }, 0);
+
         return this._timelineTransitionIn;
     }
 
@@ -234,6 +271,45 @@ export default class TreeComponent extends component(Object3D) {
         };
 
         const debug = Debugger.addGroup('Tree', { container: this._debugContainer });
+
+        const positionDebug = debug.addGroup('Position');
+
+        positionDebug.add(this._settings.initialPosition, 'x', { label: 'Initial Position X', onChange: () => { positionChangedHandler('initialPosition'); } });
+        positionDebug.add(this._settings.initialPosition, 'y', { label: 'Initial Position Y', onChange: () => { positionChangedHandler('initialPosition'); } });
+        positionDebug.add(this._settings.initialPosition, 'z', { label: 'Initial Position Z', onChange: () => { positionChangedHandler('initialPosition'); } });
+
+        positionDebug.add(this._settings.targetPosition, 'x', { label: 'Target Position X', onChange: () => { positionChangedHandler('targetPosition'); } });
+        positionDebug.add(this._settings.targetPosition, 'y', { label: 'Target Position Y', onChange: () => { positionChangedHandler('targetPosition'); } });
+        positionDebug.add(this._settings.targetPosition, 'z', { label: 'Target Position Z', onChange: () => { positionChangedHandler('targetPosition'); } });
+
+        const positionChangedHandler = (key) => {
+            this.position.x = this._settings[key].x;
+            this.position.y = this._settings[key].y;
+            this.position.z = this._settings[key].z;
+        };
+
+        const rotationDebug = debug.addGroup('Rotation');
+
+        rotationDebug.add(this._settings.initialRotation, 'x', { label: 'Initial Rotation X', onChange: () => { rotationChangedHandler('initialRotation'); } });
+        rotationDebug.add(this._settings.initialRotation, 'y', { label: 'Initial Rotation Y', onChange: () => { rotationChangedHandler('initialRotation'); } });
+        rotationDebug.add(this._settings.initialRotation, 'z', { label: 'Initial Rotation Z', onChange: () => { rotationChangedHandler('initialRotation'); } });
+
+        rotationDebug.add(this._settings.targetRotation, 'x', { label: 'Target Rotation X', onChange: () => { rotationChangedHandler('targetRotation'); } });
+        rotationDebug.add(this._settings.targetRotation, 'y', { label: 'Target Rotation Y', onChange: () => { rotationChangedHandler('targetRotation'); } });
+        rotationDebug.add(this._settings.targetRotation, 'z', { label: 'Target Rotation Z', onChange: () => { rotationChangedHandler('targetRotation'); } });
+
+        const rotationChangedHandler = (key) => {
+            this.rotation.x = this._settings[key].x;
+            this.rotation.y = this._settings[key].y;
+            this.rotation.z = this._settings[key].z;
+        };
+
+        debug.addButton('Transition In', {
+            onClick: () => {
+                this.transitionIn();
+            },
+        });
+
         debug.add(props, 'showHitArea', {
             onChange: () => {
                 this._branches.forEach((branch) => {
@@ -241,6 +317,7 @@ export default class TreeComponent extends component(Object3D) {
                 });
             },
         });
+
         return debug;
     }
 }

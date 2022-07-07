@@ -80,6 +80,14 @@ export default class HomeView extends component() {
     prepare() {
     }
 
+    transitionIn() {
+        this._timelineTransitionIn = new gsap.timeline();
+
+        this._timelineTransitionIn.add(this._components.tree.transitionIn(), 6);
+
+        return this._timelineTransitionIn;
+    }
+
     gotoOverview() {
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();
@@ -152,13 +160,6 @@ export default class HomeView extends component() {
     hideCurrentEntity() {
         this._components.entity.hide();
         this._activeEntity?.hide();
-    }
-
-    showTree() {
-        this._timelineShowTree = new gsap.timeline();
-        this._timelineShowTree.add(this._components.tree.transitionIn());
-        // this._timelineShowTree.add(this._components.floor.transitionIn());
-        return this._timelineShowTree;
     }
 
     categoryMouseEnter(name) {

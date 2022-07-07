@@ -92,7 +92,7 @@ function ButtonBack(props, ref) {
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
 
-        timelines.current.hide.to(elRef.current, { duration: 1, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.hide.to(elRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
 
         return timelines.current.hide;
     }
@@ -101,8 +101,6 @@ function ButtonBack(props, ref) {
      * Private
      */
     function mouseenter() {
-        const direction = language === 'ar-QA' ? -1 : 1;
-
         timelines.current.show?.kill();
         timelines.current.mouseleave?.kill();
 
@@ -126,8 +124,6 @@ function ButtonBack(props, ref) {
     }
 
     function mouseleave() {
-        const direction = language === 'ar-QA' ? 1 : -1;
-
         timelines.current.show?.kill();
         timelines.current.mouseenter?.kill();
 

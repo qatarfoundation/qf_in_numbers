@@ -11,6 +11,12 @@ export default {
         this._viewManager.show(name);
     },
 
+    transitionIn() {
+        if (this.isHome()) {
+            return this._viewManager.active.transitionIn();
+        }
+    },
+
     isHome() {
         return this._viewManager.active && this._viewManager.active.name === 'Home';
     },
@@ -59,12 +65,6 @@ export default {
 
     disableInteractions() {
         this._isInteractive = false;
-    },
-
-    showTree() {
-        if (this.isHome()) {
-            return this._viewManager.active.showTree();
-        }
     },
 
     categoryMouseEnter(name) {

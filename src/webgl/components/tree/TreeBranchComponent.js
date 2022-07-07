@@ -74,7 +74,7 @@ export default class TreeBranchComponent extends component(Object3D) {
      */
     transitionIn() {
         this._timelineTransitionIn = new gsap.timeline();
-        this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 10, { value: 0 }, { value: 0.65, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
+        // this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 10, { value: 0 }, { value: 0.65, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
         return this._timelineTransitionIn;
     }
 
@@ -227,7 +227,7 @@ export default class TreeBranchComponent extends component(Object3D) {
             vertexShader,
             uniforms: {
                 uColorGradient: { value: colorGradient },
-                uProgress: { value: 0 },
+                uProgress: { value: 1 },
                 uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.56 },
                 uInnerGradient: { value: 1.85 },
@@ -246,7 +246,7 @@ export default class TreeBranchComponent extends component(Object3D) {
 
         if (this._debug) {
             this._debug.add(mesh, 'rotation');
-            this._debug.add(material.uniforms.uProgress, 'value', { label: 'progress' });
+            // this._debug.add(material.uniforms.uProgress, 'value', { label: 'progress' });
             this._debug.add(material.uniforms.uColorGradient, 'value', { label: 'gradient' });
             this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
             this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });

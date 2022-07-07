@@ -12,9 +12,6 @@ import { useTranslation } from 'gatsby-plugin-react-i18next';
 // CSS
 import './style.scoped.scss';
 
-// Utils
-import Globals from '@/utils/Globals';
-
 // Components
 import RichText from '@/components/RichText/index';
 import ButtonStart from '@/components/ButtonStart/index';
@@ -25,7 +22,6 @@ function HomeTemplate(props, ref) {
      */
     const { years, language } = props.pageContext;
     const { t } = useTranslation();
-    // const currentYear = years['en-US'][years['en-US'].length - 1];
     const currentYear = years['en-US'][0];
 
     /**
@@ -91,7 +87,6 @@ function HomeTemplate(props, ref) {
         timelines.current.transitionIn.to(labelRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 0.2);
         timelines.current.transitionIn.add(buttonRef.current.show(), 0.5);
         timelines.current.transitionIn.to(cookieRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 1);
-        timelines.current.transitionIn.call(() => { Globals.webglApp.showTree(); }, null, 0);
     }
 
     function transitionOut() {

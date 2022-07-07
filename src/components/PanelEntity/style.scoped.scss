@@ -24,6 +24,10 @@
         display: none;
     }
 
+    .ar & {
+        transform: translateX(-100%);
+    }
+
     @include respond-to('medium') {
         left: inherit;
         right: 0;
