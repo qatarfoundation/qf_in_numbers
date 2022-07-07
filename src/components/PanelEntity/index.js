@@ -1,10 +1,11 @@
 // React
-import React, { useState, useRef, useEffect } from 'react';
-import gsap from 'gsap';
+import React, { useState, useRef, useEffect, useImperativeHandle } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
+// Vendor
+import { gsap } from 'gsap';
+
 // Modules
-import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // CSS
@@ -20,14 +21,15 @@ import Charts from '@/components/Charts';
 import SequenceCharts from '@/components/SequenceCharts';
 
 // Hooks
-import useStore from '@/hooks/useStore';
+import { forwardRef } from 'react';
 
 function PanelEntity(props, ref) {
     /**
      * Data
      */
-    const { entity, next, previous } = props;
-    const { navigate, language } = useI18next();
+    const { entity, subcategory, next, previous } = props;
+    const { language } = useI18next();
+
     let sequenceCharts = [];
     if (entity.charts) {
         sequenceCharts = entity.charts.map(chart => {
@@ -36,69 +38,102 @@ function PanelEntity(props, ref) {
             return type;
         });
     }
+
     if (entity.relatedArticles) {
         sequenceCharts.push('Related articles');
     }
-    /**
-     * Store
-     */
-    const [modalEntityIsOpen] = useStore(s => [s.modalEntityIsOpen]);
+
     /**
      * States
      */
     const [activeIndex, setActiveIndex] = useState(1);
+
     /**
-     * References
+     * Refs
      */
-    const panelRef = useRef();
+    const elRef = useRef();
     const swiperRef = useRef(null);
-    /**
-     * Effects
-     */
-    useEffect(() => {
-        useStore.setState({ modalEntityIsOpen: true });
-    }, []);
-    useEffect(() => {
-        const timeline = new gsap.timeline();
-        timeline.fromTo(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100 }, { xPercent: 0, ease: 'ease.easeout' });
-        return () => {
-            timeline.kill();
-        };
-    }, []);
+
+    const timelines = useRef({
+        show: null,
+        hide: null,
+    });
 
     /**
-     * Private
+     * Lifecycle
      */
-    function clickHandler() {
-        const timeline = new gsap.timeline({
-            onComplete: () => {
-                useStore.setState({ modalEntityIsOpen: false });
-            },
-        });
-        timeline.to(panelRef.current, 0.5, { xPercent: language !== 'ar-QA' ? 100 : -100, ease: 'ease.easein' });
-        navigate(entity.slug.slice(0, entity.slug.lastIndexOf('/')));
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+
     }
-    return (
-        <>
-            <div ref={ panelRef } className="panel panel-entity" data-name="entity">
-                <Scrollbar revert={ false }>
-                    <ButtonClose onClick={ clickHandler } />
-                    { /* <SequenceCharts charts={ sequenceCharts } /> */ }
-                    <section className="section section-container hide-line">
-                        <div className="points">
-                            <div className="point"></div>
-                            <div className="point"></div>
-                            <div className="point"></div>
-                        </div>
-                        <div className="introduction">
-                            <h1 className='h1'>{ entity.name }</h1>
-                            { entity.description && <p className="p1">{ entity.description }</p> }
-                        </div>
-                    </section>
-                    { entity.charts && <Charts charts={ entity.charts } /> }
-                    { entity.relatedArticles &&
-                        <>
 
+    function destroy() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+    }
+
+    /**
+     * Public
+     */
+    function show() {
+        timelines.current.hide?.kill();
+
+        timelines.current.show = new gsap.timeline();
+
+        timelines.current.show.to(elRef.current, { duration: 1, x: `${ 0 }%`, ease: 'power3.out' }, 0);
+
+        return timelines.current.show;
+    }
+
+    function hide() {
+        const direction = language === 'ar-QA' ? -1 : 1;
+
+        timelines.current.show?.kill();
+
+        timelines.current.hide = new gsap.timeline();
+
+        timelines.current.hide.to(elRef.current, { duration: 1, x: `${ 100 * direction }%`, ease: 'power3.out' }, 0);
+
+        return timelines.current.hide;
+    }
+
+    /**
+     * Expose public
+     */
+    useImperativeHandle(ref, () => ({
+        show,
+        hide,
+    }));
+
+    return (
+        <div ref={ elRef } className="panel panel-entity" data-name="entity">
+
+            <Scrollbar revert={ false }>
+
+                <ButtonClose to={ subcategory.slug } />
+
+                { /* <SequenceCharts charts={ sequenceCharts } /> */ }
+
+                <section className="section section-container hide-line">
+                    <div className="points">
+                        <div className="point"></div>
+                        <div className="point"></div>
+                        <div className="point"></div>
+                    </div>
+                    <div className="introduction">
+                        <h1 className='h1'>{ entity.name }</h1>
+                        { entity.description && <p className="p1">{ entity.description }</p> }
+                    </div>
+                </section>
+
+                { entity.charts && <Charts charts={ entity.charts } /> }
+
+                { entity.relatedArticles &&
+                        <>
                             <section className="section">
                                 <div className="articles">
                                     <h2 className="h8 section-container">Related articles</h2>
@@ -148,11 +183,12 @@ function PanelEntity(props, ref) {
                                 <ButtonPagination name={ next.name } slug={ next.slug } direction='right'></ButtonPagination>
                             </div>
                         </>
-                    }
-                </Scrollbar>
-            </div>
-        </>
+                }
+
+            </Scrollbar>
+
+        </div>
     );
 }
 
-export default PanelEntity;
+export default forwardRef(PanelEntity);

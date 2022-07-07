@@ -84,6 +84,8 @@
 
     color: color-from-theme('green', 'secondary');
 
+    pointer-events: all;
+
     a {
         color: color-from-theme('green', 'secondary');
         text-decoration: underline;

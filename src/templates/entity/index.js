@@ -11,7 +11,6 @@ import { useTranslation } from 'gatsby-plugin-react-i18next';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
-import useStore from '@/hooks/useStore';
 
 // CSS
 import './style.scoped.scss';
@@ -30,17 +29,6 @@ function EntityTemplate(props) {
     const { language } = props.pageContext;
     const { t } = useTranslation();
 
-    /**
-     * States
-     */
-    const [isPresent, safeToRemove] = usePresence();
-    /**
-    * Store
-    */
-    const [modalEntityIsOpen] = useStore(s => [s.modalEntityIsOpen]);
-    /**
-     * Effects
-     */
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
@@ -48,44 +36,62 @@ function EntityTemplate(props) {
     const entity = data.entity[language].current;
     const entityNext = data.entity[language].next;
     const entityPrevious = data.entity[language].previous;
+
+    /**
+     * States
+     */
+    const [isPresent, safeToRemove] = usePresence();
+
+    /**
+     * Effects
+     */
     usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
         if (isPresent) transitionIn();
-        else if (!isPresent) transitionOut(safeToRemove);
+        else if (!isPresent) transitionOut();
     }, [isPresent]);
-
-    useEffect(() => {
-        useStore.setState({ currentCategory: category });
-        useStore.setState({ currentSubcategory: subcategory });
-        // Globals.webglApp.gotoEntity(category.slug, entity.slug);
-        Globals.webglApp.selectEntity(entity, category.slug.split('/')[2]);
-    }, []);
 
     /**
      * Refs
      */
-    const el = useRef();
+    const elRef = useRef();
+    const buttonBackRef = useRef();
+    const panelEntityRef = useRef();
+
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+        // Globals.webglApp.gotoEntity(category.slug, entity.slug);
+        // Globals.webglApp.selectEntity(entity, category.slug.split('/')[2]);
+    }
+
+    function destroy() {
+
+    }
 
     /**
      * Private
      */
-    function clickHandler() {
-        useStore.setState({ modalEntityIsOpen: false });
-    }
     function transitionIn() {
         const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
-        timeline.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-        return timeline;
+
+        timeline.add(buttonBackRef.current.show(), 0);
+        timeline.add(panelEntityRef.current.show(), 0);
     }
 
     function transitionOut() {
         const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
-        timeline.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
 
-        Globals.webglApp.hideCurrentEntity();
-
-        return timeline;
+        timeline.add(panelEntityRef.current.hide(), 0);
+        timeline.add(buttonBackRef.current.hide(), 0);
+        timeline.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
     }
 
     function transitionInCompleted() {
@@ -98,12 +104,16 @@ function EntityTemplate(props) {
     }
 
     return (
-        <div className="template-entity" ref={ el }>
+        <div className="template-entity" ref={ elRef }>
+
             <Helmet>
                 <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` }</title>
             </Helmet>
-            <ButtonBack  name={ t('Back') } slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } onClick={ clickHandler } />
-            <PanelEntity entity={ entity } next={ entityNext } previous={ entityPrevious } />
+
+            <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } />
+
+            <PanelEntity ref={ panelEntityRef } subcategory={ subcategory } entity={ entity } next={ entityNext } previous={ entityPrevious } />
+
         </div>
     );
 }

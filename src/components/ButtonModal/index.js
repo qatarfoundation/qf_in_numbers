@@ -119,7 +119,7 @@ function ButtonModal(props, ref) {
 
         // Arrow
         timelines.current.mouseenter.fromTo(arrowInitRef.current, { y: '0%' }, { duration: 0.5, y: '300%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.fromTo(arrowInitRef.current, { alpha: 1 }, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.mouseenter.fromTo(arrowInitRef.current, { alpha: 1 }, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
 
         timelines.current.mouseenter.fromTo(arrowHoverRef.current, { y: '-300%' }, { duration: 0.5, y: '0%', ease: 'power3.out' }, 0);
         timelines.current.mouseenter.fromTo(arrowHoverRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
@@ -147,10 +147,10 @@ function ButtonModal(props, ref) {
 
         // Arrow
         timelines.current.mouseleave.fromTo(arrowHoverRef.current, { y: '0%' }, { duration: 0.5, y: '300%', ease: 'power3.out' }, 0);
-        timelines.current.mouseleave.fromTo(arrowHoverRef.current, { alpha: 1 }, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.mouseleave.fromTo(arrowHoverRef.current, { alpha: 1 }, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
 
         timelines.current.mouseleave.fromTo(arrowInitRef.current, { y: '-300%' }, { duration: 0.5, y: '0%', ease: 'power3.out' }, 0);
-        timelines.current.mouseleave.fromTo(arrowInitRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.mouseleave.fromTo(arrowInitRef.current, { alpha: 0 }, { duration: 0.2, alpha: 1, ease: 'sine.inOut' }, 0);
 
         timelines.current.mouseleave.call(mouseleaveCompleteHandler, null, 0.8);
     }

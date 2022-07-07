@@ -203,7 +203,14 @@ function parseYears(data) {
             categories: parseCategories(fields, slug),
         });
     });
-    return years;
+    return orderYears(years);
+}
+
+function orderYears(years) {
+    const orderedYears = years.sort((a, b) => {
+        return parseInt(b.year) - parseFloat(a.year);
+    });
+    return orderedYears;
 }
 
 function parseCategories(data, baseSlug) {

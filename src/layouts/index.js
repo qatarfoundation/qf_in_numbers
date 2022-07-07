@@ -64,9 +64,11 @@ function Layout(props) {
             const entities = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => {
                 return { value: d.name, slug: d.slug  };
             }))).flat(2);
+
             const tags = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => d.tags ? d.tags.map(d => {
                 return { value: d.name, slug: d.slug  };
             }) : []))).flat(3);
+
             useStore.setState({ currentYear: props.pageContext.year[language].year, allEntities: [...entities], allTags: [...tags] });
         }
     }, []);
@@ -129,6 +131,13 @@ function Layout(props) {
                     { /* WebGL */ }
                     <WebglApp preloaderState={ state } onStateChange={ stateChangeHandler } containerRef={ containerRef } />
 
+                    { /* Navigation */ }
+                    { originalPath !== '/' &&
+
+                        <TheNavigation pageContext={ props.pageContext } />
+
+                    }
+
                     { /* Page */ }
                     { webglAppState === 'started' && isFinishAnimPreload &&
 
@@ -139,13 +148,6 @@ function Layout(props) {
                             </div>
 
                         </AnimatePresence>
-
-                    }
-
-                    { /* Navigation */ }
-                    { originalPath !== '/' &&
-
-                        <TheNavigation pageContext={ props.pageContext } />
 
                     }
 

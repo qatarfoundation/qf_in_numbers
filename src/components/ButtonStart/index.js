@@ -119,6 +119,8 @@ function ButtonStart(props, ref) {
      */
     function showCompletedHandler() {
         isHoverAllowed.current = true;
+
+        elRef.current.style.pointerEvents = 'all';
     }
 
     function mouseenterHandler() {
