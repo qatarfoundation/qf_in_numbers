@@ -1,6 +1,8 @@
 .button-back {
     display: inline-flex;
     align-items: center;
+
+    visibility: hidden;
 }
 
 .p3 {
@@ -8,6 +10,8 @@
 }
 
 .text {
+    opacity: 0;
+
     display: block;
     margin-bottom: rem(5px, 'small');
 
@@ -15,10 +19,6 @@
         position: absolute;
         top: 0;
         left: 0;
-
-        color: var(--color-theme-secondary);
-
-        opacity: 0;
 
         transform: translate3d(0, 50%, 0);
 
@@ -47,6 +47,9 @@
     min-height: rem(32px, 'small');
 
     margin-right: rem(17px, 'small');
+
+    border-radius: 50%;
+    overflow: hidden;
 
     @include respond-to('medium') {
         width: rem(32px, 'medium');
@@ -106,6 +109,10 @@
 
     width: 100%;
     height: 100%;
+
+    &.arrow-container-hover {
+        opacity: 0;
+    }
 }
 
 .arrow {
@@ -118,10 +125,5 @@
 
     .ar & {
         transform: scaleX(1);
-    }
-
-    &.arrow-hover {
-        opacity: 0;
-
     }
 }

@@ -91,7 +91,7 @@ function HomeTemplate(props, ref) {
         timelines.current.transitionIn.to(labelRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 0.2);
         timelines.current.transitionIn.add(buttonRef.current.show(), 0.5);
         timelines.current.transitionIn.to(cookieRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 1);
-        // timelines.current.transitionIn.call(() => { Globals.webglApp.showTree(); }, null, 0);
+        timelines.current.transitionIn.call(() => { Globals.webglApp.showTree(); }, null, 0);
     }
 
     function transitionOut() {

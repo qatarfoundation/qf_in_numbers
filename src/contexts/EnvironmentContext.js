@@ -21,6 +21,8 @@ export function getEnvironment() {
         environment = DEVELOPMENT;
     }
 
+    // Debug
+    // return PRODUCTION;
     return environment;
 }
 

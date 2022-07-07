@@ -115,6 +115,7 @@ function ModalSearch(props, ref) {
         timelines.current.close?.kill();
         timelines.current.open = new gsap.timeline();
         timelines.current.open.add(panelRef.current.show(), 0);
+        timelines.current.open.to(overlayRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, 0);
     }
 
     function close() {
@@ -128,6 +129,7 @@ function ModalSearch(props, ref) {
         timelines.current.open?.kill();
         timelines.current.close = new gsap.timeline();
         timelines.current.close.add(panelRef.current.hide(), 0);
+        timelines.current.close.to(overlayRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
     }
 
     /**

@@ -1,5 +1,6 @@
 // React
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -8,6 +9,11 @@ import { gsap } from 'gsap';
 import './style.scoped.scss';
 
 function ButtonModal(props, ref) {
+    /**
+     * Data
+     */
+    const { language } = useI18next();
+
     /**
      * Refs
      */
@@ -58,13 +64,15 @@ function ButtonModal(props, ref) {
      * Public
      */
     function show() {
+        const origin = language === 'ar-QA' ? 'right bottom' : 'left bottom';
+
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
 
         timelines.current.show.to(elRef.current, { duration: 1, autoAlpha: 1, ease: 'sine.inOut' }, 0);
 
         // Line
-        timelines.current.show.fromTo(lineInitRef.current, { scaleX: 0, transformOrigin: 'left bottom' }, { duration: 1, scaleX: 1, ease: 'power3.out' }, 0);
+        timelines.current.show.fromTo(lineInitRef.current, { scaleX: 0, transformOrigin: origin }, { duration: 1, scaleX: 1, ease: 'power3.out' }, 0);
 
         // Text
         timelines.current.show.fromTo(textInitRef.current, { y: '100%' }, { duration: 1.2, y: '0%', ease: 'power3.out' }, 0.1);
@@ -92,13 +100,15 @@ function ButtonModal(props, ref) {
      * Private
      */
     function mouseenter() {
+        const origin = language === 'ar-QA' ? 'right bottom' : 'left bottom';
+
         timelines.current.show?.kill();
         timelines.current.mouseleave?.kill();
 
         timelines.current.mouseenter = new gsap.timeline();
 
         // Line
-        timelines.current.mouseenter.fromTo(lineHoverRef.current, { transformOrigin: 'left bottom', scaleX: 0 }, { duration: 0.5, scaleX: 1, ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.fromTo(lineHoverRef.current, { transformOrigin: origin, scaleX: 0 }, { duration: 0.5, scaleX: 1, ease: 'power3.out' }, 0);
 
         // Text
         timelines.current.mouseenter.fromTo(textInitRef.current, { y: '0%' }, { duration: 0.7, y: '-60%', ease: 'power3.out' }, 0);
@@ -118,13 +128,15 @@ function ButtonModal(props, ref) {
     }
 
     function mouseleave() {
+        const origin = language === 'ar-QA' ? 'left bottom' : 'right bottom';
+
         timelines.current.show?.kill();
         timelines.current.mouseenter?.kill();
 
         timelines.current.mouseleave = new gsap.timeline();
 
         // Line
-        timelines.current.mouseleave.fromTo(lineHoverRef.current, { transformOrigin: 'right bottom', scaleX: 1 }, { duration: 0.5, scaleX: 0, ease: 'power3.inOut' }, 0);
+        timelines.current.mouseleave.fromTo(lineHoverRef.current, { transformOrigin: origin, scaleX: 1 }, { duration: 0.5, scaleX: 0, ease: 'power3.inOut' }, 0);
 
         // Text
         timelines.current.mouseleave.fromTo(textHoverRef.current, { y: '0%' }, { duration: 0.7, y: '-60%', ease: 'power3.out' }, 0);
@@ -148,7 +160,7 @@ function ButtonModal(props, ref) {
      */
     function showCompletedHandler() {
         // Enable hover
-        elRef.current.style.pointerEvent = 'all';
+        elRef.current.style.pointerEvents = 'all';
     }
 
     function mouseenterHandler() {

@@ -159,8 +159,13 @@ function Layout(props) {
                 </AnimatePresence>
 
                 { /* Modals */ }
-                <ModalYear pageContext={ props.pageContext } />
-                <ModalSearch pageContext={ props.pageContext } />
+                {
+                    webglAppState === 'started' && isFinishAnimPreload &&
+                    <>
+                        <ModalYear pageContext={ props.pageContext } />
+                        <ModalSearch pageContext={ props.pageContext } />
+                    </>
+                }
 
             </EnvironmentProvider>
         </div>
