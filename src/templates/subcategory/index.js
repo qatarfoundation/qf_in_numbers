@@ -17,7 +17,6 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import ButtonBack from '@/components/ButtonBack/index';
-import ModalSubcategories from '@/components/ModalSubcategories/index';
 
 function SubcategoryTemplate(props) {
     /**
