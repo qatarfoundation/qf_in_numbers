@@ -127,7 +127,9 @@ function PanelSubcategories(props, ref) {
                             return (
                                 <li key={ `subcategory-${ indexSubcategory }` } className="item-subcategories">
 
-                                    <p className='title-subcategory h5'>{ subcategory.name }</p>
+                                    <Link to={ subcategory.slug } className="button title-subcategory h5">
+                                        { subcategory.name }
+                                    </Link>
 
                                     <ul className="list-entities">
 

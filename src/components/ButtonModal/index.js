@@ -91,7 +91,7 @@ function ButtonModal(props, ref) {
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
 
-        timelines.current.hide.to(elRef.current, { duration: 1, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.hide.to(elRef.current, { duration: 0.3, autoAlpha: 0, ease: 'sine.inOut' }, 0);
 
         return timelines.current.hide;
     }

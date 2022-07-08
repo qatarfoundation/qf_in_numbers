@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useTranslation, Link } from 'gatsby-plugin-react-i18next';
 
 // Vendor
@@ -14,7 +14,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 // CSS
 import './style.scoped.scss';
 
-const ButtonMainCategory = (props) => {
+const ButtonMainCategory = (props, ref) => {
     /**
      * Props
      */
@@ -28,14 +28,17 @@ const ButtonMainCategory = (props) => {
     /**
      * Refs
      */
-    const el = useRef();
+    const elRef = useRef();
     const titleRef = useRef();
+    const circleContainerRef = useRef();
     const circleRef = useRef();
     const coloredCircleRef = useRef();
     const dotRef = useRef();
     const labelRef = useRef();
 
     const timelines = useRef({
+        show: null,
+        hide: null,
         mouseenter: null,
         mouseleave: null,
     });
@@ -53,8 +56,52 @@ const ButtonMainCategory = (props) => {
     }
 
     function destroy() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+        timelines.current.mouseenter?.kill();
+        timelines.current.mouseleave?.kill();
+
         removeEventListeners();
     }
+
+    /**
+     * Public
+     */
+    function show() {
+        timelines.current.hide?.kill();
+
+        timelines.current.show = new gsap.timeline();
+
+        timelines.current.show.to(titleRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.show.to(titleRef.current, { duration: 2, rotation: '0deg', ease: 'power4.out' }, 0);
+        timelines.current.show.to(titleRef.current, { duration: 2, y: '0%', ease: 'power4.out' }, 0);
+
+        timelines.current.show.to(circleContainerRef.current, { duration: 1.5, alpha: 1, ease: 'sine.inOut' }, 0.1);
+        timelines.current.show.to(circleContainerRef.current, { duration: 2, scale: 1, ease: 'power4.out' }, 0.2);
+
+        timelines.current.show.call(showCompletedHandler, null, 1);
+
+        return timelines.current.show;
+    }
+
+    function hide() {
+        timelines.current.mouseenter?.kill();
+        timelines.current.mouseleave?.kill();
+
+        timelines.current.show?.kill();
+
+        timelines.current.hide = new gsap.timeline();
+
+        return timelines.current.hide;
+    }
+
+    /**
+     * Expose public
+     */
+    useImperativeHandle(ref, () => ({
+        show,
+        hide,
+    }));
 
     /**
      * Events
@@ -70,10 +117,13 @@ const ButtonMainCategory = (props) => {
     /**
      * Handlers
      */
+    function showCompletedHandler() {
+        // Enable hover
+        elRef.current.style.pointerEvents = 'all';
+    }
+
     function anchorPositionChangedHandler(position) {
-        // el.current.style.transform = `translate(${ position.x }px, ${ position.y }px)`;
-        el.current.style.left = `${ position.x }px`;
-        el.current.style.top = `${ position.y }px`;
+        elRef.current.style.transform = `translate(${ position.x }px, ${ position.y }px)`;
     }
 
     function mouseenterHandler() {
@@ -105,15 +155,15 @@ const ButtonMainCategory = (props) => {
     }
 
     return (
-        <Link to={ props.slug ? props.slug : '' } className={ `button-main-category anchor-x-${ props.anchorX } anchor-y-${ props.anchorY } ${ props.color } ${ isNotActive ? 'is-not-active' : '' }` } ref={ el } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
+        <Link to={ props.slug ? props.slug : '' } className={ `button-main-category anchor-x-${ props.anchorX } anchor-y-${ props.anchorY } ${ props.color } ${ isNotActive ? 'is-not-active' : '' }` } ref={ elRef } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
 
             <div className="click-area copy h4">{ props.label }</div>
 
             <div className="content">
 
-                <p ref={ titleRef } className="copy h4">{ props.label }</p>
+                <p ref={ titleRef } className="title copy h4">{ props.label }</p>
 
-                <div className="circle-container">
+                <div ref={ circleContainerRef } className="circle-container">
 
                     <div ref={ circleRef } className="circle">
 
@@ -133,4 +183,4 @@ const ButtonMainCategory = (props) => {
     );
 };
 
-export default ButtonMainCategory;
+export default forwardRef(ButtonMainCategory);

@@ -67,7 +67,55 @@ const YearTemplate = (props) => {
     /**
      * Refs
      */
-    const el = useRef();
+    const elRef = useRef();
+    const listCategoriesRef = useRef();
+
+    const timelines = useRef({
+        transitionIn: null,
+        transitionOut: null,
+    });
+
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+
+    }
+
+    function destroy() {
+        timelines.current.transitionIn?.kill();
+        timelines.current.transitionOut?.kill();
+    }
+
+    /**
+     * Private
+     */
+    function transitionIn() {
+        timelines.current.transitionOut?.kill();
+
+        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompletedHandler });
+
+        timelines.current.transitionIn.to(elRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionIn.add(listCategoriesRef.current.show(), props.location.previous ? 0 : 2);
+    }
+
+    function transitionOut() {
+        timelines.current.transitionIn?.kill();
+
+        timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompletedHandler });
+
+        timelines.current.transitionOut.to(elRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionOut.add(listCategoriesRef.current.hide(), 0);
+    }
+
+    function resize() {
+        setBreakpoints(Breakpoints.current);
+    }
 
     /**
      * Events
@@ -75,38 +123,23 @@ const YearTemplate = (props) => {
     useWindowResizeObserver(resizeHandler);
 
     /**
-     * Handlers
-     */
+      * Handlers
+      */
     function resizeHandler() {
         resize();
     }
 
-    /**
-     * Private
-     */
-    function transitionIn() {
-        return gsap.to(el.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
-    }
-
-    function transitionOut() {
-        return gsap.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
-    }
-
-    function transitionInCompleted() {
+    function transitionInCompletedHandler() {
         //
     }
 
-    function transitionOutCompleted() {
+    function transitionOutCompletedHandler() {
         // Unmount
         safeToRemove();
     }
 
-    function resize() {
-        setBreakpoints(Breakpoints.current);
-    }
-
     return (
-        <div className="template-year" ref={ el }>
+        <div className="template-year" ref={ elRef }>
 
             <Helmet>
                 <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year }` }</title>
@@ -116,7 +149,7 @@ const YearTemplate = (props) => {
                 <SliderCategories categories={ year.categories } />
                 :
                 <div className="container-page container">
-                    <ListCategories year={ year.year } categories={ year.categories } />
+                    <ListCategories ref={ listCategoriesRef } year={ year.year } categories={ year.categories } />
                 </div>
             }
 
