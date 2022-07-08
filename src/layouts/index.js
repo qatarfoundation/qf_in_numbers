@@ -93,6 +93,11 @@ function Layout(props) {
         setWebglAppState(state);
     }
 
+    function preloaderAnimationCompletedHandler() {
+        Globals.webglApp.transitionIn();
+        setIsFinishAnimPreload(true);
+    }
+
     /**
      * Private
      */
@@ -156,7 +161,7 @@ function Layout(props) {
                 { /* Preloader */ }
                 <AnimatePresence>
 
-                    { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ setIsFinishAnimPreload } /> }
+                    { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ preloaderAnimationCompletedHandler } /> }
 
                 </AnimatePresence>
 

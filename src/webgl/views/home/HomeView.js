@@ -83,7 +83,7 @@ export default class HomeView extends component() {
     transitionIn() {
         this._timelineTransitionIn = new gsap.timeline();
 
-        this._timelineTransitionIn.add(this._components.tree.transitionIn(), 6);
+        this._timelineTransitionIn.add(this._components.tree.transitionIn(), 0);
 
         return this._timelineTransitionIn;
     }

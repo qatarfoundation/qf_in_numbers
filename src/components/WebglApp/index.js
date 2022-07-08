@@ -42,7 +42,6 @@ function WebglAppComponent(props) {
             Globals.webglApp.start();
             onStateChange('started');
             Globals.webglApp.showView('home');
-            Globals.webglApp.transitionIn();
         }
     }, [preloaderState]);
 
