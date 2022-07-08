@@ -8,6 +8,9 @@ import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
@@ -17,9 +20,6 @@ import './style.scoped.scss';
 
 // Components
 import PanelEntity from '@/components/PanelEntity';
-
-// Utils
-import Globals from '@/utils/Globals';
 import ButtonBack from '@/components/ButtonBack/index';
 
 function EntityTemplate(props) {

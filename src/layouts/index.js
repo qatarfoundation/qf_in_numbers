@@ -18,6 +18,7 @@ import ThePreloader from '@/components/ThePreloader';
 import TheNavigation from '@/components/TheNavigation';
 import ModalYear from '@/components/ModalYear';
 import ModalSearch from '@/components/ModalSearch';
+import ModalSubcategories from '@/components/ModalSubcategories/index';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Providers
@@ -42,7 +43,7 @@ function Layout(props) {
      * States
      */
     const [webglAppState, setWebglAppState] = useState(undefined);
-    const [isFinishAnimPreload, setIsFinishAnimPreload] = useState(getEnvironment() === DEVELOPMENT);
+    const [isFinishAnimPreload, setIsFinishAnimPreload] = useState(false);
 
     /**
      * Stores
@@ -80,6 +81,15 @@ function Layout(props) {
     useEffect(() => {
         useStore.setState({ locale: language });
     }, []);
+
+    useEffect(() => {
+        if (webglAppState !== 'started') return;
+
+        if (getEnvironment() === DEVELOPMENT) {
+            Globals.webglApp.transitionIn();
+            setIsFinishAnimPreload(true);
+        }
+    }, [webglAppState]);
 
     /**
      * Hooks
@@ -171,6 +181,7 @@ function Layout(props) {
                     <>
                         <ModalYear pageContext={ props.pageContext } />
                         <ModalSearch pageContext={ props.pageContext } />
+                        <ModalSubcategories pageContext={ props.pageContext } />
                     </>
                 }
 

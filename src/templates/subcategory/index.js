@@ -15,12 +15,20 @@ import './style.scoped.scss';
 import useTemplateData from '@/hooks/useTemplateData';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
+// Components
+import ButtonBack from '@/components/ButtonBack/index';
+import ModalSubcategories from '@/components/ModalSubcategories/index';
+
 function SubcategoryTemplate(props) {
     /**
      * Data
      */
     const { t } = useTranslation();
     const { language } = props.pageContext;
+    const data = useTemplateData(props.pageContext, language);
+    const year = data.year[language];
+    const category = data.category[language];
+    const subcategory = data.subcategory ? data.subcategory[language] : null;
 
     /**
      * States
@@ -28,13 +36,8 @@ function SubcategoryTemplate(props) {
     const [isPresent, safeToRemove] = usePresence();
 
     /**
-     * Hooks
+     * Watchers
      */
-    const data = useTemplateData(props.pageContext, language);
-    const year = data.year[language];
-    const category = data.category[language];
-    const subcategory = data.subcategory ? data.subcategory[language] : null;
-
     useEffect(() => {
         if (isPresent) transitionIn();
         else if (!isPresent) transitionOut();
@@ -43,7 +46,24 @@ function SubcategoryTemplate(props) {
     /**
      * Refs
      */
-    const el = useRef();
+    const elRef = useRef();
+    const buttonBackRef = useRef();
+
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+
+    }
+
+    function destroy() {
+
+    }
 
     /**
      * Events
@@ -61,11 +81,11 @@ function SubcategoryTemplate(props) {
      * Private
      */
     function transitionIn() {
-        return gsap.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
+        return gsap.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
     }
 
     function transitionOut() {
-        return gsap.to(el.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
+        return gsap.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
     }
 
     function transitionInCompleted() {
@@ -78,13 +98,17 @@ function SubcategoryTemplate(props) {
     }
 
     return (
-        <div className="template-subcategory" ref={ el }>
+        <div className="template-subcategory" ref={ elRef }>
 
             <Helmet>
-                {
-                    <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name }` }</title>
-                }
+                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name }` }</title>
             </Helmet>
+
+            <div className="button-back-container">
+
+                <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ category.slug } />
+
+            </div>
 
         </div>
     );

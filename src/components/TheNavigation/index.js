@@ -24,11 +24,6 @@ function TheNavigation(props) {
     const [isPresent, safeToRemove] = usePresence();
 
     /**
-     * Stores
-     */
-    const modalSubcategoriesIsOpen = useStore((s) => s.modalSubcategoriesIsOpen);
-
-    /**
      * Effects
      */
     useEffect(() => {

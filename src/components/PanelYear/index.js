@@ -19,16 +19,17 @@ import Scrollbar from '@/components/ScrollBar';
 
 function PanelYear(props, ref) {
     /**
-     * Datas
+     * Data
      */
     const { language } = useI18next();
     const { years, currentYear } = props;
     const { t } = useTranslation();
 
     /**
-     * References
+     * Refs
      */
     const elRef = useRef();
+
     const timelines = useRef({
         show: null,
         hide: null,

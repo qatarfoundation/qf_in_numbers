@@ -23,6 +23,7 @@ export function getEnvironment() {
 
     // Debug
     // return PRODUCTION;
+
     return environment;
 }
 

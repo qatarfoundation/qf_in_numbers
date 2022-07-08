@@ -12,7 +12,7 @@ function MainBreakcrumbItem(props) {
     const { name, path } = props;
 
     return (
-        <div className="main-breadcrumb-item">
+        <div className="side-breadcrumb-item">
 
             <div className="icon"></div>
 

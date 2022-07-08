@@ -1,19 +1,7 @@
-.main-breadcrumbs {
+.side-breadcrumbs {
     display: flex;
 
     position: relative;
 
-    margin-left: rem(28px, 'small');
-
     white-space: nowrap;
-
-    @include respond-to('medium') {
-        margin-top: rem(-20px, 'medium');
-        margin-left: rem(54, 'medium');
-    }
-
-    @include respond-to('large') {
-        margin-top: rem(-20px, 'large');
-        margin-left: rem(56px, 'large');
-    }
 }

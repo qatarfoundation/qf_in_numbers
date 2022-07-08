@@ -25,7 +25,6 @@ function ModalYear(props, ref) {
     const { language } = useI18next();
     const years = props.pageContext.years[language];
     const currentYear = props.pageContext.year ? props.pageContext.year[language] : null;
-    years.sort((a, b) => b.year - a.year);
     const allowedPagesType = ['year', 'category', 'subcategory'];
 
     /**
@@ -42,6 +41,7 @@ function ModalYear(props, ref) {
     const overlayRef = useRef();
     const buttonContainerRef = useRef();
     const buttonRef = useRef();
+
     const timelines = useRef({
         show: null,
         hide: null,

@@ -1,3 +1,48 @@
 .template-subcategory {
+    position: fixed;
+    left: 0;
+    top: 0;
 
+    width: 100%;
+    height: 100%;
+}
+
+.button-back-container {
+    position: fixed;
+    top: rem(75px, 'small');
+    left: rem(16px, 'small');
+
+    .ar & {
+        right: rem(16px, 'small');
+        left: inherit;
+    }
+
+    @include respond-to('medium') {
+        top: rem(108px, 'medium');
+        left: rem(53px, 'medium');
+
+        .ar & {
+            right: rem(53px, 'medium');
+            left: inherit;
+        }
+    }
+
+    @include respond-to('large') {
+        top: rem(108px, 'large');
+        left: rem(53px, 'large');
+
+        .ar & {
+            right: rem(53px, 'large');
+            left: inherit;
+        }
+    }
+
+    .icon-arrow {
+        .arrow {
+            fill: $color-white;
+        }
+        .circle {
+            border-color: $color-white;
+        }
+    }
 }
