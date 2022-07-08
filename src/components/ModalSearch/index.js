@@ -33,6 +33,7 @@ function ModalSearch(props, ref) {
      * States
      */
     const [isOpen, setOpen] = useState(false);
+    const [isVisible, setVisible] = useState(false);
 
     /**
      * Refs
@@ -53,9 +54,14 @@ function ModalSearch(props, ref) {
      * Watchers
      */
     useEffect(() => {
-        if (allowedPagesType.includes(props.pageContext.type)) show();
-        else hide();
+        if (allowedPagesType.includes(props.pageContext.type)) setVisible(true);
+        else setVisible(false);
     }, [props.pageContext.type]);
+
+    useEffect(() => {
+        if (isVisible) show();
+        else hide();
+    }, [isVisible]);
 
     useEffect(() => {
         setOpen(false);
