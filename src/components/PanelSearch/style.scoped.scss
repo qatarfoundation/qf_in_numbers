@@ -17,6 +17,8 @@
 
     transform: translateX(100%);
 
+    visibility: hidden;
+
     .ar & {
         left: inherit;
         right: 0;

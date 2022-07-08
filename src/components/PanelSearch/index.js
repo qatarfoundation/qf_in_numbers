@@ -82,16 +82,18 @@ function PanelSearch(props, ref) {
     function show() {
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
+        timelines.current.show.set(elRef.current, { autoAlpha: 1 }, 0);
         timelines.current.show.to(elRef.current, { duration: 1, x: '0%', ease: 'power3.out' });
         return timelines.current.show;
     }
 
     function hide() {
-        const translateX = language === 'ar-QA' ? '-105%' : '105%';
+        const translateX = language === 'ar-QA' ? '-100%' : '100%';
 
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
         timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, ease: 'power3.out' });
+        timelines.current.hide.set(elRef.current, { autoAlpha: 1 });
         return timelines.current.hide;
     }
 

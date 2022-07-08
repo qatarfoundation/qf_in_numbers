@@ -64,6 +64,7 @@ function PanelSubcategories(props, ref) {
 
         timelines.current.show = new gsap.timeline();
 
+        timelines.current.show.set(elRef.current, { autoAlpha: 1 }, 0);
         timelines.current.show.to(elRef.current, { duration: 1, x: '0%', ease: 'power3.out' });
 
         return timelines.current.show;
@@ -77,6 +78,7 @@ function PanelSubcategories(props, ref) {
         timelines.current.hide = new gsap.timeline();
 
         timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, ease: 'power3.out' });
+        timelines.current.hide.set(elRef.current, { autoAlpha: 0 });
 
         return timelines.current.hide;
     }

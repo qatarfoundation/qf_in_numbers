@@ -30,14 +30,16 @@ import useStore from '@/hooks/useStore';
 
 function Layout(props) {
     /**
-     * Refs
-     */
-    const containerRef = useRef();
-
-    /**
      * Props
      */
     const { children } = props;
+
+    /**
+     * Data
+     */
+    const { i18n } = useTranslation();
+    const { navigate, originalPath, language } = useI18next();
+    Globals.navigate = navigate; // NOTE: Add to global to be able to use it in the Webgl application
 
     /**
      * States
@@ -51,45 +53,9 @@ function Layout(props) {
     const [themeCategory] = useStore((state) => [state.themeCategory]);
 
     /**
-     * Data
+     * Refs
      */
-    const { i18n } = useTranslation();
-    const { navigate, originalPath, language } = useI18next();
-    Globals.navigate = navigate; // NOTE: Add to global to be able to use it in the Webgl application
-
-    /**
-     * Effects
-     */
-    useEffect(() => {
-        if (props.pageContext.year) {
-            const entities = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => {
-                return { value: d.name, slug: d.slug  };
-            }))).flat(2);
-
-            const tags = props.pageContext.year[language].categories.map(d => d.subcategories.map(d => d.entities.map(d => d.tags ? d.tags.map(d => {
-                return { value: d.name, slug: d.slug  };
-            }) : []))).flat(3);
-
-            useStore.setState({ currentYear: props.pageContext.year[language].year, allEntities: [...entities], allTags: [...tags] });
-        }
-    }, []);
-
-    useEffect(() => {
-        useStore.setState({ themeCategory: getThemeCategory(originalPath.split('/')[2]) });
-    }, [originalPath]);
-
-    useEffect(() => {
-        useStore.setState({ locale: language });
-    }, []);
-
-    useEffect(() => {
-        if (webglAppState !== 'started') return;
-
-        if (getEnvironment() === DEVELOPMENT) {
-            Globals.webglApp.transitionIn();
-            setIsFinishAnimPreload(true);
-        }
-    }, [webglAppState]);
+    const containerRef = useRef();
 
     /**
      * Hooks
@@ -97,15 +63,39 @@ function Layout(props) {
     const { state, progress } = usePreloader();
 
     /**
-     * Handlers
+     * Watchers
      */
-    function stateChangeHandler(state) {
-        setWebglAppState(state);
+    useEffect(() => {
+        const categoryName = props.pageContext.category ? props.pageContext.category['en-US'].name.toLowerCase() : null;
+        useStore.setState({ themeCategory: getThemeCategory(categoryName) });
+    }, [props.pageContext.category]);
+
+    useEffect(() => {
+        if (webglAppState !== 'started') return;
+
+        // Dev mode
+        if (getEnvironment() === DEVELOPMENT) {
+            Globals.webglApp.transitionIn();
+            setIsFinishAnimPreload(true);
+        }
+    }, [webglAppState]);
+
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+        useStore.setState({ locale: language });
+
+        if (props.pageContext.year) useStore.setState({ currentYear: props.pageContext.year[language].year });
     }
 
-    function preloaderAnimationCompletedHandler() {
-        Globals.webglApp.transitionIn();
-        setIsFinishAnimPreload(true);
+    function destroy() {
+
     }
 
     /**
@@ -128,6 +118,18 @@ function Layout(props) {
             return theme;
         }
         return 'theme-default';
+    }
+
+    /**
+     * Handlers
+     */
+    function stateChangeHandler(state) {
+        setWebglAppState(state);
+    }
+
+    function preloaderAnimationCompletedHandler() {
+        Globals.webglApp.transitionIn();
+        setIsFinishAnimPreload(true);
     }
 
     return (
