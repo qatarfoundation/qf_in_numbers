@@ -27,6 +27,9 @@
 }
 
 .button-open {
+    opacity: 0;
+    visibility: hidden;
+
     position: absolute;
     right: rem(16px, 'small');
     bottom: rem(120px, 'small');
@@ -99,6 +102,22 @@
             transform: rotate3d(0, 1, 0, 180deg);
         }
     }
+
+    path {
+        transition: fill 0.3s $sine-in-out;
+    }
+
+    &:hover {
+        path {
+            fill: var(--color-theme-secondary);
+        }
+
+        .button-circle {
+            opacity: 1;
+
+            transform: scale(1.1);
+        }
+    }
 }
 
 .button-circle {
@@ -115,6 +134,8 @@
 
     border: 1px solid var(--color-theme-secondary);
     border-radius: 50%;
+
+    transition: transform 0.5s $quart-out, opacity 0.5s $sine-in-out;
 }
 
 .panel-container {

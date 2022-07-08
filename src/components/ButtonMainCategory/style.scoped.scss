@@ -30,7 +30,12 @@
 .title {
     opacity: 0;
     transform: rotate(3deg) translateY(5%);
+
     transform-origin: left bottom;
+
+    .ar & {
+        transform-origin: right bottom;
+    }
 }
 
 .circle-container {
