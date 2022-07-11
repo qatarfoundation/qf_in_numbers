@@ -4,10 +4,13 @@
 }
 
 .chart-donut {
-    .can-hover {
+    .has-tooltip {
         &:hover {
             fill: var(--color-theme-primary);
         }
+    }
+    .arc, .label-container {
+        transition: opacity .2s linear;
     }
     .label-container {
         &.is-hidden {
