@@ -4,6 +4,8 @@ const Promise = require('es6-promise').Promise;
 // API
 const api = require('./index.js');
 
+const fetch = require('node-fetch')
+
 async function getPagesData() {
     const promises = [
         api.getEntriesByType('year', { locale: 'en-US' }),
@@ -482,10 +484,16 @@ function parseMapChart(data) {
             fields: [],
         };
         if (data.worldMap) chart.worldMap = data.worldMap;
-        data.dataItems.forEach(item => {
+        data.dataItems.forEach(async (item) => {
+            const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${item.fields.place}.json?types=place%2Ccountry&access_token=${process.env.MAPBOX_ACCESS_TOKEN}`)
+            const geoData = await res.json()
+            let coords = geoData.features.length ? geoData.features[0].geometry?.coordinates : null
+
             const field = {
                 place: item.fields.place,
                 value: item.fields.value,
+                long: coords[0],
+                lat: coords[1]
             };
             chart.fields.push(field);
         });

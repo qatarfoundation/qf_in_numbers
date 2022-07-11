@@ -22,14 +22,6 @@ function ChartMap(props, ref) {
     const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
-    // const data = [
-    //     { long: 45, lat: 22.53, name: 'A', value: 34 }, // corsica
-    //     { long: 7.26, lat: 43.71, name: 'A', value: 14 }, // nice
-    //     { long: 2.349, lat: 48.864, name: 'B', value: 87 }, // Paris
-    //     { long: -1.397, lat: 43.664, name: 'B', value: 41 }, // Hossegor
-    //     { long: 3.075, lat: 50.640, name: 'C', value: 78 }, // Lille
-    //     { long: -3.83, lat: 58, name: 'C', value: 12 }, // Morlaix
-    // ];
     const isWorld = chart.isWorld ? chart.isWorld : true;
     const heightTooltip = 80;
     const spaceTooltip = 5;
@@ -50,6 +42,7 @@ function ChartMap(props, ref) {
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
+            dataviz.select('.tooltip').remove();
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
             const innerWidth = width - margin.left - margin.right;
@@ -76,19 +69,18 @@ function ChartMap(props, ref) {
                     .geoPath()
                     .projection(projection),
                 );
-
             // Tooltip
             const tooltip = dataviz
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
-            const mouseover = d => tooltip.style('opacity', 1);
-            const mousemove = (e, d) => {
+            const mouseover = (e, d) => {
                 tooltip
-                    .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.name }</p>`)
+                    .html(`<p class="p3">${ d.value }</p><p class="p4">${ d.place }</p>`)
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
-                    .style('top', `${ e.target.cy.baseVal.value + margin.top - e.target.r.baseVal.value }px`);
-            };
+                    .style('top', `${ e.target.cy.baseVal.value + margin.top - e.target.r.baseVal.value }px`)
+                    .style('opacity', 1);
+            }
             const mouseleave = d => tooltip.style('opacity', 0);
             // Add a scale for bubble size
             const size = d3.scaleLinear()
@@ -104,7 +96,6 @@ function ChartMap(props, ref) {
                 .attr('cy', function(d) { return projection([d.long, d.lat])[1]; })
                 .attr('r', function(d) { return size(d.value); })
                 .on('mouseover', mouseover)
-                .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
         [data.length, margin],

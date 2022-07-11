@@ -44,6 +44,7 @@
     "gsap": "^3.10.0",
     "i18next": "^21.6.14",
     "loaders": "git+https://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:x-oauth-basic@github.com/immersive-garden/loaders.git",
+    "node-fetch": "^2.6.7",
     "query-string": "^7.1.1",
     "raw-loader": "^4.0.2",
     "react": "^17.0.1",
