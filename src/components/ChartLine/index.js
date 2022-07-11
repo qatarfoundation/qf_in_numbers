@@ -66,13 +66,14 @@ function ChartLine(props, ref) {
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
             // Add X axis
+            const yearRange = [d3.min(data, d => d3.min(d.fields, d => d.x)), d3.max(data, d => d3.max(d.fields, d => d.x))]
             const x = d3.scaleLinear()
-                .domain([d3.min(data, d => d3.min(d.fields, d => d.x)), d3.max(data, d => d3.max(d.fields, d => d.x))])
+                .domain(yearRange)
                 .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-x')
                 .attr('transform', `translate(0, ${ innerHeight + spaceAxisX })`)
-                .call(d3.axisBottom(x).tickSize(0).tickFormat(d3.format('')));
+                .call(d3.axisBottom(x).ticks(yearRange[1] - yearRange[0]).tickSize(0).tickFormat(d3.format('')));
             // Add Y axis
             const y = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d3.max(d.fields, d => d.y))])
