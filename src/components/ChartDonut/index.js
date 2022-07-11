@@ -91,11 +91,6 @@ function ChartDonut(props, ref) {
                 .attr('class', 'tooltip');
             const mouseover = function(e, d) {
                 if (e.target.classList.contains('can-hover')) {
-                    tooltip.style('opacity', 1);
-                }
-            };
-            const mousemove = function(e, d) {
-                if (e.target.classList.contains('can-hover')) {
                     const arc = d3.arc()
                         .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
                         .outerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5));
@@ -105,6 +100,7 @@ function ChartDonut(props, ref) {
                         .html(`<p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p>`)
                         .style('left', `${ x }px`)
                         .style('top', `${ y }px`);
+                    tooltip.style('opacity', 1);
                 }
             };
             const mouseleave = function(e) {
@@ -129,7 +125,6 @@ function ChartDonut(props, ref) {
                 .attr('stroke', 'white')
                 .style('stroke-width', '2px')
                 .on('mouseover', mouseover)
-                .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
             const labelContainer = donutContainer
                 .selectAll('allLabels')
