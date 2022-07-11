@@ -20,6 +20,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import ButtonBack from '@/components/ButtonBack/index';
+import SliderEntities from '@/components/SliderEntities/index';
 
 function SubcategoryTemplate(props) {
     /**
@@ -124,6 +125,12 @@ function SubcategoryTemplate(props) {
             <div className="button-back-container">
 
                 <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ category.slug } />
+
+            </div>
+
+            <div className="slider-container">
+
+                <SliderEntities category={ category } subcategory={ subcategory } />
 
             </div>
 

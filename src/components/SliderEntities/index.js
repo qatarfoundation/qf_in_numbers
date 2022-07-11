@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -12,43 +12,79 @@ import Breakpoints from '@/utils/Breakpoints';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
-import useStore from '@/hooks/useStore';
 
-// Components
-import ModalSubcategories from '@/components/ModalSubcategories';
-
-function SliderEntities(props) {
-    /**
-     * Store
-     */
-    const [indexActiveSubcategory, indexActiveEntity] = useStore((state) => [
-        state.indexActiveSubcategory,
-        state.indexActiveEntity,
-    ]);
-
+function SliderEntities(props, ref) {
     /**
      * Props
      */
-    const { category } = props;
-    const entities = category.subcategories[indexActiveSubcategory].entities || [];
+    const { category, subcategory } = props;
+    const entities = subcategory.entities;
 
     /**
      * Refs
      */
-    const entitiesTitles = useRef([]);
-    const listEntities = useRef();
+    const entitiesTitlesRef = useRef([]);
+    const listEntitiesRef = useRef();
+
+    const timelines = useRef({
+        show: null,
+        hide: null,
+    });
 
     /**
      * States
      */
     const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
-    const [activeSubcategoryNumeral, setActiveSubcategoryNumeral] = useState(null);
-    const [activeIndexOffset, setActiveIndexOffset] = useState(0);
-    const [previousIndexActiveEntity, setPreviousIndexActiveEntity] = useState(null);
-    const [entitiesTitleHeight, setEntitiesTitleHeight] = useState([]);
-    const [firstPageLoad, setFirstPageLoad] = useState(true);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const isSubcategoryChanged = useRef(false);
+    /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        mounted();
+        return destroy;
+    }, []);
+
+    function mounted() {
+
+    }
+
+    function destroy() {
+        timelines.current.show?.kill();
+        timelines.current.hide?.kill();
+    }
+
+    /**
+     * Public
+     */
+    function show() {
+        timelines.current.hide?.kill();
+
+        timelines.current.show = new gsap.timeline();
+        return timelines.current.show;
+    }
+
+    function hide() {
+        timelines.current.show?.kill();
+
+        timelines.current.hide = new gsap.timeline();
+        return timelines.current.hide;
+    }
+
+    /**
+     * Expose public
+     */
+    useImperativeHandle(ref, () => ({
+        show,
+        hide,
+    }));
+
+    /**
+     * Private
+     */
+    function resize() {
+        setBreakpoints(Breakpoints.current);
+    }
 
     /**
      * Events
@@ -56,46 +92,22 @@ function SliderEntities(props) {
     useWindowResizeObserver(resizeHandler);
 
     /**
-     * Effects
+     * Handlers
      */
-    useEffect(() => {
-        setActiveIndexOffset(-indexActiveEntity);
-    }, [entities]);
-
-    useEffect(() => {
-        const roman = romanize(indexActiveSubcategory + 1);
-        setActiveSubcategoryNumeral(roman);
+    function resizeHandler() {
         resize();
-        isSubcategoryChanged.current = true;
-    }, [indexActiveSubcategory]);
+    }
 
-    useEffect(() => {
-        if (firstPageLoad) return;
+    function clickTopHandler() {
 
-        // if (!isSubcategoryChanged.current) {
-        if (indexActiveEntity > previousIndexActiveEntity) {
-            setActiveIndexOffset(-indexActiveEntity);
-            const offset = entitiesTitleHeight[indexActiveEntity];
-            gsap.to(listEntities.current, { duration: 1, y: -offset, delay: 0.2, ease: 'power1.inOut' });
-        } else {
-            const offset = entitiesTitleHeight[indexActiveEntity];
-            gsap.to(listEntities.current, { duration: 1, y: -offset, ease: 'power1.inOut' });
-            gsap.delayedCall(0.8, () => {
-                setActiveIndexOffset(-indexActiveEntity);
-            });
-        }
-        // }
+    }
 
-        setPreviousIndexActiveEntity(indexActiveEntity);
-        isSubcategoryChanged.current = false;
-    }, [indexActiveEntity]);
+    function clickBottomHandler() {
 
-    useEffect(() => {
-        setFirstPageLoad(false);
-    }, []);
+    }
 
     /**
-     * Functions
+     * Utils
      */
     function romanize(num) {
         if (isNaN(num)) return NaN;
@@ -109,103 +121,43 @@ function SliderEntities(props) {
         return Array(+digits.join('') + 1).join('M') + roman;
     }
 
-    function clickHandlerTop() {
-        const newIndexActiveEntity = indexActiveEntity - 1;
-        if (newIndexActiveEntity >= 0) {
-            useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-        } else {
-            const newIndexActiveSubcategory = indexActiveSubcategory - 1;
-            if (newIndexActiveSubcategory >= 0) {
-                useStore.setState({ indexActiveEntity: category.subcategories[newIndexActiveSubcategory].entities.length - 1 });
-                useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-            }
-        }
-    }
-
-    function clickHandlerBottom() {
-        const newIndexActiveEntity = indexActiveEntity + 1;
-        const lengthEntities = category.subcategories[indexActiveSubcategory].entities.length - 1;
-        if (newIndexActiveEntity <= lengthEntities) {
-            useStore.setState({ indexActiveEntity: newIndexActiveEntity });
-        } else {
-            const newIndexActiveSubcategory = indexActiveSubcategory + 1;
-            const lengthSubcategories = category.subcategories.length - 1;
-            if (newIndexActiveSubcategory <= lengthSubcategories) {
-                useStore.setState({ indexActiveEntity: 0 });
-                useStore.setState({ indexActiveSubcategory: newIndexActiveSubcategory });
-            }
-        }
-    }
-
-    /**
-     * Resize
-     */
-    function resize() {
-        setBreakpoints(Breakpoints.current);
-        const heights = calcEntitiesTitleHeight();
-        setListOffset(heights);
-    }
-
-    function calcEntitiesTitleHeight() {
-        const entitiesTitleHeight = [];
-        const elements = entitiesTitles.current;
-        let totalHeight = 0;
-        elements.forEach((element) => {
-            if (element) {
-                entitiesTitleHeight.push(totalHeight);
-                totalHeight += element.offsetHeight;
-            }
-        });
-        setEntitiesTitleHeight(entitiesTitleHeight);
-        return entitiesTitleHeight;
-    }
-
-    function setListOffset(heights) {
-        const activeIndex = useStore.getState().indexActiveEntity;
-        const offset = heights[activeIndex];
-        gsap.set(listEntities.current, { y: -offset });
-    }
-
-    /**
-     * Handlers
-     */
-    function resizeHandler() {
-        resize();
-    }
-
     return (
         <>
             <div className="slider-entities">
 
                 { /* Navigation */ }
                 <div className="slider-navigation">
-                    { breakpoints != 'small' && <button className={ `button button-navigation button-navigation-top ${ indexActiveSubcategory == 0 && indexActiveEntity == 0 ? 'is-inactive' : '' }` } onClick={ clickHandlerTop }></button> }
-                    { breakpoints != 'small' && <button className={ `button button-navigation button-navigation-bottom ${ indexActiveSubcategory == category.subcategories.length - 1 && indexActiveEntity == category.subcategories[indexActiveSubcategory].entities.length - 1 ? 'is-inactive' : '' }` } onClick={ clickHandlerBottom }></button> }
-                    <ModalSubcategories subcategories={ category.subcategories } />
+                    { breakpoints != 'small' && <button className={ 'button button-navigation button-navigation-top' } onClick={ clickTopHandler }></button> }
+                    { breakpoints != 'small' && <button className={ 'button button-navigation button-navigation-bottom' } onClick={ clickBottomHandler }></button> }
                 </div>
 
                 { /* Content */ }
                 <div className="slider-content">
-                    <p className="slider-subcategory-title h3">{ activeSubcategoryNumeral }. { category.subcategories[indexActiveSubcategory].name }</p>
-                    { breakpoints == 'small' ?
-                        <ul className="list-entities">
-                            { entities.map((entity, index) => {
-                                return (<li key={ `entity-${ index }` } className={ `item-entities ${ index == indexActiveEntity ? 'is-active' : '' }` }>
-                                    <p className="slider-entity-title p1">{ index + 1 }</p>
-                                </li>);
-                            }) }
-                        </ul>
-                        :
-                        <ul className="list-entities" ref={ listEntities }>
-                            { entities.map((entity, index) => {
-                                return (
-                                    <li key={ `entity-${ index }` } className={ `item-entities ${ index == indexActiveEntity ? 'is-active' : '' }` } ref={ el => entitiesTitles.current[index] = el }>
-                                        <p className="slider-entity-title p1" activeindex={ index + activeIndexOffset }>{ entity.name }</p>
-                                    </li>
-                                );
-                            }) }
-                        </ul>
+
+                    <p className="slider-subcategory-title h3">{ romanize(currentIndex + 1) }. { category.subcategories[currentIndex].name }</p>
+
+                    {
+                        breakpoints == 'small' ?
+
+                            <ul className="list-entities">
+                                { entities.map((entity, index) => {
+                                    return (<li key={ `entity-${ index }` } className={ `item-entities ${ index == currentIndex ? 'is-active' : '' }` }>
+                                        <p className="slider-entity-title p1">{ index + 1 }</p>
+                                    </li>);
+                                }) }
+                            </ul>
+                            :
+                            <ul className="list-entities" ref={ listEntitiesRef }>
+                                { entities.map((entity, index) => {
+                                    return (
+                                        <li key={ `entity-${ index }` } className={ `item-entities ${ index == currentIndex ? 'is-active' : '' }` } ref={ el => entitiesTitlesRef.current[index] = el }>
+                                            <p className="slider-entity-title p1" activeindex={ index }>{ entity.name }</p>
+                                        </li>
+                                    );
+                                }) }
+                            </ul>
                     }
+
                 </div>
 
             </div>
@@ -213,4 +165,4 @@ function SliderEntities(props) {
     );
 }
 
-export default SliderEntities;
+export default forwardRef(SliderEntities);

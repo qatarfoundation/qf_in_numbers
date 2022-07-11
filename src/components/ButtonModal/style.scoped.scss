@@ -17,6 +17,16 @@
 
     will-change: transform;
 
+    padding-bottom: rem(4px, 'small');
+
+    @include respond-to('medium') {
+        padding-bottom: rem(4px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-bottom: rem(4px, 'large');
+    }
+
     &.text-hover {
         opacity: 0;
 
