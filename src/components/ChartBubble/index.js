@@ -52,6 +52,7 @@ function ChartBubble(props, ref) {
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
+            dataviz.select('.tooltip').remove();
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
             const height = refChart.current.querySelector('svg').clientHeight;
@@ -62,13 +63,13 @@ function ChartBubble(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
-            const mouseover = (e, d) => tooltip.style('opacity', 1);
-            const mousemove = (e, d) => {
+            const mouseover = (e, d) => {
                 tooltip
                     .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ e.target.classList.contains('can-hover') ? `<p class="p4">${ d.name }</p>` : '' }`)
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
-                    .style('top', `${ e.target.cy.baseVal.value - e.target.r.baseVal.value + margin.top - spaceTooltip }px`);
-            };
+                    .style('top', `${ e.target.cy.baseVal.value - e.target.r.baseVal.value + margin.top - spaceTooltip }px`)
+                    .style('opacity', 1)
+            }
             const mouseleave = (e, d) => tooltip.style('opacity', 0);
             // Chart Container : contain all svg
             const chartContainer = svg
@@ -89,7 +90,7 @@ function ChartBubble(props, ref) {
                 .enter()
                 .append('circle')
                 .attr('class', function(d) {
-                    const isHide = size(d.value) <= 50 ? true : false;
+                    const isHide = size(d.value) <= 50;
                     return `node ${ isHide ? 'can-hover' : '' }`;
                 })
                 .attr('r', function(d) { return size(d.value);})
@@ -98,14 +99,13 @@ function ChartBubble(props, ref) {
                 .style('fill', function(d) { return color(d.value);})
                 .style('fill-opacity', 0.8)
                 .on('mouseover', mouseover)
-                .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
             const texts = chartContainer.selectAll('text')
                 .data(data)
                 .enter()
                 .append('svg:text')
                 .attr('class', function(d) {
-                    const isHide = size(d.value) <= 50 ? true : false;
+                    const isHide = size(d.value) <= 50;
                     return `p4 label ${ isHide ? 'is-hidden' : '' }`;
                 })
                 .attr('x', innerWidth / 2)
