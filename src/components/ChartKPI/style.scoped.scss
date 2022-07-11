@@ -153,7 +153,7 @@
     }
 
     .tooltip {
-        position: fixed;
+        position: absolute;
         width: fit-content;
         max-width: rem(180px, 'small');
         padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');

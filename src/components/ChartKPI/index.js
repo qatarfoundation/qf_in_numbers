@@ -51,16 +51,15 @@ function ChartKPI(props, ref) {
         }
     }
 
-    function mouseover(e) { e.target.classList.contains('can-hover') && tooltipRef.current && (tooltipRef.current.style.opacity = 1); }
-    function mousemove(e) {
-        if (e.target.classList.contains('can-hover')) {
-            const bounding = e.target.parentNode.getBoundingClientRect();
-            tooltipRef.current.innerHTML = `<p class="p6">${ e.target.dataset.text }</p>`;
-            tooltipRef.current.style.left = `${ bounding.left + bounding.width / 2 }px`;
-            tooltipRef.current.style.top = `${ bounding.top - 5 }px`;
-        }
+    function mouseover(e) {
+        if (!e.target.classList.contains('can-hover')) return
+        tooltipRef.current.innerHTML = `<p class="p6">${ e.target.dataset.text }</p>`;
+        tooltipRef.current.style.left = `${ e.target.offsetLeft + e.target.offsetWidth / 2 }px`;
+        tooltipRef.current.style.top = `${ e.target.offsetTop - 5 }px`;
+        tooltipRef.current.style.opacity = 1
     }
     function mouseleave(e) { e.target.classList.contains('can-hover') && tooltipRef.current && (tooltipRef.current.style.opacity = 0); }
+
     return (
         <div className="chart-kpi section-container">
             <div className="tooltip" ref={ tooltipRef }></div>
@@ -68,7 +67,7 @@ function ChartKPI(props, ref) {
                 <div className="item">
                     <div className="item-head">
                         { data[0].icon && <img className='icon' src={ data[0].icon.url } alt={ data[0].icon.alt  } /> }
-                        <p className={ `p6 label ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name } onMouseOver={ mouseover } onMouseMove={ mousemove } onMouseLeave={ mouseleave }>{ trimmedText(data[0].name) }</p>
+                        <p className={ `p6 label ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name } onMouseOver={ mouseover } onMouseLeave={ mouseleave }>{ trimmedText(data[0].name) }</p>
                     </div>
                     <p className="h2 title">{ data[0].value }</p>
                     { data[0].lastYearValue && <p className={ `p6 additional ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</p> }
@@ -80,7 +79,7 @@ function ChartKPI(props, ref) {
                         return i !== 0 && <div key={ i } className="item">
                             <div className="item-head">
                                 { d.icon && <img className='icon' src={ d.icon.url } alt={ d.icon.alt  } /> }
-                                <p className={ `p6 label ${ (d.name.length > maxLength) ? 'can-hover' : '' }` } data-text={ d.name } onMouseOver={ mouseover } onMouseMove={ mousemove } onMouseLeave={ mouseleave }>{ trimmedText(d.name) }</p>
+                                <p className={ `p6 label ${ (d.name.length > maxLength) ? 'can-hover' : '' }` } data-text={ d.name } onMouseOver={ mouseover } onMouseLeave={ mouseleave }>{ trimmedText(d.name) }</p>
                             </div>
                             <p className="h4 title">{ d.value }</p>
                             { d.lastYearValue && <p className={ `p6 additional ${ ((d.value - d.lastYearValue) % d.lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(i) }</p> }
