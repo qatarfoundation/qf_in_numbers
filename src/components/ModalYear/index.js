@@ -114,11 +114,9 @@ function ModalYear(props, ref) {
 
         Globals.webglApp?.disableInteractions();
 
-        // set zIndex on top of everything on open to prevent click on other overlays
-        elRef.current.style.zIndex = 1;
-
         timelines.current.close?.kill();
         timelines.current.open = new gsap.timeline();
+        timelines.current.open.set(elRef.current, { zIndex: 1 }, 0);
         timelines.current.open.add(panelRef.current.show(), 0);
         timelines.current.open.to(overlayRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, 0);
     }
@@ -128,13 +126,11 @@ function ModalYear(props, ref) {
 
         Globals.webglApp?.enableInteractions();
 
-        // reset zIndex
-        elRef.current.style.zIndex = 'auto';
-
         timelines.current.open?.kill();
         timelines.current.close = new gsap.timeline();
         timelines.current.close.add(panelRef.current.hide(), 0);
         timelines.current.close.to(overlayRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.close.set(elRef.current, { zIndex: 'auto' });
     }
 
     /**

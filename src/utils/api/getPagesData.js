@@ -199,6 +199,7 @@ function parseYears(data) {
         const slug = `/${ fields.year }`;
         years.push({
             year: fields.year,
+            id: fields.year,
             slug,
             categories: parseCategories(fields, slug),
         });
@@ -227,12 +228,14 @@ function parseCategory(name, data, baseSlug) {
         const slug = `${ baseSlug }/${ data.fields.slug }`;
         category = {
             name: data.fields.name,
+            id: data.fields.slug,
             slug,
             subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
         };
     } else {
         category = {
             name,
+            id: 'null',
             slug: 'null',
             subcategories: [],
         };
@@ -247,6 +250,7 @@ function parseSubcategories(data, baseSlug) {
         const slug = `${ baseSlug }/${ item.fields.slug }`;
         subcategories.push({
             name: item.fields.name,
+            id: item.fields.slug,
             slug,
             entities: item.fields && item.fields.entities ? parseEntities(item.fields.entities, slug) : [],
         });
@@ -260,6 +264,7 @@ function parseEntities(data, baseSlug) {
         const slug = `${ baseSlug }/${ item.fields.slug }`;
         const data = {
             name: item.fields.name,
+            id: item.fields.slug,
             slug,
             highlighted: item.fields.highlighted,
             charts: item.fields.charts,

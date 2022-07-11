@@ -23,7 +23,6 @@ function ModalSubcategories(props, ref) {
     const year = props.pageContext.year ? props.pageContext.year[language] : null;
     const category = props.pageContext.category ? props.pageContext.category[language] : null;
     const subcategory = props.pageContext.subcategory ? props.pageContext.subcategory[language] : null;
-    console.log(subcategory);
     const allowedPagesType = ['category', 'subcategory'];
 
     /**
