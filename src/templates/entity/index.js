@@ -53,6 +53,11 @@ function EntityTemplate(props) {
     const buttonBackRef = useRef();
     const panelEntityRef = useRef();
 
+    const timelines = useRef({
+        transitionIn: null,
+        transitionOut: null,
+    });
+
     /**
      * Lifecycle
      */
@@ -62,30 +67,35 @@ function EntityTemplate(props) {
     }, []);
 
     function mounted() {
-        // Globals.webglApp.gotoEntity(category.slug, entity.slug);
-        // Globals.webglApp.selectEntity(entity, category.slug.split('/')[2]);
+
     }
 
     function destroy() {
-
+        timelines.current.transitionIn?.kill();
+        timelines.current.transitionOut?.kill();
     }
 
     /**
      * Private
      */
     function transitionIn() {
-        const timeline = new gsap.timeline({ onComplete: transitionInCompleted });
+        timelines.current.transitionOut?.kill();
 
-        timeline.add(buttonBackRef.current.show(), 0);
-        timeline.add(panelEntityRef.current.show(), 0);
+        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
+
+        timelines.current.transitionIn.add(buttonBackRef.current.show(), 0);
+        timelines.current.transitionIn.add(panelEntityRef.current.show(), 0);
+        timelines.current.transitionIn.call(() => { Globals.webglApp.selectEntity(entity, category.id); }, null, 0);
     }
 
     function transitionOut() {
-        const timeline = new gsap.timeline({ onComplete: transitionOutCompleted });
+        timelines.current.transitionIn?.kill();
 
-        timeline.add(panelEntityRef.current.hide(), 0);
-        timeline.add(buttonBackRef.current.hide(), 0);
-        timeline.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
+        timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
+
+        timelines.current.transitionOut.add(panelEntityRef.current.hide(), 0);
+        timelines.current.transitionOut.add(buttonBackRef.current.hide(), 0);
+        timelines.current.transitionOut.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
     }
 
     function transitionInCompleted() {

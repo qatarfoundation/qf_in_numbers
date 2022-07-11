@@ -52,7 +52,7 @@ export default class EntityComponent extends component(Object3D) {
         this._updateParticlesColors(colors);
 
         this._timelineShow = new gsap.timeline();
-        this._timelineShow.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.25 });
+        this._timelineShow.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.25, ease: 'sine.inOut' });
         return this._timelineShow;
     }
 
@@ -62,8 +62,8 @@ export default class EntityComponent extends component(Object3D) {
                 this._destroyChartParticles();
             },
         });
-        this._timelineHide.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 }, 0);
-        if (this._chartParticles) this._timelineHide.to(this._chartParticles.material.uniforms.uOpacity, { duration: 1, value: 0 }, 0);
+        this._timelineHide.to(this._particles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
+        if (this._chartParticles) this._timelineHide.to(this._chartParticles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
         return this._timelineHide;
     }
 
