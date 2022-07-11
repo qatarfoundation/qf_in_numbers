@@ -138,7 +138,7 @@
 
     padding-top: rem(40px, 'small');
     padding-right: rem(28px, 'small');
-    padding-bottom: rem(28px, 'small');
+    padding-bottom: rem(120px, 'small');
     padding-left: rem(53px, 'small');
 
     .ar & {
@@ -232,6 +232,16 @@
     font-weight: 300;
     font-size: rem(40px, 'small');
     line-height: 90%;
+
+    transition: color 0.2s $sine-in-out;
+
+    &:hover {
+        color: var(--color-theme-secondary);
+    }
+
+    &.is-active {
+        color: var(--color-theme-secondary);
+    }
 
     @include respond-to('medium') {
         max-width: rem(300px, 'medium');

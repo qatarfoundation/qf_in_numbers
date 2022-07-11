@@ -11,17 +11,7 @@ function usePopulateTreeDataModel(year, categories) {
     useEffect(() => {
         if (!TreeDataModel.isEmpty) return;
         TreeDataModel.addBranches(homeViewConfig.branches);
-
-        const clonedCategories = JSON.parse(JSON.stringify(categories));
-
-        clonedCategories.forEach((category) => {
-            category.slug = category.slug.split('/').slice(-1)[0];
-        });
-
-        // categories[0].subcategories = [];
-        // categories[1].subcategories = [];
-
-        TreeDataModel.addBranchesData(clonedCategories);
+        TreeDataModel.addBranchesData(categories);
     }, []);
 }
 

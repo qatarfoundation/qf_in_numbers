@@ -183,7 +183,7 @@ function ModalSubcategories(props, ref) {
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
                     <div className="panel-container">
-                        <PanelSubcategories ref={ panelRef } isOpen={ isOpen } year={ year } category={ category } subcategory={ category } onClickClose={ buttonCloseClickHandler } />
+                        <PanelSubcategories ref={ panelRef } isOpen={ isOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
                     </div>
 
                 </div>

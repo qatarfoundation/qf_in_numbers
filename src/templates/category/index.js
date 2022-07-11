@@ -8,6 +8,9 @@ import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // CSS
 import './style.scoped.scss';
 
@@ -27,6 +30,8 @@ function CategoryTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
+
+    console.log(category);
 
     /**
      * States
@@ -56,7 +61,7 @@ function CategoryTemplate(props) {
     }, []);
 
     function mounted() {
-
+        // Globals.webglApp.gotoCategory('community');
     }
 
     function destroy() {
