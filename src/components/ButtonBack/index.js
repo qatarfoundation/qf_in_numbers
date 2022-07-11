@@ -163,11 +163,11 @@ function ButtonBack(props, ref) {
     }
 
     function mouseleaveHandler() {
-        isHovering.current = false;
-        if (!isHoverAllowed.current || isTransitioning.current) return;
+        // isHovering.current = false;
+        // if (!isHoverAllowed.current || isTransitioning.current) return;
 
-        isHoverAllowed.current = false;
-        mouseleave();
+        // isHoverAllowed.current = false;
+        // mouseleave();
     }
 
     function mouseenterCompleteHandler() {

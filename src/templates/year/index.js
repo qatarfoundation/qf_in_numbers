@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Hooks
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
@@ -33,11 +34,12 @@ const YearTemplate = (props) => {
      * Data
      */
     const { language } = props.pageContext;
+    const { t } = useTranslation();
 
     /**
      * States
      */
-    const [currentCategory] = useStore((state) => [state.currentCategory]);
+    const [targetCategory, setTargetCategory] = useState(null);
     const [isPresent, safeToRemove] = usePresence();
     const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
 
@@ -69,6 +71,8 @@ const YearTemplate = (props) => {
      */
     const elRef = useRef();
     const listCategoriesRef = useRef();
+    const sliderCategoriesRef = useRef();
+    const buttonMobileContainerRef = useRef();
 
     const timelines = useRef({
         transitionIn: null,
@@ -101,7 +105,9 @@ const YearTemplate = (props) => {
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompletedHandler });
 
         timelines.current.transitionIn.to(elRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
-        timelines.current.transitionIn.add(listCategoriesRef.current.show(), props.location.previous ? 0 : 2);
+        if (listCategoriesRef.current) timelines.current.transitionIn.add(listCategoriesRef.current.show(), props.location.previous ? 0 : 2);
+        if (sliderCategoriesRef.current) timelines.current.transitionIn.add(sliderCategoriesRef.current.show(), props.location.previous ? 0 : 2);
+        timelines.current.transitionIn.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, props.location.previous ? 0 : 2);
     }
 
     function transitionOut() {
@@ -110,7 +116,9 @@ const YearTemplate = (props) => {
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompletedHandler });
 
         timelines.current.transitionOut.to(elRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
-        timelines.current.transitionOut.add(listCategoriesRef.current.hide(), 0);
+        timelines.current.transitionOut.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        if (listCategoriesRef.current) timelines.current.transitionOut.add(listCategoriesRef.current.hide(), 0);
+        if (sliderCategoriesRef.current) timelines.current.transitionOut.add(sliderCategoriesRef.current.hide(), 0);
     }
 
     function resize() {
@@ -138,6 +146,10 @@ const YearTemplate = (props) => {
         safeToRemove();
     }
 
+    function activeSlideIndexChangedHandler(index) {
+        setTargetCategory(year.categories[index]);
+    }
+
     return (
         <div className="template-year" ref={ elRef }>
 
@@ -146,7 +158,7 @@ const YearTemplate = (props) => {
             </Helmet>
 
             { breakpoints == 'small' ?
-                <SliderCategories categories={ year.categories } />
+                <SliderCategories ref={ sliderCategoriesRef } categories={ year.categories } onChange={ activeSlideIndexChangedHandler } />
                 :
                 <div className="container-page container">
                     <ListCategories ref={ listCategoriesRef } year={ year.year } categories={ year.categories } />
@@ -157,8 +169,8 @@ const YearTemplate = (props) => {
             { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
             { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> } */ }
 
-            <div className="button-discover-mobile-container">
-                { currentCategory && <ButtonPagination name={ breakpoints == 'small' ? 'Tap to explore' : 'Click to discover' } slug={ currentCategory.slug } direction='right' /> }
+            <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
+                { targetCategory && <ButtonPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
             </div>
 
         </div>

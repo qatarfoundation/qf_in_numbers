@@ -118,8 +118,8 @@
 }
 
 .arrow {
-    width: rem(16px, 'large');
-    height: rem(16px, 'large');
+    width: rem(16px, 'small');
+    height: rem(16px, 'small');
 
     fill: $color-grey;
 
@@ -127,5 +127,15 @@
 
     .ar & {
         transform: scaleX(1);
+    }
+
+    @include respond-to('medium') {
+        width: rem(16px, 'medium');
+        height: rem(16px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(16px, 'large');
+        height: rem(16px, 'large');
     }
 }
