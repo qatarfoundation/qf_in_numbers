@@ -43,6 +43,7 @@ function ChartLine(props, ref) {
     const refChart = useD3(
         (dataviz) => {
             dataviz.select('.chart-container').remove();
+            dataviz.select('.tooltip').remove()
             const svg = dataviz.select('svg');
             const width = refChart.current.querySelector('svg').clientWidth;
             const innerWidth = width - margin.left - margin.right;
