@@ -125,9 +125,9 @@ function PanelSubcategories(props, ref) {
                     {
                         props.category.subcategories.map((subcategory, indexSubcategory) => {
                             return (
-                                <li key={ `subcategory-${ indexSubcategory }` } className="item-subcategories">
+                                <li key={ `subcategory-${ indexSubcategory }` } className={ 'item-subcategories' }>
 
-                                    <Link to={ subcategory.slug } className="button title-subcategory h5">
+                                    <Link to={ subcategory.slug } className={ `button title-subcategory h5 ${ props.subcategory.slug === subcategory.slug ? 'is-active' : '' }` }>
                                         { subcategory.name }
                                     </Link>
 

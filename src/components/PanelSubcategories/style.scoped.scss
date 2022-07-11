@@ -233,6 +233,16 @@
     font-size: rem(40px, 'small');
     line-height: 90%;
 
+    transition: color 0.2s $sine-in-out;
+
+    &:hover {
+        color: var(--color-theme-secondary);
+    }
+
+    &.is-active {
+        color: var(--color-theme-secondary);
+    }
+
     @include respond-to('medium') {
         max-width: rem(300px, 'medium');
         margin-bottom: rem(21px, 'medium');
