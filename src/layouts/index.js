@@ -25,6 +25,8 @@ const WebglApp = loadable(() => import('@/components/WebglApp'));
 import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/EnvironmentContext';
 
 // Hooks
+import useTemplateData from '@/hooks/useTemplateData';
+import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
 
@@ -40,6 +42,10 @@ function Layout(props) {
     const { i18n } = useTranslation();
     const { navigate, originalPath, language } = useI18next();
     Globals.navigate = navigate; // NOTE: Add to global to be able to use it in the Webgl application
+
+    // Populate tree from year categories
+    const year = props.pageContext.year ? props.pageContext.year[language] : null;
+    usePopulateTreeDataModel(year ? year.categories : null);
 
     /**
      * States

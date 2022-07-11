@@ -75,7 +75,7 @@ export default class TreeCamera extends component() {
         this._camera = this._createCamera();
         this._helper = this._createHelper();
 
-        this._cameraContainer.add(this._camera);
+        // this._cameraContainer.add(this._camera);
     }
 
     /**
@@ -236,13 +236,13 @@ export default class TreeCamera extends component() {
         this._settings.cameraContainer.current.rotation.y = math.lerp(this._settings.cameraContainer.current.rotation.y, this._settings.cameraContainer.target.rotation.y, this._settings.mouseAnimation.damping);
         this._settings.cameraContainer.current.rotation.z = math.lerp(this._settings.cameraContainer.current.rotation.z, this._settings.cameraContainer.target.rotation.z, this._settings.mouseAnimation.damping);
 
-        this._cameraContainer.position.x = this._settings.cameraContainer.current.position.x;
-        this._cameraContainer.position.y = this._settings.cameraContainer.current.position.y;
-        this._cameraContainer.position.z = this._settings.cameraContainer.current.position.z;
+        // this._cameraContainer.position.x = this._settings.cameraContainer.current.position.x;
+        // this._cameraContainer.position.y = this._settings.cameraContainer.current.position.y;
+        // this._cameraContainer.position.z = this._settings.cameraContainer.current.position.z;
 
-        this._cameraContainer.rotation.x = this._settings.cameraContainer.current.rotation.x;
-        this._cameraContainer.rotation.y = this._settings.cameraContainer.current.rotation.y;
-        this._cameraContainer.rotation.z = this._settings.cameraContainer.current.rotation.z;
+        // this._cameraContainer.rotation.x = this._settings.cameraContainer.current.rotation.x;
+        // this._cameraContainer.rotation.y = this._settings.cameraContainer.current.rotation.y;
+        // this._cameraContainer.rotation.z = this._settings.cameraContainer.current.rotation.z;
     }
 
     /**

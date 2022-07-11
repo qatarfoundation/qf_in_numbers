@@ -118,7 +118,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const endPosition = new Vector3(x, y, z);
             subcategoriesPoints.push(endPosition.clone());
 
-            subcategoriesEntries[subcategory.name] = {
+            subcategoriesEntries[subcategory.id] = {
                 start: startPosition.clone(),
                 end: endPosition.clone(),
             };

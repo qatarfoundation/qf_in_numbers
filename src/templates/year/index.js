@@ -8,9 +8,6 @@ import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
-// Hooks
-import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
-
 // CSS
 import './style.scoped.scss';
 
@@ -48,7 +45,6 @@ const YearTemplate = (props) => {
      */
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
-    usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
         if (isPresent) transitionIn();

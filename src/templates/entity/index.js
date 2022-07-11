@@ -13,7 +13,6 @@ import Globals from '@/utils/Globals';
 
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
-import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 
 // CSS
 import './style.scoped.scss';
@@ -41,11 +40,6 @@ function EntityTemplate(props) {
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
-
-    /**
-     * Effects
-     */
-    usePopulateTreeDataModel(year.year, year.categories);
 
     useEffect(() => {
         if (isPresent) transitionIn();

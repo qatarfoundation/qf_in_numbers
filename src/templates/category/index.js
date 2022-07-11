@@ -31,8 +31,6 @@ function CategoryTemplate(props) {
     const year = data.year[language];
     const category = data.category[language];
 
-    console.log(category);
-
     /**
      * States
      */
@@ -52,6 +50,11 @@ function CategoryTemplate(props) {
     const elRef = useRef();
     const buttonBackRef = useRef();
 
+    const timelines = useRef({
+        transitionIn: null,
+        transitionOut: null,
+    });
+
     /**
      * Lifecycle
      */
@@ -61,11 +64,12 @@ function CategoryTemplate(props) {
     }, []);
 
     function mounted() {
-        // Globals.webglApp.gotoCategory('community');
+
     }
 
     function destroy() {
-
+        timelines.current.transitionIn?.kill();
+        timelines.current.transitionOut?.kill();
     }
 
     /**
@@ -84,11 +88,20 @@ function CategoryTemplate(props) {
      * Private
      */
     function transitionIn() {
-        return gsap.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut', onComplete: transitionInCompleted });
+        timelines.current.transitionOut?.kill();
+
+        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
+
+        timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionIn.call(() => { Globals.webglApp.gotoCategory(category.id); }, null, 0);
     }
 
     function transitionOut() {
-        return gsap.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
+        timelines.current.transitionIn?.kill();
+
+        timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
+
+        timelines.current.transitionOut.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
     }
 
     function transitionInCompleted() {
