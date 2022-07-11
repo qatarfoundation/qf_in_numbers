@@ -90,12 +90,10 @@ function ChartDonut(props, ref) {
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
             const mouseover = function(e, d) {
-                if (e.target.classList.contains('can-hover')) {
-                    tooltip.style('opacity', 1);
-                }
-            };
-            const mousemove = function(e, d) {
-                if (e.target.classList.contains('can-hover')) {
+                donutContainer
+                    .selectAll('.arc, .label-container')
+                    .style('opacity', (el) => d.index === el.index ? 1 : .4)
+                if (e.target.classList.contains('has-tooltip')) {
                     const arc = d3.arc()
                         .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
                         .outerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5));
@@ -105,10 +103,14 @@ function ChartDonut(props, ref) {
                         .html(`<p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p>`)
                         .style('left', `${ x }px`)
                         .style('top', `${ y }px`);
+                    tooltip.style('opacity', 1);
                 }
             };
             const mouseleave = function(e) {
-                if (e.target.classList.contains('can-hover')) {
+                donutContainer
+                    .selectAll('.arc, .label-container')
+                    .style('opacity', 1)
+                if (e.target.classList.contains('has-tooltip')) {
                     tooltip.style('opacity', 0);
                 }
             };
@@ -118,8 +120,8 @@ function ChartDonut(props, ref) {
                 .enter()
                 .append('path')
                 .attr('class', function(d) {
-                    const canHover = d.endAngle - d.startAngle <= Math.PI / 6;
-                    return `arc ${ canHover ? 'can-hover' : '' }`;
+                    const hasTooltip = d.endAngle - d.startAngle <= Math.PI / 6;
+                    return `arc ${ hasTooltip ? 'has-tooltip' : '' }`;
                 })
                 .attr('d', d3.arc()
                     .innerRadius(sizeCircle / 2 - widthStroke)
@@ -129,7 +131,6 @@ function ChartDonut(props, ref) {
                 .attr('stroke', 'white')
                 .style('stroke-width', '2px')
                 .on('mouseover', mouseover)
-                .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
             const labelContainer = donutContainer
                 .selectAll('allLabels')

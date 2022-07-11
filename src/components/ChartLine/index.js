@@ -52,13 +52,13 @@ function ChartLine(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
-            const mouseover = d => tooltip.style('opacity', 1);
-            const mousemove = (e, d) => {
+            const mouseover = (e, d) => {
                 tooltip
-                    .html(`<p class="p3">${ d.y }</p><p class="p4">${ d.name }</p>`)
+                    .html(`<p class="p3">${ d.y }</p>` + (d.name ? `<p class="p4">${ d.name }</p>` : ''))
                     .style('left', `${ e.target.cx.baseVal.value + (language !== 'ar-QA' ? margin.left : margin.right) - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
-                    .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`);
-            };
+                    .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`)
+                    .style('opacity', 1);
+            }
             const mouseleave = d => tooltip.style('opacity', 0);
             // Chart Container : contain all svg
             const chartContainer = svg
@@ -66,13 +66,14 @@ function ChartLine(props, ref) {
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
             // Add X axis
+            const yearRange = [d3.min(data, d => d3.min(d.fields, d => d.x)), d3.max(data, d => d3.max(d.fields, d => d.x))]
             const x = d3.scaleLinear()
-                .domain([d3.min(data, d => d3.min(d.fields, d => d.x)), d3.max(data, d => d3.max(d.fields, d => d.x))])
+                .domain(yearRange)
                 .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-x')
                 .attr('transform', `translate(0, ${ innerHeight + spaceAxisX })`)
-                .call(d3.axisBottom(x).tickSize(0).tickFormat(d3.format('')));
+                .call(d3.axisBottom(x).ticks(yearRange[1] - yearRange[0]).tickSize(0).tickFormat(d3.format('')));
             // Add Y axis
             const y = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d3.max(d.fields, d => d.y))])
@@ -124,7 +125,6 @@ function ChartLine(props, ref) {
                 .attr('cy', d => y(d.y))
                 .attr('r', radiusPoint)
                 .on('mouseover', mouseover)
-                .on('mousemove', mousemove)
                 .on('mouseleave', mouseleave);
         },
         [data.length, margin],
