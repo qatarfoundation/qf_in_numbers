@@ -178,11 +178,14 @@ function PanelEntity(props, ref) {
                                     </Swiper>
                                 </div>
                             </section>
-                            <div className='pagination'>
-                                {previous && <ButtonPagination name={previous.name} slug={previous.slug} direction='left'></ButtonPagination>}
-                                {next && <ButtonPagination name={next.name} slug={next.slug} direction='right'></ButtonPagination>}
-                            </div>
                         </>
+                }
+
+                {(previous || next) &&
+                    <div className={`pagination ${(previous && !next) ? 'left' : (next && !previous) ? 'right' : ''}`}>
+                        {previous && <ButtonPagination name={previous.name} slug={previous.slug} direction='left'></ButtonPagination>}
+                        {next && <ButtonPagination name={next.name} slug={next.slug} direction='right'></ButtonPagination>}
+                    </div>
                 }
 
             </Scrollbar>
