@@ -28,6 +28,7 @@ class Main {
 
         // Props
         this._isInteractive = true;
+        this._idleRotation = false;
 
         // Setup
         this._debug = this._createDebug();
@@ -66,6 +67,10 @@ class Main {
 
     get isInteractive() {
         return this._isInteractive;
+    }
+
+    get idleRotation() {
+        return this._idleRotation;
     }
 
     /**

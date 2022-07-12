@@ -78,7 +78,7 @@
     padding-left: rem(40px, 'small');
     padding-right: rem(40px, 'small');
 
-    font-size: 13px;
+    font-size: 12px;
 
     text-align: center;
 
@@ -96,7 +96,7 @@
 
         padding: 0;
 
-        font-size: 16px;
+        font-size: 13px;
     }
 
     @include respond-to('large') {
@@ -104,7 +104,7 @@
 
         padding: 0;
 
-        font-size: 16px;
+        font-size: 13px;
     }
 }
 

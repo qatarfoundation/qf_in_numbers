@@ -81,6 +81,7 @@ function Layout(props) {
 
         // Dev mode
         if (getEnvironment() === DEVELOPMENT) {
+            if (originalPath === '/') Globals.webglApp.enableIdleRotation()
             Globals.webglApp.transitionIn();
             setIsFinishAnimPreload(true);
         }

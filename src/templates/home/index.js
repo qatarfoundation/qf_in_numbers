@@ -15,6 +15,7 @@ import './style.scoped.scss';
 // Components
 import RichText from '@/components/RichText/index';
 import ButtonStart from '@/components/ButtonStart/index';
+import Globals from "@/utils/Globals";
 
 function HomeTemplate(props, ref) {
     /**
@@ -91,6 +92,7 @@ function HomeTemplate(props, ref) {
 
     function transitionOut() {
         timelines.current.transitionIn?.kill();
+        Globals.webglApp.disableIdleRotation()
 
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
 
