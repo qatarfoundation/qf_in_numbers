@@ -47,6 +47,7 @@ export default class TreeComponent extends component(Object3D) {
 
         // Setup
         this._isActive = false;
+        this._idleRotationSpeed = {value: 0}
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(2, 2);
         this._debug = this._createDebug();
@@ -94,7 +95,14 @@ export default class TreeComponent extends component(Object3D) {
         this._timelineTransitionIn.fromTo(this.rotation, { y: this._settings.initialRotation.y }, { duration: 3, y: this._settings.targetRotation.y, ease: 'power3.inOut' }, 0);
         this._timelineTransitionIn.fromTo(this.rotation, { z: this._settings.initialRotation.z }, { duration: 3, z: this._settings.targetRotation.z, ease: 'power3.inOut' }, 0);
 
+        // Idle rotation
+        this._timelineTransitionIn.to(this._idleRotationSpeed, {value: .015, duration: 2, ease: "none"}, 4)
+
         return this._timelineTransitionIn;
+    }
+
+    resetRotation() {
+        gsap.to(this.rotation, {y: this._settings.targetRotation.y, duration: 1.5, ease: "sine.inOut"})
     }
 
     show() {
@@ -199,7 +207,12 @@ export default class TreeComponent extends component(Object3D) {
     update({ time, delta }) {
         if (!this._isActive) return;
         this._updateBranches({ time, delta });
+        if (this.$root.idleRotation) this._updateRotation({time, delta})
         // if (this.$root.isInteractive) this._updateMouseInteractions();
+    }
+
+    _updateRotation({time, delta}) {
+        this.rotation.y = (this.rotation.y - delta * this._idleRotationSpeed.value) % (Math.PI * 2)
     }
 
     _updateBranches({ time, delta }) {

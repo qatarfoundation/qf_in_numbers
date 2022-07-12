@@ -88,6 +88,10 @@ export default class HomeView extends component() {
         return this._timelineTransitionIn;
     }
 
+    resetTreeRotation() {
+        this._components.tree.resetRotation()
+    }
+
     gotoOverview() {
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();

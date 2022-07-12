@@ -56,7 +56,7 @@ function ChartLine(props, ref) {
             const mouseover = (e, d) => {
                 tooltip
                     .html(`<p class="p3">${ d.y }</p>` + (d.name ? `<p class="p4">${ d.name }</p>` : ''))
-                    .style('left', `${ e.target.cx.baseVal.value + (language !== 'ar-QA' ? margin.left : margin.right) - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
+                    .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value + margin.top - radiusPoint - spaceTooltip }px`)
                     .style('opacity', 1);
             }

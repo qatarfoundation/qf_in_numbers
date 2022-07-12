@@ -67,6 +67,15 @@ export default {
         this._isInteractive = false;
     },
 
+    enableIdleRotation() {
+        this._idleRotation = true;
+    },
+
+    disableIdleRotation() {
+        if (this._idleRotation) this._viewManager.active.resetTreeRotation?.()
+        this._idleRotation = false;
+    },
+
     categoryMouseEnter(name) {
         if (this.isHome()) {
             this._viewManager.active.categoryMouseEnter(name);
