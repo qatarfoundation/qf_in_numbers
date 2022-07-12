@@ -22,6 +22,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 // Components
 import ButtonBack from '@/components/ButtonBack/index';
 import SliderSubcategories from '@/components/SliderSubcategories/index';
+import SliderSubcategoriesMobile from '@/components/SliderSubcategoriesMobile/index';
 
 function SubcategoryTemplate(props) {
     /**
@@ -132,7 +133,12 @@ function SubcategoryTemplate(props) {
 
             <div className="slider-container">
 
-                <SliderSubcategories category={ category } subcategory={ subcategory } />
+                {
+                    breakpoints === 'small' ?
+                        <SliderSubcategoriesMobile category={ category } subcategory={ subcategory } />
+                        :
+                        <SliderSubcategories category={ category } subcategory={ subcategory } />
+                }
 
             </div>
 

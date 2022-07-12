@@ -10,7 +10,7 @@ import math from '@/utils/math/index';
 // CSS
 import './style.scoped.scss';
 
-function SlideEntity(props, ref) {
+function SlideEntityMobile(props, ref) {
     /**
      * Props
      */
@@ -69,7 +69,7 @@ function SlideEntity(props, ref) {
     }
 
     function updateOpacity() {
-        const alphaOffset = 1 - (activeOffset.current.current) / 4.5;
+        const alphaOffset = 1 - (activeOffset.current.current) / 1;
         const globalAlpha = math.clamp(activeOffset.current.current + 1, 0, 1);
         const activeAlpha = 1 - math.clamp(Math.abs(activeOffset.current.current), 0, 1);
 
@@ -95,7 +95,7 @@ function SlideEntity(props, ref) {
     }
 
     return (
-        <div ref={ elRef } className="slide-entity">
+        <div ref={ elRef } className="slide-entity-mobile">
 
             <p className="slide-entity-title p1">{ entity.name }</p>
 
@@ -105,4 +105,4 @@ function SlideEntity(props, ref) {
     );
 }
 
-export default forwardRef(SlideEntity);
+export default forwardRef(SlideEntityMobile);

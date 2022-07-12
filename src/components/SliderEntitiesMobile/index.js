@@ -8,7 +8,6 @@ import { gsap } from 'gsap';
 
 // Utils
 import math from '@/utils/math/index';
-import number from '@/utils/number/index';
 
 // CSS
 import './style.scoped.scss';
@@ -17,7 +16,7 @@ import './style.scoped.scss';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
-import SlideEntity from '../SlideEntity/index';
+import SlideEntityMobile from '../SlideEntityMobile/index';
 
 function SliderEntities(props, ref) {
     /**
@@ -54,6 +53,7 @@ function SliderEntities(props, ref) {
     /**
      * States
      */
+    const [direction, setDirection] = useState();
     const [isPresent, safeToRemove] = usePresence();
 
     /**
@@ -69,6 +69,7 @@ function SliderEntities(props, ref) {
     }, [currentIndex]);
 
     useEffect(() => {
+        setDirection(language === 'ar-QA' ? 1 : -1);
         getBounds();
         updateTargetOffset();
     }, [language]);
@@ -83,6 +84,8 @@ function SliderEntities(props, ref) {
 
     function mounted() {
         getBounds();
+        updateTargetOffset();
+        offset.current.current = offset.current.target;
         setupEventListeners();
     }
 
@@ -114,7 +117,7 @@ function SliderEntities(props, ref) {
     function updateTargetOffset() {
         offset.current.target = 0;
         for (let i = 0; i < currentIndex; i++) {
-            offset.current.target += -bounds.current.listItems[i];
+            offset.current.target += bounds.current.listItems[i] * direction;
         }
     }
 
@@ -128,7 +131,7 @@ function SliderEntities(props, ref) {
 
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
             const listItem = listItemEntitiesRef.current[i];
-            bounds.current.listItems.push(listItem.offsetHeight);
+            bounds.current.listItems.push(listItem.offsetWidth);
         }
     }
 
@@ -139,7 +142,7 @@ function SliderEntities(props, ref) {
     function updateListItemPosition() {
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
             const listItem = listItemEntitiesRef.current[i];
-            listItem.style.transform = `translateY(${ offset.current.current }px)`;
+            listItem.style.transform = `translateX(${ offset.current.current }px)`;
         }
     }
 
@@ -186,7 +189,7 @@ function SliderEntities(props, ref) {
                         entities.map((entity, index) => {
                             return (
                                 <li key={ `entity-${ index }` } className={ 'item-entities' } ref={ el => listItemEntitiesRef.current[index] = el }>
-                                    <SlideEntity entity={ entity } index={ index - currentIndex } />
+                                    <SlideEntityMobile entity={ entity } index={ index - currentIndex } />
                                 </li>
                             );
                         })

@@ -1,21 +1,26 @@
 // React
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // CSS
 import './style.scoped.scss';
 
 // Components
-import SliderEntities from '@/components/SliderEntities/index';
-import { useEffect } from 'react';
+import SliderEntitiesMobile from '@/components/SliderEntitiesMobile/index';
 
-function SliderSubcategories(props, ref) {
+function SliderSubcategoriesMobile(props, ref) {
     /**
      * Props
      */
     const { category, subcategory } = props;
     const subcategories = category.subcategories;
     const subcategoryIndex = subcategory ? subcategories.map((item) => item.id).indexOf(subcategory.id) : 0;
+
+    /**
+     * Data
+     */
+    const { language } = useI18next();
 
     /**
      * States
@@ -34,6 +39,8 @@ function SliderSubcategories(props, ref) {
      * Private
      */
     function next() {
+        if (!isNextEnabled()) return;
+
         if (!isLastEntity()) {
             // Next entity
             setEntityCurrentIndex(entityCurrentIndex + 1);
@@ -44,6 +51,8 @@ function SliderSubcategories(props, ref) {
     }
 
     function previous() {
+        if (!isPreviousEnabled()) return;
+
         if (!isFirstEntity()) {
             // Previous entity
             setEntityCurrentIndex(entityCurrentIndex - 1);
@@ -56,16 +65,20 @@ function SliderSubcategories(props, ref) {
     /**
      * Handlers
      */
-    function clickTopHandler() {
-        if (!isPreviousEnabled()) return;
-
-        previous();
+    function clickLeftHandler() {
+        if (language === 'ar-QA') {
+            next();
+        } else {
+            previous();
+        }
     }
 
-    function clickBottomHandler() {
-        if (!isNextEnabled()) return;
-
-        next();
+    function clickRightHandler() {
+        if (language === 'ar-QA') {
+            previous();
+        } else {
+            next();
+        }
     }
 
     /**
@@ -107,14 +120,18 @@ function SliderSubcategories(props, ref) {
         return !(isLastEntity() && isLastSubcategory());
     }
 
+    function isLeftEnabled() {
+        if (language === 'ar-QA') return isNextEnabled();
+        else return isPreviousEnabled();
+    }
+
+    function isRightEnabled() {
+        if (language === 'ar-QA') return isPreviousEnabled();
+        else return isNextEnabled();
+    }
+
     return (
         <div className="slider-subcategories">
-
-            { /* Navigation */ }
-            <div className="slider-navigation">
-                <button className={ 'button button-navigation button-navigation-top' } disabled={ !isPreviousEnabled() } onClick={ clickTopHandler }></button>
-                <button className={ 'button button-navigation button-navigation-bottom' } disabled={ !isNextEnabled() } onClick={ clickBottomHandler }></button>
-            </div>
 
             <div className="slider-content">
 
@@ -123,15 +140,21 @@ function SliderSubcategories(props, ref) {
                 {
                     <AnimatePresence exitBeforeEnter>
 
-                        <SliderEntities key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
+                        <SliderEntitiesMobile key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
 
                     </AnimatePresence>
                 }
 
             </div>
 
+            { /* Navigation */ }
+            <div className="slider-navigation">
+                <button className={ 'button button-navigation button-navigation-left' } disabled={ !isLeftEnabled() } onClick={ clickLeftHandler }></button>
+                <button className={ 'button button-navigation button-navigation-right' } disabled={ !isRightEnabled() } onClick={ clickRightHandler }></button>
+            </div>
+
         </div>
     );
 }
 
-export default forwardRef(SliderSubcategories);
+export default forwardRef(SliderSubcategoriesMobile);

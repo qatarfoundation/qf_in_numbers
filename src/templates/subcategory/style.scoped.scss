@@ -50,9 +50,10 @@
 .slider-container {
     position: absolute;
     left: 0;
-    top: 33%;
+    bottom: rem(90px, 'small');
 
     @include respond-to('medium') {
+        bottom: auto;
         top: 33%;
     }
 
