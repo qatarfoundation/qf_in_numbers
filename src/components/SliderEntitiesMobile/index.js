@@ -144,6 +144,8 @@ function SliderEntities(props, ref) {
     }
 
     function updateListItemPosition() {
+        if (!listItemEntitiesRef.current[0]) return;
+
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
             const listItem = listItemEntitiesRef.current[i];
             listItem.style.transform = `translateX(${ offset.current.current }px)`;

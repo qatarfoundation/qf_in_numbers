@@ -85,7 +85,7 @@ function EntityTemplate(props) {
 
         timelines.current.transitionIn.add(buttonBackRef.current.show(), 0);
         timelines.current.transitionIn.add(panelEntityRef.current.show(), 0);
-        // timelines.current.transitionIn.call(() => { Globals.webglApp.selectEntity(entity, category.id); }, null, 0);
+        timelines.current.transitionIn.call(() => { Globals.webglApp.selectEntity(entity, category.id); }, null, 0);
     }
 
     function transitionOut() {
@@ -95,7 +95,7 @@ function EntityTemplate(props) {
 
         timelines.current.transitionOut.add(panelEntityRef.current.hide(), 0);
         timelines.current.transitionOut.add(buttonBackRef.current.hide(), 0);
-        // timelines.current.transitionOut.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
+        timelines.current.transitionOut.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
     }
 
     function transitionInCompleted() {

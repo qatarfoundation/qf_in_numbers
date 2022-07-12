@@ -116,6 +116,8 @@ function SubcategoryTemplate(props) {
         safeToRemove();
     }
 
+    console.log(year);
+
     return (
         <div className="template-subcategory" ref={ elRef }>
 
@@ -125,7 +127,7 @@ function SubcategoryTemplate(props) {
 
             <div className="button-back-container">
 
-                <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ category.slug } />
+                <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ year.slug } />
 
             </div>
 

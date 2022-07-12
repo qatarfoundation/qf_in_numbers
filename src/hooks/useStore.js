@@ -5,13 +5,10 @@ const useStore = create((set) => {
         currentYear: '2021',
         selectedEntity: null,
         currentCategory: {},
-        currentSubcategory: {},
-        indexActiveSubcategory: 0,
-        indexActiveEntity: 0,
         // Scroll
         scrolls: [],
         iScroll: 0,
-        //
+        // Global
         locale: null,
         themeCategory: 'theme-default',
     };

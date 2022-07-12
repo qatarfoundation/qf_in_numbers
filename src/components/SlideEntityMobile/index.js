@@ -69,6 +69,8 @@ function SlideEntityMobile(props, ref) {
     }
 
     function updateOpacity() {
+        if (!elRef.current) return;
+
         const alphaOffset = 1 - (activeOffset.current.current) / 1;
         const globalAlpha = math.clamp(activeOffset.current.current + 1, 0, 1);
         const activeAlpha = 1 - math.clamp(Math.abs(activeOffset.current.current), 0, 1);
