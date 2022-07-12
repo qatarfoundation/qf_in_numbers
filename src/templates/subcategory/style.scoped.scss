@@ -50,5 +50,18 @@
 .slider-container {
     position: absolute;
     left: 0;
-    top: 45%;
+    top: 33%;
+
+    @include respond-to('medium') {
+        top: 33%;
+    }
+
+    @include respond-to('large') {
+        top: 33%;
+    }
+
+    .ar & {
+        left: auto;
+        right: 0;
+    }
 }

@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 
 // Utils
 import Globals from '@/utils/Globals';
+import Breakpoints from '@/utils/Breakpoints';
 
 // CSS
 import './style.scoped.scss';
@@ -20,7 +21,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import ButtonBack from '@/components/ButtonBack/index';
-import SliderEntities from '@/components/SliderEntities/index';
+import SliderSubcategories from '@/components/SliderSubcategories/index';
 
 function SubcategoryTemplate(props) {
     /**
@@ -36,6 +37,7 @@ function SubcategoryTemplate(props) {
     /**
      * States
      */
+    const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
     const [isPresent, safeToRemove] = usePresence();
 
     /**
@@ -83,7 +85,7 @@ function SubcategoryTemplate(props) {
      * Handlers
      */
     function resizeHandler() {
-
+        setBreakpoints(Breakpoints.current);
     }
 
     /**
@@ -130,7 +132,7 @@ function SubcategoryTemplate(props) {
 
             <div className="slider-container">
 
-                <SliderEntities category={ category } subcategory={ subcategory } />
+                <SliderSubcategories category={ category } subcategory={ subcategory } />
 
             </div>
 

@@ -1,0 +1,38 @@
+.slide-entity {
+    position: relative;
+
+    pointer-events: all;
+}
+
+.slide-entity-title {
+    color: var(--color-theme-primary);
+
+    @include respond-to('medium') {
+        color: var(--color-theme-secondary);
+
+        padding-bottom: rem(10px, 'medium');
+
+        font-size: rem(24px, 'medium');
+        font-weight: 300;
+    }
+
+    @include respond-to('large') {
+        padding-bottom: rem(13px, 'large');
+
+        font-size: rem(30px, 'large');
+    }
+}
+
+.slide-entity-title.active {
+    opacity: 0;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    color: $color-white;
+
+    .ar & {
+        right: 0;
+    }
+}

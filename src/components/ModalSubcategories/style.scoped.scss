@@ -52,7 +52,7 @@
         right: auto;
         bottom: auto;
         left: rem(53px, 'medium');
-        top: rem(558px, 'medium');
+        top: 59%;
 
         width: rem(32px, 'medium');
         height: rem(32px, 'medium');
@@ -65,7 +65,6 @@
 
     @include respond-to('large') {
         left: rem(53px, 'large');
-        top: rem(558px, 'large');
 
         width: rem(32px, 'large');
         height: rem(32px, 'large');

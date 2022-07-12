@@ -1,41 +1,31 @@
 // React
 import React, { useRef } from 'react';
-
-// Modules
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { AnimatePresence } from 'framer-motion';
 
 // CSS
 import './style.scoped.scss';
 
 // Components
-import ListItemSubcategory from '@/components/ListItemSubcategory';
-
-// Components
+import SliderEntities from '@/components/SliderEntities/index';
 
 function SliderSubcategories(props, ref) {
     /**
-     * Data
+     * Props
      */
-    const { category, subcategories } = props;
-    /**
-     * References
-     */
-    const swiperRef = useRef(null);
+    const { category, subcategory } = props;
+    const subcategoryIndex = category.subcategories.map((item) => item.id).indexOf(subcategory.id);
+    const entities = subcategory.entities;
 
     return (
-        <Swiper
-            ref={ swiperRef }
-            className="slider-subcategories"
-            slidesPerView='auto'
-            slideToClickedSlide={ true }
-            spaceBetween={ 8 }
-        >
-            { subcategories.map((item, index) => (
-                <SwiperSlide key={ `subcategory-${ index }` } virtualIndex={ index }>
-                    <ListItemSubcategory category={ category } subcategory={ item } />
-                </SwiperSlide>
-            )) }
-        </Swiper>
+        <div className="slider-subcategories">
+
+            <AnimatePresence exitBeforeEnter>
+
+                <SliderEntities key={ subcategory.id } category={ category } subcategory={ subcategory } />
+
+            </AnimatePresence>
+
+        </div>
     );
 }
 
