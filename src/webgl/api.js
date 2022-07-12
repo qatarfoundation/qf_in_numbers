@@ -33,17 +33,15 @@ export default {
         }
     },
 
-    gotoSubcategory(categorySlug, name) {
+    gotoSubcategory(categoryId, subcategoryId) {
         if (this.isHome()) {
-            this._viewManager.active.gotoSubcategory(categorySlug, name);
+            this._viewManager.active.gotoSubcategory(categoryId, subcategoryId);
         }
     },
 
-    gotoEntity(categorySlug, slug) {
+    gotoEntity(categoryId, entityId) {
         if (this.isHome()) {
-            const categorySlugSplit = categorySlug.split('/').slice(-1)[0];
-            const centitySlugSplit = slug.split('/').slice(-1)[0];
-            this._viewManager.active.gotoEntity(categorySlugSplit, centitySlugSplit);
+            this._viewManager.active.gotoEntity(categoryId, entityId);
         }
     },
 
@@ -72,7 +70,7 @@ export default {
     },
 
     disableIdleRotation() {
-        if (this._idleRotation) this._viewManager.active.resetTreeRotation?.()
+        if (this._idleRotation) this._viewManager.active.resetTreeRotation?.();
         this._idleRotation = false;
     },
 

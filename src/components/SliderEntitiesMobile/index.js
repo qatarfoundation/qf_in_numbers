@@ -8,6 +8,7 @@ import { gsap } from 'gsap';
 
 // Utils
 import math from '@/utils/math/index';
+import Globals from '@/utils/Globals';
 
 // CSS
 import './style.scoped.scss';
@@ -22,7 +23,7 @@ function SliderEntities(props, ref) {
     /**
      * Props
      */
-    const { subcategory, currentIndex } = props;
+    const { category, subcategory, currentIndex } = props;
     const entities = subcategory.entities;
 
     /**
@@ -33,8 +34,8 @@ function SliderEntities(props, ref) {
     /**
      * Refs
      */
-    const listItemEntitiesRef = useRef([]);
     const listEntitiesRef = useRef();
+    const listItemEntitiesRef = useRef([]);
 
     const timelines = useRef({
         transitionIn: null,
@@ -65,6 +66,7 @@ function SliderEntities(props, ref) {
     }, [isPresent]);
 
     useEffect(() => {
+        Globals.webglApp.gotoEntity(category.id, entities[currentIndex].id);
         updateTargetOffset();
     }, [currentIndex]);
 
@@ -127,6 +129,8 @@ function SliderEntities(props, ref) {
     }
 
     function getBounds() {
+        if (!listItemEntitiesRef.current[0]) return;
+
         bounds.current.listItems = [];
 
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {

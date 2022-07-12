@@ -1,5 +1,5 @@
 // React
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 // CSS
@@ -7,7 +7,6 @@ import './style.scoped.scss';
 
 // Components
 import SliderEntities from '@/components/SliderEntities/index';
-import { useEffect } from 'react';
 
 function SliderSubcategories(props, ref) {
     /**
@@ -27,6 +26,7 @@ function SliderSubcategories(props, ref) {
      * Watchers
      */
     useEffect(() => {
+        history.replaceState(null, null, subcategories[subcategoryCurrentIndex].slug);
         setEntityCurrentIndex(0);
     }, [subcategoryCurrentIndex]);
 

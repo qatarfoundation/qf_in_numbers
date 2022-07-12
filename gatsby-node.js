@@ -49,7 +49,7 @@ exports.createPages = async({ actions }) => {
     const templates = {
         home: HomeTemplate,
         year: YearTemplate,
-        category: CategoryTemplate,
+        category: SubcategoryTemplate,
         subcategory: SubcategoryTemplate,
         entity: EntityTemplate,
     };

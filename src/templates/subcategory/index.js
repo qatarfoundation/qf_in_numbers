@@ -9,7 +9,6 @@ import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
 // Utils
-import Globals from '@/utils/Globals';
 import Breakpoints from '@/utils/Breakpoints';
 
 // CSS
@@ -98,7 +97,6 @@ function SubcategoryTemplate(props) {
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
 
         timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-        timelines.current.transitionIn.call(() => { Globals.webglApp.gotoSubcategory(category.id, subcategory.id); }, null, 0);
     }
 
     function transitionOut() {
@@ -122,7 +120,7 @@ function SubcategoryTemplate(props) {
         <div className="template-subcategory" ref={ elRef }>
 
             <Helmet>
-                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name }` }</title>
+                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory ? subcategory.name : '' }` }</title>
             </Helmet>
 
             <div className="button-back-container">
