@@ -332,8 +332,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: rem(60px, 'small') rem(16px, 'small');
+
+    &.right {
+        justify-content: flex-end;
+    }
+
+    &.left {
+        justify-content: flex-start;
+    }
 
     @include respond-to('medium') {
         padding: rem(53px, 'medium') rem(33px, 'medium');

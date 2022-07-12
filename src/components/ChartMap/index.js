@@ -5,6 +5,7 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 // Modules
 import { useD3 } from '@/hooks/useD3';
 import * as d3 from 'd3';
+import {gsap} from "gsap";
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
@@ -14,6 +15,10 @@ import './style.scoped.scss';
 
 // JSON
 import World from '@/assets/jsons/world-geojson.json';
+
+// SVG
+import PlusIcon from '@/assets/icons/plus.svg';
+import MinusIcon from '@/assets/icons/minus.svg';
 
 function ChartMap(props, ref) {
     /**
@@ -100,6 +105,7 @@ function ChartMap(props, ref) {
         },
         [data.length, margin],
     );
+    let mainSvg = null
     /**
      * Events
      */
@@ -121,13 +127,29 @@ function ChartMap(props, ref) {
             left: 0,
         });
     }
+
+    const onZoomControls = (e) => {
+        const mainGroup = mainSvg.childNodes[0]
+        gsap.to(mainGroup, {scale: 1.15, ease: "sine.in", duration: .4})
+    }
+
     return (
         <>
             <div ref={ refChart } className="dataviz">
                 <svg
+                    ref={el => (mainSvg = el)}
                     height={ height }
                     className="chart chart-map"
                 />
+
+                {/*<div className="zoom-controls">*/}
+                {/*    <button onClick={onZoomControls} className="zoom-in zoom-btn">*/}
+                {/*        <PlusIcon />*/}
+                {/*    </button>*/}
+                {/*    <button onClick={onZoomControls} className="zoom-out zoom-btn">*/}
+                {/*        <MinusIcon />*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
         </>
     );

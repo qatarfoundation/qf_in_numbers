@@ -171,18 +171,21 @@ function PanelEntity(props, ref) {
                                         onSlideChange={ (swiper) => setActiveIndex(swiper.activeIndex + 1) }
                                     >
                                         { entity.relatedArticles.map((relatedArticle, index) => (
-                                            <SwiperSlide key={ relatedArticle.title } virtualIndex={ index }>
+                                            <SwiperSlide key={ `${index}-${relatedArticle.title}` } virtualIndex={ index }>
                                                 <CardArticle article={ relatedArticle } />
                                             </SwiperSlide>
                                         )) }
                                     </Swiper>
                                 </div>
                             </section>
-                            <div className='pagination'>
-                                <ButtonPagination name={ next.name } slug={ next.slug } direction='left'></ButtonPagination>
-                                <ButtonPagination name={ next.name } slug={ next.slug } direction='right'></ButtonPagination>
-                            </div>
                         </>
+                }
+
+                {(previous || next) &&
+                    <div className={`pagination ${(previous && !next) ? 'left' : (next && !previous) ? 'right' : ''}`}>
+                        {previous && <ButtonPagination name={previous.name} slug={previous.slug} direction='left'></ButtonPagination>}
+                        {next && <ButtonPagination name={next.name} slug={next.slug} direction='right'></ButtonPagination>}
+                    </div>
                 }
 
             </Scrollbar>

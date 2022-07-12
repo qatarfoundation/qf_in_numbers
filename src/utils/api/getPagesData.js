@@ -492,7 +492,7 @@ function parseMapChart(data) {
         data.dataItems.forEach(async(item) => {
             const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${ item.fields.place }.json?types=place%2Ccountry&access_token=${ process.env.MAPBOX_ACCESS_TOKEN }`);
             const geoData = await res.json();
-            const coords = geoData.features.length ? geoData.features[0].geometry?.coordinates : null;
+            const coords = geoData.features?.length ? geoData.features[0].geometry?.coordinates : [0, 0];
 
             const field = {
                 place: item.fields.place,
@@ -531,8 +531,7 @@ function parseRelatedArticles(data) {
     const articles = [];
     data.forEach(item => {
         const article = item.fields;
-        article.description = article.description.content[0].content[0].value;
-        article.image = article.image.fields;
+        article.description = typeof article.description === 'string' ? article.description : article.description.content[0].content[0].value;
         articles.push(article);
     });
     return articles;
