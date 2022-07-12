@@ -62,6 +62,40 @@
             }
         }
     }
+
+    .zoom-controls {
+        position: absolute;
+        bottom: 0;
+        left: rem(58px, 'small');
+        border: 1px solid $color-grey-light;
+        border-radius: rem(16px, 'small');
+
+        @include respond-to('medium') {
+            left: rem(58px, 'medium');
+            border-radius: rem(16px, 'medium');
+        }
+
+        @include respond-to('large') {
+            left: rem(58px, 'large');
+            border-radius: rem(16px, 'large');
+        }
+
+        .zoom-btn {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px 7px;
+
+            &.zoom-out {
+                margin-top: 5px;
+            }
+
+            &.zoom-in {
+                padding: 7px 7px 3px;
+            }
+        }
+    }
 }
 
 .chart {
