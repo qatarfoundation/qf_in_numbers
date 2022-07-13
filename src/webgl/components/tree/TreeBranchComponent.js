@@ -15,7 +15,7 @@ import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 95;
+const PARTICLE_SIZE = 105;
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
