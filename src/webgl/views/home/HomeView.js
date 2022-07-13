@@ -32,6 +32,7 @@ export default class HomeView extends component() {
         this._position = { current: 0, target: 0 };
         this._activeEntity = null;
         this._movingToEntity = false;
+        this._activeBranch = null
 
         // Setup
         this._debug = this._createDebug();
@@ -104,10 +105,16 @@ export default class HomeView extends component() {
         this._activeEntity?.hide();
 
         this._timelineGotoOverview = new gsap.timeline();
+
+        if (this._activeBranch !== null) {
+            this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0)
+        }
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(), 0);
         this._timelineGotoOverview.add(this._components.tree.show(), 6);
         this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
-        this._timelineGotoOverview.call(() => this._components.leavesBasic.show(), null, 3);
+        this._timelineGotoOverview.call(() => {
+            return this._components.leavesBasic.show()
+        }, null, 8);
         this._timelineGotoOverview.timeScale(5);
         return this._timelineGotoOverview;
     }
@@ -142,7 +149,7 @@ export default class HomeView extends component() {
     }
 
     gotoEntity(categorySlug, name) {
-        console.log('gotoEntity')
+        console.log('gotoEntity', categorySlug, name)
         this._movingToEntity = true
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
@@ -174,10 +181,12 @@ export default class HomeView extends component() {
     }
 
     categoryMouseEnter(name) {
+        this._activeBranch = name
         this._components.tree.categoryMouseEnter(name);
     }
 
     categoryMouseLeave(name) {
+        this._activeBranch = null
         this._components.tree.categoryMouseLeave(name);
     }
 
