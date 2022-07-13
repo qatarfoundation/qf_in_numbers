@@ -15,7 +15,7 @@ import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 105;
+const PARTICLE_SIZE = 120;
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -159,7 +159,7 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createMesh() {
-        const amount = 40000;
+        const amount = 35000;
         const vertices = [];
         const normals = [];
         const progress = [];
@@ -236,7 +236,7 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.56 },
                 uInnerGradient: { value: 1.85 },
-                uOuterGradient: { value: 0 },
+                uOuterGradient: { value: 0.15 },
                 uHoverColor1: { value: this._particleColors.primary },
                 uHoverColor2: { value: this._particleColors.secondary },
                 uShowHover: { value: 0 },

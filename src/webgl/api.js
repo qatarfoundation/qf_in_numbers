@@ -69,6 +69,14 @@ export default {
         this._idleRotation = true;
     },
 
+    disableMouseRotation() {
+        this._mouseRotation = false;
+    },
+
+    enableMouseRotation() {
+        this._mouseRotation = true;
+    },
+
     disableIdleRotation() {
         if (this._idleRotation) this._viewManager.active.resetTreeRotation?.();
         this._idleRotation = false;
