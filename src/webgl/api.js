@@ -41,8 +41,12 @@ export default {
 
     gotoEntity(categoryId, entityId) {
         if (this.isHome()) {
-            this._viewManager.active.gotoEntity(categoryId, entityId);
+            return this._viewManager.active.gotoEntity(categoryId, entityId);
         }
+    },
+
+    isMovingToEntity() {
+        return this.isHome() && this._viewManager.active._movingToEntity
     },
 
     selectEntity(entity, category) {

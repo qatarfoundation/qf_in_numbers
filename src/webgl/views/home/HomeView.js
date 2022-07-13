@@ -31,6 +31,7 @@ export default class HomeView extends component() {
         this._rotation = { current: 0, target: 0 };
         this._position = { current: 0, target: 0 };
         this._activeEntity = null;
+        this._movingToEntity = false;
 
         // Setup
         this._debug = this._createDebug();
@@ -142,10 +143,11 @@ export default class HomeView extends component() {
 
     gotoEntity(categorySlug, name) {
         console.log('gotoEntity')
+        this._movingToEntity = true
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
-        this._timelineGotoEntity = new gsap.timeline();
+        this._timelineGotoEntity = new gsap.timeline({onComplete: () => {this._movingToEntity = false}});
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);

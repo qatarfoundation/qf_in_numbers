@@ -5,6 +5,9 @@ import { AnimatePresence } from 'framer-motion';
 // CSS
 import './style.scoped.scss';
 
+// Utils
+import Globals from '@/utils/Globals';
+
 // Components
 import SliderEntities from '@/components/SliderEntities/index';
 
@@ -31,6 +34,14 @@ function SliderSubcategories(props, ref) {
     }, [subcategoryCurrentIndex]);
 
     /**
+     * Lifecycle
+     */
+    useEffect(() => {
+        setupEventListeners()
+        return removeEventListeners
+    }, [entityCurrentIndex])
+
+    /**
      * Private
      */
     function next() {
@@ -54,8 +65,28 @@ function SliderSubcategories(props, ref) {
     }
 
     /**
+     * Events
+     */
+    function setupEventListeners() {
+        window.addEventListener("wheel", wheelHandler)
+    }
+
+    function removeEventListeners() {
+        window.removeEventListener("wheel", wheelHandler)
+    }
+
+    /**
      * Handlers
      */
+    function wheelHandler(e) {
+        if (Math.abs(e.deltaY) > 10 && !Globals.webglApp.isMovingToEntity()){
+            if (e.deltaY > 0)
+                clickBottomHandler()
+            else
+                clickTopHandler()
+        }
+    }
+
     function clickTopHandler() {
         if (!isPreviousEnabled()) return;
 
