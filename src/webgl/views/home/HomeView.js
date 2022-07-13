@@ -93,6 +93,7 @@ export default class HomeView extends component() {
     }
 
     gotoOverview() {
+        console.log('gotoOverview')
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();
         this._timelineGotoEntity?.kill();
@@ -111,6 +112,7 @@ export default class HomeView extends component() {
     }
 
     gotoCategory(slug) {
+        console.log('gotoCategory')
         this._setBackgroundColor(slug);
         this._cameraManager.main.gotoCategory(slug);
         this._components.tree.hide();
@@ -128,6 +130,7 @@ export default class HomeView extends component() {
     }
 
     gotoSubcategory(categorySlug, name) {
+        console.log('gotoSubcategory')
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
@@ -138,6 +141,7 @@ export default class HomeView extends component() {
     }
 
     gotoEntity(categorySlug, name) {
+        console.log('gotoEntity')
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 

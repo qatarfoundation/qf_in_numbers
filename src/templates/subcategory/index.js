@@ -116,8 +116,6 @@ function SubcategoryTemplate(props) {
         safeToRemove();
     }
 
-    console.log(year);
-
     return (
         <div className="template-subcategory" ref={ elRef }>
 

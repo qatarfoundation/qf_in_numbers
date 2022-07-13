@@ -1,7 +1,14 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { ArrowHelper, BoxBufferGeometry, CameraHelper, ConeGeometry, Euler, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, Quaternion, Vector2, Vector3 } from 'three';
+import {
+    CameraHelper,
+    Object3D,
+    PerspectiveCamera,
+    Quaternion,
+    Vector2,
+    Vector3,
+} from 'three';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -97,29 +104,26 @@ export default class TreeCamera extends component() {
     }
 
     gotoOverview() {
-        const config = this._currentBranch?.camera;
-        if (!config) return;
+        const animation = {
+            progress: 0,
+        };
 
-        const center = new Vector3(0, 5, 0);
-        const maxRadius = this._position.z;
+        const positionStart = new Vector3()
+        const rotationStart = new Quaternion()
 
-        this._gotoOverviewAnimation?.kill();
-        this._gotoCategoryAnimation?.kill();
-        this._gotoPositionAnimation?.kill();
+        rotationStart.copy(this._camera.quaternion)
+        positionStart.copy(this._camera.position)
 
-        this._gotoOverviewAnimation = gsap.to(this, 10, {
-            _categoryProgress: 0,
-            ease: 'power2.inOut',
+        this._gotoOverviewAnimation = gsap.to(animation, {
+            progress: 1,
+            duration: 15,
+            ease: 'power3.inOut',
             onUpdate: () => {
-                const radius = maxRadius - this._categoryProgress * config.radiusOffset;
-                const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
-                const x = radius * Math.cos(angle);
-                const y = this._position.y + Y_OFFSET * this._categoryProgress;
-                const z = radius * Math.sin(angle);
-                this._camera.position.set(x, y, z);
-                this._camera.lookAt(this._target);
+                this._camera.position.lerpVectors(positionStart, this._position, animation.progress);
+                this._camera.quaternion.slerpQuaternions(rotationStart, this._quaternion, animation.progress);
             },
         });
+
         return this._gotoOverviewAnimation;
     }
 
@@ -195,6 +199,8 @@ export default class TreeCamera extends component() {
         }
 
         if (this._target) camera.lookAt(this._target);
+        this._quaternion = new Quaternion()
+        this._quaternion.copy(camera.quaternion)
 
         return camera;
     }

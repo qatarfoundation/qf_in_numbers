@@ -86,6 +86,7 @@ export default class TreeComponent extends component(Object3D) {
      */
     transitionIn() {
         this._isActive = true;
+        this._enableMouseRotation = false
 
         this._timelineTransitionIn = new gsap.timeline();
 
