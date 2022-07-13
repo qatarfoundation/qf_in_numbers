@@ -32,6 +32,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._isActive = false;
         this._entities = {};
         this._showCameraHelpers = false;
+        this._particlesMat = null
 
         // Setup
         this._debug = this._createDebug(options.debug);
@@ -227,6 +228,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         const normals = [];
         const settings = [];
         const colors = [];
+        const displacement = []
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -268,15 +270,19 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             settings.push(math.randomArbitrary(0.5, 1)); // Alpha
 
             colors.push(Math.random() > 0.5 ? 1 : 0);
+
+            displacement.push(Math.random())
+            displacement.push(Math.random())
         }
 
         const geometry = new PlaneBufferGeometry(0.2, 0.2);
         geometry.setAttribute('normal', new InstancedBufferAttribute(new Float32Array(normals), 3));
         geometry.setAttribute('settings', new InstancedBufferAttribute(new Float32Array(settings), 3));
         geometry.setAttribute('color', new InstancedBufferAttribute(new Float32Array(colors), 1));
+        geometry.setAttribute('displacement', new InstancedBufferAttribute(new Float32Array(displacement), 2));
 
         // const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
-        const material = new ShaderMaterial({
+        this._particlesMat = new ShaderMaterial({
             fragmentShader,
             vertexShader,
             uniforms: {
@@ -286,13 +292,14 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uInnerGradient: { value: 0.77 },
                 uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
+                uTime: { value: 0 }
             },
             transparent: true,
             blending: AdditiveBlending,
             depthWrite: false,
             depthTest: false,
         });
-        const mesh = new InstancedMesh(geometry, material, amount);
+        const mesh = new InstancedMesh(geometry, this._particlesMat, amount);
 
         let x, y, z;
         const dummy = new Object3D();
@@ -308,10 +315,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this.add(mesh);
 
         if (this._debug) {
-            this._debug.add(material.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
-            this._debug.add(material.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
-            this._debug.add(material.uniforms.uPointSize, 'value', { label: 'point size' });
-            this._debug.add(material.uniforms.uOpacity, 'value', { label: 'opacity' });
+            this._debug.add(this._particlesMat.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
+            this._debug.add(this._particlesMat.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
+            this._debug.add(this._particlesMat.uniforms.uPointSize, 'value', { label: 'point size' });
+            this._debug.add(this._particlesMat.uniforms.uOpacity, 'value', { label: 'opacity' });
         }
 
         return mesh;
@@ -407,9 +414,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Update
      */
-    update() {
+    update({time,delta}) {
         if (!this._isActive) return;
         this._updateEntities();
+        this._particlesMat.uniforms.uTime.value = time
     }
 
     _updateEntities() {

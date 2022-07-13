@@ -124,9 +124,9 @@ export default class GeneratedTreeComponent extends component(Object3D) {
     /**
      * Update
      */
-    update() {
+    update({time, delta}) {
         for (const key in this._branches) {
-            this._branches[key].update();
+            this._branches[key].update({time, delta});
         }
     }
 
