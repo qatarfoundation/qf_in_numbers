@@ -58,7 +58,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      */
     show() {
         this._isActive = true;
-        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 0.5 });
+        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 0.7 });
     }
 
     hide() {
