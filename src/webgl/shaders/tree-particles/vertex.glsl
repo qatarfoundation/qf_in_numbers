@@ -8,6 +8,7 @@ attribute vec4 displacement;
 varying float vProgress;
 varying vec4 vSettings;
 varying float vHoverColor;
+varying float vDisplacement;
 
 // Uniforms
 uniform float uProgress;
@@ -39,4 +40,5 @@ void main() {
     vProgress = progress;
     vSettings = settings;
     vHoverColor = hoverColor;
+    vDisplacement = displacement.w;
 }

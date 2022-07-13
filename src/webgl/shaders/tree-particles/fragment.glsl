@@ -2,6 +2,7 @@
 varying float vProgress;
 varying vec4 vSettings;
 varying float vHoverColor;
+varying float vDisplacement;
 
 // Uniforms
 uniform float uProgress;
@@ -12,6 +13,7 @@ uniform vec3 uHoverColor1;
 uniform vec3 uHoverColor2;
 uniform float uShowHover;
 uniform float uOpacity;
+uniform float uTime;
 
 float circle(vec2 st, float radius){
     vec2 dist = st - vec2(0.5);
@@ -31,6 +33,8 @@ void main() {
     float alpha = circle(gl_PointCoord, 1.0);
     alpha *= vSettings.w;
     alpha *= uOpacity;
+
+    alpha *= clamp(cos(uTime + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);
 
     // Output
     gl_FragColor = vec4(vec3(color), alpha);
