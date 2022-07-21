@@ -43,6 +43,7 @@
     "glslify-loader": "^2.0.0",
     "gsap": "^3.10.0",
     "i18next": "^21.6.14",
+    "lethargy": "^1.0.9",
     "loaders": "git+https://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:x-oauth-basic@github.com/immersive-garden/loaders.git",
     "node-fetch": "^2.6.7",
     "query-string": "^7.1.1",

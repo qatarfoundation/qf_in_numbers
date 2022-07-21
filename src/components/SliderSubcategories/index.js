@@ -12,6 +12,8 @@ import Globals from '@/utils/Globals';
 import SliderEntities from '@/components/SliderEntities/index';
 import LabelsEntities from "@/components/LabelsEntities";
 
+import { Lethargy } from 'lethargy'
+
 function SliderSubcategories(props, ref) {
     /**
      * Props
@@ -26,14 +28,21 @@ function SliderSubcategories(props, ref) {
     const [subcategoryCurrentIndex, setSubcategoryCurrentIndex] = useState(subcategoryIndex);
     const [entityCurrentIndex, setEntityCurrentIndex] = useState(0);
 
+    const entityCurrentIndexRef = useRef(entityCurrentIndex);
+    entityCurrentIndexRef.current = entityCurrentIndex;
+    const subcategoryCurrentIndexRef = useRef(subcategoryCurrentIndex);
+    subcategoryCurrentIndexRef.current = subcategoryCurrentIndex;
+
+    const waitRef = useRef(false);
+
+    let lethargy = new Lethargy();
+
     /**
      * Watchers
      */
     useEffect(() => {
-        setupEventListeners()
         history.replaceState(null, null, subcategories[subcategoryCurrentIndex].slug);
         setEntityCurrentIndex(0);
-        return removeEventListeners
     }, [subcategoryCurrentIndex]);
 
     /**
@@ -42,7 +51,7 @@ function SliderSubcategories(props, ref) {
     useEffect(() => {
         setupEventListeners()
         return removeEventListeners
-    }, [entityCurrentIndex])
+    }, [])
 
     /**
      * Private
@@ -50,20 +59,20 @@ function SliderSubcategories(props, ref) {
     function next() {
         if (!isLastEntity()) {
             // Next entity
-            setEntityCurrentIndex(entityCurrentIndex + 1);
+            setEntityCurrentIndex(i => i + 1);
         } else if (!isLastSubcategory()) {
             // Next subcategory
-            setSubcategoryCurrentIndex(subcategoryCurrentIndex + 1);
+            setSubcategoryCurrentIndex(i => i + 1);
         }
     }
 
     function previous() {
         if (!isFirstEntity()) {
             // Previous entity
-            setEntityCurrentIndex(entityCurrentIndex - 1);
+            setEntityCurrentIndex(i => i - 1);
         } else if (!isFirstSubcategory()) {
             // Previous subcategory
-            setSubcategoryCurrentIndex(subcategoryCurrentIndex - 1);
+            setSubcategoryCurrentIndex( i => i - 1);
         }
     }
 
@@ -82,11 +91,17 @@ function SliderSubcategories(props, ref) {
      * Handlers
      */
     function wheelHandler(e) {
-        if (Math.abs(e.deltaY) > 10 && !Globals.webglApp.isMovingToEntity()){
-            if (e.deltaY > 0)
-                clickBottomHandler()
-            else
-                clickTopHandler()
+        let check = lethargy.check(e)
+        if (check && !Globals.webglApp.isMovingToEntity()){
+            if (!waitRef.current) {
+                if (check < 0)
+                    clickBottomHandler()
+                else
+                    clickTopHandler()
+            }
+            waitRef.current = true
+        } else {
+            waitRef.current = false
         }
     }
 
@@ -118,19 +133,19 @@ function SliderSubcategories(props, ref) {
     }
 
     function isFirstEntity() {
-        return entityCurrentIndex === 0;
+        return entityCurrentIndexRef.current === 0;
     }
 
     function isLastEntity() {
-        return entityCurrentIndex === subcategories[subcategoryCurrentIndex].entities.length - 1;
+        return entityCurrentIndexRef.current === subcategories[subcategoryCurrentIndexRef.current].entities.length - 1;
     }
 
     function isFirstSubcategory() {
-        return subcategoryCurrentIndex === 0;
+        return subcategoryCurrentIndexRef.current === 0;
     }
 
     function isLastSubcategory() {
-        return subcategoryCurrentIndex === subcategories.length - 1;
+        return subcategoryCurrentIndexRef.current === subcategories.length - 1;
     }
 
     function isPreviousEnabled() {
