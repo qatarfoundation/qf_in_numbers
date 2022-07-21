@@ -14,7 +14,7 @@ import './style.scoped.scss';
 import useStore from '@/hooks/useStore';
 
 function LabelsEntities(props) {
-    const { entities } = props;
+    const { entities, entityCurrentIndex } = props;
 
     const { t } = useTranslation();
 
@@ -34,14 +34,14 @@ function LabelsEntities(props) {
                 if (elementLabel && model.labelPosition) {
                     const labelPosition = model.labelPosition;
                     elementLabel.style.display = 'block';
-                    elementLabel.style.transform = `translate(${ labelPosition.x }px, ${ labelPosition.y }px)`;
+                    elementLabel.style.transform = `translate3d(${ labelPosition.x }px, ${ labelPosition.y }px, 0)`;
                     elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                 }
 
                 if (elementHighlight) {
                     const hightlightPosition = model.highlightPosition;
                     elementHighlight.style.display = 'block';
-                    elementHighlight.style.transform = `translate(${ hightlightPosition.x }px, ${ hightlightPosition.y }px)`;
+                    elementHighlight.style.transform = `translate3d(${ hightlightPosition.x }px, ${ hightlightPosition.y }px, 0)`;
                     elementHighlight.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                 }
 
@@ -50,7 +50,7 @@ function LabelsEntities(props) {
                         const buttonPosition = model.buttonPosition;
                         if (buttonPosition) {
                             elementButton.style.display = 'block';
-                            elementButton.style.transform = `translate(${ buttonPosition.x }px, ${ buttonPosition.y }px)`;
+                            elementButton.style.transform = `translate3d(${ buttonPosition.x }px, ${ buttonPosition.y }px, 0)`;
                             elementButton.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                         }
                     }
@@ -79,13 +79,11 @@ function LabelsEntities(props) {
         };
     }, [entities]);
 
-    const selectedEntity = useStore((state) => state.selectedEntity);
-
     useEffect(() => {
-        if (selectedEntity) {
+        if (entityCurrentIndex !== null) {
             for (const key in itemsRef.current) {
                 const element = itemsRef.current[key];
-                if (selectedEntity.slug === key) {
+                if (entities[entityCurrentIndex].slug === key) {
                     gsap.to(element, { duration: 1, delay: 1, opacity: 1 });
                 } else {
                     gsap.to(element, { duration: 1, opacity: 0 });
@@ -98,7 +96,7 @@ function LabelsEntities(props) {
             }
             // Globals.webglApp.hideCurrentEntity();
         }
-    }, [selectedEntity, entities]);
+    }, [entities, entityCurrentIndex]);
 
     return (
         <ul>

@@ -10,6 +10,7 @@ import Globals from '@/utils/Globals';
 
 // Components
 import SliderEntities from '@/components/SliderEntities/index';
+import LabelsEntities from "@/components/LabelsEntities";
 
 function SliderSubcategories(props, ref) {
     /**
@@ -139,29 +140,33 @@ function SliderSubcategories(props, ref) {
     }
 
     return (
-        <div className="slider-subcategories">
+        <>
+            <div className="slider-subcategories">
 
-            { /* Navigation */ }
-            <div className="slider-navigation">
-                <button className={ 'button button-navigation button-navigation-top' } disabled={ !isPreviousEnabled() } onClick={ clickTopHandler }></button>
-                <button className={ 'button button-navigation button-navigation-bottom' } disabled={ !isNextEnabled() } onClick={ clickBottomHandler }></button>
+                { /* Navigation */ }
+                <div className="slider-navigation">
+                    <button className={ 'button button-navigation button-navigation-top' } disabled={ !isPreviousEnabled() } onClick={ clickTopHandler }></button>
+                    <button className={ 'button button-navigation button-navigation-bottom' } disabled={ !isNextEnabled() } onClick={ clickBottomHandler }></button>
+                </div>
+
+                <div className="slider-content">
+
+                    <p className="slider-subcategory-title h3">{ romanize(subcategoryCurrentIndex + 1) }. { subcategories[subcategoryCurrentIndex].name }</p>
+
+                    {
+                        <AnimatePresence exitBeforeEnter>
+
+                            <SliderEntities key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
+
+                        </AnimatePresence>
+                    }
+
+                </div>
+
             </div>
 
-            <div className="slider-content">
-
-                <p className="slider-subcategory-title h3">{ romanize(subcategoryCurrentIndex + 1) }. { subcategories[subcategoryCurrentIndex].name }</p>
-
-                {
-                    <AnimatePresence exitBeforeEnter>
-
-                        <SliderEntities key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
-
-                    </AnimatePresence>
-                }
-
-            </div>
-
-        </div>
+            <LabelsEntities key={ subcategoryCurrentIndex } entities={ category.subcategories[subcategoryCurrentIndex].entities } entityCurrentIndex={ entityCurrentIndex } />
+        </>
     );
 }
 
