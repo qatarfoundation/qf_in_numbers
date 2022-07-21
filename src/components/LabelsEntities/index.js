@@ -1,6 +1,6 @@
 // React
 import { gsap } from 'gsap';
-import React, { useRef, useEffect } from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import { Trans, Link, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Utils
@@ -18,6 +18,9 @@ function LabelsEntities(props) {
 
     const { t } = useTranslation();
 
+    const [storedEntities, setStoredEntities] = useState(null);
+
+    const wrapperRef = useRef({});
     const itemsRef = useRef({});
     const itemsLabelRef = useRef({});
     const itemsButtonRef = useRef({});
@@ -77,13 +80,15 @@ function LabelsEntities(props) {
                 }
             }
         };
-    }, [entities]);
+    }, [storedEntities]);
 
     useEffect(() => {
+        if (storedEntities !== entities) return
+
         if (entityCurrentIndex !== null) {
             for (const key in itemsRef.current) {
                 const element = itemsRef.current[key];
-                if (entities[entityCurrentIndex].slug === key) {
+                if (entities[entityCurrentIndex] && entities[entityCurrentIndex].slug === key) {
                     gsap.to(element, { duration: 1, delay: 1, opacity: 1 });
                 } else {
                     gsap.to(element, { duration: 1, opacity: 0 });
@@ -96,12 +101,20 @@ function LabelsEntities(props) {
             }
             // Globals.webglApp.hideCurrentEntity();
         }
-    }, [entities, entityCurrentIndex]);
+    }, [storedEntities, entityCurrentIndex]);
+
+    useEffect(() => {
+        const tl = gsap.timeline()
+
+        tl.to(wrapperRef.current, { duration: .4, opacity: 0, ease: "none"})
+        tl.call(() => {setStoredEntities(entities)}, null)
+        tl.to(wrapperRef.current, { duration: .4, opacity: 1, ease: "none"})
+    }, [entities])
 
     return (
-        <ul>
+        <ul ref={ el => wrapperRef.current = el }>
             {
-                entities.map((entity, index) => {
+                storedEntities && storedEntities.map((entity, index) => {
                     return (
                         <li key={ index } ref={ el => itemsRef.current[entity.slug] = el }>
                             <div className="label" ref={ el => itemsLabelRef.current[entity.slug] = el }>

@@ -30,8 +30,10 @@ function SliderSubcategories(props, ref) {
      * Watchers
      */
     useEffect(() => {
+        setupEventListeners()
         history.replaceState(null, null, subcategories[subcategoryCurrentIndex].slug);
         setEntityCurrentIndex(0);
+        return removeEventListeners
     }, [subcategoryCurrentIndex]);
 
     /**
