@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 
 // Utils
 import math from '@/utils/math/index';
+import useTick from "@/hooks/useTick";
 
 // CSS
 import './style.scoped.scss';
@@ -33,22 +34,6 @@ function SlideEntity(props, ref) {
     useEffect(() => {
         activeOffset.current.target = index;
     }, [index]);
-
-    /**
-     * Lifecycle
-     */
-    useEffect(() => {
-        mounted();
-        return destroy;
-    }, []);
-
-    function mounted() {
-        setupEventListeners();
-    }
-
-    function destroy() {
-        removeEventListeners();
-    }
 
     /**
      * Public
@@ -83,13 +68,7 @@ function SlideEntity(props, ref) {
     /**
      * Events
      */
-    function setupEventListeners() {
-        gsap.ticker.add(tickHandler);
-    }
-
-    function removeEventListeners() {
-        gsap.ticker.remove(tickHandler);
-    }
+    useTick(tickHandler)
 
     function tickHandler() {
         updateActiveOffset();

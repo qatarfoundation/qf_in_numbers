@@ -18,6 +18,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import SlideEntity from '../SlideEntity/index';
+import useTick from "@/hooks/useTick";
 
 function SliderEntities(props, ref) {
     /**
@@ -84,13 +85,11 @@ function SliderEntities(props, ref) {
 
     function mounted() {
         getBounds();
-        setupEventListeners();
     }
 
     function destroy() {
         timelines.current.transitionIn?.kill();
         timelines.current.transitionOut?.kill();
-        removeEventListeners();
     }
 
     /**
@@ -139,25 +138,20 @@ function SliderEntities(props, ref) {
         offset.current.current = math.lerp(offset.current.current, offset.current.target, 0.1);
     }
 
+    // TODO: update position outside of ticker
     function updateListItemPosition() {
         if (!listItemEntitiesRef.current[0]) return;
 
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
             const listItem = listItemEntitiesRef.current[i];
-            listItem.style.transform = `translateY(${ offset.current.current }px)`;
+            listItem.style.transform = `translate3d(0, ${ offset.current.current }px, 0)`;
         }
     }
 
     /**
      * Events
      */
-    function setupEventListeners() {
-        gsap.ticker.add(tickHandler);
-    }
-
-    function removeEventListeners() {
-        gsap.ticker.remove(tickHandler);
-    }
+    useTick(tickHandler)
 
     useWindowResizeObserver(resizeHandler);
 
