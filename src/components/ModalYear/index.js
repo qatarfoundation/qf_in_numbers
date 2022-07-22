@@ -138,10 +138,12 @@ function ModalYear(props, ref) {
      */
     function setupEventListeners() {
         window.addEventListener('keydown', keydownHandler);
+        elRef.current.addEventListener('wheel', wheelHandler);
     }
 
     function removeEventListeners() {
         window.removeEventListener('keydown', keydownHandler);
+        elRef.current.removeEventListener('wheel', wheelHandler);
     }
 
     useWindowResizeObserver(resizeHandler);
@@ -169,6 +171,10 @@ function ModalYear(props, ref) {
 
     function resizeHandler() {
         setOpen(false);
+    }
+
+    function wheelHandler(e) {
+        e.stopPropagation();
     }
 
     return (

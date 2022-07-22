@@ -80,17 +80,19 @@ function SliderSubcategories(props, ref) {
      * Events
      */
     function setupEventListeners() {
-        document.querySelector('canvas.background').addEventListener('wheel', wheelHandler);
+        window.addEventListener('wheel', wheelHandler);
     }
 
     function removeEventListeners() {
-        document.querySelector('canvas.background').removeEventListener('wheel', wheelHandler);
+        window.removeEventListener('wheel', wheelHandler);
     }
 
     /**
      * Handlers
      */
     function wheelHandler(e) {
+        console.log('wheel');
+
         const check = lethargy.check(e);
         if (check && !Globals.webglApp.isMovingToEntity()) {
             if (!waitRef.current) {
