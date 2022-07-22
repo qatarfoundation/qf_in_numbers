@@ -10,9 +10,9 @@ import Globals from '@/utils/Globals';
 
 // Components
 import SliderEntities from '@/components/SliderEntities/index';
-import LabelsEntities from "@/components/LabelsEntities";
+import LabelsEntities from '@/components/LabelsEntities';
 
-import { Lethargy } from 'lethargy'
+import { Lethargy } from 'lethargy';
 
 function SliderSubcategories(props, ref) {
     /**
@@ -35,7 +35,7 @@ function SliderSubcategories(props, ref) {
 
     const waitRef = useRef(false);
 
-    let lethargy = new Lethargy();
+    const lethargy = new Lethargy();
 
     /**
      * Watchers
@@ -49,9 +49,9 @@ function SliderSubcategories(props, ref) {
      * Lifecycle
      */
     useEffect(() => {
-        setupEventListeners()
-        return removeEventListeners
-    }, [])
+        setupEventListeners();
+        return removeEventListeners;
+    }, []);
 
     /**
      * Private
@@ -72,7 +72,7 @@ function SliderSubcategories(props, ref) {
             setEntityCurrentIndex(i => i - 1);
         } else if (!isFirstSubcategory()) {
             // Previous subcategory
-            setSubcategoryCurrentIndex( i => i - 1);
+            setSubcategoryCurrentIndex(i => i - 1);
         }
     }
 
@@ -80,28 +80,28 @@ function SliderSubcategories(props, ref) {
      * Events
      */
     function setupEventListeners() {
-        window.addEventListener("wheel", wheelHandler)
+        document.querySelector('canvas.background').addEventListener('wheel', wheelHandler);
     }
 
     function removeEventListeners() {
-        window.removeEventListener("wheel", wheelHandler)
+        document.querySelector('canvas.background').removeEventListener('wheel', wheelHandler);
     }
 
     /**
      * Handlers
      */
     function wheelHandler(e) {
-        let check = lethargy.check(e)
-        if (check && !Globals.webglApp.isMovingToEntity()){
+        const check = lethargy.check(e);
+        if (check && !Globals.webglApp.isMovingToEntity()) {
             if (!waitRef.current) {
                 if (check < 0)
-                    clickBottomHandler()
+                    clickBottomHandler();
                 else
-                    clickTopHandler()
+                    clickTopHandler();
             }
-            waitRef.current = true
+            waitRef.current = true;
         } else {
-            waitRef.current = false
+            waitRef.current = false;
         }
     }
 
