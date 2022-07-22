@@ -32,7 +32,8 @@ export default class HomeView extends component() {
         this._position = { current: 0, target: 0 };
         this._activeEntity = null;
         this._movingToEntity = false;
-        this._activeBranch = null
+        this._activeBranch = null;
+        this._hasTransitionedIn = false;
 
         // Setup
         this._debug = this._createDebug();
@@ -83,6 +84,10 @@ export default class HomeView extends component() {
     }
 
     transitionIn() {
+        if (this._hasTransitionedIn) return;
+
+        this._hasTransitionedIn = true;
+
         this._timelineTransitionIn = new gsap.timeline();
 
         this._timelineTransitionIn.add(this._components.tree.transitionIn(), 0);
@@ -91,11 +96,10 @@ export default class HomeView extends component() {
     }
 
     resetTreeRotation() {
-        this._components.tree.resetRotation()
+        this._components.tree.resetRotation();
     }
 
     gotoOverview() {
-        console.log('gotoOverview')
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();
         this._timelineGotoEntity?.kill();
@@ -107,20 +111,19 @@ export default class HomeView extends component() {
         this._timelineGotoOverview = new gsap.timeline();
 
         if (this._activeBranch !== null) {
-            this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0)
+            this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0);
         }
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(), 0);
         this._timelineGotoOverview.add(this._components.tree.show(), 6);
         this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
         this._timelineGotoOverview.call(() => {
-            return this._components.leavesBasic.show()
+            return this._components.leavesBasic.show();
         }, null, 8);
         this._timelineGotoOverview.timeScale(5);
         return this._timelineGotoOverview;
     }
 
     gotoCategory(slug) {
-        console.log('gotoCategory')
         this._setBackgroundColor(slug);
         this._cameraManager.main.gotoCategory(slug);
         this._components.tree.hide();
@@ -138,7 +141,6 @@ export default class HomeView extends component() {
     }
 
     gotoSubcategory(categorySlug, name) {
-        console.log('gotoSubcategory')
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
@@ -149,12 +151,11 @@ export default class HomeView extends component() {
     }
 
     gotoEntity(categorySlug, name) {
-        console.log('gotoEntity', categorySlug, name)
-        this._movingToEntity = true
+        this._movingToEntity = true;
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
-        this._timelineGotoEntity = new gsap.timeline({onComplete: () => {this._movingToEntity = false}});
+        this._timelineGotoEntity = new gsap.timeline({ onComplete: () => {this._movingToEntity = false;} });
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
@@ -168,6 +169,9 @@ export default class HomeView extends component() {
         this._activeEntity?.hide();
         this._components.generatedTree.hideActiveBranch();
         this._components.entity.show(entity, category);
+        this._components.tree.hide();
+        this._components.leavesBasic.hide();
+        this._setBackgroundColor(category);
         // this._timelineGotoEntity = new gsap.timeline();
         // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
@@ -181,12 +185,12 @@ export default class HomeView extends component() {
     }
 
     categoryMouseEnter(name) {
-        this._activeBranch = name
+        this._activeBranch = name;
         this._components.tree.categoryMouseEnter(name);
     }
 
     categoryMouseLeave(name) {
-        this._activeBranch = null
+        this._activeBranch = null;
         this._components.tree.categoryMouseLeave(name);
     }
 

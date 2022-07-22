@@ -85,6 +85,7 @@ function HomeTemplate(props, ref) {
 
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted, delay: 1 });
 
+        timelines.current.transitionIn.add(Globals.webglApp.transitionIn(), 0);
         timelines.current.transitionIn.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
         timelines.current.transitionIn.to(headingLinesSplitText.current.lines, { duration: 1.5, alpha: 1, stagger: 0.1, ease: 'sine.inOut' }, 0);
         timelines.current.transitionIn.to(headingLinesSplitText.current.lines, { duration: 1.5, rotation: '0deg', stagger: 0.1, ease: 'power3.out' }, 0);

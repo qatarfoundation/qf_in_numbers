@@ -98,6 +98,7 @@ const YearTemplate = (props) => {
 
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompletedHandler });
 
+        timelines.current.transitionIn.add(Globals.webglApp.transitionIn(), 0);
         timelines.current.transitionIn.to(elRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
         if (listCategoriesRef.current) timelines.current.transitionIn.add(listCategoriesRef.current.show(), props.location.previous ? 0 : 2);
         if (sliderCategoriesRef.current) timelines.current.transitionIn.add(sliderCategoriesRef.current.show(), props.location.previous ? 0 : 2);

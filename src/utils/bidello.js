@@ -37,7 +37,7 @@ class Bidello {
     }
 
     nameToMethod(n) {
-        return `on${n.charAt(0).toUpperCase() + n.slice(1)}`;
+        return `on${ n.charAt(0).toUpperCase() + n.slice(1) }`;
     }
 
     fireMethod(instance, name) {
@@ -56,7 +56,7 @@ class Bidello {
         }
 
         if (log) {
-            console.log(`👨‍🏫 ${name} – ${data}`);
+            console.log(`👨‍🏫 ${ name } – ${ data }`);
         }
 
         if (name in this.listeners) {
@@ -69,7 +69,7 @@ class Bidello {
     }
 
     registerGlobal(name, global) {
-        this.globals[`$${name}`] = global;
+        this.globals[`$${ name }`] = global;
     }
 }
 

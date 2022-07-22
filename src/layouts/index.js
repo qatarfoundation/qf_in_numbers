@@ -25,7 +25,6 @@ const WebglApp = loadable(() => import('@/components/WebglApp'));
 import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/EnvironmentContext';
 
 // Hooks
-import useTemplateData from '@/hooks/useTemplateData';
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
@@ -81,8 +80,8 @@ function Layout(props) {
 
         // Dev mode
         if (getEnvironment() === DEVELOPMENT) {
-            if (originalPath === '/') Globals.webglApp.enableIdleRotation()
-            Globals.webglApp.transitionIn();
+            if (originalPath === '/') Globals.webglApp.enableIdleRotation();
+            // Globals.webglApp.transitionIn();
             setIsFinishAnimPreload(true);
         }
     }, [webglAppState]);
@@ -135,7 +134,7 @@ function Layout(props) {
     }
 
     function preloaderAnimationCompletedHandler() {
-        Globals.webglApp.transitionIn();
+        // Globals.webglApp.transitionIn();
         setIsFinishAnimPreload(true);
     }
 

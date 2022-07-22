@@ -46,7 +46,7 @@ export default {
     },
 
     isMovingToEntity() {
-        return this.isHome() && this._viewManager.active._movingToEntity
+        return this.isHome() && this._viewManager.active._movingToEntity;
     },
 
     selectEntity(entity, category) {
