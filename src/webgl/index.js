@@ -38,8 +38,8 @@ class Main {
         this._composer = this._createComposer();
 
         if (this._showDebug) {
-            // this._stats = this._createStats();
-            // this._statsGpuPanel = this._createStatsGpuPanel();
+            this._stats = this._createStats();
+            this._statsGpuPanel = this._createStatsGpuPanel();
         }
 
         this._bindHandlers();
