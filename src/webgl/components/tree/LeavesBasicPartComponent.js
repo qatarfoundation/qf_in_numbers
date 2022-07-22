@@ -52,14 +52,17 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
      */
     _bindHandlers() {
         this._branchMouseEnterHandler = this._branchMouseEnterHandler.bind(this);
+        this._branchMouseLeaveHandler = this._branchMouseLeaveHandler.bind(this);
     }
 
     _setupEventListeners() {
         TreeDataModel.addEventListener('branch/mouseEnter', this._branchMouseEnterHandler);
+        TreeDataModel.addEventListener('branch/mouseLeave', this._branchMouseLeaveHandler);
     }
 
     _removeEventListeners() {
         TreeDataModel.removeEventListener('branch/mouseEnter', this._branchMouseEnterHandler);
+        TreeDataModel.removeEventListener('branch/mouseLeave', this._branchMouseLeaveHandler);
     }
 
     _createMesh() {
@@ -143,6 +146,14 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
             gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 0.2 });
             gsap.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 0 });
         }
+    }
+
+    _branchMouseLeaveHandler() {
+        gsap.killTweensOf(this._mesh.material.uniforms.uOpacity);
+        gsap.killTweensOf(this._mesh.material.uniforms.uShowHover);
+
+        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: OPACITY });
+        gsap.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 0 });
     }
 
     /**

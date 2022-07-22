@@ -174,6 +174,7 @@
     }
 
     .h1 {
+        opacity: 0;
         max-width: rem(164px, 'small');
 
         margin-bottom: rem(56px, 'small');
@@ -194,6 +195,7 @@
     }
 
     .p1 {
+        opacity: 0;
         max-width: rem(269px, 'small');
 
         margin-right: rem(100px, 'small');
@@ -223,6 +225,10 @@
             }
         }
     }
+}
+
+.charts-list {
+    opacity: 0;
 }
 
 .articles {

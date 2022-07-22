@@ -53,6 +53,9 @@ function PanelEntity(props, ref) {
      */
     const elRef = useRef();
     const swiperRef = useRef(null);
+    const titleRef = useRef();
+    const introRef = useRef();
+    const chartsListRef = useRef();
 
     const timelines = useRef({
         show: null,
@@ -82,10 +85,16 @@ function PanelEntity(props, ref) {
     function show() {
         timelines.current.hide?.kill();
 
-        timelines.current.show = new gsap.timeline();
+        timelines.current.show = new gsap.timeline({delay: .1});
 
-        timelines.current.show.to(elRef.current, { duration: 1, x: `${ 0 }%`, ease: 'power3.out' }, 0);
+        timelines.current.show.to(elRef.current, { duration: 1.5, x: `${ 0 }%`, ease: 'power3.out' }, 0);
+        timelines.current.show.to(titleRef.current, {opacity: 1, duration: .4, ease: "none"}, .4)
+        timelines.current.show.fromTo(titleRef.current, {x: 100}, {x: 0, duration: .6, ease: "power2.out"}, .2)
 
+        timelines.current.show.to(introRef.current, {opacity: 1, duration: .4, ease: "none"}, .6)
+        timelines.current.show.fromTo(introRef.current, {x: 100}, {x: 0, duration: .6, ease: "power2.out"}, .4)
+
+        timelines.current.show.to(chartsListRef.current, {opacity: 1, duration: .4, ease: "none"}, .8)
         return timelines.current.show;
     }
 
@@ -125,12 +134,14 @@ function PanelEntity(props, ref) {
                         <div className="point"></div>
                     </div>
                     <div className="introduction">
-                        <h1 className='h1'>{ entity.name }</h1>
-                        { entity.description && <p className="p1">{ entity.description }</p> }
+                        <h1 className='h1' ref={titleRef}>{ entity.name }</h1>
+                        { entity.description && <p className="p1" ref={introRef}>{ entity.description }</p> }
                     </div>
                 </section>
 
-                { entity.charts && <Charts charts={ entity.charts } /> }
+                <div className="charts-list" ref={chartsListRef}>
+                    { entity.charts && <Charts charts={ entity.charts } /> }
+                </div>
 
                 { entity.relatedArticles &&
                         <>

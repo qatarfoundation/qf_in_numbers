@@ -29,6 +29,7 @@ export default class EntityComponent extends component(Object3D) {
         this._curve = this._createCurve();
         // this._skeleton = this._createSkeleton();
         this._particles = this._createParticles();
+        this._particlesMat = null
 
         // // Settings
         // const geometry = new BoxBufferGeometry(10, 10, 10);
@@ -112,6 +113,7 @@ export default class EntityComponent extends component(Object3D) {
         const vertices = [];
         const sizes = [];
         const colors = [];
+        const displacements = [];
 
         for (let i = 0; i < amount; i++) {
             const point = this._curve.getPointAt(Math.random());
@@ -119,11 +121,14 @@ export default class EntityComponent extends component(Object3D) {
             vertices.push(point.x, point.y, point.z);
             sizes.push(randomArbitrary(0.2, 1));
             colors.push(Math.random() > 0.5 ? 1 : 0);
+            displacements.push(Math.random())
+            displacements.push(Math.random())
         }
 
         const geometry = new PlaneBufferGeometry(1, 1);
         geometry.setAttribute('size', new InstancedBufferAttribute(new Float32Array(sizes), 1));
         geometry.setAttribute('color', new InstancedBufferAttribute(new Float32Array(colors), 1));
+        geometry.setAttribute('displacement', new InstancedBufferAttribute(new Float32Array(displacements), 2));
 
         const material = new ShaderMaterial({
             fragmentShader,
@@ -135,6 +140,7 @@ export default class EntityComponent extends component(Object3D) {
                 uInnerGradient: { value: 0.1 },
                 uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
+                uTime: { value: 0 }
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -175,7 +181,7 @@ export default class EntityComponent extends component(Object3D) {
         const amount = Object.keys(chartsGrouped).length;
 
         for (let i = 0; i < amount; i++) {
-            const point = this._curve.getPointAt(0.1 + i * 0.15);
+            const point = this._curve.getPointAt(0.1 + i * .9 / amount);
             point.x += randomArbitrary(-80, 80);
             positions.push(point);
 
@@ -244,11 +250,12 @@ export default class EntityComponent extends component(Object3D) {
     /**
      * Update
      */
-    update() {
+    update({time, delta}) {
         const scrolls = useStore.getState().scrolls;
         if (scrolls && scrolls.entity) {
             this._scrollContainer.position.y = scrolls.entity.scrollY;
         }
+        this._particles.material.uniforms.uTime.value = time;
     }
 
     /**
