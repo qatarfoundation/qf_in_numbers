@@ -175,7 +175,7 @@ export default class EntityComponent extends component(Object3D) {
         const amount = Object.keys(chartsGrouped).length;
 
         for (let i = 0; i < amount; i++) {
-            const point = this._curve.getPointAt(0.1 + i * 0.15);
+            const point = this._curve.getPointAt(0.1 + i * .9 / amount);
             point.x += randomArbitrary(-80, 80);
             positions.push(point);
 
