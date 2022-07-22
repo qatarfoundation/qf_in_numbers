@@ -91,8 +91,6 @@ function SliderSubcategories(props, ref) {
      * Handlers
      */
     function wheelHandler(e) {
-        console.log('wheel');
-
         const check = lethargy.check(e);
         if (check && !Globals.webglApp.isMovingToEntity()) {
             if (!waitRef.current) {
