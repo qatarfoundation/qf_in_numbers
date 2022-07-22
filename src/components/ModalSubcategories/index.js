@@ -135,12 +135,12 @@ function ModalSubcategories(props, ref) {
      */
     function setupEventListeners() {
         window.addEventListener('keydown', keydownHandler);
-        elRef.current.addEventListener('wheel', wheelHandler);
+        elRef.current?.addEventListener('wheel', wheelHandler);
     }
 
     function removeEventListeners() {
         window.removeEventListener('keydown', keydownHandler);
-        elRef.current.removeEventListener('wheel', wheelHandler);
+        elRef.current?.removeEventListener('wheel', wheelHandler);
     }
 
     useWindowResizeObserver(resizeHandler);
