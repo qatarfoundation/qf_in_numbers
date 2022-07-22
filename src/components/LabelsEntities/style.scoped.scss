@@ -84,8 +84,11 @@ li {
     &:hover {
         .button__icon {
             &:after {
-                transform: scale(0.9);
+                transform: scale(0.6);
             }
+        }
+        .button__label {
+            transform: translate3d(-20px, 0, 0);
         }
     }
 
@@ -113,21 +116,17 @@ li {
 
     .button__icon {
         position: absolute;
-        top: 0;
+        top: 50%;
         left: 0;
+        transform: translateY(-50%);
 
         &:before {
             content: '';
-
             display: block;
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-
-            margin: auto;
-
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background-color: var(--color-theme-secondary);
             border-radius: 50%;
 
@@ -172,7 +171,7 @@ li {
 
     .button__label {
         display: block;
-
+        transition: transform 0.3s $sine-in-out;
         text-align: left;
         color: var(--color-theme-secondary);
 

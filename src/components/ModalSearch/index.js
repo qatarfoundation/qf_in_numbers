@@ -100,6 +100,7 @@ function ModalSearch(props, ref) {
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
         timelines.current.show.add(buttonRef.current.show(), 0);
+        timelines.current.show.set(buttonContainerRef.current, {clearProps: "pointerEvents"}, 0);
     }
 
     function hide() {
@@ -108,6 +109,7 @@ function ModalSearch(props, ref) {
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
         timelines.current.hide.add(buttonRef.current.hide(), 0);
+        timelines.current.hide.set(buttonContainerRef.current, {pointerEvents: "none"}, 0);
     }
 
     function open() {
