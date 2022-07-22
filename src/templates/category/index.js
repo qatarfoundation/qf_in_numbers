@@ -117,7 +117,7 @@ function CategoryTemplate(props) {
         <div className="template-category" ref={ elRef }>
 
             <Helmet>
-                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` }</title>
+                <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` }</title>
             </Helmet>
 
             <div className="button-back-container">

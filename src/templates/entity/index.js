@@ -111,7 +111,7 @@ function EntityTemplate(props) {
         <div className="template-entity" ref={ elRef }>
 
             <Helmet>
-                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` }</title>
+                <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` }</title>
             </Helmet>
 
             <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } />

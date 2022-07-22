@@ -9,21 +9,25 @@ import { usePresence } from 'framer-motion';
 import { graphql } from 'gatsby';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
 
+// Hooks
+import useTemplateData from '@/hooks/useTemplateData';
+
 // CSS
 import './style.scoped.scss';
 
 // Components
 import RichText from '@/components/RichText/index';
 import ButtonStart from '@/components/ButtonStart/index';
-import Globals from "@/utils/Globals";
+import Globals from '@/utils/Globals';
 
 function HomeTemplate(props, ref) {
     /**
      * Data
      */
-    const { years, language } = props.pageContext;
+    const { language } = props.pageContext;
+    const data = useTemplateData(props.pageContext, language);
     const { t } = useTranslation();
-    const currentYear = years['en-US'][0];
+    const currentYear = data.years['en-US'][0];
 
     /**
      * States
@@ -92,7 +96,7 @@ function HomeTemplate(props, ref) {
 
     function transitionOut() {
         timelines.current.transitionIn?.kill();
-        Globals.webglApp.disableIdleRotation()
+        Globals.webglApp.disableIdleRotation();
 
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
 
@@ -116,7 +120,7 @@ function HomeTemplate(props, ref) {
 
             <div className="initiation">
 
-                <h1 ref={ titleRef } className="h4 title">{ props.pageContext.home[language].introduction }</h1>
+                <h1 ref={ titleRef } className="h4 title">{ data.home[language].introduction }</h1>
 
                 <p ref={ labelRef } className="p4 label">{ t('Click enter to continue') }</p>
 

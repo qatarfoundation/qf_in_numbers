@@ -120,7 +120,7 @@ function SubcategoryTemplate(props) {
         <div className="template-subcategory" ref={ elRef }>
 
             <Helmet>
-                <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory ? subcategory.name : '' }` }</title>
+                <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory ? subcategory.name : '' }` }</title>
             </Helmet>
 
             <div className="button-back-container">

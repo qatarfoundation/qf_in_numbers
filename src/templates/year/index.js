@@ -93,7 +93,7 @@ const YearTemplate = (props) => {
      * Private
      */
     function transitionIn() {
-        Globals.webglApp.enableMouseRotation()
+        Globals.webglApp.enableMouseRotation();
         timelines.current.transitionOut?.kill();
 
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompletedHandler });
@@ -105,7 +105,7 @@ const YearTemplate = (props) => {
     }
 
     function transitionOut() {
-        Globals.webglApp.disableMouseRotation()
+        Globals.webglApp.disableMouseRotation();
         timelines.current.transitionIn?.kill();
 
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompletedHandler });
