@@ -81,7 +81,7 @@ function SliderCategories(props, ref) {
      */
     useEffect(() => {
         const slug = props.categories[indexActiveCategory % props.categories.length].slug.split('/').slice(-1)[0];
-        setTimeout(() => Globals.webglApp.gotoCategory(slug), 0);
+        // setTimeout(() => Globals.webglApp.gotoCategory(slug), 0);
         props.onChange(indexActiveCategory % props.categories.length);
     }, [indexActiveCategory]);
 
