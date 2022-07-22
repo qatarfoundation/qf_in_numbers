@@ -126,7 +126,7 @@ function LabelsEntities(props) {
                                     <span className='button__label'><Trans>{ t('Click to discover') }</Trans></span>
                                 </div>
                             </Link>
-                            { entity.highlighted &&
+                            { entity.highlighted && entity.highlightedChart &&
                                 <div className="highlight" ref={ el => itemsHighlightRef.current[entity.slug] = el }>
                                     <div className="highlight__content">
                                         <span className="highlight__value">{ entity.highlightedChart.value }</span>
