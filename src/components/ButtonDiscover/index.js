@@ -18,7 +18,7 @@ function ButtonPagination(props) {
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>
-            <p>Tap to discover <br />{ name }</p>
+            <p>Tap to discover{ name && ` <br />${name}` }</p>
         </Link>
     );
 }

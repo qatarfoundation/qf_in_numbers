@@ -1,6 +1,6 @@
 // React
 import React, { forwardRef, useRef, useState, useEffect } from 'react';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import {Link, Trans, useI18next, useTranslation} from 'gatsby-plugin-react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // CSS
@@ -8,6 +8,7 @@ import './style.scoped.scss';
 
 // Components
 import SliderEntitiesMobile from '@/components/SliderEntitiesMobile/index';
+import ButtonDiscover from "@/components/ButtonDiscover";
 
 function SliderSubcategoriesMobile(props, ref) {
     /**
@@ -21,6 +22,7 @@ function SliderSubcategoriesMobile(props, ref) {
      * Data
      */
     const { language } = useI18next();
+    const { t } = useTranslation();
 
     /**
      * States
@@ -132,6 +134,8 @@ function SliderSubcategoriesMobile(props, ref) {
 
     return (
         <div className="slider-subcategories">
+
+            <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug } direction="right" />
 
             <div className="slider-content">
 

@@ -48,17 +48,20 @@
 }
 
 .slider-container {
+    width: 100%;
     position: absolute;
     left: 0;
     bottom: rem(90px, 'small');
 
     @include respond-to('medium') {
         bottom: auto;
+        width: auto;
         top: 33%;
     }
 
     @include respond-to('large') {
         top: 33%;
+        width: auto;
     }
 
     .ar & {
