@@ -27,6 +27,8 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         this._mesh = this._createMesh();
         this._debug = this._createDebug(options.debug);
 
+        this.visible = false;
+
         this._bindHandlers();
         this._setupEventListeners();
     }
@@ -40,11 +42,20 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
      * Private
      */
     show() {
-        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: OPACITY });
+        this._timelineHide?.kill();
+        this._timelineShow?.kill();
+        this._timelineShow = new gsap.timeline();
+        this._timelineShow.set(this, { visible: true });
+        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: OPACITY });
     }
 
     hide() {
-        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: 0 });
+        this._timelineHide?.kill();
+        this._timelineShow?.kill();
+        this._timelineHide = new gsap.timeline();
+        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: 0 });
+        this._timelineHide.set(this, { visible: false });
+        return this._timelineHide;
     }
 
     /**

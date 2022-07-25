@@ -29,7 +29,9 @@ export default class EntityComponent extends component(Object3D) {
         this._curve = this._createCurve();
         // this._skeleton = this._createSkeleton();
         this._particles = this._createParticles();
-        this._particlesMat = null
+        this._particlesMat = null;
+
+        this.visible = false;
 
         // // Settings
         // const geometry = new BoxBufferGeometry(10, 10, 10);
@@ -53,6 +55,7 @@ export default class EntityComponent extends component(Object3D) {
         this._updateParticlesColors(colors);
 
         this._timelineShow = new gsap.timeline();
+        this._timelineShow.set(this, { visible: true });
         this._timelineShow.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.25, ease: 'sine.inOut' });
         return this._timelineShow;
     }
@@ -65,6 +68,7 @@ export default class EntityComponent extends component(Object3D) {
         });
         this._timelineHide.to(this._particles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
         if (this._chartParticles) this._timelineHide.to(this._chartParticles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
+        this._timelineHide.set(this, { visible: false });
         return this._timelineHide;
     }
 
@@ -121,8 +125,8 @@ export default class EntityComponent extends component(Object3D) {
             vertices.push(point.x, point.y, point.z);
             sizes.push(randomArbitrary(0.2, 1));
             colors.push(Math.random() > 0.5 ? 1 : 0);
-            displacements.push(Math.random())
-            displacements.push(Math.random())
+            displacements.push(Math.random());
+            displacements.push(Math.random());
         }
 
         const geometry = new PlaneBufferGeometry(1, 1);
@@ -140,7 +144,7 @@ export default class EntityComponent extends component(Object3D) {
                 uInnerGradient: { value: 0.1 },
                 uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
-                uTime: { value: 0 }
+                uTime: { value: 0 },
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -250,7 +254,7 @@ export default class EntityComponent extends component(Object3D) {
     /**
      * Update
      */
-    update({time, delta}) {
+    update({ time, delta }) {
         const scrolls = useStore.getState().scrolls;
         if (scrolls && scrolls.entity) {
             this._scrollContainer.position.y = scrolls.entity.scrollY;

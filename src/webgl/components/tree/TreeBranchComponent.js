@@ -75,12 +75,14 @@ export default class TreeBranchComponent extends component(Object3D) {
      */
     transitionIn() {
         this._timelineTransitionIn = new gsap.timeline();
+        this._timelineTransitionIn.set(this, { visible: true });
         // this._timelineTransitionIn.fromTo(this._mesh.material.uniforms.uProgress, 10, { value: 0 }, { value: 0.65, repeat: 0, repeatDelay: 2, ease: 'sine.inOut' });
         return this._timelineTransitionIn;
     }
 
     show() {
         this._timelineShow = new gsap.timeline();
+        this._timelineShow.set(this, { visible: true });
         this._timelineShow.to(this._mesh.material.uniforms.uOpacity, 2, { value: 1, ease: 'sine.inOut' });
         return this._timelineShow;
     }
@@ -88,6 +90,7 @@ export default class TreeBranchComponent extends component(Object3D) {
     hide() {
         this._timelineHide = new gsap.timeline();
         this._timelineHide.to(this._mesh.material.uniforms.uOpacity, 2, { value: 0, ease: 'sine.inOut' });
+        this._timelineHide.set(this, { visible: false });
         return this._timelineHide;
     }
 

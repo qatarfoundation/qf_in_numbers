@@ -47,11 +47,11 @@ export default class TreeComponent extends component(Object3D) {
 
         // Setup
         this._isActive = false;
-        this._idleRotationSpeed = {value: 0}
+        this._idleRotationSpeed = { value: 0 };
         this._activeBranch = undefined;
-        this._mousePosition = new Vector2(0, 0)
-        this._mouseRotation = new Vector2(0, 0)
-        this._enableMouseRotation = false
+        this._mousePosition = new Vector2(0, 0);
+        this._mouseRotation = new Vector2(0, 0);
+        this._enableMouseRotation = false;
         this._debug = this._createDebug();
         // this._raycaster = this._createRaycaster();
         this._branches = this._createBranches();
@@ -70,7 +70,7 @@ export default class TreeComponent extends component(Object3D) {
         this.rotation.y = this._settings.initialRotation.y;
         this.rotation.z = this._settings.initialRotation.z;
 
-        this.mouseRotationXTo = gsap.quickTo(this._mouseRotation, "x", {duration: 3, ease: "sine.out"})
+        this.mouseRotationXTo = gsap.quickTo(this._mouseRotation, 'x', { duration: 3, ease: 'sine.out' });
     }
 
     destroy() {
@@ -86,7 +86,7 @@ export default class TreeComponent extends component(Object3D) {
      */
     transitionIn() {
         this._isActive = true;
-        this._enableMouseRotation = false
+        this._enableMouseRotation = false;
 
         this._timelineTransitionIn = new gsap.timeline();
 
@@ -101,10 +101,10 @@ export default class TreeComponent extends component(Object3D) {
         this._timelineTransitionIn.fromTo(this.rotation, { z: this._settings.initialRotation.z }, { duration: 3, z: this._settings.targetRotation.z, ease: 'power3.inOut' }, 0);
 
         // Mouse Rotation
-        this._timelineTransitionIn.add(() => {this._enableMouseRotation = true}, 3)
+        this._timelineTransitionIn.add(() => {this._enableMouseRotation = true;}, 3);
 
         // Idle rotation
-        if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, {value: .015, duration: 2, ease: "none"}, 4)
+        if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, { value: .015, duration: 2, ease: 'none' }, 4);
 
         return this._timelineTransitionIn;
     }
@@ -113,11 +113,11 @@ export default class TreeComponent extends component(Object3D) {
         gsap.to(this.rotation, {
             y: this._settings.targetRotation.y,
             duration: 1.5,
-            ease: "sine.inOut",
+            ease: 'sine.inOut',
             onComplete: () => {
-                this._idleRotationSpeed.value = 0
-            }
-        })
+                this._idleRotationSpeed.value = 0;
+            },
+        });
     }
 
     show() {
@@ -222,17 +222,17 @@ export default class TreeComponent extends component(Object3D) {
     update({ time, delta }) {
         if (!this._isActive) return;
         this._updateBranches({ time, delta });
-        if (this.$root.idleRotation) this._updateRotation({time, delta})
-        this._updateMouseRotation()
+        if (this.$root.idleRotation) this._updateRotation({ time, delta });
+        this._updateMouseRotation();
         // if (this.$root.isInteractive) this._updateMouseInteractions();
     }
 
     _updateMouseRotation() {
-        if (this._enableMouseRotation && this._idleRotationSpeed.value === 0) this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x
+        if (this._enableMouseRotation && this._idleRotationSpeed.value === 0) this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
     }
 
-    _updateRotation({time, delta}) {
-        this.rotation.y = (this.rotation.y - delta * this._idleRotationSpeed.value) % (Math.PI * 2)
+    _updateRotation({ time, delta }) {
+        this.rotation.y = (this.rotation.y - delta * this._idleRotationSpeed.value) % (Math.PI * 2);
     }
 
     _updateBranches({ time, delta }) {
@@ -286,8 +286,8 @@ export default class TreeComponent extends component(Object3D) {
         if (this.$root.isInteractive) {
             this._mousePosition.copy(centered);
             if (this.$root.mouseRotation && this._enableMouseRotation)
-                this.mouseRotationXTo(this._mousePosition.x * .05)
-            else this.mouseRotationXTo(0)
+                this.mouseRotationXTo(this._mousePosition.x * .05);
+            else this.mouseRotationXTo(0);
         }
     }
 
