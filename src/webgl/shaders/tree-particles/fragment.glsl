@@ -38,4 +38,9 @@ void main() {
 
     // Output
     gl_FragColor = vec4(vec3(color), alpha);
+    // gl_FragColor = vec4(vec3(1.0, 0.0, 0.0), alpha);
 }
+
+// void main() {
+//     gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+// }

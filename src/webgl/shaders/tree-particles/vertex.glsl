@@ -5,6 +5,7 @@ attribute float hoverColor;
 attribute vec4 displacement;
 
 // Varyings
+varying vec2 vUv;
 varying float vProgress;
 varying vec4 vSettings;
 varying float vHoverColor;
@@ -34,7 +35,7 @@ void main() {
     // Point size
     gl_PointSize = uPointSize;
     gl_PointSize *= (1.0 / -mvPosition.z);
-    gl_PointSize *= settings.z;
+    // gl_PointSize *= settings.z;
 
     // Varyings
     vProgress = progress;

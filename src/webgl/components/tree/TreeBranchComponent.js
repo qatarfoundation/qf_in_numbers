@@ -15,7 +15,7 @@ import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 120;
+const PARTICLE_SIZE = 260;
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -34,7 +34,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._subcategoriesAnchorScreenSpacePosition = new Vector3();
 
         // Setup
-        this._pointsMat = null
+        this._pointsMat = null;
         this._debug = this._createDebug(options.debug);
         this._curves = this._createCurves();
         this._mesh = this._createMesh();
@@ -159,7 +159,7 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createMesh() {
-        const amount = 35000;
+        const amount = 4000;
         const vertices = [];
         const normals = [];
         const progress = [];
@@ -215,7 +215,7 @@ export default class TreeBranchComponent extends component(Object3D) {
 
             hoverColor.push(Math.random() > 0.5 ? 1.0 : 0.0);
 
-            for (let j = 0; j < 4; j++) displacement.push(Math.random() - .5)
+            for (let j = 0; j < 4; j++) displacement.push(Math.random() - .5);
         }
 
         const geometry = new BufferGeometry();
@@ -227,6 +227,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         geometry.setAttribute('displacement', new Float32BufferAttribute(displacement, 4));
 
         const colorGradient = ResourceLoader.get('view/home/particles-color-gradient');
+
         this._pointsMat = new ShaderMaterial({
             fragmentShader,
             vertexShader,
@@ -235,18 +236,38 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uProgress: { value: 1 },
                 uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.56 },
-                uInnerGradient: { value: 1.85 },
+                uInnerGradient: { value: 1.25 },
                 uOuterGradient: { value: 0.15 },
                 uHoverColor1: { value: this._particleColors.primary },
                 uHoverColor2: { value: this._particleColors.secondary },
                 uShowHover: { value: 0 },
                 uOpacity: { value: 1 },
-                uTime: {value: 0},
+                uTime: { value: 0 },
             },
             transparent: true,
             blending: AdditiveBlending,
             depthWrite: false,
         });
+
+        // Perf debug
+        // this._pointsMat = new MeshBasicMaterial({
+        //     color: 'red',
+        // });
+
+        // this._pointsMat.uniforms = {
+        //     uColorGradient: { value: colorGradient },
+        //     uProgress: { value: 1 },
+        //     uPointSize: { value: PARTICLE_SIZE },
+        //     uRadius: { value: 0.56 },
+        //     uInnerGradient: { value: 1.85 },
+        //     uOuterGradient: { value: 0.15 },
+        //     uHoverColor1: { value: this._particleColors.primary },
+        //     uHoverColor2: { value: this._particleColors.secondary },
+        //     uShowHover: { value: 0 },
+        //     uOpacity: { value: 1 },
+        //     uTime: { value: 0 },
+        // };
+
         const mesh = new Points(geometry, this._pointsMat);
         this.add(mesh);
 
@@ -319,7 +340,7 @@ export default class TreeBranchComponent extends component(Object3D) {
     update({ time, delta }) {
         this._updateLabelAnchorScreenSpacePosition();
         this._updateSubcategoriesAnchorScreenSpacePosition();
-        if (this._pointsMat !== null) this._pointsMat.uniforms.uTime.value = time
+        if (this._pointsMat !== null) this._pointsMat.uniforms.uTime.value = time;
     }
 
     _updateLabelAnchorScreenSpacePosition() {

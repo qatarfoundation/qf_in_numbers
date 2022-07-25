@@ -41,7 +41,7 @@ export default class LeavesComponent extends component(Object3D) {
      * Private
      */
     _createMesh() {
-        const amount = 1000;
+        const amount = 500;
 
         const startPoint = new Vector3(0, 0, 0);
 
