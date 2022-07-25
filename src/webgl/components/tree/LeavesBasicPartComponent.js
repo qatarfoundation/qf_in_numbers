@@ -14,7 +14,7 @@ import vertexShader from '@/webgl/shaders/leaves-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/leaves-particles/fragment.glsl';
 
 // Contants
-const PARTICLES_AMOUNT = 700;
+const PARTICLES_AMOUNT = 300;
 const OPACITY = 0.7;
 
 export default class LeavesBasicPartComponent extends component(Object3D) {
@@ -27,7 +27,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         this._mesh = this._createMesh();
         this._debug = this._createDebug(options.debug);
 
-        this.visible = false;
+        // this.visible = false;
 
         this._bindHandlers();
         this._setupEventListeners();
@@ -44,17 +44,24 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
     show() {
         this._timelineHide?.kill();
         this._timelineShow?.kill();
+
         this._timelineShow = new gsap.timeline();
-        this._timelineShow.set(this, { visible: true });
-        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: OPACITY });
+
+        // this._timelineShow.set(this, { visible: true }, 0);
+        this._timelineShow.to(this._mesh.material.uniforms.uOpacity, { duration: 10, value: OPACITY }, 0);
+
+        return this._timelineShow;
     }
 
     hide() {
         this._timelineHide?.kill();
         this._timelineShow?.kill();
+
         this._timelineHide = new gsap.timeline();
+
         this._timelineHide.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: 0 });
-        this._timelineHide.set(this, { visible: false });
+        // this._timelineHide.set(this, { visible: false });
+
         return this._timelineHide;
     }
 
@@ -83,7 +90,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         const hoverColor = [];
 
         for (let i = 0; i < PARTICLES_AMOUNT; i ++) {
-            const radius = 1100 * Math.random();
+            const radius = 300 * Math.random();
 
             const u = Math.random();
             const v = Math.random();
@@ -122,7 +129,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
                 {
                     uColor: { value: new Color(0x6eceb2) },
                     uProgress: { value: 0.65 },
-                    uPointSize: { value: dpr() > 1 ? 900 : 400 },
+                    uPointSize: { value: (dpr() > 1 ? 900 : 400) * 1.5 },
                     uInnerGradient: { value: 0.88 },
                     uOuterGradient: { value: 0.07 },
                     uOpacity: { value: 0 },

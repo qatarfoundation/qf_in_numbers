@@ -48,7 +48,7 @@ export default class TreeComponent extends component(Object3D) {
 
         // Setup
         this._isActive = false;
-        this._idleRotationSpeed = { value: 0.05 };
+        this._idleRotationSpeed = { value: 0.1 };
         this._idleRotationAmplitude = { value: 45 };
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(0, 0);
@@ -108,7 +108,7 @@ export default class TreeComponent extends component(Object3D) {
         this._timelineTransitionIn.add(() => { this._enableMouseRotation = true; }, 3);
 
         // Idle rotation
-        // if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, { value: .15, duration: 2, ease: 'none' }, 4);
+        // if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, { value: .1, duration: 2, ease: 'none' }, 4);
 
         return this._timelineTransitionIn;
     }
@@ -119,7 +119,7 @@ export default class TreeComponent extends component(Object3D) {
             duration: 1.5,
             ease: 'sine.inOut',
             onComplete: () => {
-                this._idleRotationSpeed.value = 0;
+                this._idleRotationSpeed.value = 0.001;
             },
         });
     }
@@ -232,11 +232,11 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     _updateMouseRotation() {
-        if (this._enableMouseRotation && this._idleRotationSpeed.value === 0) this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
+        if (this._enableMouseRotation && this._idleRotationSpeed.value === 0) this._branchesContainer.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
     }
 
     _updateRotation({ time, delta }) {
-        this._branchesContainer.rotation.y = -Math.sin(this._idleRotationSpeed.value * time) * number.degreesToRadians(this._idleRotationAmplitude.value);
+        this._branchesContainer.rotation.y = Math.PI / 5 - Math.sin(this._idleRotationSpeed.value * time) * number.degreesToRadians(this._idleRotationAmplitude.value);
     }
 
     _updateBranches({ time, delta }) {

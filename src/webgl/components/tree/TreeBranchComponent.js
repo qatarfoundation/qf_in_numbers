@@ -15,7 +15,7 @@ import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
 
 // Constants
-const PARTICLE_SIZE = 260;
+const PARTICLE_SIZE = 300;
 
 export default class TreeBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -162,7 +162,8 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     _createMesh() {
-        const amount = 4000;
+        const amount = 3000;
+        // const amount = 10000;
         const vertices = [];
         const normals = [];
         const progress = [];
@@ -224,7 +225,6 @@ export default class TreeBranchComponent extends component(Object3D) {
         const geometry = new BufferGeometry();
         geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
         geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
-        geometry.setAttribute('progress', new Float32BufferAttribute(progress, 1));
         geometry.setAttribute('settings', new Float32BufferAttribute(settings, 4));
         geometry.setAttribute('hoverColor', new Float32BufferAttribute(hoverColor, 1));
         geometry.setAttribute('displacement', new Float32BufferAttribute(displacement, 4));
@@ -236,8 +236,6 @@ export default class TreeBranchComponent extends component(Object3D) {
             vertexShader,
             uniforms: {
                 uColorGradient: { value: colorGradient },
-                uProgress: { value: 1 },
-                uPointSize: { value: PARTICLE_SIZE },
                 uRadius: { value: 0.80 },
                 uInnerGradient: { value: 1.25 },
                 uOuterGradient: { value: 0.15 },
@@ -247,41 +245,24 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uOpacity: { value: 1 },
                 uTime: { value: 0 },
             },
+            defines: {
+                POINT_SIZE: PARTICLE_SIZE,
+            },
             transparent: true,
             blending: AdditiveBlending,
             depthWrite: false,
         });
-
-        // Perf debug
-        // this._pointsMat = new MeshBasicMaterial({
-        //     color: 'red',
-        // });
-
-        // this._pointsMat.uniforms = {
-        //     uColorGradient: { value: colorGradient },
-        //     uProgress: { value: 1 },
-        //     uPointSize: { value: PARTICLE_SIZE },
-        //     uRadius: { value: 0.56 },
-        //     uInnerGradient: { value: 1.85 },
-        //     uOuterGradient: { value: 0.15 },
-        //     uHoverColor1: { value: this._particleColors.primary },
-        //     uHoverColor2: { value: this._particleColors.secondary },
-        //     uShowHover: { value: 0 },
-        //     uOpacity: { value: 1 },
-        //     uTime: { value: 0 },
-        // };
 
         const mesh = new Points(geometry, this._pointsMat);
         this.add(mesh);
 
         if (this._debug) {
             this._debug.add(mesh, 'rotation');
-            // this._debug.add(material.uniforms.uProgress, 'value', { label: 'progress' });
             this._debug.add(this._pointsMat.uniforms.uColorGradient, 'value', { label: 'gradient' });
             this._debug.add(this._pointsMat.uniforms.uInnerGradient, 'value', { label: 'inner gradient' });
             this._debug.add(this._pointsMat.uniforms.uOuterGradient, 'value', { label: 'outer gradient' });
             this._debug.add(this._pointsMat.uniforms.uRadius, 'value', { label: 'radius' });
-            this._debug.add(this._pointsMat.uniforms.uPointSize, 'value', { label: 'point size', stepSize: 1 });
+            this._debug.add(this._pointsMat.defines, 'POINT_SIZE', { label: 'point size', stepSize: 1, onUpdate: () => { this._pointsMat.needsUpdate = true; } });
         }
 
         return mesh;
@@ -373,7 +354,8 @@ export default class TreeBranchComponent extends component(Object3D) {
 
     _updateParticleSize(renderHeight, dpr) {
         const scale = renderHeight / 1080;
-        this._mesh.material.uniforms.uPointSize.value = PARTICLE_SIZE * scale * dpr;
+        this._mesh.material.defines.POINT_SIZE = PARTICLE_SIZE * scale * dpr;
+        this._mesh.material.needsUpdate = true;
     }
 
     /**

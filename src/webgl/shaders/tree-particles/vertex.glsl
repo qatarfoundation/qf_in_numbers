@@ -1,19 +1,15 @@
 // Attributes
-attribute float progress;
 attribute vec4 settings;
 attribute float hoverColor;
 attribute vec4 displacement;
 
 // Varyings
 varying vec2 vUv;
-varying float vProgress;
 varying vec4 vSettings;
 varying float vHoverColor;
 varying float vDisplacement;
 
 // Uniforms
-uniform float uProgress;
-uniform float uPointSize;
 uniform float uRadius;
 uniform float uTime;
 
@@ -22,7 +18,7 @@ void main() {
     vec3 transformed = position;
 
     // Radius
-    float radius = uRadius * settings.y * max(0.1, smoothstep(uProgress, progress - 0.08, progress));
+    float radius = uRadius * settings.y;
     transformed += radius * normal;
 
     // Displacement
@@ -33,12 +29,12 @@ void main() {
     gl_Position = projectionMatrix * mvPosition;
 
     // Point size
-    gl_PointSize = uPointSize;
+    gl_PointSize = POINT_SIZE;
     gl_PointSize *= (1.0 / -mvPosition.z);
-    // gl_PointSize *= settings.z;
+    gl_PointSize *= settings.z;
+    gl_PointSize *= 1.0 + sin(uTime * 0.3 + displacement.w * 30.0) * 0.1;
 
     // Varyings
-    vProgress = progress;
     vSettings = settings;
     vHoverColor = hoverColor;
     vDisplacement = displacement.w;

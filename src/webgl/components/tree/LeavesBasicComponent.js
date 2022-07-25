@@ -1,6 +1,7 @@
 // Vendor
 import { component } from '@/utils/bidello';
 import { Object3D, Vector3 } from 'three';
+import { gsap } from 'gsap';
 
 // Utils
 import Debugger from '@/utils/Debugger';
@@ -33,15 +34,29 @@ export default class LeavesBasicComponent extends component(Object3D) {
      * Public
      */
     show() {
+        this._timelineShow?.kill();
+        this._timelineHide?.kill();
+
+        this._timelineShow = new gsap.timeline();
+
         this._leaves.forEach((part) => {
-            part.show();
+            this._timelineShow.add(part.show(), 0);
         });
+
+        return this._timelineShow;
     }
 
     hide() {
+        this._timelineShow?.kill();
+        this._timelineHide?.kill();
+
+        this._timelineHide = new gsap.timeline();
+
         this._leaves.forEach((part) => {
-            part.hide();
+            this._timelineHide.add(part.hide(), 0);
         });
+
+        return this._timelineHide;
     }
 
     /**

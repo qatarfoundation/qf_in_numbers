@@ -113,12 +113,11 @@ export default class HomeView extends component() {
         if (this._activeBranch !== null) {
             this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0);
         }
+        this._timelineGotoOverview.call(() => this._resetBackgroundColor(), null, 0);
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(), 0);
         this._timelineGotoOverview.add(this._components.tree.show(), 6);
         this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
-        this._timelineGotoOverview.call(() => {
-            return this._components.leavesBasic.show();
-        }, null, 8);
+        this._timelineGotoOverview.add(this._components.leavesBasic.show(), 11);
         this._timelineGotoOverview.timeScale(5);
         return this._timelineGotoOverview;
     }
@@ -145,7 +144,7 @@ export default class HomeView extends component() {
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
-        this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
+        // this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         return this._timelineGotoSubcategory;
     }
@@ -159,9 +158,9 @@ export default class HomeView extends component() {
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
-        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
-        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
-        this._timelineGotoEntity.add(this._activeEntity.show(), 1);
+        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0.5);
+        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
+        this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
         return this._timelineGotoEntity;
     }
 
@@ -257,6 +256,11 @@ export default class HomeView extends component() {
         const config = TreeDataModel.getBranch(name);
         this.$composer.passes.backgroundGradient.color = config.backgroundColor;
         this.$composer.passes.backgroundGradient.gradientType = 1;
+    }
+
+    _resetBackgroundColor() {
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
     }
 
     /**

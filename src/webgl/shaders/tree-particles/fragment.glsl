@@ -1,11 +1,9 @@
 // Varyings
-varying float vProgress;
 varying vec4 vSettings;
 varying float vHoverColor;
 varying float vDisplacement;
 
 // Uniforms
-uniform float uProgress;
 uniform sampler2D uColorGradient;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
@@ -21,9 +19,6 @@ float circle(vec2 st, float radius){
 }
 
 void main() {
-    // Visiblity
-    if (step(uProgress, vProgress) > 0.0) discard;
-
     // Color
     vec3 color = texture2D(uColorGradient, vec2(vSettings.x, 0.5)).rgb;
     vec3 hoverColor = mix(uHoverColor1, uHoverColor2, vHoverColor);
@@ -34,11 +29,13 @@ void main() {
     alpha *= vSettings.w;
     alpha *= uOpacity;
 
-    alpha *= clamp(cos(uTime + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);
+    float alphaBlinkSpeed = 0.5;
+    alpha *= clamp(cos((uTime * alphaBlinkSpeed) + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);
+
+    if (alpha < 0.01) discard;
 
     // Output
     gl_FragColor = vec4(vec3(color), alpha);
-    // gl_FragColor = vec4(vec3(1.0, 0.0, 0.0), alpha);
 }
 
 // void main() {
