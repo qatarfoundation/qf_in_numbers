@@ -18,7 +18,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
 import SlideEntity from '../SlideEntity/index';
-import useTick from "@/hooks/useTick";
+import useTick from '@/hooks/useTick';
 
 function SliderEntities(props, ref) {
     /**
@@ -151,7 +151,7 @@ function SliderEntities(props, ref) {
     /**
      * Events
      */
-    useTick(tickHandler)
+    useTick(tickHandler);
 
     useWindowResizeObserver(resizeHandler);
 

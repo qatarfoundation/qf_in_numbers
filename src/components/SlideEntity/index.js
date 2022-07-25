@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 
 // Utils
 import math from '@/utils/math/index';
-import useTick from "@/hooks/useTick";
+import useTick from '@/hooks/useTick';
 
 // CSS
 import './style.scoped.scss';
@@ -50,7 +50,7 @@ function SlideEntity(props, ref) {
      * Private
      */
     function updateActiveOffset() {
-        activeOffset.current.current = math.lerp(activeOffset.current.current, activeOffset.current.target, 0.1);
+        activeOffset.current.current = math.lerp(activeOffset.current.current, activeOffset.current.target, 0.3);
     }
 
     function updateOpacity() {
@@ -68,7 +68,7 @@ function SlideEntity(props, ref) {
     /**
      * Events
      */
-    useTick(tickHandler)
+    useTick(tickHandler);
 
     function tickHandler() {
         updateActiveOffset();
