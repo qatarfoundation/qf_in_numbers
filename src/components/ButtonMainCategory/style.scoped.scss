@@ -33,6 +33,10 @@
 
     transform-origin: left bottom;
 
+    @include respond-to('medium') {
+        font-size: 48px;
+    }
+
     .ar & {
         transform-origin: right bottom;
     }
@@ -67,6 +71,13 @@
         height: rem(100px, 'large');
     }
 
+    @include respond-to('xlarge') {
+        left: -50px;
+        top: -10px;
+        width: 100px;
+        height: 100px;
+    }
+
     .anchor-x-left & {
         left: auto;
         right: rem(-50px, 'large');
@@ -77,6 +88,10 @@
 
         @include respond-to('large') {
             right: rem(-50px, 'large');
+        }
+
+        @include respond-to('xlarge') {
+            right: -50px;
         }
     }
 }
@@ -149,6 +164,11 @@
         background-color: rgba(255, 255, 255, 0.3);
         border-radius: 50%;
 
+        @include respond-to('xlarge') {
+            width: 6px;
+            height: 6px;
+        }
+
         .button-main-category.blue & {
             background-color: color-from-theme("blue", "secondary");
         }
@@ -176,6 +196,11 @@
 
     @include respond-to('large') {
         left: rem(45px, 'large');
+    }
+
+    @include respond-to('xlarge') {
+        font-size: 18px;
+        left: 20px;
     }
 
     .anchor-x-left & {
