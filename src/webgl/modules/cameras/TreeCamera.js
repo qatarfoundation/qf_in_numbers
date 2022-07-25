@@ -26,51 +26,6 @@ export default class TreeCamera extends component() {
         this._target = options.target;
         this._scene = options.scene;
 
-        // Settings
-        this._settings = {
-            cameraContainer: {
-                target: {
-                    position: {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                    },
-                    rotation: {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                    },
-                },
-                current: {
-                    position: {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                    },
-                    rotation: {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                    },
-                },
-            },
-            mouseAnimation: {
-                damping: 0.1,
-                amplitude: {
-                    position: {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                    },
-                    rotation: { // Degrees
-                        x: 0,
-                        y: 100,
-                        z: 10,
-                    },
-                },
-            },
-        };
-
         // Setup
         this._mousePosition = new Vector2();
         this._config = undefined;
@@ -78,11 +33,8 @@ export default class TreeCamera extends component() {
         this._isEnabled = false;
         this._currentBranch = undefined;
         this._categoryProgress = 0;
-        this._cameraContainer = this._createCameraContainer();
         this._camera = this._createCamera();
         this._helper = this._createHelper();
-
-        // this._cameraContainer.add(this._camera);
     }
 
     /**
@@ -108,11 +60,11 @@ export default class TreeCamera extends component() {
             progress: 0,
         };
 
-        const positionStart = new Vector3()
-        const rotationStart = new Quaternion()
+        const positionStart = new Vector3();
+        const rotationStart = new Quaternion();
 
-        rotationStart.copy(this._camera.quaternion)
-        positionStart.copy(this._camera.position)
+        rotationStart.copy(this._camera.quaternion);
+        positionStart.copy(this._camera.position);
 
         this._gotoOverviewAnimation = gsap.to(animation, {
             progress: 1,
@@ -199,8 +151,8 @@ export default class TreeCamera extends component() {
         }
 
         if (this._target) camera.lookAt(this._target);
-        this._quaternion = new Quaternion()
-        this._quaternion.copy(camera.quaternion)
+        this._quaternion = new Quaternion();
+        this._quaternion.copy(camera.quaternion);
 
         return camera;
     }
@@ -221,42 +173,8 @@ export default class TreeCamera extends component() {
      * Update
      */
     onUpdate({ time }) {
-        this._updateContainer();
         this._camera.updateMatrixWorld();
         this._helper.update();
-    }
-
-    _updateContainer() {
-        this._settings.cameraContainer.target.position.x = this._mousePosition.x * this._settings.mouseAnimation.amplitude.position.x;
-        this._settings.cameraContainer.target.position.y = this._mousePosition.y * this._settings.mouseAnimation.amplitude.position.y;
-
-        this._settings.cameraContainer.target.rotation.x = this._mousePosition.x * degreesToRadians(this._settings.mouseAnimation.amplitude.rotation.x);
-        this._settings.cameraContainer.target.rotation.y = this._mousePosition.y * degreesToRadians(this._settings.mouseAnimation.amplitude.rotation.y);
-        this._settings.cameraContainer.target.rotation.z = this._mousePosition.y * degreesToRadians(this._settings.mouseAnimation.amplitude.rotation.z);
-
-        this._settings.cameraContainer.current.position.x = math.lerp(this._settings.cameraContainer.current.position.x, this._settings.cameraContainer.target.position.x, this._settings.mouseAnimation.damping);
-        this._settings.cameraContainer.current.position.y = math.lerp(this._settings.cameraContainer.current.position.y, this._settings.cameraContainer.target.position.y, this._settings.mouseAnimation.damping);
-        this._settings.cameraContainer.current.position.z = math.lerp(this._settings.cameraContainer.current.position.z, this._settings.cameraContainer.target.position.z, this._settings.mouseAnimation.damping);
-
-        this._settings.cameraContainer.current.rotation.x = math.lerp(this._settings.cameraContainer.current.rotation.x, this._settings.cameraContainer.target.rotation.x, this._settings.mouseAnimation.damping);
-        this._settings.cameraContainer.current.rotation.y = math.lerp(this._settings.cameraContainer.current.rotation.y, this._settings.cameraContainer.target.rotation.y, this._settings.mouseAnimation.damping);
-        this._settings.cameraContainer.current.rotation.z = math.lerp(this._settings.cameraContainer.current.rotation.z, this._settings.cameraContainer.target.rotation.z, this._settings.mouseAnimation.damping);
-
-        // this._cameraContainer.position.x = this._settings.cameraContainer.current.position.x;
-        // this._cameraContainer.position.y = this._settings.cameraContainer.current.position.y;
-        // this._cameraContainer.position.z = this._settings.cameraContainer.current.position.z;
-
-        // this._cameraContainer.rotation.x = this._settings.cameraContainer.current.rotation.x;
-        // this._cameraContainer.rotation.y = this._settings.cameraContainer.current.rotation.y;
-        // this._cameraContainer.rotation.z = this._settings.cameraContainer.current.rotation.z;
-    }
-
-    /**
-     * Mousemove
-     */
-    onMousemove(e) {
-        this._mousePosition.x = e.centered.x;
-        this._mousePosition.y = e.centered.y;
     }
 
     /**

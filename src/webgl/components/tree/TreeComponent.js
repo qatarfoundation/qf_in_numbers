@@ -13,6 +13,7 @@ import TreeBranchComponent from '@/webgl/components/tree/TreeBranchComponent';
 
 // Store
 import useStore from '@/hooks/useStore';
+import number from '@/utils/number/index';
 
 export default class TreeComponent extends component(Object3D) {
     init(options = {}) {
@@ -47,13 +48,16 @@ export default class TreeComponent extends component(Object3D) {
 
         // Setup
         this._isActive = false;
-        this._idleRotationSpeed = { value: 0 };
+        this._idleRotationSpeed = { value: 0.05 };
+        this._idleRotationAmplitude = { value: 45 };
         this._activeBranch = undefined;
         this._mousePosition = new Vector2(0, 0);
         this._mouseRotation = new Vector2(0, 0);
         this._enableMouseRotation = false;
         this._debug = this._createDebug();
         // this._raycaster = this._createRaycaster();
+        this._branchesContainer = new Object3D();
+        this.add(this._branchesContainer);
         this._branches = this._createBranches();
         // this._hitAreas = this._createHitAreas();
 
@@ -101,17 +105,17 @@ export default class TreeComponent extends component(Object3D) {
         this._timelineTransitionIn.fromTo(this.rotation, { z: this._settings.initialRotation.z }, { duration: 3, z: this._settings.targetRotation.z, ease: 'power3.inOut' }, 0);
 
         // Mouse Rotation
-        this._timelineTransitionIn.add(() => {this._enableMouseRotation = true;}, 3);
+        this._timelineTransitionIn.add(() => { this._enableMouseRotation = true; }, 3);
 
         // Idle rotation
-        if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, { value: .015, duration: 2, ease: 'none' }, 4);
+        // if (this.$root.idleRotation) this._timelineTransitionIn.to(this._idleRotationSpeed, { value: .15, duration: 2, ease: 'none' }, 4);
 
         return this._timelineTransitionIn;
     }
 
     resetRotation() {
-        gsap.to(this.rotation, {
-            y: this._settings.targetRotation.y,
+        gsap.to(this._branchesContainer.rotation, {
+            y: 0,
             duration: 1.5,
             ease: 'sine.inOut',
             onComplete: () => {
@@ -194,7 +198,7 @@ export default class TreeComponent extends component(Object3D) {
             component.position.copy(branch.position);
             component.rotation.copy(branch.rotation);
             component.mesh.rotation.copy(branch.meshRotation);
-            this.add(component);
+            this._branchesContainer.add(component);
             branches.push(component);
         });
         return branches;
@@ -232,7 +236,7 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     _updateRotation({ time, delta }) {
-        this.rotation.y = (this.rotation.y - delta * this._idleRotationSpeed.value) % (Math.PI * 2);
+        this._branchesContainer.rotation.y = -Math.sin(this._idleRotationSpeed.value * time) * number.degreesToRadians(this._idleRotationAmplitude.value);
     }
 
     _updateBranches({ time, delta }) {
