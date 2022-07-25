@@ -32,7 +32,6 @@
         .p3 {
             order: 1;
             text-align: right;
-            margin-bottom: .5rem;
             .ar & {
                 text-align: left;
             }
@@ -101,5 +100,5 @@
 }
 
 .label {
-    margin-bottom: rem(6px, 'small');
+    margin-bottom: .5rem;
 }
