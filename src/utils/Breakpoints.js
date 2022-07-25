@@ -10,16 +10,19 @@ const VARIABLES = {
         'small': 375,
         'medium': 768,
         'large': 1440,
+        'xlarge': 1440,
     },
     baseFontSizes: {
         'small': 1,
         'medium': 0.55,
         'large': 1,
+        'xlarge': 1,
     },
     maxWidths: {
         'small': 'none',
         'medium': 'none',
         'large': 'none',
+        'xlarge': 'none',
     },
 };
 

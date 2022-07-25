@@ -45,6 +45,7 @@ $base-font-sizes: (
     'small': 1vw,
     'medium': 1vw,
     'large': 1vw,
+    'xlarge': 1vw,
 );
 
 // Base viewport widths
@@ -52,13 +53,15 @@ $base-viewport-widths: (
     'small': 375px,
     'medium': 768px,
     'large': 1440px,
+    'xlarge': 1440px,
 );
 
 // Max widths
 $max-widths: (
     'small': none,
     'medium': none,
-    'large': none
+    'large': none,
+    'xlarge': none
 );
 
 // Breakpoints
