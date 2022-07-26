@@ -86,6 +86,8 @@
         text-anchor: start;
     }
     .axis-x .tick text {
+        transform-origin: center;
+        transform-box: fill-box;
         transform: translate(rem(6px, 'small'), 0) rotate(45deg);
         @include respond-to('medium') {
             transform: translate(rem(6px, 'medium'), 0) rotate(45deg);
