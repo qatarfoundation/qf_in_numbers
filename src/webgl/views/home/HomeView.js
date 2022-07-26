@@ -254,11 +254,18 @@ export default class HomeView extends component() {
 
     _setBackgroundColor(name) {
         const config = TreeDataModel.getBranch(name);
-        this.$composer.passes.backgroundGradient.color = config.backgroundColor;
-        this.$composer.passes.backgroundGradient.gradientType = 1;
+
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: config.backgroundColor.r, g: config.backgroundColor.g, b: config.backgroundColor.b, ease: 'sine.inOut' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
     }
 
     _resetBackgroundColor() {
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
         gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
         gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
     }
