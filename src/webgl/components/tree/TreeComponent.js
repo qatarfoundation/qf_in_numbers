@@ -128,9 +128,11 @@ export default class TreeComponent extends component(Object3D) {
         this._isActive = true;
 
         this._timelineShow = new gsap.timeline();
+
         for (let i = 0, len = this._branches.length; i < len; i++) {
             this._timelineShow.add(this._branches[i].show(), 0);
         }
+
         return this._timelineShow;
     }
 
@@ -139,10 +141,25 @@ export default class TreeComponent extends component(Object3D) {
         Cursor.auto();
 
         this._timelineHide = new gsap.timeline();
+
         for (let i = 0, len = this._branches.length; i < len; i++) {
             this._timelineHide.add(this._branches[i].hide(), 0);
         }
+
         return this._timelineHide;
+    }
+
+    quickHide() {
+        this._isActive = false;
+        Cursor.auto();
+
+        this._timelineQuickHide = new gsap.timeline();
+
+        for (let i = 0, len = this._branches.length; i < len; i++) {
+            this._timelineQuickHide.add(this._branches[i].quickHide(), 0);
+        }
+
+        return this._timelineQuickHide;
     }
 
     categoryMouseEnter(name) {

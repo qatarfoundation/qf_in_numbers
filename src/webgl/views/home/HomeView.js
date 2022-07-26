@@ -100,52 +100,59 @@ export default class HomeView extends component() {
     }
 
     gotoOverview() {
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
         this._timelineGotoCategory?.kill();
         this._timelineGotoSubcategory?.kill();
         this._timelineGotoEntity?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineShowTree?.kill();
-
-        this._activeEntity?.hide();
+        this._timelineSelectEntity?.kill();
 
         this._timelineGotoOverview = new gsap.timeline();
 
-        if (this._activeBranch !== null) {
-            this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0);
-        }
+        if (this._activeBranch !== null) this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0);
+        if (this._activeEntity) this._timelineGotoOverview.add(this._activeEntity.hide(), 0);
         this._timelineGotoOverview.call(() => this._resetBackgroundColor(), null, 0);
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(), 0);
-        this._timelineGotoOverview.add(this._components.tree.show(), 6);
-        this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 6);
-        this._timelineGotoOverview.add(this._components.leavesBasic.show(), 11);
-        this._timelineGotoOverview.timeScale(5);
+        this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 0);
+        this._timelineGotoOverview.add(this._components.leavesBasic.show(), 0.8);
+        this._timelineGotoOverview.add(this._components.tree.show(), 1);
+
         return this._timelineGotoOverview;
     }
 
     gotoCategory(slug) {
-        this._setBackgroundColor(slug);
-        this._cameraManager.main.gotoCategory(slug);
-        this._components.tree.hide();
-        this._components.generatedTree.gotoCategory(slug);
-        this._components.leavesBasic.hide();
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineSelectEntity?.kill();
 
-        // this._timelineGotoCategory = new gsap.timeline();
-        // this._timelineGotoCategory.call(() => this._setBackgroundColor(name), null, 0);
-        // this._timelineGotoCategory.add(this._cameraManager.main.gotoCategory(name), 0);
-        // this._timelineGotoCategory.add(this._components.tree.hide(), 6);
-        // this._timelineGotoCategory.add(this._components.generatedTree.gotoCategory(name), 6);
-        // this._timelineGotoCategory.call(() => this._components.leavesBasic.hide(), null, 4);
-        // this._timelineGotoCategory.timeScale(5);
-        // return this._timelineGotoCategory;
+        this._timelineGotoCategory = new gsap.timeline();
+        this._timelineGotoCategory.call(() => { this._setBackgroundColor(slug); }, null, 0);
+        this._timelineGotoCategory.call(() => { this._cameraManager.main.gotoCategory(slug); }, null, 0);
+        this._timelineGotoCategory.call(() => { this._components.generatedTree.gotoCategory(slug); }, null, 0);
+        this._timelineGotoCategory.add(this._components.tree.hide(), 0);
+        this._timelineGotoCategory.add(this._components.leavesBasic.hide(), 0);
+
+        return this._timelineGotoCategory;
     }
 
     gotoSubcategory(categorySlug, name) {
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
+
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineSelectEntity?.kill();
+
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
-        this._timelineGotoSubcategory.add(this._components.tree.hide(), 0);
-        // this._timelineGotoSubcategory.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
+        this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);
+
         return this._timelineGotoSubcategory;
     }
 
@@ -154,28 +161,43 @@ export default class HomeView extends component() {
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineSelectEntity?.kill();
+
         this._timelineGotoEntity = new gsap.timeline({ onComplete: () => {this._movingToEntity = false;} });
+
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
-        this._timelineGotoEntity.add(this._components.tree.hide(), 0);
+        this._timelineGotoEntity.add(this._components.tree.quickHide(), 0);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0.5);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
         this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
+
         return this._timelineGotoEntity;
     }
 
     selectEntity(entity, category) {
-        this._activeEntity?.hide();
-        this._components.generatedTree.hideActiveBranch();
-        this._components.entity.show(entity, category);
-        this._components.tree.hide();
-        this._components.leavesBasic.hide();
-        this._setBackgroundColor(category);
-        // this._timelineGotoEntity = new gsap.timeline();
-        // this._timelineGotoEntity.add(this._components.tree.hide(), 0);
-        // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 0);
-        // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
-        // return this._timelineGotoEntity;
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineSelectEntity?.kill();
+
+        this._timelineSelectEntity = new gsap.timeline();
+
+        if (this._activeEntity) this._timelineSelectEntity.add(this._activeEntity.hide(), 0);
+        this._timelineSelectEntity.add(this._components.generatedTree.hideActiveBranch(), 0);
+        this._timelineSelectEntity.add(this._components.tree.hide(), 0);
+        this._timelineSelectEntity.add(this._components.leavesBasic.hide(), 0);
+        this._timelineSelectEntity.call(() => { this._setBackgroundColor(category); }, null, 0);
+        this._timelineSelectEntity.add(this._components.entity.show(entity, category), 0.3);
+
+        return this._timelineSelectEntity;
     }
 
     hideCurrentEntity() {

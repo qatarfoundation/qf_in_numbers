@@ -96,7 +96,7 @@ function SubcategoryTemplate(props) {
 
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
 
-        timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0.5);
     }
 
     function transitionOut() {
@@ -104,7 +104,7 @@ function SubcategoryTemplate(props) {
 
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
 
-        timelines.current.transitionOut.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0);
+        timelines.current.transitionOut.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0.5);
     }
 
     function transitionInCompleted() {

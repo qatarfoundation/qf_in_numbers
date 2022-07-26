@@ -68,7 +68,7 @@ export default class TreeCamera extends component() {
 
         this._gotoOverviewAnimation = gsap.to(animation, {
             progress: 1,
-            duration: 15,
+            duration: 3,
             ease: 'power3.inOut',
             onUpdate: () => {
                 this._camera.position.lerpVectors(positionStart, this._position, animation.progress);

@@ -1,6 +1,6 @@
 // React
 import { gsap } from 'gsap';
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Trans, Link, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Utils
@@ -83,7 +83,7 @@ function LabelsEntities(props) {
     }, [storedEntities]);
 
     useEffect(() => {
-        if (storedEntities !== entities) return
+        if (storedEntities !== entities) return;
 
         if (entityCurrentIndex !== null) {
             for (const key in itemsRef.current) {
@@ -104,12 +104,12 @@ function LabelsEntities(props) {
     }, [storedEntities, entityCurrentIndex]);
 
     useEffect(() => {
-        const tl = gsap.timeline()
+        const tl = gsap.timeline();
 
-        tl.to(wrapperRef.current, { duration: .4, opacity: 0, ease: "none"})
-        tl.call(() => {setStoredEntities(entities)}, null)
-        tl.to(wrapperRef.current, { duration: .4, opacity: 1, ease: "none"})
-    }, [entities])
+        tl.to(wrapperRef.current, { duration: 1, opacity: 0, ease: 'sine.inOut' });
+        tl.call(() => {setStoredEntities(entities);}, null);
+        tl.to(wrapperRef.current, { duration: 1, opacity: 1, ease: 'sine.inOut' });
+    }, [entities]);
 
     return (
         <ul ref={ el => wrapperRef.current = el }>

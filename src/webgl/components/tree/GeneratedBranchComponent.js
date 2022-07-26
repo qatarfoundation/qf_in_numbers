@@ -32,7 +32,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         this._isActive = false;
         this._entities = {};
         this._showCameraHelpers = false;
-        this._particlesMat = null
+        this._particlesMat = null;
 
         // Setup
         this._debug = this._createDebug(options.debug);
@@ -58,17 +58,17 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      */
     show() {
         this._isActive = true;
-        gsap.to(this._particles.material.uniforms.uOpacity, { duration: 2, value: 0.7 });
+        return gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.7, ease: 'sine.inOut' });
     }
 
     hide() {
         this._isActive = false;
-        if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
+        if (this._particles) return gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
     }
 
     transitionOut() {
         this._isActive = false;
-        if (this._particles) gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
+        if (this._particles) return gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
     }
 
     getCameraAnchorSubcategory(name) {
@@ -228,7 +228,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         const normals = [];
         const settings = [];
         const colors = [];
-        const displacement = []
+        const displacement = [];
 
         for (let i = 0; i < amount; i++) {
             const data = this._getRandomCurve(this._curves);
@@ -271,8 +271,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
 
             colors.push(Math.random() > 0.5 ? 1 : 0);
 
-            displacement.push(Math.random())
-            displacement.push(Math.random())
+            displacement.push(Math.random());
+            displacement.push(Math.random());
         }
 
         const geometry = new PlaneBufferGeometry(0.2, 0.2);
@@ -292,7 +292,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 uInnerGradient: { value: 0.77 },
                 uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
-                uTime: { value: 0 }
+                uTime: { value: 0 },
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -414,10 +414,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     /**
      * Update
      */
-    update({time,delta}) {
+    update({ time, delta }) {
         if (!this._isActive) return;
         this._updateEntities();
-        this._particlesMat.uniforms.uTime.value = time
+        this._particlesMat.uniforms.uTime.value = time;
     }
 
     _updateEntities() {

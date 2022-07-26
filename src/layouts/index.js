@@ -61,6 +61,7 @@ function Layout(props) {
      * Refs
      */
     const containerRef = useRef();
+    const themeTimeout = useRef();
 
     /**
      * Hooks
@@ -71,8 +72,11 @@ function Layout(props) {
      * Watchers
      */
     useEffect(() => {
+        clearTimeout(themeTimeout.current);
         const categoryName = props.pageContext.category ? props.pageContext.category['en-US'].name.toLowerCase() : null;
-        useStore.setState({ themeCategory: getThemeCategory(categoryName) });
+        themeTimeout.current = setTimeout(() => {
+            useStore.setState({ themeCategory: getThemeCategory(categoryName) });
+        }, 1000);
     }, [props.pageContext.category]);
 
     useEffect(() => {
