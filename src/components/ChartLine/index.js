@@ -23,7 +23,7 @@ function ChartLine(props, ref) {
     const heightTooltip = 80;
     const spaceTooltip = 10;
     const heightAxisX = 25;
-    const spaceAxisX = 20;
+    const spaceAxisX = 70;
     const widthAxisY = 14;
     const spaceAxisY = 45;
     /**
@@ -73,8 +73,8 @@ function ChartLine(props, ref) {
                 .range(language !== 'ar-QA' ? [ 0, innerWidth ] : [ innerWidth, 0 ]);
             chartContainer.append('g')
                 .attr('class', 'axis axis-x')
-                .attr('transform', `translate(0, ${ innerHeight + spaceAxisX })`)
-                .call(d3.axisBottom(x).ticks(yearRange[1] - yearRange[0]).tickSize(0).tickFormat(d3.format('')));
+                .attr('transform', `translate(-30, ${ innerHeight + spaceAxisX })`)
+                .call(d3.axisBottom(x).ticks(yearRange[1] - yearRange[0]).tickSize(0).tickFormat(d3.format('')))
             // Add Y axis
             const y = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d3.max(d.fields, d => d.y))])
