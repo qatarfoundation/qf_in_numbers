@@ -89,14 +89,14 @@ export default class TreeBranchComponent extends component(Object3D) {
 
     hide() {
         this._timelineHide = new gsap.timeline();
-        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, 1.5, { value: 0, ease: 'sine.inOut' });
+        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, 2, { value: 0, ease: 'sine.inOut' });
         this._timelineHide.set(this, { visible: false });
         return this._timelineHide;
     }
 
     quickHide() {
         this._timelineQuickHide = new gsap.timeline();
-        this._timelineQuickHide.to(this._mesh.material.uniforms.uOpacity, 0.4, { value: 0, ease: 'sine.inOut' });
+        this._timelineQuickHide.to(this._mesh.material.uniforms.uOpacity, 0.5, { value: 0, ease: 'sine.inOut' });
         this._timelineQuickHide.set(this, { visible: false });
         return this._timelineQuickHide;
     }

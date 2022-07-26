@@ -172,7 +172,7 @@ export default class HomeView extends component() {
 
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
-        this._timelineGotoEntity.add(this._components.tree.quickHide(), 0);
+        this._timelineGotoEntity.add(this._components.tree.hide(), 0);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0.5);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
         this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
@@ -192,7 +192,7 @@ export default class HomeView extends component() {
 
         if (this._activeEntity) this._timelineSelectEntity.add(this._activeEntity.hide(), 0);
         this._timelineSelectEntity.add(this._components.generatedTree.hideActiveBranch(), 0);
-        this._timelineSelectEntity.add(this._components.tree.hide(), 0);
+        this._timelineSelectEntity.add(this._components.tree.quickHide(), 0);
         this._timelineSelectEntity.add(this._components.leavesBasic.hide(), 0);
         this._timelineSelectEntity.call(() => { this._setBackgroundColor(category); }, null, 0);
         this._timelineSelectEntity.add(this._components.entity.show(entity, category), 0.3);
