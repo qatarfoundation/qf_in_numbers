@@ -7,6 +7,15 @@
     @include respond-to('large') {
         padding-bottom: rem(16px, 'large');
     }
+
+    @include hover {
+        .img-container {
+            img {
+                transform: translate3d(-50%, -50%, 0) scale(1.03);
+            }
+        }
+    }
+
     .img-container {
         position: relative;
         width: 100%;
@@ -27,6 +36,7 @@
             top: 50%; left: 50%;
             height: 100%;
             transform: translate3d(-50%, -50%, 0);
+            transition: transform .4s ease-out;
         }
     }
     .tag {
