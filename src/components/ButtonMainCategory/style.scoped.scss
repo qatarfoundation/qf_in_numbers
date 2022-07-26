@@ -200,12 +200,15 @@
 
     @include respond-to('xlarge') {
         font-size: 18px;
-        left: 20px;
+        left: 45px;
     }
 
     .anchor-x-left & {
         left: auto;
         right: rem(45px, 'large');
+        @include respond-to('xlarge') {
+            right: 45px;
+        }
     }
 
     .anchor-y-bottom & {
