@@ -40,6 +40,8 @@ const YearTemplate = (props) => {
     const [isPresent, safeToRemove] = usePresence();
     const [breakpoints, setBreakpoints] = useState(Breakpoints.current);
 
+    const breakpointsRef = useRef(breakpoints);
+
     /**
      * Effects
      */
@@ -58,6 +60,15 @@ const YearTemplate = (props) => {
         useStore.setState({ currentCategory: null });
         useStore.setState({ selectedEntity: null });
     }, []);
+
+    useEffect(() => {
+        if (breakpointsRef.current === 'small' || breakpoints === 'small') {
+            if (listCategoriesRef.current) listCategoriesRef.current.show()
+            if (sliderCategoriesRef.current) sliderCategoriesRef.current.show()
+            if (breakpoints === 'small') gsap.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' })
+        }
+        breakpointsRef.current = breakpoints
+    }, [breakpoints])
 
     /**
      * Refs
@@ -165,9 +176,11 @@ const YearTemplate = (props) => {
             { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
             { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> } */ }
 
-            <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
-                { targetCategory && <ButtonPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
-            </div>
+            { breakpoints === "small" &&
+                <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
+                    { targetCategory && <ButtonPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
+                </div>
+            }
 
         </div>
     );
