@@ -75,7 +75,7 @@ function ButtonBack(props, ref) {
         timelines.current.show.set(elRef.current, { autoAlpha: 1 }, 0);
 
         timelines.current.show.fromTo(circleRef.current, { scale: 0 }, { duration: 1, scale: 1, ease: 'power3.out' }, 0);
-        timelines.current.show.fromTo(circleRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.show.fromTo(circleRef.current, { alpha: 0 }, { duration: 0.5, alpha: 0.4, ease: 'sine.inOut' }, 0);
 
         timelines.current.show.fromTo(arrowContainerInitRef.current, { x: `${ 100 * direction }%` }, { duration: 1, x: '0%', ease: 'power3.out' }, 0.1);
         timelines.current.show.fromTo(arrowContainerInitRef.current, { alpha: 0 }, { duration: 0.8, alpha: 1, ease: 'sine.inOut' }, 0.1);
@@ -115,10 +115,10 @@ function ButtonBack(props, ref) {
         timelines.current.mouseenter.fromTo(textHoverRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0.2);
 
         // Arrow
-        timelines.current.mouseenter.fromTo(arrowContainerInitRef.current, { x: '0%' }, { duration: 1, x: `${100 * -direction}%`, ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.fromTo(arrowContainerInitRef.current, { x: '0%' }, { duration: 1, x: `${ 100 * -direction }%`, ease: 'power3.out' }, 0);
         timelines.current.mouseenter.fromTo(arrowContainerInitRef.current, { alpha: 1 }, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
 
-        timelines.current.mouseenter.fromTo(arrowContainerHoverRef.current, { x: `${100 * direction}%` }, { duration: 1, x: '0%', ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.fromTo(arrowContainerHoverRef.current, { x: `${ 100 * direction }%` }, { duration: 1, x: '0%', ease: 'power3.out' }, 0);
         timelines.current.mouseenter.fromTo(arrowContainerHoverRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
 
         timelines.current.mouseenter.call(mouseenterCompleteHandler, null, 0.8);
@@ -139,10 +139,10 @@ function ButtonBack(props, ref) {
         timelines.current.mouseleave.fromTo(textInitRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0.2);
 
         // Arrow
-        timelines.current.mouseleave.fromTo(arrowContainerHoverRef.current, { x: '0%' }, { duration: 1, x: `${100 * -direction}%`, ease: 'power3.out' }, 0);
+        timelines.current.mouseleave.fromTo(arrowContainerHoverRef.current, { x: '0%' }, { duration: 1, x: `${ 100 * -direction }%`, ease: 'power3.out' }, 0);
         timelines.current.mouseleave.fromTo(arrowContainerHoverRef.current, { alpha: 1 }, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
 
-        timelines.current.mouseleave.fromTo(arrowContainerInitRef.current, { x: `${100 * direction}%` }, { duration: 1, x: '0%', ease: 'power3.out' }, 0);
+        timelines.current.mouseleave.fromTo(arrowContainerInitRef.current, { x: `${ 100 * direction }%` }, { duration: 1, x: '0%', ease: 'power3.out' }, 0);
         timelines.current.mouseleave.fromTo(arrowContainerInitRef.current, { alpha: 0 }, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
 
         timelines.current.mouseleave.call(mouseleaveCompleteHandler, null, 0.8);
