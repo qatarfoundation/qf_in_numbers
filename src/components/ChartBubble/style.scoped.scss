@@ -2,12 +2,12 @@
     position: relative;
     width: 100%;
     height: 100%;
-    margin-bottom: rem(92px, 'small');
+    margin-bottom: rem(72px, 'small');
     @include respond-to('medium') {
-        margin-bottom: rem(88px, 'medium');
+        margin-bottom: rem(60px, 'medium');
     }
     @include respond-to('large') {
-        margin-bottom: rem(88px, 'large');
+        margin-bottom: rem(60px, 'large');
     }
     .tooltip {
         position: absolute;
@@ -65,14 +65,17 @@
 
 .chart-bubble {
     min-width: 100%;
-    min-height: rem(120px, 'small');
+    min-height: rem(270px, 'small');
     @include respond-to('medium') {
-        min-height: rem(120px, 'medium');
+        min-height: rem(350px, 'medium');
     }
     @include respond-to('large') {
-        min-height: rem(120px, 'large');
+        min-height: rem(350px, 'large');
     }
-    .can-hover {
+    @include respond-to('xlarge') {
+        min-height: rem(270px, 'large');
+    }
+    circle {
         &:hover {
             fill: var(--color-theme-primary) !important;
         }

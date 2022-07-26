@@ -62,12 +62,35 @@ function ChartBubble(props, ref) {
             const tooltip = dataviz
                 .append('div')
                 .style('opacity', 0)
-                .attr('class', 'tooltip');
+                .attr('class', 'tooltip')
+                .html(`<p class="p3"><span class="p3">000</span> <span class="p6">dummy</span></p><p class="p4">dummy</p>`)
+
+            const paddingTop = tooltip._groups[0][0].offsetHeight + 20
+
+            tooltip.html('')
+
+            const bubble = d3.pack()
+                .size([width, height - paddingTop])
+                .padding(1.5);
+            const root = d3.hierarchy({ children: data })
+                .sum(function(d) {
+                    return d.value;
+                })
+                .sort(function(a, b) {
+                    return b.value - a.value;
+                });
+            bubble(root);
+
             const mouseover = (e, d) => {
+                const el = e.currentTarget,
+                    x = el.dataset.positionX,
+                    y = el.dataset.positionY,
+                    r = el.dataset.radius,
+                    text = el.querySelector('text');
                 tooltip
-                    .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ e.target.classList.contains('can-hover') ? `<p class="p4">${ d.name }</p>` : '' }`)
-                    .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
-                    .style('top', `${ e.target.cy.baseVal.value - e.target.r.baseVal.value + margin.top - spaceTooltip }px`)
+                    .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ text.classList.contains('is-hidden') ? `<p class="p4">${ d.data.name }</p>` : '' }`)
+                    .style('left', `${ x - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
+                    .style('top', `${ y - r - spaceTooltip }px`)
                     .style('opacity', 1)
             }
             const mouseleave = (e, d) => tooltip.style('opacity', 0);
@@ -75,8 +98,6 @@ function ChartBubble(props, ref) {
             const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
-                .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.right }, ${ margin.top })`);
-            // ---
             const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
             const color = d3.scaleLinear()
                 .range([`${ colorTheme }4D`, colorTheme])
@@ -84,70 +105,33 @@ function ChartBubble(props, ref) {
             const size = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
                 .range([12, 85]);
-            const node = chartContainer.append('g')
-                .selectAll('circle')
-                .data(data)
-                .enter()
-                .append('circle')
-                .attr('class', function(d) {
-                    const isHide = size(d.value) <= 50;
-                    return `node ${ isHide ? 'can-hover' : '' }`;
-                })
-                .attr('r', function(d) { return size(d.value);})
-                .attr('cx', innerWidth / 2)
-                .attr('cy', innerHeight / 2)
-                .style('fill', function(d) { return color(d.value);})
-                .style('fill-opacity', 0.8)
-                .on('mouseover', mouseover)
-                .on('mouseleave', mouseleave);
-            const texts = chartContainer.selectAll('text')
-                .data(data)
-                .enter()
-                .append('svg:text')
-                .attr('class', function(d) {
-                    const isHide = size(d.value) <= 50;
-                    return `p4 label ${ isHide ? 'is-hidden' : '' }`;
-                })
-                .attr('x', innerWidth / 2)
-                .attr('y', innerHeight / 2)
-                .attr('text-anchor', 'middle')
-                .attr('dy', '0.35em')
-                .text(function(d) {
-                    return d.name;
+
+            const node = chartContainer.selectAll('circle')
+                .data(root.children)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("data-position-x", function(d) { return d.x; })
+                .attr("data-position-y", function(d) { return d.y + paddingTop; })
+                .attr('data-radius', d => d.r)
+                .attr("transform", function(d) { return "translate(" + d.x + "," + (d.y + paddingTop) + ")"; })
+                .on("mouseover", mouseover)
+                .on("mouseleave", mouseleave);
+
+            node.append("circle")
+                .attr("r", function(d) { return d.r; })
+                .style("fill", function(d) {
+                    return color(d.value);
                 });
-            const simulation = d3.forceSimulation()
-                .force('center', d3.forceCenter().x(0).y(0))
-                .force('charge', d3.forceManyBody().strength(0.1))
-                .force('y', d3.forceY().y(d => 0))
-                .force('collide', d3.forceCollide().strength(.2).radius(function(d) { return (size(d.value) + 3); }).iterations(1));
-            const el = refChart.current.querySelector('.chart-container');
-            simulation
-                .nodes(data)
-                .on('end', d => {
-                    node
-                        .attr('cx', function(d) { return d.x; })
-                        .attr('cy', function(d) { return d.y; });
-                    texts
-                        .attr('x', function(d) { return d.x; })
-                        .attr('y', function(d) { return d.y; });
-                    setTimeout(() =>{
-                        if (refChart.current && el && el.parentNode) {
-                            const bounding = el.getBoundingClientRect();
-                            const isNew = refChart.current.clientWidth < bounding.width;
-                            const newWidth = isNew ? bounding.width + margin.left + margin.right : refChart.current.clientWidth;
-                            el.parentNode.setAttribute('width', newWidth);
-                            el.parentNode.setAttribute('height', bounding.height + margin.top + margin.bottom);
-                            el.parentNode.style.height = bounding.height + margin.top + margin.bottom;
-                            node
-                                .attr('cx', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                                .attr('cy', function(d) { return d.y + (bounding.height / 2); });
-                            texts
-                                .attr('x', function(d) { return isNew ? d.x + (newWidth / 2) - (language !== 'ar-QA' ? margin.left : margin.right) : d.x + (newWidth / 2)  - (language !== 'ar-QA' ? margin.left : margin.right); })
-                                .attr('y', function(d) { return d.y + (bounding.height / 2) + (this.getBoundingClientRect().height / 2); });
-                            texts.call(wrap, 100, true);
-                        }
-                    }, 0);
-                });
+
+            const text = node.append("text")
+                .attr("dy", ".3em")
+                .text(function(d) { return d.data.name })
+                .style("text-anchor", "middle")
+                .attr("class", 'p4 label')
+                .attr('class', function(d) {
+                    const isHide = this.getBBox().width + 10 > this.parentNode.querySelector('circle').getBBox().width
+                    return `p4 label ${ isHide ? 'is-hidden' : '' }`
+                })
         },
         [data.length, margin, themeCategory],
     );
