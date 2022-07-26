@@ -163,16 +163,6 @@
     display: flex;
     flex-direction: column;
 
-    margin-bottom: rem(57px, 'small');
-
-    @include respond-to('medium') {
-        margin-bottom: rem(88px, 'medium');
-    }
-
-    @include respond-to('large') {
-        margin-bottom: rem(88px, 'large');
-    }
-
     .h1 {
         opacity: 0;
         max-width: rem(164px, 'small');
