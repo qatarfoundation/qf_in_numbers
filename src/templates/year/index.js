@@ -113,7 +113,7 @@ const YearTemplate = (props) => {
         timelines.current.transitionIn.to(elRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
         if (listCategoriesRef.current) timelines.current.transitionIn.add(listCategoriesRef.current.show(), props.location.previous ? 0 : 2);
         if (sliderCategoriesRef.current) timelines.current.transitionIn.add(sliderCategoriesRef.current.show(), props.location.previous ? 0 : 2);
-        timelines.current.transitionIn.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, props.location.previous ? 0 : 2);
+        if (buttonMobileContainerRef.current) timelines.current.transitionIn.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, props.location.previous ? 0 : 2);
     }
 
     function transitionOut() {
@@ -123,7 +123,7 @@ const YearTemplate = (props) => {
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompletedHandler });
 
         timelines.current.transitionOut.to(elRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
-        timelines.current.transitionOut.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        if (buttonMobileContainerRef.current) timelines.current.transitionOut.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
         if (listCategoriesRef.current) timelines.current.transitionOut.add(listCategoriesRef.current.hide(), 0);
         if (sliderCategoriesRef.current) timelines.current.transitionOut.add(sliderCategoriesRef.current.hide(), 0);
     }
