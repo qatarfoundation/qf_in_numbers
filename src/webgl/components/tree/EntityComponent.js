@@ -16,6 +16,7 @@ import fragmentShader from '@/webgl/shaders/entity-particles/fragment.glsl';
 
 import particlesBigVertexShader from '@/webgl/shaders/tree-particles-big/vertex.glsl';
 import particlesBigFragmentShader from '@/webgl/shaders/tree-particles-big/fragment.glsl';
+import math from '@/utils/math/index';
 
 export default class EntityComponent extends component(Object3D) {
     init(options = {}) {
@@ -30,6 +31,11 @@ export default class EntityComponent extends component(Object3D) {
         // this._skeleton = this._createSkeleton();
         this._particles = this._createParticles();
         this._particlesMat = null;
+
+        this._scrollPosition = {
+            current: 0,
+            target: 0,
+        };
 
         this.visible = false;
 
@@ -257,7 +263,9 @@ export default class EntityComponent extends component(Object3D) {
     update({ time, delta }) {
         const scrolls = useStore.getState().scrolls;
         if (scrolls && scrolls.entity) {
-            this._scrollContainer.position.y = scrolls.entity.scrollY;
+            this._scrollPosition.target = scrolls.entity.scrollY;
+            this._scrollPosition.current = math.lerp(this._scrollPosition.current, this._scrollPosition.target, 0.1);
+            this._scrollContainer.position.y = this._scrollPosition.current;
         }
         this._particles.material.uniforms.uTime.value = time;
     }

@@ -37,6 +37,8 @@ function Scrollbar({ revert = false, colored = true, ...props }, ref) {
                     scrolls[e.target.parentNode.dataset.name] = {
                         scrollX: e.target.scrollLeft,
                         scrollY: e.target.scrollTop,
+                        scrollWidth: e.target.scrollWidth,
+                        scrollHeight: e.target.scrollHeight,
                     };
                     useStore.setState({ scrolls, iScroll: iScroll + 1 });
                 }
