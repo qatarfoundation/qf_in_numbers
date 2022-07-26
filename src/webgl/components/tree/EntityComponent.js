@@ -24,6 +24,8 @@ export default class EntityComponent extends component(Object3D) {
         this._config = options.config;
 
         // Setup
+        this._scrollHeight = 0;
+        this._isTransitioning = false;
         this._scene = new Scene();
         this._scrollContainer = this._createScrollContainer();
         this._camera = this._createCamera();
@@ -62,7 +64,12 @@ export default class EntityComponent extends component(Object3D) {
 
         this._timelineShow = new gsap.timeline();
         this._timelineShow.set(this, { visible: true });
-        this._timelineShow.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.25, ease: 'sine.inOut' });
+        this._timelineShow.set(this._scrollPosition, { target: 0 });
+        this._timelineShow.set(this._scrollPosition, { current: 0 });
+        this._timelineShow.set(this._scrollContainer.position, { y: 0 });
+        this._timelineShow.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0.25, ease: 'sine.inOut' }, 0.1);
+        this._timelineShow.to(this._chartParticles.material.uniforms.uOpacity, { duration: 1, value: 1, ease: 'sine.inOut' }, 0.2);
+        this._timelineShow.set(this, { _isTransitioning: false }, 0.2);
         return this._timelineShow;
     }
 
@@ -73,8 +80,9 @@ export default class EntityComponent extends component(Object3D) {
             },
         });
         this._timelineHide.to(this._particles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
-        if (this._chartParticles) this._timelineHide.to(this._chartParticles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0);
+        if (this._chartParticles) this._timelineHide.to(this._chartParticles.material.uniforms.uOpacity, { duration: 0.5, value: 0, ease: 'sine.inOut' }, 0.1);
         this._timelineHide.set(this, { visible: false });
+        this._timelineHide.set(this, { _isTransitioning: true });
         return this._timelineHide;
     }
 
@@ -128,6 +136,7 @@ export default class EntityComponent extends component(Object3D) {
         for (let i = 0; i < amount; i++) {
             const point = this._curve.getPointAt(Math.random());
             point.x += randomArbitrary(-80, 80);
+            this._scrollHeight = -point.y;
             vertices.push(point.x, point.y, point.z);
             sizes.push(randomArbitrary(0.2, 1));
             colors.push(Math.random() > 0.5 ? 1 : 0);
@@ -209,7 +218,7 @@ export default class EntityComponent extends component(Object3D) {
                 uPointSize: { value: 90 },
                 uInnerGradient: { value: 0.1 },
                 uOuterGradient: { value: 0 },
-                uOpacity: { value: 1 },
+                uOpacity: { value: 0 },
             },
             transparent: true,
             // blending: AdditiveBlending,
@@ -262,9 +271,10 @@ export default class EntityComponent extends component(Object3D) {
      */
     update({ time, delta }) {
         const scrolls = useStore.getState().scrolls;
-        if (scrolls && scrolls.entity) {
-            this._scrollPosition.target = scrolls.entity.scrollY;
+        if (scrolls && scrolls.entity && !this._isTransitioning) {
+            this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
             this._scrollPosition.current = math.lerp(this._scrollPosition.current, this._scrollPosition.target, 0.1);
+            // this._scrollPosition.current = this._scrollPosition.target;
             this._scrollContainer.position.y = this._scrollPosition.current;
         }
         this._particles.material.uniforms.uTime.value = time;
