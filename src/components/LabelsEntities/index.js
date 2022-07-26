@@ -41,7 +41,7 @@ function LabelsEntities(props) {
                     elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                 }
 
-                if (elementHighlight) {
+                if (elementHighlight && model.highlightPosition) {
                     const hightlightPosition = model.highlightPosition;
                     elementHighlight.style.display = 'block';
                     elementHighlight.style.transform = `translate3d(${ hightlightPosition.x }px, ${ hightlightPosition.y }px, 0)`;
