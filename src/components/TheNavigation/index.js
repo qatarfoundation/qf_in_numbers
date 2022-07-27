@@ -67,7 +67,7 @@ function TheNavigation(props) {
                 </div>
 
                 <div className="col-right">
-                    { /* <ButtonSound className="button-sound" /> */ }
+                    <ButtonSound className="button-sound" />
                     <LangSwitch />
                 </div>
             </div>
