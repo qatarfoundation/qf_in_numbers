@@ -149,11 +149,11 @@ function Layout(props) {
                 <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
                 <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
                 { /* OG */ }
-                <meta property="og:url" content={ process.env.BASE_URL } />
+                <meta property="og:url" content={ process.env.GATSBY_BASE_URL } />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' } />
                 <meta property="og:description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
-                <meta property="og:image" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoShareImage : '' } />
+                <meta property="og:image" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoShareImage.fields.file.url : '' } />
             </Helmet>
 
             <EnvironmentProvider>
