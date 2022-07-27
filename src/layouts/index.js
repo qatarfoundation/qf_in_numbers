@@ -148,6 +148,12 @@ function Layout(props) {
             <Helmet htmlAttributes={ { lang: language } } bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }>
                 <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
                 <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
+                { /* OG */ }
+                <meta property="og:url" content={ process.env.BASE_URL } />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' } />
+                <meta property="og:description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
+                <meta property="og:image" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoShareImage : '' } />
             </Helmet>
 
             <EnvironmentProvider>

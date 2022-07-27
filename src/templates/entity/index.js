@@ -112,6 +112,7 @@ function EntityTemplate(props) {
 
             <Helmet>
                 <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` }</title>
+                <meta property="og:title" content={ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory.name } - ${ entity.name }` } />
             </Helmet>
 
             <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } />

@@ -121,6 +121,7 @@ function SubcategoryTemplate(props) {
 
             <Helmet>
                 <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory ? subcategory.name : '' }` }</title>
+                <meta property="og:title" content={ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name } - ${ subcategory ? subcategory.name : '' }` } />
             </Helmet>
 
             <div className="button-back-container">

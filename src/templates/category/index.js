@@ -118,6 +118,7 @@ function CategoryTemplate(props) {
 
             <Helmet>
                 <title>{ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` }</title>
+                <meta property="og:title" content={ `${ data.home[language].seo.fields.seoMetaTitle } - ${ year.year } - ${ category.name }` } />
             </Helmet>
 
             <div className="button-back-container">

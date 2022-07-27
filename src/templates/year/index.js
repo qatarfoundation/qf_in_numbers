@@ -63,12 +63,12 @@ const YearTemplate = (props) => {
 
     useEffect(() => {
         if (breakpointsRef.current === 'small' || breakpoints === 'small') {
-            if (listCategoriesRef.current) listCategoriesRef.current.show()
-            if (sliderCategoriesRef.current) sliderCategoriesRef.current.show()
-            if (breakpoints === 'small') gsap.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' })
+            if (listCategoriesRef.current) listCategoriesRef.current.show();
+            if (sliderCategoriesRef.current) sliderCategoriesRef.current.show();
+            if (breakpoints === 'small') gsap.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' });
         }
-        breakpointsRef.current = breakpoints
-    }, [breakpoints])
+        breakpointsRef.current = breakpoints;
+    }, [breakpoints]);
 
     /**
      * Refs
@@ -162,6 +162,7 @@ const YearTemplate = (props) => {
 
             <Helmet>
                 <title>{ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year }` }</title>
+                <meta property="og:title" content={ `${ props.pageContext.home[language].seo.fields.seoMetaTitle } - ${ year.year }` } />
             </Helmet>
 
             { breakpoints == 'small' ?
@@ -176,7 +177,7 @@ const YearTemplate = (props) => {
             { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
             { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> } */ }
 
-            { breakpoints === "small" &&
+            { breakpoints === 'small' &&
                 <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
                     { targetCategory && <ButtonPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
                 </div>
