@@ -27,7 +27,7 @@
         top: 0;
         left: 0;
 
-        width: rem(460px, 'medium');
+        width: rem(600px, 'medium');
         height: 100vh;
 
         .ar & {
@@ -37,7 +37,7 @@
     }
 
     @include respond-to('large') {
-        width: rem(460px, 'large');
+        width: rem(600px, 'large');
     }
 }
 
@@ -65,11 +65,11 @@
         padding-top: rem(35px, 'medium');
         padding-right: rem(28px, 'medium');
         padding-bottom: rem(28px, 'medium');
-        padding-left: rem(54px, 'medium');
+        padding-left: rem(130px, 'medium');
 
         .ar & {
             padding-top: rem(35px, 'medium');
-            padding-right: rem(54px, 'medium');
+            padding-right: rem(130px, 'medium');
             padding-bottom: rem(28px, 'medium');
             padding-left: rem(28px, 'medium');
         }
@@ -79,11 +79,11 @@
         padding-top: rem(35px, 'large');
         padding-right: rem(28px, 'large');
         padding-bottom: rem(28px, 'large');
-        padding-left: rem(54px, 'large');
+        padding-left: rem(130px, 'large');
 
         .ar & {
             padding-top: rem(36px, 'large');
-            padding-right: rem(54px, 'large');
+            padding-right: rem(130px, 'large');
             padding-bottom: rem(28px, 'large');
             padding-left: rem(28px, 'large');
         }
@@ -136,6 +136,8 @@
 .list-subcategories {
     display: block;
 
+    border: solid 1px red;
+
     padding-top: rem(40px, 'small');
     padding-right: rem(28px, 'small');
     padding-bottom: rem(120px, 'small');
@@ -150,29 +152,29 @@
 
     @include respond-to('medium') {
         padding-top: rem(40px, 'medium');
-        padding-right: rem(28px, 'medium');
+        padding-right: rem(60px, 'medium');
         padding-bottom: rem(28px, 'medium');
-        padding-left: rem(53px, 'medium');
+        padding-left: rem(130px, 'medium');
 
         .ar & {
             padding-top: rem(40px, 'medium');
-            padding-right: rem(53px, 'medium');
+            padding-right: rem(130px, 'medium');
             padding-bottom: rem(28px, 'medium');
-            padding-left: rem(28px, 'medium');
+            padding-left: rem(60px, 'medium');
         }
     }
 
     @include respond-to('large') {
         padding-top: rem(40px, 'large');
-        padding-right: rem(28px, 'large');
+        padding-right: rem(60px, 'large');
         padding-bottom: rem(28px, 'large');
-        padding-left: rem(53px, 'large');
+        padding-left: rem(130px, 'large');
 
         .ar & {
             padding-top: rem(40px, 'large');
-            padding-right: rem(53px, 'large');
+            padding-right: rem(130px, 'large');
             padding-bottom: rem(28px, 'large');
-            padding-left: rem(28px, 'large');
+            padding-left: rem(60px, 'large');
         }
     }
 }
