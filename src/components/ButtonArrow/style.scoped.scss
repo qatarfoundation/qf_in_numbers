@@ -2,7 +2,7 @@
     position: relative;
     width: rem(32px, 'small');
     height: rem(32px, 'small');
-    border: 2px solid transparentize($color: $color-grey, $amount: 0.4);
+    border: 1px solid transparentize($color: $color-grey, $amount: 0.4);
     border-radius: 100%;
     transition: opacity 0.3s ease-in-out;
     @include respond-to('medium') {

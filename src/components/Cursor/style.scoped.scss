@@ -22,7 +22,7 @@
         &.is-grabbing {
             width: rem(56px, 'small');
             height: rem(56px, 'small');
-            border: 2px solid var(--color-theme-secondary);
+            border: 1px solid var(--color-theme-secondary);
             transition: 0.1s width ease-in, 0.1s height ease-in, 0.1s border ease-in;
             @include respond-to('medium') {
                 width: rem(56px, 'medium');

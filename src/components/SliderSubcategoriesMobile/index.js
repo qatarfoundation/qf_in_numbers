@@ -1,6 +1,6 @@
 // React
 import React, { forwardRef, useRef, useState, useEffect } from 'react';
-import {Link, Trans, useI18next, useTranslation} from 'gatsby-plugin-react-i18next';
+import { Link, Trans, useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // CSS
@@ -8,7 +8,7 @@ import './style.scoped.scss';
 
 // Components
 import SliderEntitiesMobile from '@/components/SliderEntitiesMobile/index';
-import ButtonDiscover from "@/components/ButtonDiscover";
+import ButtonDiscover from '@/components/ButtonDiscover';
 
 function SliderSubcategoriesMobile(props, ref) {
     /**
@@ -29,6 +29,11 @@ function SliderSubcategoriesMobile(props, ref) {
      */
     const [subcategoryCurrentIndex, setSubcategoryCurrentIndex] = useState(subcategoryIndex);
     const [entityCurrentIndex, setEntityCurrentIndex] = useState(0);
+
+    const entityCurrentIndexRef = useRef(entityCurrentIndex);
+    entityCurrentIndexRef.current = entityCurrentIndex;
+    const subcategoryCurrentIndexRef = useRef(subcategoryCurrentIndex);
+    subcategoryCurrentIndexRef.current = subcategoryCurrentIndex;
 
     /**
      * Watchers
@@ -99,19 +104,19 @@ function SliderSubcategoriesMobile(props, ref) {
     }
 
     function isFirstEntity() {
-        return entityCurrentIndex === 0;
+        return entityCurrentIndexRef.current === 0;
     }
 
     function isLastEntity() {
-        return entityCurrentIndex === subcategories[subcategoryCurrentIndex].entities.length - 1;
+        return entityCurrentIndexRef.current === subcategories[subcategoryCurrentIndexRef.current].entities.length - 1;
     }
 
     function isFirstSubcategory() {
-        return subcategoryCurrentIndex === 0;
+        return subcategoryCurrentIndexRef.current === 0;
     }
 
     function isLastSubcategory() {
-        return subcategoryCurrentIndex === subcategories.length - 1;
+        return subcategoryCurrentIndexRef.current === subcategories.length - 1;
     }
 
     function isPreviousEnabled() {
@@ -135,7 +140,7 @@ function SliderSubcategoriesMobile(props, ref) {
     return (
         <div className="slider-subcategories">
 
-            <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug } direction="right" />
+            <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex] ? subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug : '' } direction="right" />
 
             <div className="slider-content">
 

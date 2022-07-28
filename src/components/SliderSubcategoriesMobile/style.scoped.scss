@@ -128,8 +128,11 @@
 
     &:disabled {
         cursor: inherit;
-        opacity: 0.5;
         pointer-events: none;
+
+        &::before {
+            opacity: 0.2;
+        }
     }
 
     @include hover() {
