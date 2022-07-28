@@ -18,6 +18,7 @@ import CardArticle from '@/components/CardArticle';
 import ButtonArrow from '@/components/ButtonArrow';
 import ButtonPagination from '@/components/ButtonPagination';
 import Charts from '@/components/Charts';
+import ButtonShare from '@/components/ButtonShare';
 import SequenceCharts from '@/components/SequenceCharts';
 
 // Hooks
@@ -124,6 +125,8 @@ function PanelEntity(props, ref) {
             <Scrollbar revert={ false }>
 
                 <ButtonClose to={ subcategory.slug } />
+
+                <ButtonShare title={entity.name} />
 
                 { /* <SequenceCharts charts={ sequenceCharts } /> */ }
 
