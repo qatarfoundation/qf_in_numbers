@@ -5,9 +5,6 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 import { gsap } from 'gsap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Utils
-import Globals from '@/utils/Globals';
-
 // CSS
 import './style.scoped.scss';
 
