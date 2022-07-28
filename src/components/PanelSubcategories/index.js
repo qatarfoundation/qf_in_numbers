@@ -109,6 +109,21 @@ function PanelSubcategories(props, ref) {
 
     }
 
+    /**
+     * Utils
+     */
+    function romanize(num) {
+        if (isNaN(num)) return NaN;
+        const digits = String(+num).split('');
+        const key = ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM', '', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC', '', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+        let roman = '';
+        let i = 3;
+        while (i--) {
+            roman = (key[+digits.pop() + (i * 10)] || '') + roman;
+        }
+        return Array(+digits.join('') + 1).join('M') + roman;
+    }
+
     return (
         <div ref={ elRef } className="panel panel-subcategories" data-name="subcategories">
 
@@ -127,8 +142,8 @@ function PanelSubcategories(props, ref) {
                             return (
                                 <li key={ `subcategory-${ indexSubcategory }` } className={ 'item-subcategories' }>
 
-                                    <Link to={ subcategory.slug } className={ `button title-subcategory h5 ${ props.subcategory && props.subcategory.slug === subcategory.slug ? 'is-active' : '' }` }>
-                                        { subcategory.name }
+                                    <Link to={ subcategory.slug } className={ `button title-subcategory h3 ${ props.subcategory && props.subcategory.slug === subcategory.slug ? 'is-active' : '' }` }>
+                                        { `${ romanize(indexSubcategory + 1) }. ${ subcategory.name }` }
                                     </Link>
 
                                     <ul className="list-entities">
@@ -139,7 +154,7 @@ function PanelSubcategories(props, ref) {
 
                                                     <li key={ `entity-${ indexEntity }` } className="item-entities">
 
-                                                        <Link to={ entity.slug } className="button button-entity p4">
+                                                        <Link to={ entity.slug } className="button button-entity p1">
                                                             { entity.name }
                                                         </Link>
 

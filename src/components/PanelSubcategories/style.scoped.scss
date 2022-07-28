@@ -202,6 +202,15 @@
 
     transition: color 0.2s $sine-in-out;
 
+    @include respond-to('medium') {
+        font-size: rem(24px, 'medium');
+        font-weight: 300;
+    }
+
+    @include respond-to('large') {
+        font-size: rem(30px, 'large');
+    }
+
     &:not(:last-child) {
         margin-bottom: rem(5px, 'small');
 
@@ -225,13 +234,13 @@
 
 .title-subcategory {
     max-width: rem(300px, 'small');
-    margin-bottom: rem(21px, 'small');
+    margin-bottom: rem(11px, 'small');
 
     color: var(--color-theme-primary);
 
-    font-weight: 300;
-    font-size: rem(40px, 'small');
-    line-height: 90%;
+    font-weight: 400;
+    font-size: rem(14px, 'small');
+    line-height: rem(18px, 'small');
 
     transition: color 0.2s $sine-in-out;
 
@@ -245,16 +254,18 @@
 
     @include respond-to('medium') {
         max-width: rem(300px, 'medium');
-        margin-bottom: rem(21px, 'medium');
+        margin-bottom: rem(10px, 'medium');
 
-        font-size: rem(40px, 'medium');
+        font-size: rem(13px, 'medium');
+        line-height: rem(16px, 'medium');
     }
 
     @include respond-to('large') {
         max-width: rem(300px, 'large');
-        margin-bottom: rem(21px, 'large');
+        margin-bottom: rem(10px, 'large');
 
-        font-size: rem(40px, 'large');
+        font-size: rem(13px, 'large');
+        line-height: rem(16px, 'large');
     }
 }
 
