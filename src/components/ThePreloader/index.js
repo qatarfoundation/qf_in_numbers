@@ -9,8 +9,11 @@ gsap.registerPlugin(SplitText);
 
 // CSS
 import './style.scoped.scss';
+import Globals from '@/utils/Globals';
 
-function ThePreloader({ visible, progress, setIsFinishAnimPreload, ...props }) {
+function ThePreloader(props) {
+    const { visible, progress, setIsFinishAnimPreload } = props;
+    const isHome = props.layoutProps.pageContext.type === 'home';
     /**
      * States
      */
@@ -103,7 +106,8 @@ function ThePreloader({ visible, progress, setIsFinishAnimPreload, ...props }) {
                     lines.forEach((line, i) => {
                         timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn');
                     });
-                    timeline.add('charsLineOut', 5);
+                    if (isHome) timeline.call(() => { Globals.webglApp.transitionIn({ isHome, isFirstNavigation: !location.previous }); }, null, 0);
+                    timeline.add('charsLineOut', 1.5);
                     lines.forEach((line, i) => {
                         timeline.to(line.querySelectorAll('.char'), 0.9, { opacity: 0, stagger: 0.01, ease: Power0.easeIn }, 'charsLineOut');
                     });
@@ -147,7 +151,7 @@ function ThePreloader({ visible, progress, setIsFinishAnimPreload, ...props }) {
     //     <div className="the-preloader">The preloader</div>
     // ) : null;
     return !hide ? (
-        <div ref={ containerRef } className="the-preloader">
+        <div ref={ containerRef } className={ `${ isHome ? 'is-home' : '' } the-preloader` }>
             <ul ref={ listYearsRef }  className="list-years">
                 { years.map(function(object, i) {
                     const year = object.node.year;

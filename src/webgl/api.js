@@ -11,9 +11,9 @@ export default {
         this._viewManager.show(name);
     },
 
-    transitionIn() {
+    transitionIn(props) {
         if (this.isHome()) {
-            return this._viewManager.active.transitionIn();
+            return this._viewManager.active.transitionIn(props);
         }
     },
 

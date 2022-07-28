@@ -6,7 +6,12 @@
     width: 100vw;
     height: 100vh;
 
-    background: black;
+    background-color: black;
+
+    &.is-home {
+        background-color: transparent;
+    }
+
     .list-years {
         position: absolute;
         bottom: rem(20px, 'small');

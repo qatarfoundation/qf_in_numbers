@@ -83,7 +83,7 @@ function HomeTemplate(props, ref) {
     function transitionIn() {
         timelines.current.transitionOut?.kill();
 
-        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted, delay: 1 });
+        timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted, delay: 0 });
 
         timelines.current.transitionIn.add(Globals.webglApp.transitionIn(), 0);
         timelines.current.transitionIn.to(el.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);

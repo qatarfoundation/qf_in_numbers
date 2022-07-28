@@ -83,14 +83,15 @@ export default class HomeView extends component() {
     prepare() {
     }
 
-    transitionIn() {
+    transitionIn(props = {}) {
         if (this._hasTransitionedIn) return;
 
         this._hasTransitionedIn = true;
 
         this._timelineTransitionIn = new gsap.timeline();
 
-        this._timelineTransitionIn.add(this._components.tree.transitionIn(), 0);
+        this._timelineTransitionIn.add(this._components.tree.transitionIn(props), 0);
+        if (props.isHome) this._timelineTransitionIn.call(() => { this.$root.enableIdleRotation(); }, null, 1);
 
         return this._timelineTransitionIn;
     }

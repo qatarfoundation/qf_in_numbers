@@ -88,11 +88,12 @@ export default class TreeComponent extends component(Object3D) {
     /**
      * Public
      */
-    transitionIn() {
+    transitionIn(props = {}) {
         this._isActive = true;
         this._enableMouseRotation = false;
 
         this._timelineTransitionIn = new gsap.timeline();
+        if (props.isFirstNavigation && props.isHome) this._timelineTransitionIn.timeScale(0.5);
 
         // Position
         this._timelineTransitionIn.fromTo(this.position, { x: this._settings.initialPosition.x }, { duration: 3, x: this._settings.targetPosition.x, ease: 'power3.inOut' }, 0);
@@ -249,12 +250,11 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     _updateMouseRotation() {
-        if (this._enableMouseRotation && this._idleRotationSpeed.value === 0) this._branchesContainer.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
+        if (this._enableMouseRotation) this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
     }
 
     _updateRotation({ time, delta }) {
-        this._branchesContainer.rotation.y = Math.PI / 5 - Math.sin(this._idleRotationSpeed.value * time) * number.degreesToRadians(this._idleRotationAmplitude.value);
-    }
+        this._branchesContainer.rotation.y = Math.PI / 5 - Math.sin(this._idleRotationSpeed.value * time) * number.degreesToRadians(this._idleRotationAmplitude.value);    }
 
     _updateBranches({ time, delta }) {
         for (let i = 0, len = this._branches.length; i < len; i++) {
@@ -307,7 +307,7 @@ export default class TreeComponent extends component(Object3D) {
         if (this.$root.isInteractive) {
             this._mousePosition.copy(centered);
             if (this.$root.mouseRotation && this._enableMouseRotation)
-                this.mouseRotationXTo(this._mousePosition.x * .05);
+                this.mouseRotationXTo(this._mousePosition.x * .2);
             else this.mouseRotationXTo(0);
         }
     }

@@ -84,7 +84,6 @@ function Layout(props) {
 
         // Dev mode
         if (getEnvironment() === DEVELOPMENT) {
-            if (originalPath === '/') Globals.webglApp.enableIdleRotation();
             setIsFinishAnimPreload(true);
         }
     }, [webglAppState]);
@@ -188,7 +187,7 @@ function Layout(props) {
                 { /* Preloader */ }
                 <AnimatePresence>
 
-                    { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } setIsFinishAnimPreload={ preloaderAnimationCompletedHandler } /> }
+                    { getEnvironment() !== DEVELOPMENT && <ThePreloader visible={ state === LOADING } progress={ progress } layoutProps={ props } setIsFinishAnimPreload={ preloaderAnimationCompletedHandler } /> }
 
                 </AnimatePresence>
 
