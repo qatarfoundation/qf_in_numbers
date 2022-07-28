@@ -2,11 +2,11 @@
 
 ## Environments
 
-| Name               | URL                                                                     |
-| ------------------ | ----------------------------------------------------------------------- |
-| **Staging Dev**    | [qf-in-numbers-dev.netlify.app](https://qf-in-numbers-dev.netlify.app/) |
-| **Staging Client** | Coming Soon                                                             |
-| **Production**     | Coming Soon                                                             |
+| Name               | URL                                                  |
+| ------------------ | ---------------------------------------------------- |
+| **Staging Dev**    | [qf-2022.dev.60fps.fr](https://qf-2022.dev.60fps.fr) |
+| **Staging Client** | Coming Soon                                          |
+| **Production**     | Coming Soon                                          |
 
 ## 🚀 Quick start
 
@@ -20,6 +20,8 @@ npm init gatsby
 ```
 
 ### Start developing
+
+You will need to create a .env file, you can check the .env.exemple and reach out to the team to get all the tokens.
 
 Navigate into your new site’s directory and start it up.
 
@@ -70,8 +72,9 @@ All environment are using netlify
 
 ### Staging Dev
 
-Pushing to develop will trigger a build to the development Staging dev netlify instance :
-[qf-in-numbers-dev.netlify.app](https://qf-in-numbers-dev.netlify.app/).
+Managed by 60fps
+
+[qf-2022.dev.60fps.fr](https://qf-2022.dev.60fps.fr).
 
 ### Staging Client
 
