@@ -24,7 +24,7 @@ function ModalSearch(props, ref) {
      */
     const { t } = useTranslation();
     const { language, originalPath } = useI18next();
-    const years = props.pageContext.years[language];
+    const years = props.pageContext.years ? props.pageContext.years[language] : [];
     const currentYear = props.pageContext.year ? props.pageContext.year[language] : null;
     years.sort((a, b) => b.year - a.year);
     const allowedPagesType = ['year', 'category', 'subcategory'];
@@ -100,7 +100,7 @@ function ModalSearch(props, ref) {
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
         timelines.current.show.add(buttonRef.current.show(), 0);
-        timelines.current.show.set(buttonContainerRef.current, {clearProps: "pointerEvents"}, 0);
+        timelines.current.show.set(buttonContainerRef.current, { clearProps: 'pointerEvents' }, 0);
     }
 
     function hide() {
@@ -109,7 +109,7 @@ function ModalSearch(props, ref) {
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
         timelines.current.hide.add(buttonRef.current.hide(), 0);
-        timelines.current.hide.set(buttonContainerRef.current, {pointerEvents: "none"}, 0);
+        timelines.current.hide.set(buttonContainerRef.current, { pointerEvents: 'none' }, 0);
     }
 
     function open() {

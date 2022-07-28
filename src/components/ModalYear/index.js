@@ -23,7 +23,7 @@ function ModalYear(props, ref) {
      * Data
      */
     const { language } = useI18next();
-    const years = props.pageContext.years[language];
+    const years = props.pageContext.years ? props.pageContext.years[language] : [];
     const currentYear = props.pageContext.year ? props.pageContext.year[language] : null;
     const allowedPagesType = ['year', 'category', 'subcategory'];
 
