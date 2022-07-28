@@ -11,6 +11,9 @@ import './style.scoped.scss';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 import useTick from '@/hooks/useTick';
 
+// Utils
+import SoundManager from "@/utils/SoundManager";
+
 const DPR = 2;
 
 function ButtonSound(props) {
@@ -46,7 +49,7 @@ function ButtonSound(props) {
     /**
      * States
      */
-    const [isMuted, setMuted] = useState(false);
+    const [isMuted, setMuted] = useState(!SoundManager.initialized);
     const [isHovered, setHovered] = useState(false);
 
     /**
@@ -96,6 +99,8 @@ function ButtonSound(props) {
         timelines.current.mute.to(settings.current, { duration: 1, amplitude: 0.05, ease: 'power4.out' }, 0);
         timelines.current.mute.to(settings.current, { duration: 1, speed: 0.08, ease: 'sine.out' }, 0);
 
+        SoundManager.pause()
+
         return timelines.current.mute;
     }
 
@@ -109,6 +114,8 @@ function ButtonSound(props) {
 
         timelines.current.unmute.to(settings.current, { duration: 1, amplitude: 0.2, ease: 'power4.out' }, 0);
         timelines.current.unmute.to(settings.current, { duration: 1, speed: 0.15, ease: 'sine.out' }, 0);
+
+        SoundManager.play()
 
         return timelines.current.unmute;
     }

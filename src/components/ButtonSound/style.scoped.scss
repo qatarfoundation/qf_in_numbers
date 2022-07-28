@@ -1,5 +1,6 @@
 .button-sound {
     position: relative;
+    pointer-events: all;
 
     width: rem(25px, 'small');
     height: rem(25px, 'small');

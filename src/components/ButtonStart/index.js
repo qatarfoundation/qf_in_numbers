@@ -8,6 +8,8 @@ import { gsap } from 'gsap';
 // CSS
 import './style.scoped.scss';
 
+import SoundManager from "@/utils/SoundManager";
+
 function ButtonStart(props, ref) {
     /**
      * States
@@ -155,6 +157,10 @@ function ButtonStart(props, ref) {
         }
     }
 
+    function playSound() {
+        SoundManager.init();
+    }
+
     /**
      * Expose public
      */
@@ -164,7 +170,7 @@ function ButtonStart(props, ref) {
     }));
 
     return (
-        <Link to={ props.to } ref={ elRef } className="button button-start" onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
+        <Link to={ props.to } ref={ elRef } onClick={ playSound } className="button button-start" onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
             <div ref={ circleRef } className="circle"></div>
             <div className="label-container">
                 <span ref={ labelRef } className="label">{ props.label }</span>
