@@ -1,6 +1,6 @@
 import {gsap} from 'gsap';
 
-import sound from '@/assets/sounds/tmp.mp3';
+import sound from '@/assets/sounds/music.mp3';
 
 class SoundManager {
 
