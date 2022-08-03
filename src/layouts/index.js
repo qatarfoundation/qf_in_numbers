@@ -145,8 +145,10 @@ function Layout(props) {
 
             { /* SEO */ }
             <Helmet htmlAttributes={ { lang: language } } bodyAttributes={ { dir: i18n.dir(), class: language === 'ar-QA' ? 'ar' : language } }>
+                { process.env.GATSBY_PREVENT_INDEXING === "true" && <meta name="robots" content="noindex, nofollow" />}
+                { process.env.GATSBY_PREVENT_INDEXING === "true" && <meta name="googlebot" content="noindex, nofollow" />}
                 <title>{ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaTitle : 'Qatar Foundation in Numbers - 404' }</title>
-                <meta name="description" content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
+                <meta name="description" data-test={process.env.PREVENT_INDEXING} content={ props.pageContext.home ? props.pageContext.home[language].seo.fields.seoMetaDescription : '' } />
                 { /* OG */ }
                 <meta property="og:url" content={ process.env.GATSBY_BASE_URL } />
                 <meta property="og:type" content="website" />
