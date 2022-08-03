@@ -117,15 +117,19 @@ export default class TreeCamera extends component() {
 
         const positionStart = this._camera.position.clone();
         const positionEnd = position.origin;
+        const distance = positionStart.distanceTo(positionEnd);
 
         const rotationStart = this._camera.quaternion.clone();
         const rotationEnd = new Quaternion();
+
+        const duration = math.clamp(2 * (distance / 3), 1.5, 3.5);
 
         this._gotoOverviewAnimation?.kill();
         this._gotoCategoryAnimation?.kill();
         this._gotoPositionAnimation?.kill();
 
-        this._gotoPositionAnimation = gsap.to(animation, 2, {
+        this._gotoPositionAnimation = gsap.to(animation, {
+            duration,
             progress: 1,
             ease: 'power3.inOut',
             onUpdate: () => {

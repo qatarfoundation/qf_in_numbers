@@ -42,6 +42,8 @@ export default class HomeView extends component() {
         this._cameraManager = this._createCameraManager();
         this._container = this._createContainer();
         this._components = this._createComponents();
+
+        this._container.position.z = -2;
     }
 
     destroy() {
@@ -112,6 +114,7 @@ export default class HomeView extends component() {
 
         if (this._activeBranch !== null) this._timelineGotoOverview.call(() => this.categoryMouseLeave(this._activeBranch), null, 0);
         if (this._activeEntity) this._timelineGotoOverview.add(this._activeEntity.hide(), 0);
+        this._timelineGotoOverview.to(this._container.position, { duration: 2.5, z: 0, ease: 'power3.inOut' }, 0);
         this._timelineGotoOverview.call(() => this._resetBackgroundColor(), null, 0);
         this._timelineGotoOverview.add(this._cameraManager.main.gotoOverview(), 0);
         this._timelineGotoOverview.add(this._components.generatedTree.gotoOverview(), 0);
@@ -174,7 +177,7 @@ export default class HomeView extends component() {
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 0);
-        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0.5);
+        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
         this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
 
