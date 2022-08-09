@@ -1,0 +1,50 @@
+.list {
+    display: block;
+    opacity: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    will-change: transform;
+}
+
+li {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 1px;
+
+    &.left span {
+        text-align: right;
+
+        transform: translate(-100%, -50%);
+
+        .ar & {
+            transform: translate(0, -50%);
+        }
+    }
+
+    &.right span {
+        transform: translate(0, -50%);
+
+        .ar & {
+            transform: translate(100%, -50%);
+        }
+    }
+}
+
+span {
+    position: absolute;
+
+    font-size: rem(10px);
+    line-height: 1;
+
+    @include respond-to('large') {
+        width: rem(100px, 'large');
+
+        font-size: rem(12px, 'large');
+    }
+}

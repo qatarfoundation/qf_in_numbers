@@ -1,0 +1,29 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
+    },
+    "eslint.validate": ["javascript"],
+    "files.associations": {
+        "**/src/*.js": "javascriptreact",
+        "**/src/layouts/*.js": "javascriptreact",
+        "**/src/pages/*.js": "javascriptreact",
+        "**/src/pages/*/*.js": "javascriptreact",
+        "**/src/templates/*/*.js": "javascriptreact",
+        "**/src/components/*.js": "javascriptreact",
+        "**/src/components/*/*.js": "javascriptreact",
+        "**/src/components/*/*/*.js": "javascriptreact",
+    },
+    "stylelint.snippet": [
+        "css",
+        "less",
+        "postcss",
+        "scss"
+    ],
+    "stylelint.validate": [
+        "css",
+        "less",
+        "postcss",
+        "scss"
+    ]
+}

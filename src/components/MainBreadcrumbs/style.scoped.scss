@@ -1,0 +1,26 @@
+.main-breadcrumbs {
+    display: none;
+
+    position: relative;
+
+    margin-left: rem(28px, 'small');
+
+    white-space: nowrap;
+
+    @include respond-to('medium') {
+        display: flex;
+
+        margin-top: rem(-20px, 'medium');
+        margin-left: rem(54px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin-top: rem(-20px, 'large');
+        margin-left: rem(54px, 'large');
+    }
+
+    .ar & {
+        margin-left: 0;
+        margin-right: rem(28px, 'small');
+    }
+}

@@ -1,0 +1,66 @@
+.the-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: black;
+
+    &.is-home {
+        background-color: transparent;
+    }
+
+    .list-years {
+        position: absolute;
+        bottom: rem(20px, 'small');
+        left: rem(16px, 'small');
+        opacity: 0;
+        @include respond-to('medium') {
+            bottom: rem(34.5px, 'medium');
+            left: rem(53px, 'medium');
+        }
+        @include respond-to('large') {
+            bottom: rem(34.5px, 'large');
+            left: rem(53px, 'large');
+        }
+        .ar & {
+            left: inherit;
+            right: rem(16px, 'small');
+            @include respond-to('medium') {
+                left: inherit;
+                right: rem(53px, 'medium');
+            }
+            @include respond-to('large') {
+                left: inherit;
+                right: rem(53px, 'large');
+            }
+        }
+        li {
+            opacity: 0;
+        }
+    }
+    .amorce {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: rem(300px, 'small');
+        width: 44.4%;
+        max-width: rem(639px, 'small');
+        text-align: center;
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0);
+        @include respond-to('medium') {
+            min-width: rem(300px, 'medium');
+            max-width: rem(639px, 'medium');
+        }
+        @include respond-to('large') {
+            min-width: rem(300px, 'large');
+            max-width: rem(639px, 'large');
+        }
+        .line .char {
+            opacity: 0;
+        }
+    }
+}

@@ -1,0 +1,110 @@
+.side-breadcrumb-item {
+    position: relative;
+
+    padding-left: rem(14px, 'small');
+    padding-right: rem(10px, 'small');
+
+    pointer-events: all;
+
+    font-weight: 700;
+    font-size: rem(18px, 'small');
+    line-height: rem(22px, 'small');
+
+    color: var(--color-theme-primary);
+
+    .ar & {
+        padding-right: rem(14px, 'small');
+        padding-left: rem(10px, 'small');
+    }
+
+    @include respond-to('medium') {
+        padding-left: rem(14px, 'medium');
+        padding-right: rem(10px, 'medium');
+
+        font-size: rem(18px, 'medium');
+        line-height: rem(22px, 'medium');
+
+        .ar & {
+            padding-right: rem(14px, 'medium');
+            padding-left: rem(10px, 'medium');
+        }
+    }
+
+    @include respond-to('large') {
+        padding-left: rem(14px, 'large');
+        padding-right: rem(10px, 'large');
+
+        font-size: rem(18px, 'large');
+        line-height: rem(22px, 'large');
+
+        .ar & {
+            padding-right: rem(14px, 'large');
+            padding-left: rem(10px, 'large');
+        }
+    }
+
+    &:first-child {
+        padding-left: 0;
+
+        .icon {
+            display: none;
+        }
+
+        .ar & {
+            padding-right: 0;
+            padding-left: rem(10px, 'small');
+
+            @include respond-to('medium') {
+                padding-left: rem(10px, 'medium');
+            }
+
+            @include respond-to('large') {
+                padding-left: rem(10px, 'large');
+            }
+        }
+    }
+}
+
+.icon {
+    position: absolute;
+    left: 0;
+    top: rem(9px, 'small');
+
+    display: inline-block;
+
+    margin: auto;
+
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 4px 0 4px 4px;
+
+    border-color: transparent transparent transparent color-from-theme('green', 'primary');
+
+    .theme-green & {
+        border-color: transparent transparent transparent color-from-theme('green', 'primary');
+    }
+
+    .theme-blue & {
+        border-color: transparent transparent transparent color-from-theme('blue', 'primary');
+    }
+
+    .theme-red & {
+        border-color: transparent transparent transparent color-from-theme('red', 'primary');
+    }
+
+    .ar & {
+        left: auto;
+        right: 0;
+
+        transform: scaleX(-1);
+    }
+
+    @include respond-to('medium') {
+        top: rem(9px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(9px, 'large');
+    }
+}

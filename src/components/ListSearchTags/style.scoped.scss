@@ -1,0 +1,32 @@
+.list-search-tags {
+    display: block;
+
+    padding-top: rem(32px, 'small');
+    padding-right: rem(16px, 'small');
+    padding-bottom: rem(54px, 'small');
+    padding-left: rem(16px, 'small');
+
+    @include respond-to('medium') {
+        padding-top: rem(29px, 'medium');
+        padding-right: rem(32px, 'medium');
+        padding-bottom: rem(29px, 'medium');
+        padding-left: rem(53px, 'medium');
+
+        .ar & {
+            padding-right: rem(53px, 'medium');
+            padding-left: rem(32px, 'medium');
+        }
+    }
+
+    @include respond-to('large') {
+        padding-top: rem(29px, 'large');
+        padding-right: rem(32px, 'large');
+        padding-bottom: rem(29px, 'large');
+        padding-left: rem(60px, 'large');
+
+        .ar & {
+            padding-right: rem(53px, 'large');
+            padding-left: rem(32px, 'large');
+        }
+    }
+}

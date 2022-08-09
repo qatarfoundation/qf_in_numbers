@@ -1,0 +1,36 @@
+.chart {
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: rem(92px, 'small');
+    margin-left: 0px;
+    @include respond-to('medium') {
+        margin-bottom: rem(88px, 'medium');
+    }
+    @include respond-to('large') {
+        margin-bottom: rem(88px, 'large');
+    }
+}
+
+.chart-bar {
+    fill: var(--color-theme-secondary);
+    margin-top: rem(62px, 'small');
+    @include respond-to('medium') {
+        margin-top: rem(66px, 'medium');
+    }
+    @include respond-to('large') {
+        margin-top: rem(66px, 'large');
+    }
+    .domain {
+        display: none;
+    }
+    .tick text {
+        color: $color-grey;
+        text-anchor: start;
+    }
+    .label {
+        fill: var(--color-theme-primary);
+    }
+    .sublabel {
+        fill: var(--color-theme-secondary);
+    }
+}

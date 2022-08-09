@@ -1,0 +1,65 @@
+.card-article {
+    width: 100%;
+    padding-bottom: rem(16px, 'small');
+    @include respond-to('medium') {
+        padding-bottom: rem(16px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-bottom: rem(16px, 'large');
+    }
+
+    @include hover {
+        .img-container {
+            img {
+                transform: translate3d(-50%, -50%, 0) scale(1.03);
+            }
+        }
+    }
+
+    .img-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 63.32%;
+        margin-bottom: rem(16px, 'small');
+        border-radius: rem(3px, 'small');
+        overflow: hidden;
+        @include respond-to('medium') {
+            margin-bottom: rem(32px, 'medium');
+            border-radius: rem(3px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(32px, 'large');
+            border-radius: rem(3px, 'large');
+        }
+        img {
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 100%;
+            transform: translate3d(-50%, -50%, 0);
+            transition: transform .4s ease-out;
+        }
+    }
+    .tag {
+        margin-bottom: rem(32px, 'small');
+        color: var(--color-theme-primary);
+        @include respond-to('medium') {
+            margin-bottom: rem(32px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(32px, 'large');
+        }
+    }
+    .title {
+        margin-bottom: rem(16px, 'small');
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
+}
+
+.card-link {
+    display: block;
+}

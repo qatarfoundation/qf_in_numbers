@@ -1,0 +1,81 @@
+.the-navigation {
+    opacity: 0;
+
+    position: fixed;
+    top: rem(20px, 'small');
+    right: 0;
+    left: 0;
+
+    width: 100%;
+    height: 0;
+
+    pointer-events: none;
+
+    @include respond-to('medium') {
+        top: rem(34.5px, 'medium');
+    }
+    @include respond-to('large') {
+        top: rem(34.5px, 'large');
+    }
+}
+
+.row {
+    position: relative;
+    display: flex;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding-right: rem(16px, 'small');
+
+    padding-left: rem(16px, 'small');
+
+    z-index: 2;
+
+    @include respond-to('medium') {
+        padding-right: rem(53px, 'medium');
+        padding-left: rem(53px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-right: rem(53px, 'large');
+        padding-left: rem(53px, 'large');
+    }
+}
+.col-left {
+    display: flex;
+    align-items: center;
+}
+
+.col-right {
+    display: flex;
+    align-items: center;
+
+    height: 45px;
+
+    button {
+        &:first-child {
+            margin-right: rem(15px, 'small');
+            @include respond-to('medium') {
+                margin-right: rem(40px, 'medium');
+            }
+            @include respond-to('large') {
+                margin-right: rem(40px, 'large');
+            }
+
+            .ar & {
+                margin-right: 0;
+                margin-left: rem(15px, 'small');
+                @include respond-to('medium') {
+                    margin-right: 0;
+                    margin-left: rem(40px, 'medium');
+                }
+                @include respond-to('large') {
+                    margin-right: 0;
+                    margin-left: rem(40px, 'large');
+                }
+            }
+        }
+    }
+}

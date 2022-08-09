@@ -1,0 +1,16 @@
+.language-switch {
+    margin-bottom: rem(10px, 'small');
+
+    @include respond-to('medium') {
+        margin-bottom: rem(10px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin-bottom: rem(10px, 'large');
+    }
+}
+
+.language-switch .button {
+    pointer-events: auto;
+    font-size: 24px !important;
+}

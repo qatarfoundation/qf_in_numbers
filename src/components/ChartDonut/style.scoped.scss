@@ -1,0 +1,56 @@
+.chart {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.chart-donut {
+    .has-tooltip {
+        &:hover {
+            fill: var(--color-theme-primary);
+        }
+    }
+    .arc, .label-container {
+        transition: opacity .2s linear;
+    }
+    .label-container {
+        &.is-hidden {
+            display: none;
+        }
+    }
+    .label {
+        color: var(--color-theme-primary);
+        text-anchor: middle;
+        pointer-events: none;
+    }
+}
+
+.dataviz {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    margin: 0 auto rem(92px, 'small');
+    @include respond-to('medium') {
+        margin: 0 auto rem(88px, 'medium');
+    }
+    @include respond-to('large') {
+        margin: 0 auto rem(88px, 'large');
+    }
+    .tooltip {
+        position: absolute;
+        width: fit-content;
+        padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
+        background-color: var(--color-theme-primary);
+        border-radius: rem(4px, 'small');
+        color: $color-white;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        @include respond-to('medium') {
+            padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
+            border-radius: rem(4px, 'medium');
+        }
+        @include respond-to('large') {
+            padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
+            border-radius: rem(4px, 'large');
+        }
+    }
+}

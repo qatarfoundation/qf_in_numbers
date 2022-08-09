@@ -1,0 +1,28 @@
+.list-entities {
+    opacity: 0;
+
+    position: absolute;
+    bottom: 0;
+
+    display: flex;
+    gap: rem(6px, 'small');
+
+    transform: translate3d(0, 100%, 0);
+
+    pointer-events: none;
+
+    @include respond-to('medium') {
+        display: block;
+
+        position: relative;
+        bottom: auto;
+
+        height: rem(100px, 'medium');
+
+        transform: none;
+    }
+
+    @include respond-to('large') {
+        height: rem(150px, 'large');
+    }
+}

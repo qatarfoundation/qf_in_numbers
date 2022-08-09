@@ -1,0 +1,52 @@
+.list-item-year {
+    display: block;
+
+    position: relative;
+
+    margin-right: rem(32px, 'small');
+
+    .ar & {
+        margin-right: 0;
+        margin-left: rem(32px, 'small');
+    }
+
+    @include respond-to('large') {
+        margin-right: 0;
+
+        .ar & {
+            margin-left: 0;
+        }
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 0;
+
+        @include respond-to('medium') {
+            margin-bottom: rem(24px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(24px, 'large');
+        }
+    }
+}
+
+.button {
+    opacity: 0.25;
+
+    display: block;
+
+    position: relative;
+
+    color: var(--color-theme-primary);
+
+    transition: opacity 0.3s linear;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    .list-item-year.is-active & {
+        opacity: 1;
+    }
+}

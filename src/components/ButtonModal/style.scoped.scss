@@ -1,0 +1,133 @@
+.button-modal {
+    opacity: 0;
+    visibility: hidden;
+
+    position: relative;
+    text-align: left;
+
+    pointer-events: none;
+
+    .ar & {
+        text-align: right;
+    }
+}
+
+.text {
+    display: block;
+
+    will-change: transform;
+
+    padding-bottom: rem(4px, 'small');
+
+    @include respond-to('medium') {
+        padding-bottom: rem(4px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-bottom: rem(4px, 'large');
+    }
+
+    &.text-hover {
+        opacity: 0;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+
+        color: var(--color-theme-secondary);
+    }
+}
+
+.arrow {
+    position: absolute;
+    top: rem(14px, 'small');
+    right: 0;
+
+    display: block;
+
+    width: 0;
+    height: 0;
+
+    border-left: rem(4px, 'small') solid transparent;
+    border-right: rem(4px, 'small') solid transparent;
+    border-top: rem(4px, 'small') solid var(--color-theme-primary);
+
+    will-change: transform;
+
+    .ar & {
+        right: auto;
+        left: rem(8px, 'small');
+
+        @include respond-to('medium') {
+            left: rem(8px, 'medium');
+        }
+
+        @include respond-to('large') {
+            left: rem(8px, 'large');
+        }
+    }
+
+    @include respond-to('medium') {
+        top: rem(14px, 'medium');
+
+        border-left: rem(4px, 'medium') solid transparent;
+        border-right: rem(4px, 'medium') solid transparent;
+        border-top: rem(4px, 'medium') solid var(--color-theme-primary);
+    }
+
+    @include respond-to('large') {
+        top: rem(14px, 'large');
+
+        border-left: rem(4px, 'large') solid transparent;
+        border-right: rem(4px, 'large') solid transparent;
+        border-top: rem(4px, 'large') solid var(--color-theme-primary);
+    }
+
+    &.arrow-hover {
+        opacity: 0;
+
+        position: absolute;
+
+        border-top-color: var(--color-theme-secondary);
+    }
+}
+
+.line {
+    opacity: 0.7;
+
+    display: block;
+
+    height: 1px;
+    width: calc(50vw - rem(32px, 'small'));
+    max-width: 163px;
+
+    margin-top: rem(8px, 'small');
+
+    background-color: var(--color-theme-primary);
+
+    will-change: transform;
+
+    &.line-hover {
+        position: absolute;
+        bottom: 0;
+
+        transform: scaleX(0);
+
+        background-color: var(--color-theme-secondary);
+    }
+
+    @include respond-to('medium') {
+        width: rem(232px, 'medium');
+        max-width: inherit;
+
+        margin-top: rem(8px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(232px, 'large');
+
+        margin-top: rem(8px, 'large');
+    }
+}

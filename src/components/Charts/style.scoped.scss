@@ -1,0 +1,35 @@
+.charts {
+    &.section {
+        padding: 0;
+    }
+    .p2 {
+        padding-top: rem(24px, 'small');
+        @include respond-to('medium') {
+            padding-top: rem(48px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-top: rem(48px, 'large');
+        }
+    }
+    .subtitle {
+        padding-top: rem(8px, 'small');
+        @include respond-to('medium') {
+            padding-top: rem(8px, 'medium');
+        }
+        @include respond-to('large') {
+            padding-top: rem(8px, 'large');
+        }
+    }
+    .charts-container {
+        display: flex;
+        gap: rem(90px, 'small');
+        margin: 0 auto;
+        @include respond-to('medium') {
+            gap: 0;
+        }
+    }
+    .charts-item {
+        width: 100%;
+        height: 100%;
+    }
+}

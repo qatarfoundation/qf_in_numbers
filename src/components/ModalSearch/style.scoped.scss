@@ -1,0 +1,71 @@
+.modal-search {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+.overlay {
+    opacity: 0;
+
+    visibility: hidden;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: all;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.button-container {
+    position: absolute;
+    right: rem(16px, 'small');
+    bottom: rem(20px, 'small');
+
+    pointer-events: all;
+
+    @include respond-to('medium') {
+        right: rem(53px, 'medium');
+        bottom: rem(42px, 'medium');
+    }
+
+    @include respond-to('large') {
+        right: rem(53px, 'large');
+        bottom: rem(42px, 'large');
+    }
+
+    .ar & {
+        right: auto;
+        left: rem(16px, 'small');
+        bottom: rem(20px, 'small');
+
+        @include respond-to('medium') {
+            right: auto;
+            left: rem(53px, 'medium');
+            bottom: rem(42px, 'medium');
+        }
+
+        @include respond-to('large') {
+            right: auto;
+            left: rem(53px, 'large');
+            bottom: rem(42px, 'large');
+        }
+    }
+
+    .modal-search.is-open & {
+        pointer-events: none;
+    }
+}
+
+.panel-container {
+    pointer-events: all;
+}

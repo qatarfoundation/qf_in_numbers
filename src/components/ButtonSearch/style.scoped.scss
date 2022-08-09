@@ -1,0 +1,16 @@
+.button-search {
+    display: inline-flex;
+}
+
+.search {
+    width: rem(32px, 'small');
+    height: rem(32px, 'small');
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        height: rem(32px, 'large');
+    }
+}

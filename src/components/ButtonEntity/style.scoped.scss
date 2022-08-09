@@ -1,0 +1,14 @@
+.button-entity {
+    color: var(--color-theme-primary);
+    font-weight: 300;
+
+    transition: color 0.3s ease-out;
+
+    &:hover {
+        color: var(--color-theme-secondary);
+    }
+
+    &.selected {
+        color: white;
+    }
+}

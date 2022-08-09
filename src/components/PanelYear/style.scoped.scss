@@ -1,0 +1,104 @@
+.panel-year {
+    position: fixed;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100vw;
+    height: auto;
+
+    background-color: $color-white;
+
+    will-change: transform;
+
+    transform: translateY(105%);
+
+    visibility: hidden;
+
+    .ar & {
+        right: 0;
+        left: inherit;
+    }
+
+    @include respond-to('medium') {
+        top: 0;
+        left: 0;
+
+        width: rem(285px, 'medium');
+        height: 100vh;
+
+        transform: translateX(-105%);
+
+        .ar & {
+            right: 0;
+            left: inherit;
+
+            transform: translateX(105%);
+        }
+    }
+
+    @include respond-to('large') {
+        width: rem(285px, 'large');
+    }
+}
+
+.header {
+    display: flex;
+
+    position: relative;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: rem(20px, 'small') rem(15px, 'small') 0;
+
+    @include respond-to('medium') {
+        padding: rem(36px, 'medium') rem(28px, 'medium') rem(28px, 'medium') rem(53px, 'medium');
+
+        .ar & {
+            padding: rem(36px, 'medium') rem(53px, 'medium') rem(28px, 'medium') rem(28px, 'medium');
+        }
+    }
+    @include respond-to('large') {
+        padding: rem(36px, 'large') rem(28px, 'large') rem(28px, 'large') rem(53px, 'large');
+
+        .ar & {
+            padding: rem(36px, 'large') rem(53px, 'large') rem(28px, 'large') rem(28px, 'large');
+        }
+    }
+
+    &::after {
+        content: '';
+
+        opacity: 0.15;
+
+        display: none;
+
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        width: 100%;
+        height: 1px;
+
+        background-color: $color-grey;
+
+        .ar & {
+            right: 0;
+            left: inherit;
+        }
+
+        @include respond-to('medium') {
+            display: block;
+        }
+    }
+}
+
+.label {
+    color: var(--color-theme-primary);
+
+    margin-bottom: 4px;
+}

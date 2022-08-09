@@ -1,0 +1,37 @@
+.section {
+    position: relative;
+    padding-top: rem(20px, 'small');
+    padding-bottom: rem(20px, 'small');
+    @include respond-to('medium') {
+        padding-top: rem(55px, 'medium');
+        padding-bottom: rem(62px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-top: rem(55px, 'large');
+        padding-bottom: rem(62px, 'large');
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: $color-grey;
+        opacity: 0.15;
+    }
+}
+
+.section-container {
+    padding-right: rem(18px, 'small');
+    padding-left: rem(18px, 'small');
+    @include respond-to('medium') {
+        padding-right: rem(62px, 'medium');
+        padding-left: rem(62px, 'medium');
+    }
+    @include respond-to('large') {
+        padding-right: rem(62px, 'large');
+        padding-left: rem(62px, 'large');
+    }
+}

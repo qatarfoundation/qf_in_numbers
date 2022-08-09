@@ -1,0 +1,24 @@
+.button-sound {
+    position: relative;
+    pointer-events: all;
+
+    width: rem(25px, 'small');
+    height: rem(25px, 'small');
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        height: rem(32px, 'large');
+    }
+}
+
+.canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}

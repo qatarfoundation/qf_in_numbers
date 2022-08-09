@@ -1,0 +1,31 @@
+.list-years {
+    display: flex;
+
+    flex-direction: row-reverse;
+
+    width: fit-content;
+
+    padding: rem(32px, 'small') rem(16px, 'small') rem(54px, 'small');
+
+    @include respond-to('medium') {
+        display: block;
+
+        flex-direction: inherit;
+
+        width: inherit;
+
+        padding: rem(29px, 'medium') 0 rem(29px, 'medium') rem(53px, 'medium');
+
+        .ar & {
+            padding: rem(29px, 'medium') rem(53px, 'medium') rem(29px, 'medium') 0;
+        }
+    }
+
+    @include respond-to('large') {
+        padding: rem(29px, 'large') 0 rem(29px, 'large') rem(53px, 'large');
+
+        .ar & {
+            padding: rem(29px, 'large') rem(53px, 'large') rem(29px, 'large') 0;
+        }
+    }
+}

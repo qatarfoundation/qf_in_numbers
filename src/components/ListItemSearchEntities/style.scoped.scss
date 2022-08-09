@@ -1,0 +1,32 @@
+.list-item-search-entities {
+    position: relative;
+    display: block;
+
+    &:not(:last-child) {
+        margin-bottom: rem(19px, 'small');
+
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
+}
+
+.link-search {
+    position: relative;
+    display: block;
+    color: $color-grey;
+    text-align: left;
+    transition: opacity 0.3s $sine-in-out;
+
+    &:hover {
+        color: var(--color-theme-primary);
+    }
+
+    .ar & {
+        text-align: right;
+    }
+}

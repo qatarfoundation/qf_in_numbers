@@ -1,0 +1,28 @@
+@mixin font-face($font-family, $weight, $url) {
+	@font-face {
+		font-family: '#{$font-family}';
+		src: url('/#{$url}.woff2') format('woff2');
+		font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+
+        font-weight: $weight;
+        -webkit-font-smoothing: antialiased;
+        -khtml-font-smoothing: antialiased;
+        -apple-font-smoothing: antialiased;
+        font-smooth: always;
+        -moz-osx-font-smoothing: grayscale;
+	}
+}
+
+// DIN Regular
+// @include font-face('DIN', 400, 'normal', 'fonts/din/DIN');
+// DIN Medium
+// @include font-face('DIN', 500, 'normal', 'fonts/din/DIN-Medium');
+// DIN Bold
+// @include font-face('DIN', 600, 'normal', 'fonts/din/DINBold');
+
+// DIN Next LT Pro Light
+@include font-face('DIN Next LT Pro', 300, 'fonts/din-next-lt-pro-arabic/DINNextLTPro-Light');
+// DIN Next LT Pro Regular
+@include font-face('DIN Next LT Pro', 400, 'fonts/din-next-lt-pro-arabic/DINNextLTPro-Regular');

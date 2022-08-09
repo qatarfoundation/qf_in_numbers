@@ -1,0 +1,53 @@
+.button-close {
+    position: relative;
+
+    width: rem(32px, 'small');
+    height: rem(32px, 'small');
+
+    min-width: rem(32px, 'small');
+    min-height: rem(32px, 'small');
+
+    border: 1px solid transparentize($color: $color-grey, $amount: 0.4);
+    border-radius: 100%;
+    transition: opacity .2s linear;
+
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
+
+        min-width: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        height: rem(32px, 'large');
+
+        min-width: rem(32px, 'large');
+        min-height: rem(32px, 'large');
+    }
+
+    @include hover {
+        opacity: .7;
+    }
+}
+
+.line {
+    display: block;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    height: 43%;
+    width: 1px;
+
+    background-color: $color-grey;
+
+    &.line-left {
+        transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, 45deg);
+    }
+    &.line-right {
+        transform: translate3D(-50%, -50%, 0) rotate3D(0, 0, 1, -45deg);
+    }
+}
