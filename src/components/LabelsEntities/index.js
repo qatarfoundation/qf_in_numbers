@@ -34,7 +34,7 @@ function LabelsEntities(props) {
                 const elementButton = itemsButtonRef.current[key];
                 const model = TreeDataModel.getEntity(key);
 
-                if (elementLabel && model.labelPosition) {
+                if (elementLabel && model && model.labelPosition) {
                     const labelPosition = model.labelPosition;
                     elementLabel.style.display = 'block';
                     elementLabel.style.transform = `translate3d(${ labelPosition.x }px, ${ labelPosition.y }px, 0)`;
@@ -49,7 +49,7 @@ function LabelsEntities(props) {
                 }
 
                 if (!Breakpoints.active('small')) {
-                    if (elementButton) {
+                    if (elementButton && model) {
                         const buttonPosition = model.buttonPosition;
                         if (buttonPosition) {
                             elementButton.style.display = 'block';
