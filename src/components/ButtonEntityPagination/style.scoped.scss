@@ -1,0 +1,126 @@
+.button-entity-pagination {
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    width: 50%;
+
+    padding: rem(10px) rem(18px);
+
+    @include respond-to('large') {
+        padding: rem(33px, 'large') rem(54px, 'large');
+    }
+
+    @include hover {
+        background-color: rgba($color-grey, 0.15);
+    }
+
+    &.right {
+        justify-content: right;
+
+        .ar & {
+            justify-content: left;
+        }
+
+        .icon-arrow {
+            order: 2;
+            margin-right: 0;
+            margin-left: rem(16px, 'small');
+            @include respond-to('medium') {
+                margin-left: rem(23px, 'medium');
+            }
+            @include respond-to('large') {
+                margin-left: rem(23px, 'large');
+            }
+            .ar & {
+                margin-right: rem(23px, 'small');
+                margin-left: 0;
+                @include respond-to('medium') {
+                    margin-right: rem(23px, 'medium');
+                }
+                @include respond-to('large') {
+                    margin-right: rem(23px, 'large');
+                }
+            }
+        }
+        .p3 {
+            order: 1;
+            text-align: right;
+            .ar & {
+                text-align: left;
+            }
+        }
+    }
+}
+
+.icon-arrow {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: rem(32px, 'small');
+    min-width: rem(32px, 'small');
+    height: rem(32px, 'small');
+    min-height: rem(32px, 'small');
+
+    margin-right: rem(16px, 'small');
+
+    border: 1px solid $color-grey;
+    border-radius: 100%;
+
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        min-width: rem(32px, 'medium');
+        height: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
+
+        margin-right: rem(23px, 'medium');
+    }
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        min-width: rem(32px, 'large');
+        height: rem(32px, 'large');
+        min-height: rem(32px, 'large');
+
+        margin-right: rem(23px, 'large');
+    }
+    .ar & {
+        margin-right: 0;
+        margin-left: rem(23px, 'small');
+        @include respond-to('medium') {
+            margin-left: rem(23px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-left: rem(23px, 'large');
+        }
+    }
+}
+
+.arrow {
+    fill: $color-grey;
+
+    .ar & {
+        transform: scaleX(-1);
+    }
+
+    &.left {
+        transform: scaleX(-1);
+
+        .ar & {
+            transform: scaleX(1);
+        }
+    }
+}
+
+.label {
+    margin-bottom: .5rem;
+
+    font-size: rem(14px);
+
+    @include respond-to('medium') {
+        font-size: rem(18px, 'medium');
+    }
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
+    }
+}

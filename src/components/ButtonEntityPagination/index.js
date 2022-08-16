@@ -8,14 +8,14 @@ import './style.scoped.scss';
 // Components
 import Arrow from '@/assets/icons/arrow.svg';
 
-function ButtonEntityPagination(props, ref) {
+function ButtonPagination(props, ref) {
     /**
      * Datas
      */
     const { name, slug } = props;
 
     return (
-        <Link to={ slug ? slug : '' } { ...props } className={ `button button-pagination ${ props.direction } ${ props.className ? props.className : '' }` }>
+        <Link to={ slug ? slug : '' } { ...props } className={ `button button-entity-pagination ${ props.direction } ${ props.className ? props.className : '' }` }>
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>
@@ -24,4 +24,4 @@ function ButtonEntityPagination(props, ref) {
     );
 }
 
-export default ButtonEntityPagination;
+export default ButtonPagination;

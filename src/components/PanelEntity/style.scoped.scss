@@ -327,8 +327,7 @@
 .pagination {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: rem(60px, 'small') rem(16px, 'small');
+    align-items: stretch;
 
     &.right {
         justify-content: flex-end;
@@ -336,13 +335,5 @@
 
     &.left {
         justify-content: flex-start;
-    }
-
-    @include respond-to('medium') {
-        padding: rem(53px, 'medium') rem(33px, 'medium');
-    }
-
-    @include respond-to('large') {
-        padding: rem(53px, 'large') rem(33px, 'large');
     }
 }

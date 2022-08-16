@@ -80,13 +80,12 @@ function createPages(languages) {
                     const nextIndex = index === (entities['en-US'].length - 1) ? null : index + 1;
 
                     let previousEntityItem;
-                    if (previousIndex) {
+                    if (previousIndex !== null) {
                         previousEntityItem = {
                             'en-US': entities['en-US'][previousIndex],
                             'ar-QA': entities['ar-QA'][previousIndex],
                         };
                     }
-
                     const entityItem = {
                         'en-US': entities['en-US'][currentIndex],
                         'ar-QA': entities['ar-QA'][currentIndex],
