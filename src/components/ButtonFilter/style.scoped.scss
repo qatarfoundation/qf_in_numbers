@@ -7,7 +7,7 @@
 
     font-weight: 300;
     font-size: rem(32px, 'small');
-    line-height: rem(38px, 'small');
+    //line-height: rem(38px, 'small');
 
     transition: color 0.1s $sine-in-out;
 
@@ -26,15 +26,15 @@
     @include respond-to('medium') {
         padding-bottom: rem(17px, 'medium');
 
-        font-size: rem(32px, 'medium');
-        line-height: rem(38px, 'medium');
+        font-size: rem(25px, 'medium');
+        //line-height: rem(38px, 'medium');
     }
 
     @include respond-to('large') {
         padding-bottom: rem(17px, 'large');
 
-        font-size: rem(32px, 'large');
-        line-height: rem(38px, 'large');
+        font-size: rem(25px, 'large');
+        //line-height: rem(38px, 'large');
     }
 
     &:not(:last-child) {
