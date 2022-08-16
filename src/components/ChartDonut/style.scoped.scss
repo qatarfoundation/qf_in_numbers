@@ -22,6 +22,14 @@
         text-anchor: middle;
         pointer-events: none;
     }
+    .p7.label {
+        @include respond-to('medium') {
+            font-size: rem(14px, 'medium');
+        }
+        @include respond-to('large') {
+            font-size: rem(14px, 'large');
+        }
+    }
 }
 
 .dataviz {

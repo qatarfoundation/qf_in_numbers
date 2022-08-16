@@ -11,6 +11,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Utils
 import wrap from '@/utils/wrapTextSVG';
+import Breakpoints from '@/utils/Breakpoints';
 
 // CSS
 import './style.scoped.scss';
@@ -36,6 +37,8 @@ function ChartDonut(props, ref) {
      */
     const [width, setWidth] = useState(sizeCircle + margin.right + margin.left);
     const [height, setHeight] = useState(sizeCircle + margin.top + margin.bottom);
+    const [labelPosition, setLabelPosition] = useState(Breakpoints.active('small') ? { top: 23, width: 90 } : { top: 30, width: 140 });
+
     /**
      * Stores
      */
@@ -51,7 +54,7 @@ function ChartDonut(props, ref) {
             const innerWidth = w - margin.left - margin.right;
             const innerHeight = h - margin.top - margin.bottom;
             const svg = dataviz.select('svg');
-            const chartContainer =  svg
+            const chartContainer = svg
                 .append('g')
                 .attr('class', 'chart-container')
                 .attr('transform', 'translate(' + w / 2 + ',' + h / 2 + ')');
@@ -65,10 +68,10 @@ function ChartDonut(props, ref) {
             const pie = d3.pie()
                 .value(d => d.value).sort(null);
             const data_ready = pie(data);
-            const donutContainer =  chartContainer
+            const donutContainer = chartContainer
                 .append('g')
                 .attr('class', 'donut-container');
-            const legendContainer =  donutContainer
+            const legendContainer = donutContainer
                 .append('g')
                 .attr('class', 'legend-container');
             legendContainer
@@ -80,8 +83,10 @@ function ChartDonut(props, ref) {
                 .append('text')
                 .text(chart.name)
                 .attr('class', 'p7 label')
-                .attr('y', 30)
+                .attr('y', labelPosition.top)
                 .attr('dy', '0.15em');
+            legendContainer.selectAll('.p7')
+                .call(wrap, labelPosition.width, false, 30);
             const outerArc = d3.arc()
                 .innerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95))
                 .outerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95));
@@ -92,7 +97,7 @@ function ChartDonut(props, ref) {
             const mouseover = function(e, d) {
                 donutContainer
                     .selectAll('.arc, .label-container')
-                    .style('opacity', (el) => d.index === el.index ? 1 : .4)
+                    .style('opacity', (el) => d.index === el.index ? 1 : .4);
                 if (e.target.classList.contains('has-tooltip')) {
                     const arc = d3.arc()
                         .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
@@ -109,7 +114,7 @@ function ChartDonut(props, ref) {
             const mouseleave = function(e) {
                 donutContainer
                     .selectAll('.arc, .label-container')
-                    .style('opacity', 1)
+                    .style('opacity', 1);
                 if (e.target.classList.contains('has-tooltip')) {
                     tooltip.style('opacity', 0);
                 }
@@ -196,6 +201,12 @@ function ChartDonut(props, ref) {
         sizeCircle = window.innerWidth >= 500 ? 232 : 172;
         setWidth(sizeCircle + margin.right + margin.left);
         setHeight(sizeCircle + margin.top + margin.bottom);
+
+        if (Breakpoints.active('small')) {
+            setLabelPosition(23, 90);
+        } else {
+            setLabelPosition(30, 140);
+        }
     }
     return (
         <>
