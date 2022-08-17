@@ -120,18 +120,6 @@ function SliderSubcategories(props, ref) {
     /**
      * Utils
      */
-    function romanize(num) {
-        if (isNaN(num)) return NaN;
-        const digits = String(+num).split('');
-        const key = ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM', '', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC', '', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
-        let roman = '';
-        let i = 3;
-        while (i--) {
-            roman = (key[+digits.pop() + (i * 10)] || '') + roman;
-        }
-        return Array(+digits.join('') + 1).join('M') + roman;
-    }
-
     function isFirstEntity() {
         return entityCurrentIndexRef.current === 0;
     }
@@ -168,7 +156,7 @@ function SliderSubcategories(props, ref) {
 
                 <div className="slider-content">
 
-                    <p className="slider-subcategory-title h3">{ romanize(subcategoryCurrentIndex + 1) }. { subcategories[subcategoryCurrentIndex].name }</p>
+                    <p className="slider-subcategory-title h3">{ subcategories[subcategoryCurrentIndex].name }</p>
 
                     {
                         <AnimatePresence exitBeforeEnter>
