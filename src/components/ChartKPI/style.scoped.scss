@@ -42,17 +42,7 @@
     }
 
     .value {
-        margin-top: rem(-5px);
-
         width: 80%;
-
-        @include respond-to('medium') {
-            margin-top: rem(-10px, 'medium');
-        }
-
-        @include respond-to('large') {
-            margin-top: rem(-10px, 'large');
-        }
     }
 }
 
