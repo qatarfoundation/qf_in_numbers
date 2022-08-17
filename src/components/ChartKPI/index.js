@@ -88,7 +88,9 @@ function ChartKPI(props, ref) {
     }
 
     function resizeHighlightLabel() {
-        const height = Math.max(listNameRef.current[0].offsetHeight, listNameRef.current[1].offsetHeight);
+        const leftElementHeight = listNameRef.current[0] ? listNameRef.current[0].offsetHeight : 0;
+        const rightElementHeight = listNameRef.current[1] ? listNameRef.current[1].offsetHeight : 0;
+        const height = Math.max(leftElementHeight, rightElementHeight);
         highlightLabelRef.current.style.height = `${ height }px`;
     }
 
