@@ -7,17 +7,18 @@ import './style.scoped.scss';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
-import Breakpoints from '@/utils/Breakpoints';
-
-// Hooks
-import useTick from '@/hooks/useTick';
-import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 const LabelMainCategory = (props) => {
     const { index: categoryIndex, subcategories } = props;
 
     const listRef = useRef();
     const itemsRef = useRef([]);
+
+    const categories = [
+        'community',
+        'research',
+        'education',
+    ];
 
     useEffect(() => {
         const handler = (position) => {
@@ -68,7 +69,7 @@ const LabelMainCategory = (props) => {
     });
 
     return (
-        <ul className="list" ref={ listRef }>
+        <ul className={ `list ${ categories[categoryIndex] }` } ref={ listRef }>
             {
                 subcategories.map((subcategory, index) => {
                     return (
