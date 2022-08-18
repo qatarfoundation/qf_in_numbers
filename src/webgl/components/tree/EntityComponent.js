@@ -7,8 +7,10 @@ import { AdditiveBlending, BoxBufferGeometry, BufferGeometry, CatmullRomCurve3, 
 import useStore from '@/hooks/useStore';
 
 // Utils
+import TreeDataModel from '@/utils/TreeDataModel';
 import randomArbitrary from '@/utils/math/randomArbitrary';
 import Breakpoints from '@/utils/Breakpoints';
+import math from '@/utils/math';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/entity-particles/vertex.glsl';
@@ -16,7 +18,6 @@ import fragmentShader from '@/webgl/shaders/entity-particles/fragment.glsl';
 
 import particlesBigVertexShader from '@/webgl/shaders/tree-particles-big/vertex.glsl';
 import particlesBigFragmentShader from '@/webgl/shaders/tree-particles-big/fragment.glsl';
-import math from '@/utils/math/index';
 
 export default class EntityComponent extends component(Object3D) {
     init(options = {}) {
@@ -33,6 +34,12 @@ export default class EntityComponent extends component(Object3D) {
         // this._skeleton = this._createSkeleton();
         this._particles = this._createParticles();
         this._particlesMat = null;
+
+        this._halfRenderWidth = 0;
+        this._halfRenderHeight = 0;
+
+        this._chartParticlePositions = new Object3D();
+        this._scrollContainer.add(this._chartParticlePositions);
 
         this._scrollPosition = {
             current: 0,
@@ -234,6 +241,12 @@ export default class EntityComponent extends component(Object3D) {
             dummy.position.copy(position);
             dummy.updateMatrix();
             mesh.setMatrixAt(i, dummy.matrix);
+
+            const anchor = new Object3D();
+            anchor.position.copy(position);
+            anchor.userData.transformed = new Vector3();
+            anchor.userData.target = new Vector3();
+            this._chartParticlePositions.add(anchor);
         }
 
         return mesh;
@@ -245,6 +258,7 @@ export default class EntityComponent extends component(Object3D) {
         this._chartParticles.material.dispose();
         this._chartParticles.geometry.dispose();
         this._chartParticles.dispose();
+        this._chartParticlePositions.clear();
     }
 
     _updateParticlesColors(colors) {
@@ -269,7 +283,13 @@ export default class EntityComponent extends component(Object3D) {
     /**
      * Update
      */
-    update({ time, delta }) {
+    update({ time }) {
+        this._updateScrollPosition();
+        this._updateChartParticlesScreenSpacePositions();
+        this._particles.material.uniforms.uTime.value = time;
+    }
+
+    _updateScrollPosition() {
         const scrolls = useStore.getState().scrolls;
         if (scrolls && scrolls.entity && !this._isTransitioning) {
             this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
@@ -277,24 +297,51 @@ export default class EntityComponent extends component(Object3D) {
             // this._scrollPosition.current = this._scrollPosition.target;
             this._scrollContainer.position.y = this._scrollPosition.current;
         }
-        this._particles.material.uniforms.uTime.value = time;
+    }
+
+    _updateChartParticlesScreenSpacePositions() {
+        let item;
+        let transformed;
+        let target;
+        for (let i = 0, len = this._chartParticlePositions.children.length; i < len; i++) {
+            item = this._chartParticlePositions.children[i];
+            transformed = item.userData.transformed;
+            target = item.userData.target;
+            transformed.setFromMatrixPosition(item.matrixWorld);
+            transformed.project(this._camera);
+            transformed.x = (transformed.x * this._halfRenderWidth) + this._halfRenderWidth;
+            transformed.y = -(transformed.y * this._halfRenderHeight) + this._halfRenderHeight;
+            // target.x = math.lerp(target.x, transformed.x, 0.1);
+            // target.y = math.lerp(target.y, transformed.y, 0.1);
+            TreeDataModel.updateChartParticlePosition(i, {
+                position: transformed,
+                side: transformed.x > this._sceneWidth * 0.5 ? 'right' : 'left',
+            });
+        }
     }
 
     /**
      * Resize
      */
     onWindowResize(dimensions) {
+        this._halfRenderWidth = dimensions.renderWidth * 0.5;
+        this._halfRenderHeight = dimensions.renderHeight * 0.5;
+        this._sceneWidth = this._calcSceneWidth(dimensions);
         this._positionScene(dimensions);
         this._resizeCamera(dimensions);
     }
 
+    _calcSceneWidth({ renderWidth }) {
+        const panelWidth = Math.min(renderWidth * 0.63, Breakpoints.rem(895));
+        const width = renderWidth - panelWidth;
+        return width;
+    }
+
     _positionScene({ renderWidth, renderHeight }) {
         const locale = useStore.getState().locale;
-        const panelWidth = Math.min(renderWidth * 0.63, Breakpoints.rem(895));
-        const particlesWidth = renderWidth - panelWidth;
-        let x = renderWidth * -0.5 + particlesWidth * 0.5;
+        let x = renderWidth * -0.5 + this._sceneWidth * 0.5;
         if (locale === 'ar-QA') {
-            x = renderWidth * 0.5 - particlesWidth * 0.5;
+            x = renderWidth * 0.5 - this._sceneWidth * 0.5;
         }
         const y = renderHeight * 0.5 + Breakpoints.rem(-250);
         this._scene.position.x = x;

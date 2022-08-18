@@ -1,5 +1,5 @@
 // React
-import React, { useState, useRef, useEffect, useImperativeHandle } from 'react';
+import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
@@ -20,9 +20,6 @@ import ButtonEntityPagination from '@/components/ButtonEntityPagination';
 import Charts from '@/components/Charts';
 import ButtonShare from '@/components/ButtonShare';
 import SequenceCharts from '@/components/SequenceCharts';
-
-// Hooks
-import { forwardRef } from 'react';
 
 function PanelEntity(props, ref) {
     /**

@@ -19,7 +19,8 @@ import './style.scoped.scss';
 
 // Components
 import PanelEntity from '@/components/PanelEntity';
-import ButtonBack from '@/components/ButtonBack/index';
+import ButtonBack from '@/components/ButtonBack';
+import ListEntityHighlights from '@/components/ListEntityHighlights';
 
 function EntityTemplate(props) {
     /**
@@ -52,6 +53,7 @@ function EntityTemplate(props) {
     const elRef = useRef();
     const buttonBackRef = useRef();
     const panelEntityRef = useRef();
+    const listEntityHighlightsRef = useRef();
 
     const timelines = useRef({
         transitionIn: null,
@@ -85,6 +87,7 @@ function EntityTemplate(props) {
 
         timelines.current.transitionIn.add(buttonBackRef.current.show(), 0);
         timelines.current.transitionIn.add(panelEntityRef.current.show(), 0);
+        timelines.current.transitionIn.add(listEntityHighlightsRef.current.show(), 1);
         timelines.current.transitionIn.call(() => { Globals.webglApp.selectEntity(entity, category.id); }, null, 0);
     }
 
@@ -95,6 +98,7 @@ function EntityTemplate(props) {
 
         timelines.current.transitionOut.add(panelEntityRef.current.hide(), 0);
         timelines.current.transitionOut.add(buttonBackRef.current.hide(), 0);
+        timelines.current.transitionOut.add(listEntityHighlightsRef.current.hide(), 0);
         timelines.current.transitionOut.call(() => { Globals.webglApp.hideCurrentEntity(); }, null, 0);
     }
 
@@ -116,6 +120,8 @@ function EntityTemplate(props) {
             </Helmet>
 
             <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ entity.slug.slice(0, entity.slug.lastIndexOf('/')) } />
+
+            <ListEntityHighlights ref={ listEntityHighlightsRef } />
 
             <PanelEntity ref={ panelEntityRef } subcategory={ subcategory } entity={ entity } next={ entityNext } previous={ entityPrevious } />
 

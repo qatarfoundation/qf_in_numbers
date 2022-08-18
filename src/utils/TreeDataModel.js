@@ -34,6 +34,7 @@ const MODEL = {
         active: null,
     },
     entities: {},
+    chartParticles: [],
 };
 
 class TreeDataModel extends EventDispatcher {
@@ -57,6 +58,10 @@ class TreeDataModel extends EventDispatcher {
 
     get isEmpty() {
         return this._isEmpty;
+    }
+
+    get chartParticles() {
+        return this._model.chartParticles;
     }
 
     /**
@@ -129,6 +134,10 @@ class TreeDataModel extends EventDispatcher {
     setSubcategory(name) {
         this._model.subcategory.active = name;
         this.dispatchEvent('subcategory/active', name);
+    }
+
+    updateChartParticlePosition(index, position) {
+        this._model.chartParticles[index] = position;
     }
 }
 
