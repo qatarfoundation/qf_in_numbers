@@ -9,6 +9,7 @@ import './style.scoped.scss';
 // Components
 import SliderEntitiesMobile from '@/components/SliderEntitiesMobile/index';
 import ButtonDiscover from '@/components/ButtonDiscover';
+import ButtonFullList from '@/components/ButtonFullList';
 
 function SliderSubcategoriesMobile(props, ref) {
     /**
@@ -153,6 +154,8 @@ function SliderSubcategoriesMobile(props, ref) {
 
                     </AnimatePresence>
                 }
+
+                <ButtonFullList />
 
             </div>
 

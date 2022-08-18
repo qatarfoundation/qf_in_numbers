@@ -1,0 +1,130 @@
+.button-open {
+    position: absolute;
+    left: rem(0px, 'small');
+    bottom: rem(5px, 'small');
+
+    width: rem(100px, 'small');
+    height: rem(30px, 'small');
+
+    pointer-events: all;
+
+    .ar & {
+        right: 0;
+        left: auto;
+    }
+
+    .modal-subcategories.is-open & {
+        pointer-events: none;
+    }
+
+    @include respond-to('medium') {
+        right: auto;
+        bottom: auto;
+        left: rem(-6px, 'medium');
+        top: rem(300px, 'medium');
+
+        width: rem(50px, 'medium');
+        height: rem(32px, 'medium');
+
+        .ar & {
+            left: auto;
+        }
+    }
+
+    @include respond-to('large') {
+        left: rem(0px, 'large');
+        top: rem(320px, 'large');
+
+        width: rem(90px, 'large');
+        height: rem(32px, 'large');
+
+        .ar & {
+            left: auto;
+        }
+    }
+
+    svg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+
+        width: rem(20px);
+        height: rem(20px);
+
+        margin: auto 0;
+
+        > path {
+            fill: var(--color-theme-secondary);
+        }
+
+        @include respond-to('medium') {
+            width: rem(14px, 'medium');
+            height: rem(14px, 'medium');
+        }
+
+        @include respond-to('large') {
+            width: rem(14px, 'large');
+            height: rem(14px, 'large');
+        }
+
+        .ar & {
+            left: auto;
+            right: 0;
+        }
+    }
+
+    path {
+        transition: fill 0.3s $sine-in-out;
+    }
+
+    &:hover {
+        path {
+            fill: var(--color-theme-primary);
+        }
+
+        .button-circle {
+            opacity: 0.4;
+
+            transform: scale(1.1);
+        }
+    }
+}
+
+.button-open__label {
+    display: block;
+    position: absolute;
+
+    top: rem(0px);
+    left: rem(30px);
+
+    white-space: nowrap;
+
+    @include respond-to('medium') {
+        top: rem(1px, 'medium');
+        left: rem(40px, 'medium');
+
+        font-size: rem(14px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(1px, 'large');
+        left: rem(30px, 'large');
+
+        font-size: rem(14px, 'large');
+    }
+
+    .ar & {
+        left: auto;
+        right: rem(30px);
+
+        @include respond-to('medium') {
+            right: rem(30px, 'medium');
+        }
+
+        @include respond-to('large') {
+            right: rem(30px, 'large');
+        }
+
+    }
+}

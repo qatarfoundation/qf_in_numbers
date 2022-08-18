@@ -2,6 +2,9 @@
 import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
+// Vendor
+import { Lethargy } from 'lethargy';
+
 // CSS
 import './style.scoped.scss';
 
@@ -11,8 +14,7 @@ import Globals from '@/utils/Globals';
 // Components
 import SliderEntities from '@/components/SliderEntities/index';
 import LabelsEntities from '@/components/LabelsEntities';
-
-import { Lethargy } from 'lethargy';
+import ButtonFullList from '@/components/ButtonFullList';
 
 function SliderSubcategories(props, ref) {
     /**
@@ -165,6 +167,8 @@ function SliderSubcategories(props, ref) {
 
                         </AnimatePresence>
                     }
+
+                    <ButtonFullList />
 
                 </div>
 

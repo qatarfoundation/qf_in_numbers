@@ -21,6 +21,10 @@
 
         font-size: rem(30px, 'large');
     }
+
+    .first & {
+        font-size: rem(40px, 'large');
+    }
 }
 
 .slide-entity-title.active {
