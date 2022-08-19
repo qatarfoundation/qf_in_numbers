@@ -4,7 +4,6 @@ attribute float hoverColor;
 attribute vec4 displacement;
 
 // Varyings
-varying vec2 vUv;
 varying vec4 vSettings;
 varying float vHoverColor;
 varying float vDisplacement;

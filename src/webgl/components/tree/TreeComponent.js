@@ -164,13 +164,27 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     categoryMouseEnter(name) {
+        clearTimeout(this._categoryMouseLeaveTimeout);
+
         const branch = this._getBranch(name);
         branch.mouseEnter();
+
+        const inactiveBranches = this._getInactiveBranches(name);
+        for (let i = 0, len = inactiveBranches.length; i < len; i++) {
+            inactiveBranches[i].fadeOut();
+        }
     }
 
     categoryMouseLeave(name) {
         const branch = this._getBranch(name);
         branch.mouseLeave();
+
+        clearTimeout(this._categoryMouseLeaveTimeout);
+        this._categoryMouseLeaveTimeout = setTimeout(() => {
+            for (let i = 0, len = this._branches.length; i < len; i++) {
+                this._branches[i].fadeIn();
+            }
+        }, 200);
     }
 
     /**
@@ -228,6 +242,16 @@ export default class TreeComponent extends component(Object3D) {
             item = this._branches[i];
             if (item.slug === slug) return item;
         }
+    }
+
+    _getInactiveBranches(slug) {
+        let item;
+        const inactive = [];
+        for (let i = 0, len = this._branches.length; i < len; i++) {
+            item = this._branches[i];
+            if (item.slug !== slug) inactive.push(item);
+        }
+        return inactive;
     }
 
     _createHitAreas() {

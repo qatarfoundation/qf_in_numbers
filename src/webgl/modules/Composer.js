@@ -2,7 +2,7 @@
 import { component } from '@/utils/bidello';
 
 // Three
-import { RGBAFormat, WebGLRenderTarget, LinearFilter } from 'three';
+import { RGBAFormat, WebGLRenderTarget, LinearFilter, Vector2 } from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
@@ -10,6 +10,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import Debugger from '@/utils/Debugger';
 
 // Passes
+import { CustomUnrealBloomPass } from '@/webgl/passes/bloom/CustomUnrealBloomPass';
 import FinalPass from '@/webgl/passes/Final';
 
 // Shaders
@@ -91,6 +92,7 @@ export default class Composer extends component() {
         passes.backgroundGradient = this._createBackgroundGradientPass();
         passes.viewRender = this._createViewRenderPass();
         passes.entityRender = this._createEntityRenderPass();
+        // passes.bloom = this._createBloomPass();
         passes.final = this._createFinalPass();
         return passes;
     }
@@ -114,6 +116,52 @@ export default class Composer extends component() {
         const pass = new RenderPass(null, null);
         pass.clear = false;
         this._composer.addPass(pass);
+        return pass;
+    }
+
+    _createBloomPass() {
+        const pass = new CustomUnrealBloomPass({
+            resolution: new Vector2(),
+            strength: 3.31,
+            radius: 0.29,
+            threshold: 0.06,
+            smoothWidth: 0.01,
+            isBloomUI: false,
+        });
+        pass.enabled = true;
+        this._composer.addPass(pass);
+
+        if (this._debug) {
+            const debug = this._debug.addGroup('Bloom');
+            debug.add(pass, 'enabled', {
+                listen: true,
+            });
+            debug.add(pass, 'strength', {
+                min: 0,
+                max: 3,
+                step: 0.01,
+                listen: true,
+            });
+            debug.add(pass, 'radius', {
+                min: 0,
+                max: 1,
+                step: 0.01,
+                listen: true,
+            });
+            debug.add(pass, 'threshold', {
+                min: 0,
+                max: 1,
+                step: 0.01,
+                listen: true,
+            });
+            debug.add(pass, 'smoothWidth', {
+                min: 0,
+                max: 1,
+                step: 0.01,
+                listen: true,
+            });
+        }
+
         return pass;
     }
 
