@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // Vendor
-import textFit from 'textFit';
+import textFit from 'textfit';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
