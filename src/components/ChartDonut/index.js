@@ -12,6 +12,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 // Utils
 import wrap from '@/utils/wrapTextSVG';
 import Breakpoints from '@/utils/Breakpoints';
+import number from '@/utils/number';
 
 // CSS
 import './style.scoped.scss';
@@ -24,14 +25,17 @@ function ChartDonut(props, ref) {
     const { language } = useI18next();
     const { chart } = props;
     const data = chart.fields;
+
     let sizeCircle = window.innerWidth >= 500 ? 232 : 172;
     const widthStroke = 20;
-    let margin = {
-        top: 100,
-        right: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
-        bottom: 75,
-        left: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
-    };
+    let margin = calcMargin();
+
+    /**
+     * Refs
+     */
+    const labelsRef = useRef([]);
+    const arcActiveRef = useRef();
+
     /**
      * States
      */
@@ -51,8 +55,8 @@ function ChartDonut(props, ref) {
             dataviz.select('.chart-container').remove();
             const w = width;
             const h = height;
-            const innerWidth = w - margin.left - margin.right;
-            const innerHeight = h - margin.top - margin.bottom;
+            // const innerWidth = w - margin.left - margin.right;
+            // const innerHeight = h - margin.top - margin.bottom;
             const svg = dataviz.select('svg');
             const chartContainer = svg
                 .append('g')
@@ -94,10 +98,14 @@ function ChartDonut(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
-            const mouseover = function(e, d) {
+            const mouseenter = function(e, d) {
                 donutContainer
                     .selectAll('.arc, .label-container')
-                    .style('opacity', (el) => d.index === el.index ? 1 : .4);
+                    .style('opacity', (el) => {
+                        return d.index === el.index ? 1 : 0.2;
+                    });
+                e.target.classList.add('active');
+                arcActiveRef.current = e.target;
                 if (e.target.classList.contains('has-tooltip')) {
                     const arc = d3.arc()
                         .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
@@ -112,9 +120,12 @@ function ChartDonut(props, ref) {
                 }
             };
             const mouseleave = function(e) {
+                arcActiveRef.current.classList.remove('active');
                 donutContainer
                     .selectAll('.arc, .label-container')
-                    .style('opacity', 1);
+                    .style('opacity', (el) => {
+                        return number.map(el.data.percent / 100, 0, 1, 0.3, 1);
+                    });
                 if (e.target.classList.contains('has-tooltip')) {
                     tooltip.style('opacity', 0);
                 }
@@ -132,10 +143,12 @@ function ChartDonut(props, ref) {
                     .innerRadius(sizeCircle / 2 - widthStroke)
                     .outerRadius(sizeCircle / 2),
                 )
-                .attr('fill', function(d) { return(color(d.data.value)); })
                 .attr('stroke', 'white')
                 .style('stroke-width', '2px')
-                .on('mouseover', mouseover)
+                .style('opacity', (el) => {
+                    return number.map(el.data.percent / 100, 0, 1, 0.3, 1);
+                })
+                .on('mouseenter', mouseenter)
                 .on('mouseleave', mouseleave);
             const labelContainer = donutContainer
                 .selectAll('allLabels')
@@ -147,34 +160,25 @@ function ChartDonut(props, ref) {
                     return `label-container ${ isHide ? 'is-hidden' : '' }`;
                 })
                 .attr('transform', function(d) {
-                    const pos = outerArc.centroid(d);
+                    const position = outerArc.centroid(d);
+
+                    const index = d.index;
+                    const element = labelsRef.current[index];
+                    const offset = Breakpoints.active('small') ? 5 : 12;
+                    const x = position[0] + offset * (position[0] > 0 ? -1 : 1);
+                    const y = position[1] + offset * (position[1] > 0 ? -1 : 1);
+                    element.style.transform = `translate(${ x }px, ${ y }px)`;
+
                     const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                    const dir = midangle < Math.PI ? 1 : -1;
-                    // pos[0] += (45 / 2) * dir;
-                    // pos[1] += 48 / 2;
-                    return 'translate(' + pos + ')';
+                    const sideHorizontal = (midangle < Math.PI ? 'right' : 'left');
+                    // const sideHorizontal = language === 'ar-QA' ? (midangle < Math.PI ? 'right' : 'left') : (midangle < Math.PI ? 'left' : 'right');
+                    const sideVertical = midangle > Math.PI * 0.5 && midangle < Math.PI * 1.5 ? 'bottom' : 'top';
+                    element.children[0].classList.add(sideHorizontal, sideVertical);
+
+                    return 'translate(' + position + ')';
                 });
-            labelContainer
-                .append('text')
-                .text(function(d) { return d.data.percent + '%'; })
-                .attr('class', 'p3 label')
-                .attr('dy', '0.15em')
-                .style('text-anchor', function(d) {
-                    const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                    return (midangle < Math.PI ? 'start' : 'end');
-                });
-            labelContainer
-                .append('text')
-                .text(function(d) { return d.data.name; })
-                .attr('class', 'p6 label')
-                .attr('y', 17.5)
-                .attr('dy', '0.15em')
-                .style('text-anchor', function(d) {
-                    const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-                    return (midangle < Math.PI ? 'start' : 'end');
-                });
-            labelContainer.selectAll('.p6')
-                .call(wrap, 100);
+            // labelContainer
+            //     .append('rect').attr('width', 2).attr('height', 2).attr('fill', 'red');
         },
         [data.length, width, themeCategory],
     );
@@ -192,12 +196,7 @@ function ChartDonut(props, ref) {
      * Private
      */
     function resize() {
-        margin = {
-            top: 100,
-            right: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
-            bottom: 75,
-            left: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
-        };
+        margin = calcMargin();
         sizeCircle = window.innerWidth >= 500 ? 232 : 172;
         setWidth(sizeCircle + margin.right + margin.left);
         setHeight(sizeCircle + margin.top + margin.bottom);
@@ -208,6 +207,16 @@ function ChartDonut(props, ref) {
             setLabelPosition(30, 140);
         }
     }
+
+    function calcMargin() {
+        return {
+            top: Breakpoints.active('small') ? 50 : 100,
+            right: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+            bottom: Breakpoints.active('small') ? 25 : 75,
+            left: language !== 'ar-QA' ? 75 + (window.innerWidth >= 500 ? 62 : 18) : 75 + (window.innerWidth >= 500 ? 62 : 18),
+        };
+    }
+
     return (
         <>
             <div ref={ refChart } className="dataviz">
@@ -216,6 +225,21 @@ function ChartDonut(props, ref) {
                     height={ height }
                     className="chart chart-donut"
                 />
+
+                <ul className="labels">
+                    {
+                        data.map((item, index) => {
+                            return (
+                                <li key={ index } ref={ (el) => labelsRef.current[index] = el } className={ item.percent < 5 ? 'hide' : '' }>
+                                    <div className="content">
+                                        <span className="p3 value">{ item.value }</span>
+                                        <span className="p6 label" title={ item.name }>{ item.name }</span>
+                                    </div>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
             </div>
         </>
     );
