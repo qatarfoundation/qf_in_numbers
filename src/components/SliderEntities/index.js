@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useRef, forwardRef } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 import { usePresence } from 'framer-motion';
 
@@ -17,10 +17,10 @@ import './style.scoped.scss';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Components
-import SlideEntity from '../SlideEntity/index';
+import SlideEntity from '../SlideEntity';
 import useTick from '@/hooks/useTick';
 
-function SliderEntities(props, ref) {
+function SliderEntities(props) {
     /**
      * Props
      */
@@ -128,10 +128,19 @@ function SliderEntities(props, ref) {
 
         bounds.current.listItems = [];
 
+        let first = null;
+
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
             const listItem = listItemEntitiesRef.current[i];
+            const child = listItem.children[0];
+            if (child.classList.contains('first')) {
+                child.classList.remove('first');
+                first = child;
+            }
             bounds.current.listItems.push(listItem.offsetHeight);
         }
+
+        if (first) first.classList.add('first');
     }
 
     function updateOffset() {
@@ -143,8 +152,7 @@ function SliderEntities(props, ref) {
         if (!listItemEntitiesRef.current[0]) return;
 
         for (let i = 0; i < listItemEntitiesRef.current.length; i++) {
-            const listItem = listItemEntitiesRef.current[i];
-            listItem.style.transform = `translate3d(0, ${ offset.current.current }px, 0)`;
+            listItemEntitiesRef.current[i].style.transform = `translate3d(0, ${ offset.current.current }px, 0)`;
         }
     }
 
@@ -152,7 +160,6 @@ function SliderEntities(props, ref) {
      * Events
      */
     useTick(tickHandler);
-
     useWindowResizeObserver(resizeHandler);
 
     /**

@@ -62,7 +62,7 @@ function SlideEntity(props, ref) {
 
         elRef.current.style.opacity = alphaOffset * globalAlpha;
 
-        activeTitleRef.current.style.opacity = activeAlpha;
+        // activeTitleRef.current.style.opacity = activeAlpha;
     }
 
     /**
@@ -80,7 +80,7 @@ function SlideEntity(props, ref) {
 
             <p className="slide-entity-title p1">{ entity.name }</p>
 
-            <p ref={ activeTitleRef } className="slide-entity-title active p1">{ entity.name }</p>
+            { /* <p ref={ activeTitleRef } className="slide-entity-title active p1">{ entity.name }</p> */ }
 
         </div>
     );
