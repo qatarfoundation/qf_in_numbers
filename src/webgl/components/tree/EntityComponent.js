@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { AdditiveBlending, BoxBufferGeometry, BufferGeometry, CatmullRomCurve3, Color, InstancedBufferAttribute, InstancedMesh, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, Object3D, OrthographicCamera, PerspectiveCamera, PlaneBufferGeometry, Scene, ShaderMaterial, Vector3 } from 'three';
+import { AdditiveBlending, BufferGeometry, CatmullRomCurve3, Color, InstancedBufferAttribute, InstancedMesh, Line, LineBasicMaterial, Object3D, OrthographicCamera, PlaneBufferGeometry, Scene, ShaderMaterial, Vector3 } from 'three';
 
 // Hooks
 import useStore from '@/hooks/useStore';
@@ -66,6 +66,7 @@ export default class EntityComponent extends component(Object3D) {
      */
     show(data, category) {
         const colors = this._getColors(category);
+
         this._chartParticles = this._createChartParticles(data.charts, colors);
         this._updateParticlesColors(colors);
 
@@ -143,7 +144,7 @@ export default class EntityComponent extends component(Object3D) {
         for (let i = 0; i < amount; i++) {
             const point = this._curve.getPointAt(Math.random());
             point.x += randomArbitrary(-80, 80);
-            this._scrollHeight = -point.y;
+            this._scrollHeight = this._scrollHeight > -point.y ? this._scrollHeight : -point.y;
             vertices.push(point.x, point.y, point.z);
             sizes.push(randomArbitrary(0.2, 1));
             colors.push(Math.random() > 0.5 ? 1 : 0);
@@ -292,8 +293,9 @@ export default class EntityComponent extends component(Object3D) {
     _updateScrollPosition() {
         const scrolls = useStore.getState().scrolls;
         if (scrolls && scrolls.entity && !this._isTransitioning) {
-            this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
-            this._scrollPosition.current = math.lerp(this._scrollPosition.current, this._scrollPosition.target, 0.1);
+            // this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
+            this._scrollPosition.target = scrolls.entity.scrollY;
+            this._scrollPosition.current = math.lerp(this._scrollPosition.current, this._scrollPosition.target, 0.075);
             // this._scrollPosition.current = this._scrollPosition.target;
             this._scrollContainer.position.y = this._scrollPosition.current;
         }
@@ -305,12 +307,15 @@ export default class EntityComponent extends component(Object3D) {
         let target;
         for (let i = 0, len = this._chartParticlePositions.children.length; i < len; i++) {
             item = this._chartParticlePositions.children[i];
+            item.updateMatrix();
+            item.updateMatrixWorld();
             transformed = item.userData.transformed;
             target = item.userData.target;
             transformed.setFromMatrixPosition(item.matrixWorld);
             transformed.project(this._camera);
             transformed.x = (transformed.x * this._halfRenderWidth) + this._halfRenderWidth;
             transformed.y = -(transformed.y * this._halfRenderHeight) + this._halfRenderHeight;
+
             // target.x = math.lerp(target.x, transformed.x, 0.1);
             // target.y = math.lerp(target.y, transformed.y, 0.1);
             TreeDataModel.updateChartParticlePosition(i, {

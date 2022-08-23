@@ -315,6 +315,7 @@ function parseChart(data, type) {
     }
     if (data.subtitle) chart.subtitle = data.subtitle;
     if (data.labelTooltip) chart.labelTooltip = data.labelTooltip;
+    if (data.highlightedData) chart.highlightedData = data.highlightedData.fields;
     switch (type) {
         case 'kpiChart':
             chart = { ...chart, ...parseKPIChart(data) };

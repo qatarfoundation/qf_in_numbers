@@ -12,10 +12,9 @@ import WindowResizeObserver from '@/utils/WindowResizeObserver';
 // CSS
 import './style.scoped.scss';
 
-function ListEntityHighlights(props, ref) {
-    const data = [
-        { label: 'Dummy data', value: 123 },
-    ];
+function ListChartHighlight(props, ref) {
+    const { charts } = props;
+    const data = parseCharts(charts);
 
     const { language } = useI18next();
 
@@ -33,6 +32,7 @@ function ListEntityHighlights(props, ref) {
                 const element = itemsRef.current[i];
                 if (TreeDataModel.chartParticles[i]) {
                     const position = TreeDataModel.chartParticles[i].position;
+
                     const side =  TreeDataModel.chartParticles[i].side;
                     element.classList.add(side);
 
@@ -71,6 +71,39 @@ function ListEntityHighlights(props, ref) {
     }
 
     /**
+     * Private
+     */
+    function parseCharts(charts) {
+        const highlights = [];
+        const grouped = groupCharts(charts);
+        for (const key in grouped) {
+            const group = grouped[key];
+            for (let i = 0; i < group.length; i++) {
+                const element = group[i];
+                if (element.highlightedData) {
+                    highlights.push(element.highlightedData);
+                    break;
+                }
+            }
+        }
+        return highlights;
+    }
+
+    function groupCharts(charts) {
+        const groups = {};
+        if (charts) {
+            for (let i = 0, len = charts.length; i < len; i++) {
+                const item = charts[i];
+                if (!groups[item.type]) {
+                    groups[item.type] = [];
+                }
+                groups[item.type].push(item);
+            }
+        }
+        return groups;
+    }
+
+    /**
      * Expose public
      */
     useImperativeHandle(ref, () => ({
@@ -86,7 +119,7 @@ function ListEntityHighlights(props, ref) {
                         <li key={ index } ref={ el => itemsRef.current[index] = el }>
                             <div className="content">
                                 <span className="h5 value">{ item.value }</span>
-                                <span className="p4 label">{ item.label }</span>
+                                <span className="p4 label">{ item.title }</span>
                             </div>
                         </li>
                     );
@@ -96,4 +129,4 @@ function ListEntityHighlights(props, ref) {
     );
 }
 
-export default forwardRef(ListEntityHighlights);
+export default forwardRef(ListChartHighlight);
