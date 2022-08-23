@@ -34,14 +34,16 @@ function ListChartHighlight(props, ref) {
                     const position = TreeDataModel.chartParticles[i].position;
 
                     const side =  TreeDataModel.chartParticles[i].side;
-                    element.classList.add(side);
+                    if (element) {
+                        element.classList.add(side);
 
-                    let x = position.x;
-                    if (language === 'ar-QA') {
-                        x = -(WindowResizeObserver.fullWidth - position.x);
+                        let x = position.x;
+                        if (language === 'ar-QA') {
+                            x = -(WindowResizeObserver.fullWidth - position.x);
+                        }
+
+                        element.style.transform = `translate(${ x }px, ${ position.y }px)`;
                     }
-
-                    element.style.transform = `translate(${ x }px, ${ position.y }px)`;
                 }
             }
         };

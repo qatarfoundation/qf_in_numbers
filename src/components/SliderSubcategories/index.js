@@ -12,7 +12,7 @@ import './style.scoped.scss';
 import Globals from '@/utils/Globals';
 
 // Components
-import SliderEntities from '@/components/SliderEntities/index';
+import SliderEntities from '@/components/SliderEntities';
 import LabelsEntities from '@/components/LabelsEntities';
 import ButtonFullList from '@/components/ButtonFullList';
 
