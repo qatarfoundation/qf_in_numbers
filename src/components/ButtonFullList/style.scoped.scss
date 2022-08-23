@@ -1,7 +1,7 @@
 .button-open {
     position: absolute;
-    left: rem(0px, 'small');
-    bottom: rem(5px, 'small');
+    left: rem(150px, 'small');
+    bottom: rem(-57px, 'small');
 
     width: rem(100px, 'small');
     height: rem(30px, 'small');
@@ -9,7 +9,7 @@
     pointer-events: all;
 
     .ar & {
-        right: 0;
+        right: rem(150px, 'small');
         left: auto;
     }
 
