@@ -25,6 +25,10 @@ function PanelYear(props, ref) {
     const { years, currentYear } = props;
     const { t } = useTranslation();
 
+    const activeYears = years.filter(year => {
+        return year.categories.filter(cat => cat.subcategories.length !== 0).length !== 0
+    })
+
     /**
      * Refs
      */
@@ -120,7 +124,7 @@ function PanelYear(props, ref) {
 
             <Scrollbar revert={ false }>
 
-                <ListYears years={ years } currentYear={ currentYear } />
+                <ListYears years={ activeYears } currentYear={ currentYear } />
 
             </Scrollbar>
 

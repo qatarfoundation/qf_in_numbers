@@ -26,7 +26,7 @@
 
     margin-right: rem(47px, 'small');
 
-    overflow: hidden;
+    /** overflow: hidden; **/
 
     .ar & {
         margin-left: rem(47px, 'small');

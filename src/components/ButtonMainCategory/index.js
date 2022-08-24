@@ -155,7 +155,7 @@ const ButtonMainCategory = (props, ref) => {
     }
 
     return (
-        <Link to={ props.slug ? props.slug : '' } className={ `button-main-category anchor-x-${ props.anchorX } anchor-y-${ props.anchorY } ${ props.color } ${ isNotActive ? 'is-not-active' : '' }` } ref={ elRef } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
+        <Link to={ props.slug && !isNotActive ? props.slug : '' } className={ `button-main-category anchor-x-${ props.anchorX } anchor-y-${ props.anchorY } ${ props.color } ${ isNotActive ? 'is-not-active' : '' }` } ref={ elRef } onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler }>
 
             <div className="click-area copy h4">{ props.label }</div>
 

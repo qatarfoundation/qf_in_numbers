@@ -80,13 +80,12 @@ function createPages(languages) {
                     const nextIndex = index === (entities['en-US'].length - 1) ? null : index + 1;
 
                     let previousEntityItem;
-                    if (previousIndex) {
+                    if (previousIndex !== null) {
                         previousEntityItem = {
                             'en-US': entities['en-US'][previousIndex],
                             'ar-QA': entities['ar-QA'][previousIndex],
                         };
                     }
-
                     const entityItem = {
                         'en-US': entities['en-US'][currentIndex],
                         'ar-QA': entities['ar-QA'][currentIndex],
@@ -316,6 +315,7 @@ function parseChart(data, type) {
     }
     if (data.subtitle) chart.subtitle = data.subtitle;
     if (data.labelTooltip) chart.labelTooltip = data.labelTooltip;
+    if (data.highlightedData) chart.highlightedData = data.highlightedData.fields;
     switch (type) {
         case 'kpiChart':
             chart = { ...chart, ...parseKPIChart(data) };

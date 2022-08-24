@@ -7,8 +7,10 @@ import { AnimatePresence } from 'framer-motion';
 import './style.scoped.scss';
 
 // Components
-import SliderEntitiesMobile from '@/components/SliderEntitiesMobile/index';
+import SliderEntitiesMobile from '@/components/SliderEntitiesMobile';
+import LabelsEntities from '@/components/LabelsEntities';
 import ButtonDiscover from '@/components/ButtonDiscover';
+import ButtonFullList from '@/components/ButtonFullList';
 
 function SliderSubcategoriesMobile(props, ref) {
     /**
@@ -138,31 +140,37 @@ function SliderSubcategoriesMobile(props, ref) {
     }
 
     return (
-        <div className="slider-subcategories">
+        <>
+            <div className="slider-subcategories">
 
-            <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex] ? subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug : '' } direction="right" />
+                <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex] ? subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug : '' } direction="right" />
 
-            <div className="slider-content">
+                <div className="slider-content">
 
-                <p className="slider-subcategory-title h3">{ romanize(subcategoryCurrentIndex + 1) }. { subcategories[subcategoryCurrentIndex].name }</p>
+                    <p className="slider-subcategory-title h3">{ romanize(subcategoryCurrentIndex + 1) }. { subcategories[subcategoryCurrentIndex].name }</p>
 
-                {
-                    <AnimatePresence exitBeforeEnter>
+                    {
+                        <AnimatePresence exitBeforeEnter>
 
-                        <SliderEntitiesMobile key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
+                            <SliderEntitiesMobile key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
 
-                    </AnimatePresence>
-                }
+                        </AnimatePresence>
+                    }
+
+                    <ButtonFullList />
+
+                </div>
+
+                { /* Navigation */ }
+                <div className="slider-navigation">
+                    <button className={ 'button button-navigation button-navigation-left' } disabled={ !isLeftEnabled() } onClick={ clickLeftHandler }></button>
+                    <button className={ 'button button-navigation button-navigation-right' } disabled={ !isRightEnabled() } onClick={ clickRightHandler }></button>
+                </div>
 
             </div>
 
-            { /* Navigation */ }
-            <div className="slider-navigation">
-                <button className={ 'button button-navigation button-navigation-left' } disabled={ !isLeftEnabled() } onClick={ clickLeftHandler }></button>
-                <button className={ 'button button-navigation button-navigation-right' } disabled={ !isRightEnabled() } onClick={ clickRightHandler }></button>
-            </div>
-
-        </div>
+            <LabelsEntities key={ subcategoryCurrentIndex } entities={ category.subcategories[subcategoryCurrentIndex].entities } entityCurrentIndex={ entityCurrentIndex } />
+        </>
     );
 }
 

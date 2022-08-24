@@ -82,7 +82,8 @@
 
     font-size: rem(24px, 'small');
     line-height: rem(30px, 'small');
-    color: var(--color-theme-primary);
+    color: var(--color-theme-secondary);
+    font-weight: 400;
 
     @include respond-to('medium') {
         max-width: rem(400px, 'medium');

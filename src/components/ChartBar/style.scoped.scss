@@ -1,36 +1,162 @@
 .chart {
     width: 100%;
-    margin-right: 0px;
-    margin-bottom: rem(92px, 'small');
-    margin-left: 0px;
+
+    padding: rem(50px) rem(20px) rem(80px) rem(20px);
+
     @include respond-to('medium') {
-        margin-bottom: rem(88px, 'medium');
+        padding: rem(62px, 'medium') rem(62px, 'medium') rem(80px, 'medium') rem(62px, 'medium');
     }
+
     @include respond-to('large') {
-        margin-bottom: rem(88px, 'large');
+        padding: rem(62px, 'large') rem(62px, 'large') rem(80px, 'large') rem(62px, 'large');
+    }
+
+    > li {
+        margin-bottom: rem(23px);
+
+        @include respond-to('medium') {
+            display: grid;
+            grid-template-columns: rem(260px, 'medium') auto;
+            column-gap: rem(20px, 'medium');
+
+            margin-bottom: rem(27px, 'medium');
+        }
+
+        @include respond-to('large') {
+            grid-template-columns: rem(260px, 'large') auto;
+            column-gap: rem(20px, 'large');
+
+            margin-bottom: rem(27px, 'large');
+        }
     }
 }
 
-.chart-bar {
-    fill: var(--color-theme-secondary);
-    margin-top: rem(62px, 'small');
+.label {
+    display: block;
+
+    margin-bottom: rem(8px);
+
+    line-height: 1em;
+
     @include respond-to('medium') {
-        margin-top: rem(66px, 'medium');
+        margin-top: rem(-2px, 'medium');
+        margin-bottom: 0;
     }
+
     @include respond-to('large') {
-        margin-top: rem(66px, 'large');
+        margin-top: rem(-2px, 'large');
     }
-    .domain {
-        display: none;
+}
+
+.value {
+    padding-right: rem(60px);
+
+    @include respond-to('medium') {
+        padding-right: rem(100px, 'medium');
     }
-    .tick text {
-        color: $color-grey;
-        text-anchor: start;
+
+    @include respond-to('large') {
+        padding-right: rem(100px, 'large');
     }
-    .label {
-        fill: var(--color-theme-primary);
+
+    .ar & {
+        padding-right: 0;
+        padding-left: rem(60px);
+
+        @include respond-to('medium') {
+            padding-left: rem(100px, 'medium');
+        }
+
+        @include respond-to('large') {
+            padding-left: rem(100px, 'large');
+        }
     }
-    .sublabel {
-        fill: var(--color-theme-secondary);
+}
+
+.value__bar {
+    display: inline-block;
+
+    width: 0%;
+    height: rem(16px);
+
+    background-color: var(--color-theme-secondary);
+
+    @include respond-to('medium') {
+        height: rem(16px, 'medium');
+    }
+
+    @include respond-to('large') {
+        height: rem(16px, 'large');
+    }
+}
+
+.value__label {
+    display: inline-block;
+    position: absolute;
+
+    padding-left: rem(10px);
+
+    @include respond-to('medium') {
+        padding-left: rem(10px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-left: rem(10px, 'large');
+    }
+
+    .ar & {
+        padding-right: 0;
+        padding-right: rem(10px);
+
+        @include respond-to('medium') {
+            padding-right: rem(10px, 'medium');
+        }
+
+        @include respond-to('large') {
+            padding-right: rem(10px, 'large');
+        }
+    }
+}
+
+.value__text {
+    display: block;
+
+    position: relative;
+
+    margin-top: rem(-3px);
+    margin-bottom: rem(2px);
+
+    font-weight: 400;
+    font-size: rem(17px);
+
+    @include respond-to('medium') {
+        margin-top: rem(-5px, 'medium');
+        margin-bottom: rem(2px, 'medium');
+
+        font-size: rem(20px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin-top: rem(-5px, 'large');
+        margin-bottom: rem(2px, 'large');
+
+        font-size: rem(20px, 'large');
+    }
+}
+
+.value__info {
+    position: absolute;
+    white-space: nowrap;
+
+    font-weight: 400;
+    font-size: rem(13px, 'large');
+    color: var(--color-theme-primary);
+
+    @include respond-to('medium') {
+        font-size: rem(13px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(13px, 'large');
     }
 }

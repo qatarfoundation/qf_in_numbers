@@ -1,5 +1,5 @@
 // React
-import React, { useState, useRef, useEffect, useImperativeHandle } from 'react';
+import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
@@ -16,13 +16,10 @@ import ButtonClose from '@/components/ButtonClose';
 import Scrollbar from '@/components/ScrollBar';
 import CardArticle from '@/components/CardArticle';
 import ButtonArrow from '@/components/ButtonArrow';
-import ButtonPagination from '@/components/ButtonPagination';
+import ButtonEntityPagination from '@/components/ButtonEntityPagination';
 import Charts from '@/components/Charts';
 import ButtonShare from '@/components/ButtonShare';
 import SequenceCharts from '@/components/SequenceCharts';
-
-// Hooks
-import { forwardRef } from 'react';
 
 function PanelEntity(props, ref) {
     /**
@@ -126,7 +123,7 @@ function PanelEntity(props, ref) {
 
                 <ButtonClose to={ subcategory.slug } />
 
-                <ButtonShare title={entity.name} />
+                <ButtonShare title={ entity.name } />
 
                 { /* <SequenceCharts charts={ sequenceCharts } /> */ }
 
@@ -197,8 +194,8 @@ function PanelEntity(props, ref) {
 
                 { (previous || next) &&
                     <div className={ `pagination ${ (previous && !next) ? 'left' : (next && !previous) ? 'right' : '' }` }>
-                        { previous && <ButtonPagination name={ previous.name } slug={ previous.slug } direction='left'></ButtonPagination> }
-                        { next && <ButtonPagination name={ next.name } slug={ next.slug } direction='right'></ButtonPagination> }
+                        { previous && <ButtonEntityPagination name={ previous.name } slug={ previous.slug } direction='left'></ButtonEntityPagination> }
+                        { next && <ButtonEntityPagination name={ next.name } slug={ next.slug } direction='right'></ButtonEntityPagination> }
                     </div>
                 }
 

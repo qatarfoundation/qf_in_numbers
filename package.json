@@ -57,6 +57,7 @@
     "shader-partials": "git+https://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:x-oauth-basic@github.com/immersive-garden/shader-partials.git",
     "stats-js": "^1.0.1",
     "swiper": "^8.1.4",
+    "textfit": "^2.4.0",
     "three": "^0.139.0",
     "zustand": "^4.0.0-rc.1"
   },

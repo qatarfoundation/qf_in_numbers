@@ -31,5 +31,24 @@
     .charts-item {
         width: 100%;
         height: 100%;
+
+        &.donutchart {
+            .p2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                height: rem(100px);
+
+                @include respond-to('medium') {
+                    height: rem(100px, 'medium');
+                }
+                @include respond-to('large') {
+                    height: rem(100px, 'large');
+                }
+            }
+        }
     }
 }

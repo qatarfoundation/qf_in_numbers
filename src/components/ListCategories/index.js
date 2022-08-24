@@ -104,19 +104,19 @@ function ListCategories(props, ref) {
 
             { categories[0] &&
                 <li className={ `list-item ${ hoveredItemId && hoveredItemId !== 'community'  ? 'is-not-active' : '' }` } data-id="community" onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler } ref={ (item) => itemRefs.current.community = item }>
-                    <ButtonMainCategory ref={ buttonCommunityRef } index={ 0 } slug={ `/${ year }/community` } categoryId="community" label={ categories[0].name } color="blue" anchorX="left" anchorY="top" />
+                    <ButtonMainCategory ref={ buttonCommunityRef } index={ 0 } slug={ `/${ year }/community` } categoryId="community" label={ categories[0].name } color="blue" anchorX="left" anchorY="top" isNotActive={categories[0].subcategories.length === 0} />
                 </li>
             }
 
             { categories[1] &&
                 <li className={ `list-item ${ hoveredItemId && hoveredItemId !== 'research'  ? 'is-not-active' : '' }` } data-id="research" onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler } ref={ (item) => itemRefs.current.research = item }>
-                    <ButtonMainCategory ref={ buttonResearchRef } index={ 1 } slug={ `/${ year }/research` } categoryId="research" label={ categories[1].name } color="red" anchorX="left" anchorY="bottom" />
+                    <ButtonMainCategory ref={ buttonResearchRef } index={ 1 } slug={ `/${ year }/research` } categoryId="research" label={ categories[1].name } color="red" anchorX="left" anchorY="bottom" isNotActive={categories[1].subcategories.length === 0} />
                 </li>
             }
 
             { categories[2] &&
                 <li className={ `list-item ${ hoveredItemId && hoveredItemId !== 'education'  ? 'is-not-active' : '' }` } data-id="education" onMouseEnter={ mouseenterHandler } onMouseLeave={ mouseleaveHandler } ref={ (item) => itemRefs.current.education = item }>
-                    <ButtonMainCategory ref={ buttonEducationRef } index={ 2 } slug={ `/${ year }/education` } categoryId="education" label={ categories[2].name } color="green" anchorX="right" anchorY="top" />
+                    <ButtonMainCategory ref={ buttonEducationRef } index={ 2 } slug={ `/${ year }/education` } categoryId="education" label={ categories[2].name } color="green" anchorX="right" anchorY="top" isNotActive={categories[2].subcategories.length === 0} />
                 </li>
             }
 

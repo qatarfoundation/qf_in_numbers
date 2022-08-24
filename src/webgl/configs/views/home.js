@@ -29,6 +29,11 @@ export default {
                 name: 'view/home/tree',
                 path: '/webgl/views/home/tree.glb',
             },
+            {
+                type: 'texture',
+                name: 'view/home/particle',
+                path: '/webgl/views/home/particle.png',
+            },
         ],
     },
     branches: [

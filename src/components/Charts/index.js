@@ -51,6 +51,7 @@ function Charts(props, ref) {
                             r.subtitle = (<><p className="p6 subtitle section-container">{ c.subtitle }</p></>);
                         }
                         if (c.fields) {
+                            r.type = c.type.toLowerCase();
                             switch (c.type) {
                                 case 'kpiChart':
                                     r.chart = (<><ChartKPI chart={ c } /></>);
@@ -85,7 +86,7 @@ function Charts(props, ref) {
                             <Scrollbar colored={ false }>
                                 <div className='charts-container'>
                                     { result.map((r, i) =>
-                                        <div className='charts-item' key={ i }>
+                                        <div className={ `charts-item ${ r.type }` } key={ i }>
                                             { r.title && r.title }
                                             { r.subtitle && r.subtitle }
                                             { r.chart && r.chart }
@@ -95,7 +96,7 @@ function Charts(props, ref) {
                             </Scrollbar>
                             :
                             <>{ result.map((r, i) =>
-                                <div className='charts-item' key={ i }>
+                                <div className={ `charts-item ${ r.type }` } key={ i }>
                                     { r.title && r.title }
                                     { r.subtitle && r.subtitle }
                                     <Scrollbar colored={ false }>

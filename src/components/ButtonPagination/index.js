@@ -8,7 +8,7 @@ import './style.scoped.scss';
 // Components
 import Arrow from '@/assets/icons/arrow.svg';
 
-function ButtonPagination(props, ref) {
+function ButtonEntityPagination(props, ref) {
     /**
      * Datas
      */
@@ -24,4 +24,4 @@ function ButtonPagination(props, ref) {
     );
 }
 
-export default ButtonPagination;
+export default ButtonEntityPagination;

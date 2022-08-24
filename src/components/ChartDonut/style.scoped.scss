@@ -9,8 +9,15 @@
             fill: var(--color-theme-primary);
         }
     }
+    .arc {
+        fill: var(--color-theme-secondary);
+
+        &.active {
+            fill: var(--color-theme-primary);
+        }
+    }
     .arc, .label-container {
-        transition: opacity .2s linear;
+        transition: fill .3s ease-out, opacity 0.3s ease-out;
     }
     .label-container {
         &.is-hidden {
@@ -18,9 +25,19 @@
         }
     }
     .label {
-        color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
+    }
+    .value {
+        fill: var(--color-theme-primary);
+    }
+    .p7.label {
+        @include respond-to('medium') {
+            font-size: rem(14px, 'medium');
+        }
+        @include respond-to('large') {
+            font-size: rem(14px, 'large');
+        }
     }
 }
 
@@ -51,6 +68,78 @@
         @include respond-to('large') {
             padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
             border-radius: rem(4px, 'large');
+        }
+    }
+}
+
+.labels {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    > li {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: rem(100px);
+
+        pointer-events: none;
+
+        @include respond-to('medium') {
+            width: rem(100px, 'medium');
+        }
+        @include respond-to('large') {
+            width: rem(100px, 'large');
+        }
+
+        &.hide {
+            display: none;
+        }
+
+        .content {
+            pointer-events: auto;
+
+            &.left.top {
+                translate: -100% -100%;
+            }
+
+            &.right.top {
+                translate: 0 -100%;
+            }
+
+            &.left.bottom {
+                translate: -100% 0;
+            }
+
+            &.left {
+                text-align: right;
+            }
+
+            &.right {
+                text-align: left;
+            }
+        }
+
+        .value {
+            display: block;
+        }
+
+        .label {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            padding-bottom: rem(2px);
+
+            @include respond-to('medium') {
+                padding-bottom: rem(2px, 'medium');
+            }
+            @include respond-to('large') {
+                padding-bottom: rem(2px, 'large');
+            }
         }
     }
 }

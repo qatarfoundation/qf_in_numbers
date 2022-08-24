@@ -8,7 +8,7 @@ function useWindowResizeObserver(callback) {
     useEffect(() => {
         WindowResizeObserver.addEventListener('resize', callback);
         return () => WindowResizeObserver.removeEventListener('resize', callback);
-    }, []);
+    }, [callback]);
 
     return null;
 }

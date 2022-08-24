@@ -56,13 +56,13 @@ function SlideEntity(props, ref) {
     function updateOpacity() {
         if (!elRef.current) return;
 
-        const alphaOffset = 1 - (activeOffset.current.current) / 4.5;
+        const alphaOffset = 1 - (activeOffset.current.current) / 2.5;
         const globalAlpha = math.clamp(activeOffset.current.current + 1, 0, 1);
         const activeAlpha = 1 - math.clamp(Math.abs(activeOffset.current.current), 0, 1);
 
         elRef.current.style.opacity = alphaOffset * globalAlpha;
 
-        activeTitleRef.current.style.opacity = activeAlpha;
+        // activeTitleRef.current.style.opacity = activeAlpha;
     }
 
     /**
@@ -76,11 +76,11 @@ function SlideEntity(props, ref) {
     }
 
     return (
-        <div ref={ elRef } className="slide-entity">
+        <div ref={ elRef } className={ `slide-entity ${ index === 0 ? 'first' : '' }` }>
 
             <p className="slide-entity-title p1">{ entity.name }</p>
 
-            <p ref={ activeTitleRef } className="slide-entity-title active p1">{ entity.name }</p>
+            { /* <p ref={ activeTitleRef } className="slide-entity-title active p1">{ entity.name }</p> */ }
 
         </div>
     );

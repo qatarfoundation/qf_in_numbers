@@ -7,6 +7,14 @@
 .slide-entity-title {
     color: var(--color-theme-primary);
 
+    /**
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    **/
+
     @include respond-to('medium') {
         color: var(--color-theme-secondary);
 
@@ -19,7 +27,12 @@
     @include respond-to('large') {
         padding-bottom: rem(13px, 'large');
 
-        font-size: rem(30px, 'large');
+        font-size: rem(24px, 'large');
+    }
+
+    .first & {
+        font-size: rem(35px, 'large');
+        color: $color-white;
     }
 }
 

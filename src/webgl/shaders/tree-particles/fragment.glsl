@@ -12,11 +12,7 @@ uniform vec3 uHoverColor2;
 uniform float uShowHover;
 uniform float uOpacity;
 uniform float uTime;
-
-float circle(vec2 st, float radius){
-    vec2 dist = st - vec2(0.5);
-    return 1.0 - smoothstep(radius - (radius * uInnerGradient), radius + (radius * uOuterGradient), dot(dist, dist) * 4.0);
-}
+uniform sampler2D uParticle;
 
 void main() {
     // Color
@@ -25,19 +21,14 @@ void main() {
     color = mix(color, hoverColor, uShowHover);
 
     // Alpha
-    float alpha = circle(gl_PointCoord, 1.0);
+    float alpha = texture2D(uParticle, gl_PointCoord.xy).r;
     alpha *= vSettings.w;
     alpha *= uOpacity;
+    alpha *= 1.0 + uShowHover * 3.0;
 
-    float alphaBlinkSpeed = 0.5;
-    alpha *= clamp(cos((uTime * alphaBlinkSpeed) + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);
-
-    if (alpha < 0.01) discard;
+    // float alphaBlinkSpeed = 0.5;
+    // alpha *= clamp(cos((uTime * alphaBlinkSpeed) + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);
 
     // Output
     gl_FragColor = vec4(vec3(color), alpha);
 }
-
-// void main() {
-//     gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-// }

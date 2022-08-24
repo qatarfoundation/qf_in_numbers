@@ -5,7 +5,7 @@ import { Vector3 } from 'three';
 import math from '@/utils/math';
 
 // Constants
-const MAIN_BRANCH_INDEX = 21;
+const MAIN_BRANCH_INDEX = 1;
 
 export default class TreeParser {
     constructor(options = {}) {

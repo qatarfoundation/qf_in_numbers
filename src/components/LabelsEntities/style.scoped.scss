@@ -20,13 +20,12 @@ li {
     width: 1px;
     height: 1px;
 
+
     &.left span {
         text-align: right;
 
         top: rem(-30px, 'large');
         left: rem(-20px, 'large');
-
-
 
         @include respond-to('large') {
             top: rem(-30px);

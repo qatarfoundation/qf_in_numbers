@@ -14,6 +14,7 @@ import ListIcon from '@/assets/icons/list.svg';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 function ModalSubcategories(props, ref) {
     /**
@@ -28,8 +29,8 @@ function ModalSubcategories(props, ref) {
     /**
      * States
      */
-    const [isOpen, setOpen] = useState(false);
     const [isVisible, setVisible] = useState(false);
+    const isModelSubcategoriesOpen = useStore((state) => state.isModelSubcategoriesOpen);
 
     /**
      * Refs
@@ -55,7 +56,7 @@ function ModalSubcategories(props, ref) {
     }, [props.pageContext.type]);
 
     useEffect(() => {
-        setOpen(false);
+        useStore.setState({ isModelSubcategoriesOpen: false });
     }, [originalPath]);
 
     useEffect(() => {
@@ -64,9 +65,9 @@ function ModalSubcategories(props, ref) {
     }, [isVisible]);
 
     useEffect(() => {
-        if (isOpen) open();
+        if (isModelSubcategoriesOpen) open();
         else close();
-    }, [isOpen]);
+    }, [isModelSubcategoriesOpen]);
 
     /**
      * Lifecycle
@@ -95,7 +96,7 @@ function ModalSubcategories(props, ref) {
 
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
-        timelines.current.show.to(buttonRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, 0);
+        // timelines.current.show.to(buttonRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' }, 0);
     }
 
     function hide() {
@@ -103,7 +104,7 @@ function ModalSubcategories(props, ref) {
 
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
-        timelines.current.hide.to(buttonRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
+        // timelines.current.hide.to(buttonRef.current, { duration: 0.5, autoAlpha: 0, ease: 'sine.inOut' }, 0);
     }
 
     function open() {
@@ -151,23 +152,19 @@ function ModalSubcategories(props, ref) {
     function keydownHandler(e) {
         if (e.key !== 'Escape') return;
 
-        setOpen(false);
-    }
-
-    function buttonModalClickHandler() {
-        setOpen(!isOpen);
+        useStore.setState({ isModelSubcategoriesOpen: false });
     }
 
     function buttonCloseClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModelSubcategoriesOpen: false });
     }
 
     function overlayClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModelSubcategoriesOpen: false });
     }
 
     function resizeHandler() {
-        setOpen(false);
+        useStore.setState({ isModelSubcategoriesOpen: false });
     }
 
     function wheelHandler(e) {
@@ -179,17 +176,12 @@ function ModalSubcategories(props, ref) {
             {
                 (category || subcategory) &&
 
-                <div ref={ elRef } className={ `modal-subcategories ${ isOpen ? 'is-open' : '' }` }>
-
-                    <button ref={ buttonRef } className="button button-open" onClick={ buttonModalClickHandler }>
-                        <ListIcon />
-                        <div className="button-circle"></div>
-                    </button>
+                <div ref={ elRef } className={ `modal-subcategories ${ isModelSubcategoriesOpen ? 'is-open' : '' }` }>
 
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
                     <div className="panel-container">
-                        <PanelSubcategories ref={ panelRef } isOpen={ isOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
+                        <PanelSubcategories ref={ panelRef } isOpen={ isModelSubcategoriesOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
                     </div>
 
                 </div>
