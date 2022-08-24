@@ -57,7 +57,7 @@ const YearTemplate = (props) => {
         if (breakpointsRef.current === 'small' || breakpoints === 'small') {
             if (listCategoriesRef.current) listCategoriesRef.current.show();
             if (sliderCategoriesRef.current) sliderCategoriesRef.current.show();
-            if (breakpoints === 'small') gsap.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' });
+            // if (breakpoints === 'small') gsap.to(buttonMobileContainerRef.current, { duration: 0.5, autoAlpha: 1, ease: 'sine.inOut' });
         }
         breakpointsRef.current = breakpoints;
     }, [breakpoints]);
@@ -74,6 +74,11 @@ const YearTemplate = (props) => {
         transitionIn: null,
         transitionOut: null,
     });
+
+    /**
+     * Store
+     */
+    const isCategorySelected = useStore((state) => state.isCategorySelected);
 
     /**
      * Lifecycle
@@ -144,6 +149,7 @@ const YearTemplate = (props) => {
 
     function transitionOutCompletedHandler() {
         // Unmount
+        useStore.setState({ isCategorySelected: false });
         safeToRemove();
     }
 
@@ -171,7 +177,7 @@ const YearTemplate = (props) => {
             { year.categories[1] && <SubcategoriesLabel index={ 1 } subcategories={ year.categories[1].subcategories } /> }
             { year.categories[2] && <SubcategoriesLabel index={ 2 } subcategories={ year.categories[2].subcategories } /> }
 
-            { breakpoints === 'small' &&
+            { breakpoints === 'small' && isCategorySelected &&
                 <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
                     { targetCategory && <ButtonEntityPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
                 </div>

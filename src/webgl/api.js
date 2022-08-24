@@ -61,6 +61,12 @@ export default {
         }
     },
 
+    selectCategory(name) {
+        if (this.isHome()) {
+            this._viewManager.active.selectCategory(name);
+        }
+    },
+
     enableInteractions() {
         this._isInteractive = true;
     },

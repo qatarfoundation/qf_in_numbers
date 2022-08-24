@@ -7,6 +7,7 @@ import { Object3D, Vector2, Raycaster, Color } from 'three';
 import Debugger from '@/utils/Debugger';
 import Cursor from '@/webgl/utils/Cursor';
 import Globals from '@/utils/Globals';
+import device from '@/utils/device';
 
 // Components
 import TreeBranchComponent from '@/webgl/components/tree/TreeBranchComponent';
@@ -187,6 +188,44 @@ export default class TreeComponent extends component(Object3D) {
         }, 200);
     }
 
+    selectCategory(name) {
+        const inactiveBranches = this._getInactiveBranches(name);
+        for (let i = 0, len = inactiveBranches.length; i < len; i++) {
+            inactiveBranches[i].fadeOut();
+            inactiveBranches[i].mouseLeave();
+        }
+
+        const branch = this._getBranch(name);
+        branch.mouseEnter();
+
+        const offsets = {
+            community: {
+                position: {
+                    x: 0,
+                    z: 3,
+                },
+                rotation: 2.66,
+            },
+            research: {
+                position: {
+                    x: 0,
+                    z: 3,
+                },
+                rotation: Math.PI + 1.45,
+            },
+            education: {
+                position: {
+                    x: 0,
+                    z: 3,
+                },
+                rotation: Math.PI * 2 + 0.87,
+            },
+        };
+
+        gsap.to(this.position, { duration: 1, x: offsets[name].position.x, z: offsets[name].position.z });
+        gsap.to(this.rotation, { duration: 1.5, y: offsets[name].rotation, ease: 'power1.inOut' });
+    }
+
     /**
      * Private
      */
@@ -268,13 +307,19 @@ export default class TreeComponent extends component(Object3D) {
     update({ time, delta }) {
         if (!this._isActive) return;
         this._updateBranches({ time, delta });
-        if (this.$root.idleRotation) this._updateRotation({ time, delta });
-        this._updateMouseRotation();
+
+        if (!device.isTouch()) {
+            if (this.$root.idleRotation) this._updateRotation({ time, delta });
+            this._updateMouseRotation();
+        }
+
         // if (this.$root.isInteractive) this._updateMouseInteractions();
     }
 
     _updateMouseRotation() {
-        if (this._enableMouseRotation) this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
+        if (this._enableMouseRotation) {
+            this.rotation.y = this._settings.targetRotation.y - this._mouseRotation.x;
+        }
     }
 
     _updateRotation({ time, delta }) {
@@ -328,12 +373,14 @@ export default class TreeComponent extends component(Object3D) {
      * Mouse
      */
     onMousemove({ centered }) {
-        if (this.$root.isInteractive) {
-            this._mousePosition.copy(centered);
-            if (this.$root.mouseRotation && this._enableMouseRotation)
-                this.mouseRotationXTo(this._mousePosition.x * .2);
-            else this.mouseRotationXTo(0);
-        }
+        if (device.isTouch()) return;
+
+        // if (this.$root.isInteractive) {
+        //     this._mousePosition.copy(centered);
+        //     if (this.$root.mouseRotation && this._enableMouseRotation)
+        //         this.mouseRotationXTo(this._mousePosition.x * .2);
+        //     else this.mouseRotationXTo(0);
+        // }
     }
 
     /**

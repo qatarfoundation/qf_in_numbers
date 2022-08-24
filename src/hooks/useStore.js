@@ -12,6 +12,7 @@ const useStore = create((set) => {
         locale: null,
         themeCategory: 'theme-default',
         isModelSubcategoriesOpen: false,
+        isCategorySelected: false,
     };
 });
 

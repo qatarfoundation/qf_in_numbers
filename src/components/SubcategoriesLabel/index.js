@@ -7,6 +7,7 @@ import './style.scoped.scss';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
+import Breakpoints from '@/utils/Breakpoints';
 
 const LabelMainCategory = (props) => {
     const { index: categoryIndex, subcategories } = props;
@@ -35,7 +36,7 @@ const LabelMainCategory = (props) => {
     useEffect(() => {
         const elements = itemsRef.current;
         const length = elements.length;
-        const radius = 80;
+        const radius = Breakpoints.active('small') ? 60 : 80;
 
         elements.forEach((element, index) => {
             const angle = index / length * Math.PI * 2;
