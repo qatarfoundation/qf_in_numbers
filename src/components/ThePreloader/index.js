@@ -42,12 +42,13 @@ function ThePreloader(props) {
         }
     `);
     const { i18n } = useTranslation();
-    const years = data.allContentfulYear.edges.filter(function(object, i) {
+    let years = data.allContentfulYear.edges.filter(function(object, i) {
         const year = object.node.year;
         if (object.node.node_locale === i18n.language) {
             return object;
         }
     }).sort((a, b) => b.node.year - a.node.year);
+    years = deduplicate(years);
     const timeline = new gsap.timeline();
     /**
      * Effects
@@ -146,6 +147,12 @@ function ThePreloader(props) {
 
     function map_range(value, low1, high1, low2, high2) {
         return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    }
+
+    function deduplicate(arr) {
+        return arr.filter((arr, index, self) => {
+            return index === self.findIndex((t) => (t.node.year === arr.node.year));
+        });
     }
     // return visible ? (
     //     <div className="the-preloader">The preloader</div>
