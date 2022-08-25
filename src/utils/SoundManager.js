@@ -1,12 +1,11 @@
-import {gsap} from 'gsap';
+import { gsap } from 'gsap';
 
 import sound from '@/assets/sounds/music.mp3';
 
 class SoundManager {
-
     constructor() {
         this.initialized = false;
-        this.tl = null
+        this.tl = null;
     }
 
     async init() {
@@ -14,7 +13,7 @@ class SoundManager {
         this.ctx = new (window.AudioContext || window.webkitAudioContext)();
         this.gain = this.ctx.createGain();
         this.gain.gain.value = 0;
-        this.gain.connect(this.ctx.destination)
+        this.gain.connect(this.ctx.destination);
 
         this.buffer = await fetch(sound)
             .then(res => res.arrayBuffer())
@@ -23,6 +22,7 @@ class SoundManager {
         this.source = this.ctx.createBufferSource();
         this.source.buffer = this.buffer;
         this.source.connect(this.gain);
+        this.source.loop = true;
         this.source.start();
     }
 
@@ -30,14 +30,14 @@ class SoundManager {
         if (!this.initialized) await this.init();
         if (this.tl) this.tl.kill();
         this.tl = gsap.timeline();
-        this.tl.to(this.gain.gain, {value: 1, duration: 3})
+        this.tl.to(this.gain.gain, { value: 1, duration: 3 });
     }
 
     pause() {
         if (!this.gain) return;
         if (this.tl) this.tl.kill();
         this.tl = gsap.timeline();
-        this.tl.to(this.gain.gain, {value: 0, duration: 1});
+        this.tl.to(this.gain.gain, { value: 0, duration: 1 });
     }
 
     setMasterVolume(volume) {
