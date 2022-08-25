@@ -219,6 +219,10 @@ export default class HomeView extends component() {
         this._components.tree.categoryMouseLeave(name);
     }
 
+    selectCategory(name) {
+        this._components.tree.selectCategory(name);
+    }
+
     /**
      * Private
      */

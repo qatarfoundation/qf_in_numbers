@@ -13,6 +13,7 @@ import TreeParser from '@/webgl/utils/TreeParser';
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Constants
 const PARTICLE_SIZE = 200;
@@ -310,6 +311,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const mesh = new Mesh(geometry, material);
         mesh.visible = false;
         mesh.position.copy(this._subcategoriesAnchorPosition);
+        if (Breakpoints.active('small')) mesh.position.y -= 2;
         this.add(mesh);
         return mesh;
     }

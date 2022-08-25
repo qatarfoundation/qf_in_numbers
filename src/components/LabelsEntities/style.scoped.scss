@@ -218,10 +218,10 @@ li {
 .highlight__value {
     display: block;
 
-    margin-bottom: rem(12px);
+    margin-bottom: rem(7px);
 
     font-weight: 300;
-    font-size: rem(36px);
+    font-size: rem(32px);
 
     @include respond-to('large') {
         margin-bottom: rem(12px, 'large');
@@ -233,7 +233,7 @@ li {
     display: block;
 
     line-height: 1;
-    font-size: rem(16px);
+    font-size: rem(14px);
 
     @include respond-to('large') {
         font-size: rem(16px, 'large');

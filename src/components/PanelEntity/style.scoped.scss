@@ -165,22 +165,27 @@
 
     .h1 {
         opacity: 0;
-        max-width: rem(164px, 'small');
+        max-width: rem(200px, 'small');
 
         margin-bottom: rem(56px, 'small');
 
         color: var(--color-theme-primary);
+        font-size: rem(45px);
 
         @include respond-to('medium') {
-            max-width: rem(350px, 'medium');
+            max-width: rem(450px, 'medium');
 
             margin-bottom: rem(56px, 'medium');
+
+            font-size: rem(70px, 'medium');
         }
 
         @include respond-to('large') {
-            max-width: rem(350px, 'large');
+            max-width: rem(450px, 'large');
 
             margin-bottom: rem(56px, 'large');
+
+            font-size: rem(70px, 'large');
         }
     }
 

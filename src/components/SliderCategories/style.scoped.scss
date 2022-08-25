@@ -73,12 +73,6 @@
             }
         }
 
-        &.swiper-slide-active {
-            .list-item-category .button {
-                opacity: 1;
-            }
-        }
-
         .list-item-category {
             width: auto;
             padding: 0;
@@ -97,6 +91,14 @@
                 .ar & {
                     text-align: right;
                 }
+            }
+        }
+    }
+
+    &.enabled {
+        .swiper-slide-active {
+            .list-item-category .button {
+                opacity: 1;
             }
         }
     }

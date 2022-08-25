@@ -8,16 +8,20 @@
 
     will-change: transform;
 
-    &.community {
-        color: color-from-theme("blue", "secondary");;
-    }
+    color: white;
 
-    &.research {
-        color: color-from-theme("red", "secondary");;
-    }
+    @include respond-to('medium') {
+        &.community {
+            color: color-from-theme("blue", "secondary");
+        }
 
-    &.education {
-        color: color-from-theme("green", "secondary");;
+        &.research {
+            color: color-from-theme("red", "secondary");
+        }
+
+        &.education {
+            color: color-from-theme("green", "secondary");
+        }
     }
 }
 
@@ -51,10 +55,18 @@ li {
 span {
     position: absolute;
 
+    width: rem(100px);
+
     font-family: 'DIN Next LT Pro';
     font-weight: 400;
-    font-size: rem(10px);
+    font-size: rem(12px);
     line-height: 1;
+
+    @include respond-to('medium') {
+        width: rem(100px, 'medium');
+
+        font-size: rem(12px, 'medium');
+    }
 
     @include respond-to('large') {
         width: rem(100px, 'large');
