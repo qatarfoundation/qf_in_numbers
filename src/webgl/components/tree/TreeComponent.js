@@ -87,6 +87,13 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     /**
+     * Getters & Setters
+     */
+    get settings() {
+        return this._settings;
+    }
+
+    /**
      * Public
      */
     transitionIn(props = {}) {

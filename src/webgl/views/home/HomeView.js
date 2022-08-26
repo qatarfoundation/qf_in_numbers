@@ -407,6 +407,8 @@ export default class HomeView extends component() {
      */
     update({ time, delta }) {
         this._updateComponents({ time, delta });
+
+        this._components.leavesBasic.rotation.y = this._components.tree.rotation.y - this._components.tree.settings.targetRotation.y;
         // this._rotation.current = math.lerp(this._rotation.current, this._rotation.target, 0.03);
         // this._container.rotation.y = this._rotation.current;
 
