@@ -95,41 +95,47 @@ function SliderCategories(props, ref) {
     }, [indexActiveCategory]);
 
     // Swipeeee
-    const [touchstartX, setTouchstartX] = useState(0);
-    const [touchendX, setTouchendX] = useState(0);
+    const [isFirstSwipe, setIsFirstSwipe] = useState(true);
 
-    function checkDirection() {
-        const delta = touchendX - touchstartX;
-        console.log(delta);
+    function checkDirection(delta) {
+        const threshold = 30;
 
-        if (touchendX < touchstartX) {
-            // Swipe left
-            elRef.current.swiper.slideNext();
-        }
-        if (touchendX > touchstartX) {
-            // Swipe right
-            elRef.current.swiper.slidePrev();
+        if (isFirstSwipe) {
+            if (Math.abs(delta) > threshold) {
+                setIndexActiveCategory(0);
+                useStore.setState({ isCategorySelected: true });
+                setIsFirstSwipe(false);
+            }
+        } else {
+            if (delta < -threshold) {
+                elRef.current.swiper.slideNext();
+            }
+            if (delta > threshold) {
+                elRef.current.swiper.slidePrev();
+            }
         }
     }
 
-    // useEffect(() => {
-    //     function touchStartHandler(e) {
-    //         setTouchstartX(e.changedTouches[0].screenX);
-    //     }
+    useEffect(() => {
+        let touchStart = 0;
 
-    //     function touchEndHandler(e) {
-    //         setTouchendX(e.changedTouches[0].screenX);
-    //         checkDirection();
-    //     }
+        const touchStartHandler = (e) => {
+            touchStart = e.changedTouches[0].screenX;
+        };
 
-    //     window.addEventListener('touchstart', touchStartHandler);
-    //     window.addEventListener('touchend', touchEndHandler);
+        const touchEndHandler = (e) => {
+            const delta = e.changedTouches[0].screenX - touchStart;
+            checkDirection(delta);
+        };
 
-    //     return () => {
-    //         window.removeEventListener('touchstart', touchEndHandler);
-    //         window.removeEventListener('touchend', touchEndHandler);
-    //     };
-    // }, [touchstartX, touchendX]);
+        window.addEventListener('touchstart', touchStartHandler);
+        window.addEventListener('touchend', touchEndHandler);
+
+        return () => {
+            window.removeEventListener('touchstart', touchStartHandler);
+            window.removeEventListener('touchend', touchEndHandler);
+        };
+    }, [isFirstSwipe]);
 
     return (
         <Swiper
