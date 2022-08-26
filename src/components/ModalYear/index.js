@@ -19,7 +19,7 @@ import useStore from '@/hooks/useStore';
 import ButtonModal from '@/components/ButtonModal';
 import PanelYear from '@/components/PanelYear';
 
-function ModalYear(props, ref) {
+function ModalYear(props) {
     /**
      * Data
      */

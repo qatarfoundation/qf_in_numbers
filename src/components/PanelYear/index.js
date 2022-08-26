@@ -26,8 +26,8 @@ function PanelYear(props, ref) {
     const { t } = useTranslation();
 
     const activeYears = years.filter(year => {
-        return year.categories.filter(cat => cat.subcategories.length !== 0).length !== 0
-    })
+        return year.categories.filter(cat => cat.subcategories.length !== 0).length !== 0;
+    });
 
     /**
      * Refs
