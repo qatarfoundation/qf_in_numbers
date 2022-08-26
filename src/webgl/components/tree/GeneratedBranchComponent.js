@@ -8,6 +8,7 @@ import { ResourceLoader } from 'resource-loader';
 import TreeDataModel from '@/utils/TreeDataModel';
 import math from '@/utils/math';
 import device from '@/utils/device';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Components
 import GeneratedEntityComponent from '@/webgl/components/tree/GeneratedEntityComponent';
@@ -112,7 +113,8 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             subcategoriesPoints.push(startPosition.clone());
 
             // End position
-            const length = subcategory.entities.length * 1;
+            const lengthMultiplier = Breakpoints.active('small') ? 1.5 : 1;
+            const length = subcategory.entities.length * lengthMultiplier;
             const x = startPosition.x + radius * Math.cos(angle);
             const y = startPosition.y + length;
             const z = startPosition.z + radius * Math.sin(angle);

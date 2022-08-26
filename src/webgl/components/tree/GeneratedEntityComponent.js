@@ -129,7 +129,8 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     }
 
     _createCameraTarget() {
-        const target = new Vector3().lerpVectors(this._startPosition, this._endPosition, 0.5);
+        const alpha = Breakpoints.active('small') ? 0.8 : 0.5;
+        const target = new Vector3().lerpVectors(this._startPosition, this._endPosition, alpha);
 
         if (DEBUG) {
             const geometry = new BoxBufferGeometry(0.1, 0.1, 0.1);

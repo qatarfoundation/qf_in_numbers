@@ -2,6 +2,7 @@
 import { gsap } from 'gsap';
 import React, { useRef, useEffect, useState } from 'react';
 import { Trans, Link, useTranslation } from 'gatsby-plugin-react-i18next';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -17,6 +18,8 @@ function LabelsEntities(props) {
     const { entities, entityCurrentIndex } = props;
 
     const { t } = useTranslation();
+
+    const { language } = useI18next();
 
     const [storedEntities, setStoredEntities] = useState(null);
 
@@ -38,7 +41,8 @@ function LabelsEntities(props) {
                     const labelPosition = model.labelPosition;
                     elementLabel.style.display = 'block';
                     elementLabel.style.transform = `translate3d(${ labelPosition.x }px, ${ labelPosition.y }px, 0)`;
-                    elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
+                    // elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
+                    elementLabel.classList.add(language === 'ar-QA' ? 'left' : 'right');
                 }
 
                 if (elementHighlight && model.highlightPosition) {
