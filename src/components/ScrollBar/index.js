@@ -5,6 +5,9 @@ import React, { useEffect, useRef } from 'react';
 import useStore from '@/hooks/useStore';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
+// Utils
+import Scrolls from '@/utils/Scrolls';
+
 // CSS
 import './style.scoped.scss';
 
@@ -61,7 +64,8 @@ function Scrollbar({ revert = false, colored = true, ...props }, ref) {
                     // scrolls[e.target.parentNode.dataset.name].scrollWidth = e.target.scrollWidth;
                     scrolls[e.target.parentNode.dataset.name].scrollY = e.target.scrollTop;
                     // scrolls[e.target.parentNode.dataset.name].scrollHeight = e.target.scrollHeight;
-                    useStore.setState({ scrolls, iScroll: iScroll + 1 });
+                    // useStore.setState({ scrolls, iScroll: iScroll + 1 });
+                    Scrolls.data = scrolls;
                 }
             }>
                 { props.children }

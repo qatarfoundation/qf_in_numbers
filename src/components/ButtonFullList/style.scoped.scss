@@ -99,6 +99,7 @@
     left: rem(30px);
 
     white-space: nowrap;
+    font-size: rem(14px);
 
     @include respond-to('medium') {
         top: rem(1px, 'medium');

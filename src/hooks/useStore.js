@@ -11,7 +11,9 @@ const useStore = create((set) => {
         // Global
         locale: null,
         themeCategory: 'theme-default',
-        isModelSubcategoriesOpen: false,
+        isModalSubcategoriesOpen: false,
+        isModalYearOpen: false,
+        isModalSearchOpen: false,
         isCategorySelected: false,
     };
 });

@@ -136,22 +136,22 @@ function PanelSearch(props, ref) {
         //Metrics
         const metrics = entities.filter(item => {
             if (inputSearch === '') return true;
-            let valid = false
+            let valid = false;
 
             item.charts?.forEach(chart => {
-                let title = null
+                let title = null;
                 if (chart.title && Array.isArray(chart.title))
-                    title = chart.title.map(part => part.value).join(' ')
+                    title = chart.title.map(part => part.value).join(' ');
                 else if (chart.title && typeof chart.title === 'string')
-                    title = chart.title
+                    title = chart.title;
 
                 if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))
-                    valid = true
-            })
+                    valid = true;
+            });
 
-            return valid
-        })
-        setFilteredMetricsEntities(metrics)
+            return valid;
+        });
+        setFilteredMetricsEntities(metrics);
     }
 
     function getAllEntities(year) {
@@ -238,7 +238,7 @@ function PanelSearch(props, ref) {
 
             <Scrollbar revert={ false } data-name="search">
 
-                { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } />}
+                { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
 
             </Scrollbar>
 

@@ -1,5 +1,8 @@
+// Vendor
+import { gsap } from 'gsap';
+
 // React
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
@@ -14,8 +17,14 @@ function ButtonEntityPagination(props, ref) {
      */
     const { name, slug } = props;
 
+    const elRef = useRef();
+
+    useEffect(() => {
+        gsap.to(elRef.current, { duration: 0.3, autoAlpha: 1 });
+    }, []);
+
     return (
-        <Link to={ slug ? slug : '' } { ...props } className={ `button button-pagination ${ props.direction } ${ props.className ? props.className : '' }` }>
+        <Link ref={ elRef } to={ slug ? slug : '' } { ...props } className={ `button button-pagination ${ props.direction } ${ props.className ? props.className : '' }` }>
             <div className="icon icon-arrow">
                 <Arrow className={ `arrow ${ props.direction }` } />
             </div>

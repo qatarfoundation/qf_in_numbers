@@ -30,7 +30,7 @@ function ModalSubcategories(props, ref) {
      * States
      */
     const [isVisible, setVisible] = useState(false);
-    const isModelSubcategoriesOpen = useStore((state) => state.isModelSubcategoriesOpen);
+    const isModalSubcategoriesOpen = useStore((state) => state.isModalSubcategoriesOpen);
 
     /**
      * Refs
@@ -56,7 +56,7 @@ function ModalSubcategories(props, ref) {
     }, [props.pageContext.type]);
 
     useEffect(() => {
-        useStore.setState({ isModelSubcategoriesOpen: false });
+        useStore.setState({ isModalSubcategoriesOpen: false });
     }, [originalPath]);
 
     useEffect(() => {
@@ -65,9 +65,9 @@ function ModalSubcategories(props, ref) {
     }, [isVisible]);
 
     useEffect(() => {
-        if (isModelSubcategoriesOpen) open();
+        if (isModalSubcategoriesOpen) open();
         else close();
-    }, [isModelSubcategoriesOpen]);
+    }, [isModalSubcategoriesOpen]);
 
     /**
      * Lifecycle
@@ -152,19 +152,19 @@ function ModalSubcategories(props, ref) {
     function keydownHandler(e) {
         if (e.key !== 'Escape') return;
 
-        useStore.setState({ isModelSubcategoriesOpen: false });
+        useStore.setState({ isModalSubcategoriesOpen: false });
     }
 
     function buttonCloseClickHandler() {
-        useStore.setState({ isModelSubcategoriesOpen: false });
+        useStore.setState({ isModalSubcategoriesOpen: false });
     }
 
     function overlayClickHandler() {
-        useStore.setState({ isModelSubcategoriesOpen: false });
+        useStore.setState({ isModalSubcategoriesOpen: false });
     }
 
     function resizeHandler() {
-        useStore.setState({ isModelSubcategoriesOpen: false });
+        useStore.setState({ isModalSubcategoriesOpen: false });
     }
 
     function wheelHandler(e) {
@@ -176,12 +176,12 @@ function ModalSubcategories(props, ref) {
             {
                 (category || subcategory) &&
 
-                <div ref={ elRef } className={ `modal-subcategories ${ isModelSubcategoriesOpen ? 'is-open' : '' }` }>
+                <div ref={ elRef } className={ `modal-subcategories ${ isModalSubcategoriesOpen ? 'is-open' : '' }` }>
 
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
                     <div className="panel-container">
-                        <PanelSubcategories ref={ panelRef } isOpen={ isModelSubcategoriesOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
+                        <PanelSubcategories ref={ panelRef } isOpen={ isModalSubcategoriesOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
                     </div>
 
                 </div>

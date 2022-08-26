@@ -1,5 +1,6 @@
 // React
 import React, { useRef } from 'react';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -21,7 +22,9 @@ function ButtonFullList(props, ref) {
         hide: null,
     });
 
-    const isModelSubcategoriesOpen = useStore((state) => state.isModelSubcategoriesOpen);
+    const isModalSubcategoriesOpen = useStore((state) => state.isModalSubcategoriesOpen);
+
+    const { t } = useTranslation();
 
     /**
      * Private
@@ -42,13 +45,13 @@ function ButtonFullList(props, ref) {
      * Handlers
      */
     function buttonModalClickHandler() {
-        useStore.setState({ isModelSubcategoriesOpen: !isModelSubcategoriesOpen });
+        useStore.setState({ isModalSubcategoriesOpen: !isModalSubcategoriesOpen });
     }
 
     return (
         <button ref={ buttonRef } className="button button-open" onClick={ buttonModalClickHandler }>
             <ListIcon />
-            <span className="button-open__label">Full list</span>
+            <span className="button-open__label">{ t('Full list') }</span>
         </button>
     );
 }

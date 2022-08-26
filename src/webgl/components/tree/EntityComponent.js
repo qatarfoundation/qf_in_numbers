@@ -11,6 +11,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 import randomArbitrary from '@/utils/math/randomArbitrary';
 import Breakpoints from '@/utils/Breakpoints';
 import math from '@/utils/math';
+import Scrolls from '@/utils/Scrolls';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/entity-particles/vertex.glsl';
@@ -291,7 +292,8 @@ export default class EntityComponent extends component(Object3D) {
     }
 
     _updateScrollPosition() {
-        const scrolls = useStore.getState().scrolls;
+        // const scrolls = useStore.getState().scrolls;
+        const scrolls = Scrolls.data;
         if (scrolls && scrolls.entity && !this._isTransitioning) {
             // this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
             this._scrollPosition.target = scrolls.entity.scrollY;

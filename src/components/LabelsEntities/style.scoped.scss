@@ -20,20 +20,24 @@ li {
     width: 1px;
     height: 1px;
 
-
     &.left span {
         text-align: right;
 
-        top: rem(-30px, 'large');
-        left: rem(-20px, 'large');
+        top: rem(-30px);
+        left: rem(-20px);
+
+        @include respond-to('medium') {
+            top: rem(-30px, 'medium');
+            left: rem(-20px, 'medium');
+        }
 
         @include respond-to('large') {
-            top: rem(-30px);
-            left: rem(-20px);
+            top: rem(-30px, 'large');
+            left: rem(-20px, 'large');
         }
 
         .ar & {
-            transform: translate(100%, -50%);
+            transform: translate(-100%, -50%);
         }
     }
 
@@ -42,6 +46,11 @@ li {
         left: rem(20px);
 
         transform: translate(0, -50%);
+
+        @include respond-to('medium') {
+            top: rem(-30px, 'medium');
+            left: rem(20px, 'medium');
+        }
 
         @include respond-to('large') {
             top: rem(-30px, 'large');
@@ -58,9 +67,14 @@ li {
 
         width: rem(120px);
 
-        font-size: rem(16px);
+        font-size: rem(14px);
         color: var(--color-theme-secondary);
         line-height: 1;
+
+        @include respond-to('medium') {
+            width: rem(120px, 'medium');
+            font-size: rem(16px, 'medium');
+        }
 
         @include respond-to('large') {
             width: rem(120px, 'large');
@@ -93,6 +107,10 @@ li {
 
     .button__content {
         position: absolute;
+
+        @include respond-to('medium') {
+            height: rem(55px, 'medium');
+        }
 
         @include respond-to('large') {
             height: rem(55px, 'large');
@@ -129,10 +147,16 @@ li {
             background-color: var(--color-theme-secondary);
             border-radius: 50%;
 
+            @include respond-to('medium') {
+                width: rem(6px, 'medium');
+                height: rem(6px, 'medium');
+            }
+
             @include respond-to('large') {
                 width: rem(6px, 'large');
                 height: rem(6px, 'large');
             }
+
             animation: yoyoOpacity 2s linear infinite;
             @keyframes yoyoOpacity {
                 0% { opacity: 1; }
@@ -157,6 +181,11 @@ li {
             transition: transform 0.3s $sine-in-out;
         }
 
+        @include respond-to('medium') {
+            width: rem(55px, 'medium');
+            height: rem(55px, 'medium');
+        }
+
         @include respond-to('large') {
             width: rem(55px, 'large');
             height: rem(55px, 'large');
@@ -174,6 +203,15 @@ li {
         text-align: left;
         color: var(--color-theme-secondary);
 
+        @include respond-to('medium') {
+            padding-left: rem(75px, 'medium');
+
+            width: rem(200px, 'medium');
+
+            font-size: rem(16px, 'medium');
+            line-height: rem(48px, 'medium');
+        }
+
         @include respond-to('large') {
             padding-left: rem(75px, 'large');
 
@@ -186,6 +224,11 @@ li {
 
     &.left .button__label {
         text-align: right;
+
+        @include respond-to('medium') {
+            padding-right: rem(75px, 'medium');
+            padding-left: 0;
+        }
 
         @include respond-to('large') {
             padding-right: rem(75px, 'large');
@@ -210,6 +253,10 @@ li {
 
     transform: translate(0%, -100%);
 
+    @include respond-to('medium') {
+        width: rem(120px, 'medium');
+    }
+
     @include respond-to('large') {
         width: rem(120px, 'large');
     }
@@ -223,6 +270,11 @@ li {
     font-weight: 300;
     font-size: rem(32px);
 
+    @include respond-to('medium') {
+        margin-bottom: rem(12px, 'medium');
+        font-size: rem(36px, 'medium');
+    }
+
     @include respond-to('large') {
         margin-bottom: rem(12px, 'large');
         font-size: rem(36px, 'large');
@@ -234,6 +286,10 @@ li {
 
     line-height: 1;
     font-size: rem(14px);
+
+    @include respond-to('medium') {
+        font-size: rem(16px, 'medium');
+    }
 
     @include respond-to('large') {
         font-size: rem(16px, 'large');

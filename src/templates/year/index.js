@@ -24,7 +24,7 @@ import Breakpoints from '@/utils/Breakpoints';
 import ListCategories from '@/components/ListCategories';
 import SubcategoriesLabel from '@/components/SubcategoriesLabel';
 import SliderCategories from '@/components/SliderCategories/index';
-import ButtonEntityPagination from '@/components/ButtonPagination/index';
+import ButtonPagination from '@/components/ButtonPagination/index';
 
 const YearTemplate = (props) => {
     /**
@@ -179,7 +179,7 @@ const YearTemplate = (props) => {
 
             { breakpoints === 'small' && isCategorySelected &&
                 <div ref={ buttonMobileContainerRef } className="button-discover-mobile-container">
-                    { targetCategory && <ButtonEntityPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
+                    { targetCategory && <ButtonPagination name={ breakpoints == 'small' ? t('Tap to explore') : t('Click to discover') } slug={ targetCategory.slug } direction='right' /> }
                 </div>
             }
 

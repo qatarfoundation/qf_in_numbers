@@ -87,6 +87,13 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     /**
+     * Getters & Setters
+     */
+    get settings() {
+        return this._settings;
+    }
+
+    /**
      * Public
      */
     transitionIn(props = {}) {
@@ -375,12 +382,12 @@ export default class TreeComponent extends component(Object3D) {
     onMousemove({ centered }) {
         if (device.isTouch()) return;
 
-        // if (this.$root.isInteractive) {
-        //     this._mousePosition.copy(centered);
-        //     if (this.$root.mouseRotation && this._enableMouseRotation)
-        //         this.mouseRotationXTo(this._mousePosition.x * .2);
-        //     else this.mouseRotationXTo(0);
-        // }
+        if (this.$root.isInteractive) {
+            this._mousePosition.copy(centered);
+            if (this.$root.mouseRotation && this._enableMouseRotation)
+                this.mouseRotationXTo(this._mousePosition.x * .2);
+            else this.mouseRotationXTo(0);
+        }
     }
 
     /**
