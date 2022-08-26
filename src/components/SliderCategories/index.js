@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } f
 
 // Vendor
 import { gsap } from 'gsap';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -37,6 +37,8 @@ function SliderCategories(props, ref) {
      * Store
      */
     const isCategorySelected = useStore((state) => state.isCategorySelected);
+    const isModalYearOpen = useStore((state) => state.isModalYearOpen);
+    const isModalSearchOpen = useStore((state) => state.isModalSearchOpen);
 
     /**
      * Lifecycle
@@ -98,6 +100,8 @@ function SliderCategories(props, ref) {
     const [isFirstSwipe, setIsFirstSwipe] = useState(true);
 
     function checkDirection(delta) {
+        if (isModalYearOpen || isModalSearchOpen) return;
+
         const threshold = 30;
 
         if (isFirstSwipe) {
@@ -135,7 +139,7 @@ function SliderCategories(props, ref) {
             window.removeEventListener('touchstart', touchStartHandler);
             window.removeEventListener('touchend', touchEndHandler);
         };
-    }, [isFirstSwipe]);
+    }, [isFirstSwipe, isModalYearOpen]);
 
     return (
         <Swiper

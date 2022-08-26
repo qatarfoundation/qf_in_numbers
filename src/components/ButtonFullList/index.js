@@ -21,7 +21,7 @@ function ButtonFullList(props, ref) {
         hide: null,
     });
 
-    const isModelSubcategoriesOpen = useStore((state) => state.isModelSubcategoriesOpen);
+    const isModalSubcategoriesOpen = useStore((state) => state.isModalSubcategoriesOpen);
 
     /**
      * Private
@@ -42,7 +42,7 @@ function ButtonFullList(props, ref) {
      * Handlers
      */
     function buttonModalClickHandler() {
-        useStore.setState({ isModelSubcategoriesOpen: !isModelSubcategoriesOpen });
+        useStore.setState({ isModalSubcategoriesOpen: !isModalSubcategoriesOpen });
     }
 
     return (

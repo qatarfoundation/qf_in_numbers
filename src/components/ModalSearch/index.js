@@ -13,6 +13,7 @@ import './style.scoped.scss';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 // Components
 import ButtonModal from '@/components/ButtonModal';
@@ -32,7 +33,6 @@ function ModalSearch(props, ref) {
     /**
      * States
      */
-    const [isOpen, setOpen] = useState(false);
     const [isVisible, setVisible] = useState(false);
 
     /**
@@ -51,6 +51,11 @@ function ModalSearch(props, ref) {
     });
 
     /**
+     * Store
+     */
+    const isModalSearchOpen = useStore((state) => state.isModalSearchOpen);
+
+    /**
      * Watchers
      */
     useEffect(() => {
@@ -64,13 +69,13 @@ function ModalSearch(props, ref) {
     }, [isVisible]);
 
     useEffect(() => {
-        setOpen(false);
+        useStore.setState({ isModalSearchOpen: false });
     }, [originalPath]);
 
     useEffect(() => {
-        if (isOpen) open();
+        if (isModalSearchOpen) open();
         else close();
-    }, [isOpen]);
+    }, [isModalSearchOpen]);
 
     /**
      * Lifecycle
@@ -161,23 +166,23 @@ function ModalSearch(props, ref) {
     function keydownHandler(e) {
         if (e.key !== 'Escape') return;
 
-        setOpen(false);
+        useStore.setState({ isModalSearchOpen: false });
     }
 
     function buttonModalClickHandler() {
-        setOpen(!isOpen);
+        useStore.setState({ isModalSearchOpen: !isModalSearchOpen });
     }
 
     function buttonCloseClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModalSearchOpen: false });
     }
 
     function overlayClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModalSearchOpen: false });
     }
 
     function resizeHandler() {
-        setOpen(false);
+        useStore.setState({ isModalSearchOpen: false });
     }
 
     function wheelHandler(e) {
@@ -189,7 +194,7 @@ function ModalSearch(props, ref) {
             {
                 currentYear &&
 
-                <div ref={ elRef } className={ `modal-search ${ isOpen ? 'is-open' : '' }` }>
+                <div ref={ elRef } className={ `modal-search ${ isModalSearchOpen ? 'is-open' : '' }` }>
 
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
@@ -201,7 +206,7 @@ function ModalSearch(props, ref) {
 
                     <div className="panel-container">
 
-                        <PanelSearch ref={ panelRef } isOpen={ isOpen } year={ currentYear } onClickClose={ buttonCloseClickHandler } />
+                        <PanelSearch ref={ panelRef } isOpen={ isModalSearchOpen } year={ currentYear } onClickClose={ buttonCloseClickHandler } />
 
                     </div>
 

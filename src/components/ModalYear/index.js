@@ -13,6 +13,7 @@ import './style.scoped.scss';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 // Components
 import ButtonModal from '@/components/ButtonModal';
@@ -30,7 +31,6 @@ function ModalYear(props, ref) {
     /**
      * States
      */
-    const [isOpen, setOpen] = useState(false);
     const [isVisible, setVisible] = useState(false);
 
     /**
@@ -50,6 +50,11 @@ function ModalYear(props, ref) {
     });
 
     /**
+     * Store
+     */
+    const isModalYearOpen = useStore((state) => state.isModalYearOpen);
+
+    /**
      * Watchers
      */
     useEffect(() => {
@@ -63,13 +68,13 @@ function ModalYear(props, ref) {
     }, [isVisible]);
 
     useEffect(() => {
-        setOpen(false);
+        useStore.setState({ isModalYearOpen: false });
     }, [currentYear]);
 
     useEffect(() => {
-        if (isOpen) open();
+        if (isModalYearOpen) open();
         else close();
-    }, [isOpen]);
+    }, [isModalYearOpen]);
 
     /**
      * Lifecycle
@@ -154,23 +159,23 @@ function ModalYear(props, ref) {
     function keydownHandler(e) {
         if (e.key !== 'Escape') return;
 
-        setOpen(false);
+        useStore.setState({ isModalYearOpen: false });
     }
 
     function buttonModalClickHandler() {
-        setOpen(!isOpen);
+        useStore.setState({ isModalYearOpen: !isModalYearOpen });
     }
 
     function buttonCloseClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModalYearOpen: false });
     }
 
     function overlayClickHandler() {
-        setOpen(false);
+        useStore.setState({ isModalYearOpen: false });
     }
 
     function resizeHandler() {
-        setOpen(false);
+        useStore.setState({ isModalYearOpen: false });
     }
 
     function wheelHandler(e) {
@@ -182,7 +187,7 @@ function ModalYear(props, ref) {
             {
                 currentYear &&
 
-                <div ref={ elRef } className={ `modal-year ${ isOpen ? 'is-open' : '' }` }>
+                <div ref={ elRef } className={ `modal-year ${ isModalYearOpen ? 'is-open' : '' }` }>
 
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
@@ -191,7 +196,7 @@ function ModalYear(props, ref) {
                     </div>
 
                     <div className="panel-container">
-                        <PanelYear ref={ panelRef } isOpen={ isOpen } years={ years } currentYear={ currentYear } onClickClose={ buttonCloseClickHandler } />
+                        <PanelYear ref={ panelRef } isOpen={ isModalYearOpen } years={ years } currentYear={ currentYear } onClickClose={ buttonCloseClickHandler } />
                     </div>
 
                 </div>
