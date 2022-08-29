@@ -51,7 +51,11 @@ function ChartBar(props) {
                                 <div className="value__bar" style={ { width: `${ item.barSize }%` } }></div>
                                 <div className="value__label">
                                     <div className="value__text">{ item.value }</div>
-                                    { /* <div className="value__info">81% of disclosures</div> */ }
+                                    {
+                                        item.additionalInformation && (
+                                            <div className="value__info">{ item.additionalInformation }</div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </li>
