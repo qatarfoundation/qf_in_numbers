@@ -11,6 +11,10 @@
     .ar & {
         right: rem(150px, 'small');
         left: auto;
+
+        @include respond-to('large') {
+            right: rem(0px, 'small');
+        }
     }
 
     .modal-subcategories.is-open & {
