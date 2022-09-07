@@ -16,6 +16,10 @@
     text-overflow: ellipsis;
     **/
 
+    .ar & {
+        text-align: right;
+    }
+
     @include respond-to('medium') {
         color: var(--color-theme-secondary);
 
