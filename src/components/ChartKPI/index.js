@@ -1,12 +1,8 @@
 // React
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 // Vendor
 import textFit from 'textfit';
-
-// Modules
-import { useD3 } from '@/hooks/useD3';
-import * as d3 from 'd3';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
@@ -105,7 +101,7 @@ function ChartKPI(props, ref) {
                 <div className="highlight">
                     <div className={ `label ${ data[0].icon ? 'with-icon' : '' }` } ref={ highlightLabelRef }>
                         <div>{ data[0].icon && <img className="label__icon" src={ data[0].icon.url } alt={ data[0].icon.alt } /> }</div>
-                        <span className={ `p6 label__text ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name } onMouseOver={ mouseover } onMouseLeave={ mouseleave }>{ truncate(data[0].name, maxLength) }</span>
+                        <span className={ `p6 label__text ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name }>{ data[0].name }</span>
                     </div>
                     <span className="h2 value" ref={ highlightValueRef }>{ data[0].value }</span>
                     { data[0].lastYearValue && <span className={ `p6 change ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
@@ -122,7 +118,7 @@ function ChartKPI(props, ref) {
                                                 row[0] && (
                                                     <div className={ `label ${ row[0].icon ? 'with-icon' : '' }` } ref={ el => listNameRef.current[index + 0] = el }>
                                                         <div>{ row[0].icon && <img className="label__icon" src={ row[0].icon.url } alt={ row[0].icon.alt } /> }</div>
-                                                        <span className={ `p6 label__text ${ (row[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ row[0].name } onMouseOver={ mouseover } onMouseLeave={ mouseleave }>{ truncate(row[0].name, maxLength) }</span>
+                                                        <span className={ `p6 label__text ${ (row[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ row[0].name }>{ row[0].name }</span>
                                                     </div>
                                                 )
                                             }
@@ -132,7 +128,7 @@ function ChartKPI(props, ref) {
                                                 row[1] && (
                                                     <div className={ `label ${ row[1].icon ? 'with-icon' : '' }` } ref={ el => listNameRef.current[index + 1] = el }>
                                                         <div>{ row[1].icon && <img className="label__icon" src={ row[1].icon.url } alt={ row[1].icon.alt } /> }</div>
-                                                        <span className={ `p6 label__text ${ (row[1].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ row[1].name } onMouseOver={ mouseover } onMouseLeave={ mouseleave }>{ truncate(row[1].name, maxLength) }</span>
+                                                        <span className={ `p6 label__text ${ (row[1].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ row[1].name }>{ row[1].name }</span>
                                                     </div>
                                                 )
                                             }
