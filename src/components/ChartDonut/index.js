@@ -1,4 +1,5 @@
 // React
+import { gsap } from 'gsap';
 import React, { useEffect, useRef, useState } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
@@ -35,6 +36,7 @@ function ChartDonut(props, ref) {
      */
     const labelsRef = useRef([]);
     const arcActiveRef = useRef();
+    const hiddenLabelRef = useRef();
 
     /**
      * States
@@ -108,12 +110,20 @@ function ChartDonut(props, ref) {
                 arcActiveRef.current = e.target;
                 if (e.target.classList.contains('has-tooltip')) {
                     const arc = d3.arc()
-                        .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5))
-                        .outerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.4 : 1.5));
+                        .innerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.05 : 1.05))
+                        .outerRadius((sizeCircle / 2) * (window.innerWidth >= 500 ? 1.05 : 1.05));
                     const x = arc.centroid(d)[0] + (w / 2);
                     const y = arc.centroid(d)[1] + (h / 2);
+
+                    hiddenLabelRef.current = labelsRef.current[d.index];
+                    gsap.to(hiddenLabelRef.current, { duration: 0.2, alpha: 0, ease: 'sine.inOut' });
+
+                    const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                    const sideHorizontal = (midangle < Math.PI ? 'right' : 'left');
+                    const sideVertical = midangle > Math.PI * 0.5 && midangle < Math.PI * 1.5 ? 'bottom' : 'top';
+
                     tooltip
-                        .html(`<p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p>`)
+                        .html(`<div class="content ${ sideHorizontal } ${ sideVertical }"><p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p><div>`)
                         .style('left', `${ x }px`)
                         .style('top', `${ y }px`);
                     tooltip.style('opacity', 1);
@@ -129,6 +139,10 @@ function ChartDonut(props, ref) {
                 if (e.target.classList.contains('has-tooltip')) {
                     tooltip.style('opacity', 0);
                 }
+
+                if (hiddenLabelRef.current) {
+                    gsap.to(hiddenLabelRef.current, { duration: 0.4, alpha: 1, ease: 'sine.inOut' });
+                }
             };
             donutContainer
                 .selectAll('whatever')
@@ -137,7 +151,8 @@ function ChartDonut(props, ref) {
                 .append('path')
                 .attr('class', function(d) {
                     const hasTooltip = d.endAngle - d.startAngle <= Math.PI / 6;
-                    return `arc ${ hasTooltip ? 'has-tooltip' : '' }`;
+                    // return `arc ${ hasTooltip ? 'has-tooltip' : '' }`;
+                    return 'arc has-tooltip';
                 })
                 .attr('d', d3.arc()
                     .innerRadius(sizeCircle / 2 - widthStroke)
