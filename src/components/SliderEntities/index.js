@@ -192,7 +192,7 @@ function SliderEntities(props) {
                         entities.map((entity, index) => {
                             return (
                                 <li key={ `entity-${ index }` } className={ 'item-entities' } ref={ el => listItemEntitiesRef.current[index] = el }>
-                                    <SlideEntity entity={ entity } index={ index - currentIndex } />
+                                    <SlideEntity entity={ entity } goto={ props.goto } index={ index } activeIndex={ index - currentIndex } />
                                 </li>
                             );
                         })

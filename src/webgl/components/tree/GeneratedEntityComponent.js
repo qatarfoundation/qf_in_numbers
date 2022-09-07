@@ -37,7 +37,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._startPosition = new Vector3();
         this._endPosition = this._createEndPosition();
         if (DEBUG) this._skeleton = this._createSkeleton();
-        this._cameraSide = this._chooseCameraSide();
+        this._cameraSide = this._chooseCameraSide(useStore.getState().locale);
         this._cameraTarget = this._createCameraTarget();
         this._cameraPosition = this._createCameraPosition();
         this._camera = this._createCamera();
@@ -46,11 +46,14 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         this._highlightAnchor = this._createHighlightAnchor();
         this._bigParticles = this._createBigParticles();
         this._addToModel();
+        this._bindHandler();
+        this._setupEventListeners();
     }
 
     destroy() {
         this._timelineShow?.kill();
         this._timelineHide?.kill();
+        this._removeEventListeners();
     }
 
     /**
@@ -106,8 +109,19 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     /**
      * Private
      */
-    _chooseCameraSide() {
-        const locale = useStore.getState().locale;
+    _bindHandler() {
+        this._languageChangeHandler = this._languageChangeHandler.bind(this);
+    }
+
+    _setupEventListeners() {
+        this.$root.addEventListener('language:change', this._languageChangeHandler);
+    }
+
+    _removeEventListeners() {
+        this.$root.removeEventListener('language:change', this._languageChangeHandler);
+    }
+
+    _chooseCameraSide(locale) {
         const side = locale === 'ar-QA' ? -1 : 1;
         return side;
     }
@@ -315,5 +329,14 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     onWindowResize({ renderWidth, renderHeight }) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
+    }
+
+    /**
+     * Handlers
+     */
+    _languageChangeHandler(language) {
+        this._cameraSide = this._chooseCameraSide(language);
+        this._cameraPosition = this._createCameraPosition();
+        this._camera = this._createCamera();
     }
 }

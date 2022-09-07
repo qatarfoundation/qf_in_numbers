@@ -8,6 +8,7 @@ import Stats from 'stats-js';
 // Utils
 import Debugger from '@/utils/Debugger';
 import WindowResizeObserver from '@/utils/WindowResizeObserver';
+import EventDispatcher from '@/utils/EventDispatcher';
 
 // Bidello helpers
 import BidelloMouseHelper from '@/webgl/helpers/bidello/Mouse';
@@ -19,8 +20,10 @@ import Composer from '@/webgl/modules/Composer';
 // API
 import API from '@/webgl/api';
 
-class Main {
+class Main extends EventDispatcher {
     constructor(options = {}) {
+        super();
+
         // Options
         this._canvas = options.canvas;
         this._showDebug = options.showDebug || false;

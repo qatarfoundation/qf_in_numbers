@@ -41,7 +41,7 @@ function ThePreloader(props) {
             }
         }
     `);
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
     let years = data.allContentfulYear.edges.filter(function(object, i) {
         const year = object.node.year;
         if (object.node.node_locale === i18n.language) {
@@ -167,7 +167,7 @@ function ThePreloader(props) {
                     </li>;
                 }) }
             </ul>
-            <p ref={ amorceRef } className='h6 amorce'>Aliquam sed. Ut eget ut eu at diam. Sed a purus turpis rhoncus dictum sit fermentum ut id.</p>
+            <p ref={ amorceRef } className='h6 amorce'>{ t('Intro') }</p>
         </div>
     ) : null ;
 }

@@ -6,6 +6,7 @@
 
 .slide-entity-title {
     color: var(--color-theme-primary);
+    text-align: left;
 
     /**
     display: -webkit-box;
@@ -14,6 +15,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     **/
+
+    .ar & {
+        text-align: right;
+    }
 
     @include respond-to('medium') {
         color: var(--color-theme-secondary);

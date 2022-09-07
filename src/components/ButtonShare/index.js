@@ -1,5 +1,5 @@
 // React
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // CSS
 import './style.scoped.scss';
@@ -11,10 +11,9 @@ import LinkedinIcon from '@/assets/icons/linkedin.svg';
 import MailIcon from '@/assets/icons/mail.svg';
 import CopyIcon from '@/assets/icons/copy.svg';
 
-import {gsap} from "gsap";
+import { gsap } from 'gsap';
 
 function ButtonShare(props, ref) {
-
     const [opened, setOpened] = useState(false);
 
     const wrapperRef = useRef();
@@ -23,20 +22,20 @@ function ButtonShare(props, ref) {
     const tlRef = useRef(null);
 
     useEffect(() => {
-        if (tlRef.current) tlRef.current.kill()
+        if (tlRef.current) tlRef.current.kill();
         tlRef.current = gsap.timeline();
         if (opened) {
-            tlRef.current.set(listRef.current, {display: "flex"}, 0)
-            tlRef.current.to(listRef.current, {autoAlpha: 1, duration: 0.2}, 0);
+            tlRef.current.set(listRef.current, { display: 'flex' }, 0);
+            tlRef.current.to(listRef.current, { autoAlpha: 1, duration: 0.2 }, 0);
         } else {
-            tlRef.current.to(listRef.current, {autoAlpha: 0, duration: 0.2, display: 'none'}, 0);
+            tlRef.current.to(listRef.current, { autoAlpha: 0, duration: 0.2, display: 'none' }, 0);
         }
     }, [opened]);
 
     useEffect(() => {
-        attach()
-        return detach
-    })
+        attach();
+        return detach;
+    });
 
     function attach() {
         window.addEventListener('click', handleClickOutside);
@@ -47,34 +46,34 @@ function ButtonShare(props, ref) {
     }
 
     function handleClickOutside(e) {
-        if (e.path.includes(wrapperRef.current)) return
-        if (opened) setOpened(false)
+        if (e.path.includes(wrapperRef.current)) return;
+        if (opened) setOpened(false);
     }
 
     function copyToClipboard() {
-        let data = [new ClipboardItem({ "text/plain": new Blob([window.location.href], { type: "text/plain" }) })];
+        const data = [new ClipboardItem({ 'text/plain': new Blob([window.location.href], { type: 'text/plain' }) })];
         navigator.clipboard.write(data).then(() => {
-            setOpened(false)
+            setOpened(false);
         });
     }
 
     return (
-        <div ref={wrapperRef} className="button-share-w">
-            <button className="button-share" onClick={() => setOpened(!opened)}>
+        <div ref={ wrapperRef } className="button-share-w">
+            <button className="button-share" onClick={ () => setOpened(!opened) }>
                 <ShareIcon className="share-icon" />
             </button>
 
-            <div ref={listRef} className="share-list">
-                <a href={`https://twitter.com/intent/tweet?url=${window.location.href}`} target="_blank" className="share-item">
+            <div ref={ listRef } className="share-list">
+                <a href={ `https://twitter.com/intent/tweet?url=${ window.location.href }` } target="_blank" className="share-item" rel="noreferrer">
                     <TwitterIcon className="share-icon icon-twitter" />
                 </a>
-                <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}`} target="_blank" className="share-item">
+                <a href={ `https://www.linkedin.com/sharing/share-offsite/?url=${ window.location.href }` } target="_blank" className="share-item" rel="noreferrer">
                     <LinkedinIcon className="share-icon icon-linkedin" />
                 </a>
-                <a href={`mailto:?body=${window.location.href}`} target="_blank" className="share-item">
+                <a href={ `mailto:?body=${ window.location.href }` } target="_blank" className="share-item" rel="noreferrer">
                     <MailIcon className="share-icon" />
                 </a>
-                <button onClick={copyToClipboard} className="share-item">
+                <button onClick={ copyToClipboard } className="share-item">
                     <CopyIcon className="share-icon" />
                 </button>
             </div>

@@ -78,6 +78,10 @@ function SliderSubcategories(props, ref) {
         }
     }
 
+    function goto(index) {
+        setEntityCurrentIndex(index);
+    }
+
     /**
      * Events
      */
@@ -163,7 +167,7 @@ function SliderSubcategories(props, ref) {
                     {
                         <AnimatePresence exitBeforeEnter>
 
-                            <SliderEntities key={ subcategories[subcategoryCurrentIndex].id } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
+                            <SliderEntities key={ subcategories[subcategoryCurrentIndex].id } goto={ goto } category={ category } subcategory={ subcategories[subcategoryCurrentIndex] } currentIndex={ entityCurrentIndex } />
 
                         </AnimatePresence>
                     }

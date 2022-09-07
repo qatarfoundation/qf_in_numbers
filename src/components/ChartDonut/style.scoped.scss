@@ -54,20 +54,72 @@
     }
     .tooltip {
         position: absolute;
-        width: fit-content;
-        padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-        background-color: var(--color-theme-primary);
-        border-radius: rem(4px, 'small');
-        color: $color-white;
-        transform: translate(-50%, -50%);
+
         pointer-events: none;
-        @include respond-to('medium') {
-            padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
-            border-radius: rem(4px, 'medium');
-        }
-        @include respond-to('large') {
-            padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
-            border-radius: rem(4px, 'large');
+
+        width: 1px;
+        height: 1px;
+
+        .content {
+            width: fit-content;
+            min-width: rem(150px);
+
+            padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
+
+            color: $color-white;
+
+            background-color: var(--color-theme-primary);
+            border-radius: rem(4px, 'small');
+
+            &.left.top {
+                translate: -100% -100%;
+
+                .ar & {
+                    translate: 0 -100%;
+                }
+            }
+
+            &.right.top {
+                translate: 0 -100%;
+
+                .ar & {
+                    translate: 100% -100%;
+                }
+            }
+
+            &.left.bottom {
+                translate: -100% 0;
+
+                .ar & {
+                    translate: 0 0;
+                }
+            }
+
+            &.right.bottom {
+                .ar & {
+                    translate: 100% 0;
+                }
+            }
+
+            &.left {
+                text-align: right;
+            }
+
+            &.right {
+                text-align: left;
+            }
+
+            @include respond-to('medium') {
+                min-width: rem(150px, 'medium');
+                padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
+                border-radius: rem(4px, 'medium');
+            }
+
+            @include respond-to('large') {
+                min-width: rem(150px, 'large');
+                padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
+                border-radius: rem(4px, 'large');
+            }
         }
     }
 }
