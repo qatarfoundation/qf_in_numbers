@@ -57,16 +57,13 @@
 
         pointer-events: none;
 
-        width: 1px;
-        height: 1px;
-
         .content {
             width: fit-content;
+            max-width: rem(200px);
 
             padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
 
             color: $color-white;
-            white-space: nowrap;
 
             background-color: var(--color-theme-primary);
             border-radius: rem(4px, 'small');
@@ -110,11 +107,13 @@
             }
 
             @include respond-to('medium') {
+                max-width: rem(200px, 'medium');
                 padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
                 border-radius: rem(4px, 'medium');
             }
 
             @include respond-to('large') {
+                max-width: rem(200px, 'large');
                 padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
                 border-radius: rem(4px, 'large');
             }

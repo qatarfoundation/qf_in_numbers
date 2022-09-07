@@ -123,7 +123,7 @@ function ChartDonut(props, ref) {
                     const sideVertical = midangle > Math.PI * 0.5 && midangle < Math.PI * 1.5 ? 'bottom' : 'top';
 
                     tooltip
-                        .html(`<div class="content ${ sideHorizontal } ${ sideVertical }"><p class="p3">${ d.data.value }</p><p class="p4">${ d.data.name }</p><div>`)
+                        .html(`<div class="content ${ sideHorizontal } ${ sideVertical }"><p class="p3">${ d.data.value }</p><p class="p6">${ d.data.name }</p><div>`)
                         .style('left', `${ x }px`)
                         .style('top', `${ y }px`);
                     tooltip.style('opacity', 1);
