@@ -1,5 +1,6 @@
 // React
 import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { Link } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -15,7 +16,7 @@ function SlideEntity(props, ref) {
     /**
      * Props
      */
-    const { index, entity } = props;
+    const { index, activeIndex, entity } = props;
 
     /**
      * Refs
@@ -32,8 +33,8 @@ function SlideEntity(props, ref) {
      * Watchers
      */
     useEffect(() => {
-        activeOffset.current.target = index;
-    }, [index]);
+        activeOffset.current.target = activeIndex;
+    }, [activeIndex]);
 
     /**
      * Public
@@ -65,6 +66,10 @@ function SlideEntity(props, ref) {
         // activeTitleRef.current.style.opacity = activeAlpha;
     }
 
+    function onClickHandler() {
+        props.goto(index);
+    }
+
     /**
      * Events
      */
@@ -76,9 +81,12 @@ function SlideEntity(props, ref) {
     }
 
     return (
-        <div ref={ elRef } className={ `slide-entity ${ index === 0 ? 'first' : '' }` }>
+        <div ref={ elRef } className={ `slide-entity ${ activeIndex === 0 ? 'first' : '' }` }>
 
-            <p className="slide-entity-title p1">{ entity.name }</p>
+            { activeIndex === 0
+                ? <p className="slide-entity-title p1">{ entity.name }</p>
+                : <button className="button slide-entity-title p1" onClick={ onClickHandler }>{ entity.name }</button>
+            }
 
             { /* <p ref={ activeTitleRef } className="slide-entity-title active p1">{ entity.name }</p> */ }
 
