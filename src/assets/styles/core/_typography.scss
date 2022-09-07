@@ -4,6 +4,9 @@ h1, .h1 {
     font-weight: 400;
     font-size: rem(48px, 'small');
     line-height: 90%;
+    .ar & {
+        font-family: 'DIN Next LT Pro';
+    }
     @include respond-to('medium') {
         font-size: rem(80px, 'medium');
     }
