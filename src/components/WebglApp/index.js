@@ -1,5 +1,6 @@
 // Vendor
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -21,6 +22,8 @@ function WebglAppComponent(props) {
 
     const canvas = useRef(null);
     const environment = useEnvironment();
+
+    const { language } = useI18next();
 
     useEffect(() => {
         Globals.webglApp = new WebglApp({
@@ -44,6 +47,10 @@ function WebglAppComponent(props) {
             Globals.webglApp.showView('home');
         }
     }, [preloaderState]);
+
+    useEffect(() => {
+        Globals?.webglApp?.dispatchEvent('language:change', language);
+    }, [language]);
 
     return(
         <canvas ref={ canvas } className="background"></canvas>
