@@ -2,11 +2,11 @@
 
 ## Environments
 
-| Name               | URL                                                  |
-| ------------------ | ---------------------------------------------------- |
-| **Staging Dev**    | [qf-2022.dev.60fps.fr](https://qf-2022.dev.60fps.fr) |
-| **Staging Client** | Coming Soon                                          |
-| **Production**     | Coming Soon                                          |
+| Name               | URL                                                              |
+| ------------------ | ---------------------------------------------------------------- |
+| **Staging Dev**    | [qf-2022.dev.60fps.fr](https://qf-2022.dev.60fps.fr)             |
+| **Staging Client** | [qf-in-numbers.netlify.app](https://qf-in-numbers.netlify.app/)  |
+| **Production**     | Coming Soon                                                      |
 
 ## 🚀 Quick start
 
@@ -69,17 +69,3 @@ Note that in frontend, the preview feature is only available with the **GATSBY_C
 ## Deploy Guide
 
 All environment are using netlify
-
-### Staging Dev
-
-Managed by 60fps
-
-[qf-2022.dev.60fps.fr](https://qf-2022.dev.60fps.fr).
-
-### Staging Client
-
-TBD
-
-### Production
-
-TBD
