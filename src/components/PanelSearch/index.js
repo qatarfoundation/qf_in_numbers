@@ -117,7 +117,6 @@ function PanelSearch(props, ref) {
         // Entities
         let entities = getAllEntities(props.year);
         entities = filterEntities(entities);
-        console.log(entities);
 
         const filteredEntities = entities.filter((item) => {
             if (inputSearch === '') return true;
