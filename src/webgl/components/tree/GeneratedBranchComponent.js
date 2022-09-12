@@ -418,13 +418,13 @@ export default class GeneratedBranchComponent extends component(Object3D) {
      */
     update({ time, delta }) {
         if (!this._isActive) return;
-        this._updateEntities();
+        this._updateEntities({ time, delta });
         this._particlesMat.uniforms.uTime.value = time;
     }
 
-    _updateEntities() {
+    _updateEntities({ time, delta }) {
         for (const key in this._entities) {
-            this._entities[key].update();
+            this._entities[key].update({ time, delta });
         }
     }
 
