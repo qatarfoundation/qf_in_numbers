@@ -1,3 +1,5 @@
+#define USE_FOG
+
 // Attributes
 attribute vec4 settings;
 attribute float colorOffset;
@@ -10,6 +12,9 @@ varying float vAlpha;
 
 // Uniforms
 uniform float uTime;
+
+// Includes
+#include <fog_pars_vertex>
 
 void main() {
     // Transformed
@@ -33,4 +38,6 @@ void main() {
     // Varyings
     vColorOffset = colorOffset;
     vAlpha = alpha;
+
+    #include <fog_vertex>
 }

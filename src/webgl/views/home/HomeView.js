@@ -383,7 +383,7 @@ export default class HomeView extends component() {
 
     _createDustComponent(container) {
         const component = new DustComponent({
-            config: this._config,
+            debugContainer: this._config.name,
         });
         container.add(component);
         return component;

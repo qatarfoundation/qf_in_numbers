@@ -4,6 +4,9 @@ import { component } from '@/utils/bidello';
 import { Object3D, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Vector2 } from 'three';
 import { ResourceLoader } from 'resource-loader';
 
+// Utils
+import Debugger from '@/utils/Debugger';
+
 // Shaders
 import vertexShader from '@/webgl/shaders/dust/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/dust/fragment.glsl';
@@ -13,6 +16,9 @@ const PARTICLE_SIZE = 200;
 
 export default class DustComponent extends component(Object3D) {
     init(options = {}) {
+        this._debugContainer = options.debugContainer;
+
+        this._debug = this._createDebug();
         this._mesh = this._createMesh();
 
         this.position.y = 8;
@@ -105,6 +111,8 @@ export default class DustComponent extends component(Object3D) {
                 uTime: { value: 0 },
                 uParticle: { value: ResourceLoader.get('view/home/particle') },
                 uResolution: { value: new Vector2() },
+                fogNear: { value: 40 },
+                fogFar: { value: 0 },
             },
             defines: {
                 POINT_SIZE: PARTICLE_SIZE,
@@ -120,6 +128,8 @@ export default class DustComponent extends component(Object3D) {
         if (this._debug) {
             this._debug.add(mesh, 'rotation');
             this._debug.add(material.uniforms.uColorGradient, 'value', { label: 'gradient' });
+            this._debug.add(material.uniforms.fogNear, 'value', { label: 'fogNear' });
+            this._debug.add(material.uniforms.fogFar, 'value', { label: 'fogFar' });
             this._debug.add(material.defines, 'POINT_SIZE', { label: 'point size', stepSize: 1, onUpdate: () => { this._pointsMat.needsUpdate = true; } });
         }
 
@@ -140,5 +150,15 @@ export default class DustComponent extends component(Object3D) {
         const scale = renderHeight / 1080;
         this._mesh.material.defines.POINT_SIZE = PARTICLE_SIZE * scale * dpr;
         this._mesh.material.needsUpdate = true;
+    }
+
+    /**
+     * Debug
+     */
+    _createDebug() {
+        if (!Debugger) return;
+
+        const debug = Debugger.addGroup('Dust', { container: this._debugContainer });
+        return debug;
     }
 }
