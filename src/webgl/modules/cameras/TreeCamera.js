@@ -122,7 +122,7 @@ export default class TreeCamera extends component() {
         const rotationStart = this._camera.quaternion.clone();
         const rotationEnd = new Quaternion();
 
-        const duration = math.clamp(2 * (distance / 3), 1.5, 3.5);
+        const duration = math.clamp(2 * (distance / 3), 1.5, 5.5);
 
         this._gotoOverviewAnimation?.kill();
         this._gotoCategoryAnimation?.kill();

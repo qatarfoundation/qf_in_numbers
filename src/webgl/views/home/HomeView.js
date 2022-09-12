@@ -176,7 +176,7 @@ export default class HomeView extends component() {
 
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
-        this._timelineGotoEntity.add(this._components.tree.hide(), 0);
+        this._timelineGotoEntity.add(this._components.tree.hide(), 1.5);
         this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
         this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
         this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
