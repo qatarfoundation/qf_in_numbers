@@ -88,6 +88,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         const alpha = [];
         const scale = [];
         const hoverColor = [];
+        const displacement = [];
 
         for (let i = 0; i < PARTICLES_AMOUNT; i ++) {
             const radius = 300 * Math.random();
@@ -113,6 +114,8 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
             alpha.push(math.randomArbitrary(0.1, 1));
             scale.push(math.randomArbitrary(0.7, 1));
             hoverColor.push(Math.random() > 0.5 ? 1 : 0);
+
+            for (let j = 0; j < 4; j++) displacement.push(Math.random() - .5);
         }
 
         const geometry = new BufferGeometry();
@@ -120,6 +123,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         geometry.setAttribute('alpha', new Float32BufferAttribute(alpha, 1));
         geometry.setAttribute('scale', new Float32BufferAttribute(scale, 1));
         geometry.setAttribute('hoverColor', new Float32BufferAttribute(hoverColor, 1));
+        geometry.setAttribute('displacement', new Float32BufferAttribute(displacement, 4));
 
         const material = new ShaderMaterial({
             fragmentShader,
@@ -136,6 +140,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
                     uShowHover: { value: 0 },
                     uHoverColor1: { value: this._particleColors.primary },
                     uHoverColor2: { value: this._particleColors.secondary },
+                    uTime: { value: 0 },
                 },
             ]),
             transparent: true,
@@ -148,6 +153,13 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         this.add(points);
 
         return points;
+    }
+
+    /**
+     * Update
+     */
+    update({ time }) {
+        this._mesh.material.uniforms.uTime.value = time;
     }
 
     /**

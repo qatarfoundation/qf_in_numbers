@@ -21,7 +21,10 @@ void main() {
     transformed += radius * normal;
 
     // Displacement
-    transformed = vec3(transformed.x + .09 * cos(uTime + displacement.w) * displacement.x, transformed.y + .09 * sin(uTime + displacement.w) * displacement.y, transformed.z + .09 * cos(uTime + displacement.w) * displacement.z);
+    float amplitude = 0.3;
+    float speed = 0.6;
+    float time = uTime * speed;
+    transformed = vec3(transformed.x + amplitude * cos(time + displacement.w) * displacement.x, transformed.y + amplitude * sin(time + displacement.w) * displacement.y, transformed.z + amplitude * cos(time + displacement.w) * displacement.z);
 
     // Output
     vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
