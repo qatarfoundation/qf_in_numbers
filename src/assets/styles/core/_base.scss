@@ -21,6 +21,10 @@ html {
         font-size: base-font-size('large');
     }
 
+    @media (min-width: 1440px) {
+        font-size: 14.4px;
+    }
+
     * {
         box-sizing: border-box;
     }

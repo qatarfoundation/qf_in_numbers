@@ -40,10 +40,6 @@
             right: inherit;
         }
     }
-
-    @include respond-to('large') {
-        max-width: rem(895px, 'large');
-    }
 }
 
 .button-close {
