@@ -67,8 +67,8 @@ export default class DustComponent extends component(Object3D) {
      * Private
      */
     _createMesh() {
-        const amount = 500;
-        const radius = 10;
+        const amount = 3000;
+        const radius = 30;
 
         const position = [];
         const displacement = [];
