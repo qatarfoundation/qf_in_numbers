@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { Scene, Vector3, Euler, Fog, Object3D } from 'three';
+import { Scene, Vector3, Fog, Object3D } from 'three';
 import { ResourceManager } from 'resource-loader';
 
 // Modules
@@ -9,7 +9,6 @@ import CameraManager from '@/webgl/modules/CameraManager';
 
 // Utils
 import Debugger from '@/utils/Debugger';
-import math from '@/utils/math';
 import number from '@/utils/number';
 import easings from '@/utils/easings';
 import TreeDataModel from '@/utils/TreeDataModel';
@@ -21,6 +20,7 @@ import LeavesComponent from '@/webgl/components/tree/LeavesComponent';
 import LeavesBasicComponent from '@/webgl/components/tree/LeavesBasicComponent';
 import GeneratedTreeComponent from '@/webgl/components/tree/GeneratedTreeComponent';
 import EntityComponent from '@/webgl/components/tree/EntityComponent';
+import DustComponent from '@/webgl/components/tree/DustComponent';
 
 export default class HomeView extends component() {
     init(options = {}) {
@@ -312,6 +312,7 @@ export default class HomeView extends component() {
         // components.leaves2 = this._createLeaves2Component();
         components.generatedTree = this._createGeneratedTreeComponent();
         components.entity = this._createEntityComponent();
+        components.dust = this._createDustComponent(components.tree);
         return components;
     }
 
@@ -377,6 +378,14 @@ export default class HomeView extends component() {
             config: this._config,
         });
         this._container.add(component);
+        return component;
+    }
+
+    _createDustComponent(container) {
+        const component = new DustComponent({
+            config: this._config,
+        });
+        container.add(component);
         return component;
     }
 
