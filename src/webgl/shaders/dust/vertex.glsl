@@ -1,24 +1,24 @@
+#define USE_FOG
+
 // Attributes
 attribute vec4 settings;
-attribute float hoverColor;
+attribute float colorOffset;
 attribute vec4 displacement;
+attribute float alpha;
 
 // Varyings
-varying vec4 vSettings;
-varying float vHoverColor;
-varying float vDisplacement;
+varying float vColorOffset;
+varying float vAlpha;
 
 // Uniforms
-uniform float uRadius;
 uniform float uTime;
+
+// Includes
+#include <fog_pars_vertex>
 
 void main() {
     // Transformed
     vec3 transformed = position;
-
-    // Radius
-    float radius = uRadius * settings.y;
-    transformed += radius * normal;
 
     // Displacement
     float amplitude = 0.3;
@@ -33,11 +33,11 @@ void main() {
     // Point size
     gl_PointSize = float(POINT_SIZE);
     gl_PointSize *= (1.0 / -mvPosition.z);
-    gl_PointSize *= settings.z;
     gl_PointSize *= 1.0 + sin(uTime * 0.3 + displacement.w * 30.0) * 0.1;
 
     // Varyings
-    vSettings = settings;
-    vHoverColor = hoverColor;
-    vDisplacement = displacement.w;
+    vColorOffset = colorOffset;
+    vAlpha = alpha;
+
+    #include <fog_vertex>
 }

@@ -9,6 +9,7 @@ import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
 // Utils
 import Breakpoints from '@/utils/Breakpoints';
+import WindowResizeObserver from '@/utils/WindowResizeObserver';
 
 // CSS
 import './style.scoped.scss';
@@ -78,9 +79,12 @@ function ChartKPI(props, ref) {
     function resize() {
         resizeHighlightLabel();
         if (!Breakpoints.active('small')) {
+            const viewportWidth = WindowResizeObserver.fullWidth;
+            const fontSize = 96;
+            const maxFontSize = viewportWidth < 1440 ? Breakpoints.rem(fontSize) : fontSize;
             textFit(highlightValueRef.current, {
                 widthOnly: true,
-                maxFontSize: Breakpoints.rem(96),
+                maxFontSize,
             });
         }
     }

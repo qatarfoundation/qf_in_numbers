@@ -13,6 +13,7 @@ uniform float uShowHover;
 uniform float uOpacity;
 uniform float uTime;
 uniform sampler2D uParticle;
+uniform vec2 uResolution;
 
 void main() {
     // Color
@@ -25,6 +26,9 @@ void main() {
     alpha *= vSettings.w;
     alpha *= uOpacity;
     alpha *= 1.0 + uShowHover * 3.0;
+
+    float y = gl_FragCoord.y / uResolution.y;
+    alpha *= smoothstep(-0.2, 0.5, y);
 
     // float alphaBlinkSpeed = 0.5;
     // alpha *= clamp(cos((uTime * alphaBlinkSpeed) + vDisplacement * 30.), clamp(vDisplacement + .5, .1, .5), 1.);

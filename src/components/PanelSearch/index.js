@@ -14,6 +14,9 @@ import Scrollbar from '@/components/ScrollBar';
 import ButtonSearch from '@/components/ButtonSearch';
 import ButtonFilter from '../ButtonFilter/index';
 
+// Config
+import entitySearchFilterList from '@/configs/entitySearchFilterList';
+
 // Hooks
 import useStore from '@/hooks/useStore';
 
@@ -112,7 +115,8 @@ function PanelSearch(props, ref) {
      */
     function dispatchData() {
         // Entities
-        const entities = getAllEntities(props.year);
+        let entities = getAllEntities(props.year);
+        entities = filterEntities(entities);
 
         const filteredEntities = entities.filter((item) => {
             if (inputSearch === '') return true;
@@ -160,6 +164,11 @@ function PanelSearch(props, ref) {
                 return subcategory.entities;
             });
         }).flat(2);
+    }
+
+    function filterEntities(entities) {
+        const filtered = entities.filter(entity => !entitySearchFilterList.includes(entity.name));
+        return filtered;
     }
 
     function getAllTags(year, entities) {

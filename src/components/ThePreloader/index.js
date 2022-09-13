@@ -25,7 +25,8 @@ function ThePreloader(props) {
     const containerRef = useRef();
     const listYearsRef = useRef();
     const yearsRef = useRef(new Array());
-    const amorceRef = useRef();
+    const amorceLine1Ref = useRef();
+    const amorceLine2Ref = useRef();
     /**
       * Datas
       */
@@ -100,19 +101,29 @@ function ThePreloader(props) {
             },
             onComplete() {
                 if (progress == 1) {
-                    timeline.to(amorceRef.current, 0, { opacity: 1 });
-                    const amorceSplitText = new SplitText(amorceRef.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
-                    const lines = amorceSplitText.lines;
-                    timeline.add('charsLineIn');
-                    lines.forEach((line, i) => {
-                        timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn');
+                    timeline.to(amorceLine1Ref.current, 0, { opacity: 1 });
+                    timeline.to(amorceLine2Ref.current, 0, { opacity: 1 });
+                    const amorceLine1SplitText = new SplitText(amorceLine1Ref.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
+                    const amorceLine2SplitText = new SplitText(amorceLine2Ref.current, { type: 'lines,chars', linesClass: 'line', charsClass: 'char' });
+                    const lines1 = amorceLine1SplitText.lines;
+                    const lines2 = amorceLine2SplitText.lines;
+                    timeline.add('charsLineIn1');
+                    lines1.forEach((line, i) => {
+                        timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn1');
+                    });
+                    timeline.add('charsLineOut', 1.5);
+                    lines1.forEach((line, i) => {
+                        timeline.to(line.querySelectorAll('.char'), 0.9, { opacity: 0, stagger: 0.01, ease: Power0.easeIn }, 'charsLineOut1');
+                    });
+                    timeline.add('charsLineIn2');
+                    lines2.forEach((line, i) => {
+                        timeline.to(line.querySelectorAll('.char'), 1, { opacity: 1, stagger: 0.015, ease: Power0.easeOut }, 'charsLineIn2');
                     });
                     if (isHome) timeline.call(() => { Globals.webglApp.transitionIn({ isHome, isFirstNavigation: !location.previous }); }, null, 0);
-                    timeline.add('charsLineOut', 1.5);
-                    lines.forEach((line, i) => {
-                        timeline.to(line.querySelectorAll('.char'), 0.9, { opacity: 0, stagger: 0.01, ease: Power0.easeIn }, 'charsLineOut');
+                    lines2.forEach((line, i) => {
+                        timeline.to(line.querySelectorAll('.char'), 0.9, { opacity: 0, stagger: 0.01, ease: Power0.easeIn }, 'charsLineOut2');
                     });
-                    timeline.to(listYearsRef.current, 0.9, { opacity: 0, ease: Power0.easeIn }, 'charsLineOut');
+                    timeline.to(listYearsRef.current, 0.9, { opacity: 0, ease: Power0.easeIn }, 'charsLineOut2');
                     timeline.add(transitionOut());
                 }
             },
@@ -167,7 +178,10 @@ function ThePreloader(props) {
                     </li>;
                 }) }
             </ul>
-            <p ref={ amorceRef } className='h6 amorce'>{ t('Intro') }</p>
+            <div>
+                <p ref={ amorceLine1Ref } className='h6 amorce'>{ t('intro_line_1') }</p>
+                <p ref={ amorceLine2Ref } className='h6 amorce'>{ t('intro_line_2') }</p>
+            </div>
         </div>
     ) : null ;
 }

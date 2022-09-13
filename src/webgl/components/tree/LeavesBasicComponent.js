@@ -79,6 +79,15 @@ export default class LeavesBasicComponent extends component(Object3D) {
     }
 
     /**
+     * Update
+     */
+    update({ time, delta }) {
+        for (let i = 0, len = this._leaves.length; i < len; i++) {
+            this._leaves[i].update({ time, delta });
+        }
+    }
+
+    /**
      * Debug
      */
     _createDebug() {

@@ -18,12 +18,17 @@ void main() {
     // Transformed
     vec3 transformed = position;
 
+    float amplitude = 0.1;
+    float speed = 1.0;
+
+    float x = position.x + amplitude * cos(uTime * speed + displacement.x * 10.) * (color - .2);
+    float y = position.y + amplitude * sin(uTime * speed + displacement.y * 10.) * (color - .2);
+    float z = position.z;
+    transformed = vec3(x, y, z);
+
     // Output
 	vec4 mvPosition = modelViewMatrix * instanceMatrix * vec4( 0.0, 0.0, 0.0, 1.0 );
-
-    vec3 displacedPos = vec3(position.x + .04 * cos(uTime + displacement.x * 10.) * (color - .2), position.y + .04 * sin(uTime + displacement.y * 10.) * (color - .2), position.z);
-
-    mvPosition.xy += displacedPos.xy * uPointSize * settings.y;
+    mvPosition.xy += transformed.xy * uPointSize * settings.y;
 	gl_Position = projectionMatrix * mvPosition;
 
     // Varyings

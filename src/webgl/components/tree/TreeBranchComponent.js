@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh, Vector2 } from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { ResourceLoader } from 'resource-loader';
 
@@ -9,11 +9,11 @@ import { ResourceLoader } from 'resource-loader';
 import math from '@/utils/math';
 import TreeDataModel from '@/utils/TreeDataModel';
 import TreeParser from '@/webgl/utils/TreeParser';
+import Breakpoints from '@/utils/Breakpoints';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
 import fragmentShader from '@/webgl/shaders/tree-particles/fragment.glsl';
-import Breakpoints from '@/utils/Breakpoints';
 
 // Constants
 const PARTICLE_SIZE = 200;
@@ -256,6 +256,7 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uOpacity: { value: 1 },
                 uTime: { value: 0 },
                 uParticle: { value: ResourceLoader.get('view/home/particle') },
+                uResolution: { value: new Vector2() },
             },
             defines: {
                 POINT_SIZE: PARTICLE_SIZE,
@@ -363,6 +364,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._halfRenderWidth = renderWidth * 0.5;
         this._halfRenderHeight = renderHeight * 0.5;
         this._updateParticleSize(renderHeight, dpr);
+        this._mesh.material.uniforms.uResolution.value.set(renderWidth, renderHeight);
     }
 
     _updateParticleSize(renderHeight, dpr) {

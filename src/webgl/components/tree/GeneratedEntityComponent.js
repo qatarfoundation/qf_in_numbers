@@ -245,13 +245,18 @@ export default class GeneratedEntityComponent extends component(Object3D) {
         const endPosition = this._endPosition;
 
         const sizes = [];
+        const displacement = [];
 
         for (let i = 0; i < amount; i++) {
             sizes.push(randomArbitrary(0.2, 1));
+
+            displacement.push(Math.random() - 0.5);
+            displacement.push(Math.random() - 0.5);
         }
 
         const geometry = new PlaneBufferGeometry(1.0, 1.0);
         geometry.setAttribute('size', new InstancedBufferAttribute(new Float32Array(sizes), 1));
+        geometry.setAttribute('displacement', new InstancedBufferAttribute(new Float32Array(displacement), 2));
 
         const material = new ShaderMaterial({
             fragmentShader,
@@ -262,6 +267,7 @@ export default class GeneratedEntityComponent extends component(Object3D) {
                 uInnerGradient: { value: 0.1 },
                 uOuterGradient: { value: 0 },
                 uOpacity: { value: 0 },
+                uTime: { value: 0 },
             },
             transparent: true,
             blending: AdditiveBlending,
@@ -293,7 +299,8 @@ export default class GeneratedEntityComponent extends component(Object3D) {
     /**
      * Update
      */
-    update() {
+    update({ time }) {
+        this._bigParticles.material.uniforms.uTime.value = time;
         this._updateLabelAnchorScreenSpacePosition();
         this._updateButtonAnchorScreenSpacePosition();
         this._updateHighlightAnchorScreenSpacePosition();

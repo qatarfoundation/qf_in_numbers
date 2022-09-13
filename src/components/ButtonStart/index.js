@@ -8,7 +8,7 @@ import { gsap } from 'gsap';
 // CSS
 import './style.scoped.scss';
 
-import SoundManager from "@/utils/SoundManager";
+import SoundManager from '@/utils/SoundManager';
 
 function ButtonStart(props, ref) {
     /**
@@ -87,11 +87,11 @@ function ButtonStart(props, ref) {
 
         timelines.current.mouseenter.timeScale(1.2);
 
-        timelines.current.mouseenter.fromTo(labelRef.current, { y: '0%' }, { duration: 1, y: '-100%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.fromTo(labelRef.current, { alpha: 1 }, { duration: 0.8, alpha: 0, ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.fromTo(labelRef.current, { y: '0%' }, { duration: 1, y: '-60%', ease: 'power3.out' }, 0);
+        timelines.current.mouseenter.fromTo(labelRef.current, { alpha: 1 }, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
 
-        timelines.current.mouseenter.fromTo(labelCloneRef.current, { y: '100%' }, { duration: 1, y: '0%', ease: 'power3.out' }, 0.1);
-        timelines.current.mouseenter.fromTo(labelCloneRef.current, { alpha: 0 }, { duration: 0.8, alpha: 1, ease: 'power3.out' }, 0.1);
+        timelines.current.mouseenter.fromTo(labelCloneRef.current, { y: '50%' }, { duration: 1.2, y: '0%', ease: 'power3.out' }, 0.15);
+        timelines.current.mouseenter.fromTo(labelCloneRef.current, { alpha: 0 }, { duration: 0.8, alpha: 1, ease: 'power3.out' }, 0.15);
 
         timelines.current.mouseenter.set(labelRef.current, { y: '0%', alpha: 1 });
         timelines.current.mouseenter.set(labelCloneRef.current, { y: '0%', alpha: 0 });

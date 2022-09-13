@@ -53,5 +53,6 @@ void main() {
     float alpha = uAlpha;
     alpha += (random(vUv) - 0.5) * 0.05;
     vec3 color = gradientColor * alpha;
+    color += gradientColor * 0.06;
     gl_FragColor = vec4(color, 1.0);
 }
