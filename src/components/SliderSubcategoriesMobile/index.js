@@ -9,7 +9,7 @@ import './style.scoped.scss';
 // Components
 import SliderEntitiesMobile from '@/components/SliderEntitiesMobile';
 import LabelsEntities from '@/components/LabelsEntities';
-import ButtonDiscover from '@/components/ButtonDiscover';
+import ButtonDiscoverMobile from '@/components/ButtonDiscoverMobile';
 import ButtonFullList from '@/components/ButtonFullList';
 
 function SliderSubcategoriesMobile(props, ref) {
@@ -143,7 +143,7 @@ function SliderSubcategoriesMobile(props, ref) {
         <>
             <div className="slider-subcategories">
 
-                <ButtonDiscover slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex] ? subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug : '' } direction="right" />
+                <ButtonDiscoverMobile slug={ subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex] ? subcategories[subcategoryCurrentIndex].entities[entityCurrentIndex].slug : '' } direction="right" />
 
                 <div className="slider-content">
 

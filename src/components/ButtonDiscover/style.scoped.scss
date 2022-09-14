@@ -1,103 +1,136 @@
-.button-discover {
-    display: inline-flex;
-    align-items: center;
-    &:hover {
-        opacity: 0.7;
-        transition: opacity 0.3s ease-in-out;
-    }
-    &.right {
-        .icon-arrow {
-            order: 2;
-            margin-right: 0;
-            margin-left: rem(18px, 'small');
-            @include respond-to('medium') {
-                margin-left: rem(23px, 'medium');
-            }
-            @include respond-to('large') {
-                margin-left: rem(23px, 'large');
-            }
-            .ar & {
-                margin-right: rem(23px, 'small');
-                margin-left: 0;
-                @include respond-to('medium') {
-                    margin-right: rem(23px, 'medium');
-                }
-                @include respond-to('large') {
-                    margin-right: rem(23px, 'large');
-                }
-            }
-        }
-        p {
-            order: 1;
-            font-size: rem(16px);
-            text-align: right;
-            .ar & {
-                text-align: left;
-            }
-        }
-    }
-}
+.button {
+    opacity: 0;
+    visibility: hidden;
 
-.icon-arrow {
-    position: relative;
-    width: rem(55px, 'small');
-    min-width: rem(55px, 'small');
-    height: rem(55px, 'small');
-    min-height: rem(55px, 'small');
-    margin-right: rem(23px, 'small');
-    border: 1px solid rgba($color-white, 0.4);
-    border-radius: 100%;
-    @include respond-to('medium') {
-        width: rem(32px, 'medium');
-        min-width: rem(32px, 'medium');
-        height: rem(32px, 'medium');
-        min-height: rem(32px, 'medium');
-        margin-right: rem(23px, 'medium');
-    }
-    @include respond-to('large') {
-        width: rem(32px, 'large');
-        min-width: rem(32px, 'large');
-        height: rem(32px, 'large');
-        min-height: rem(32px, 'large');
-        margin-right: rem(23px, 'large');
-    }
-    .ar & {
-        margin-right: 0;
-        margin-left: rem(23px, 'small');
-        @include respond-to('medium') {
-            margin-left: rem(23px, 'medium');
-        }
-        @include respond-to('large') {
-            margin-left: rem(23px, 'large');
-        }
-    }
-}
+    pointer-events: all;
 
-.arrow {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 62%;
-    height: 62%;
-    padding: rem(8px, 'small');
-    fill: $color-white;
-    transform: translate3d(-50%, -50%, 0);
-    @include respond-to('medium') {
-        padding: rem(8px, 'medium');
-    }
-    @include respond-to('large') {
-        padding: rem(8px, 'large');
-    }
-    &.left {
-        transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
-        .ar & {
-            transform: translate3d(-50%, -50%, 0);
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 1px;
+
+    &:hover {
+        .button__icon {
+            &:after {
+                transform: scale(0.6);
+            }
+        }
+        .button__label {
+            transform: translate3d(rem(3px), 0, 0);
+
+            .ar & {
+                transform: translate3d(rem(-5px), 0, 0);
+            }
+
+            @include respond-to('medium') {
+                transform: translate3d(rem(-5px, 'medium'), 0, 0);
+
+                .ar & {
+                    transform: translate3d(rem(-5px, 'medium'), 0, 0);
+                }
+            }
+
+            @include respond-to('large') {
+                transform: translate3d(rem(5px, 'large'), 0, 0);
+
+                .ar & {
+                    transform: translate3d(rem(-5px, 'large'), 0, 0);
+                }
+            }
         }
     }
-    &.right {
-        transform: translate3d(-50%, -50%, 0);
+
+    .button__content {
+        position: absolute;
+
+        @include respond-to('medium') {
+            height: rem(55px, 'medium');
+        }
+
+        @include respond-to('large') {
+            height: rem(55px, 'large');
+        }
+    }
+
+    &.left .button__content {
+        transform: translate(-100%, 0%);
+
         .ar & {
-            transform: translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, 180deg);
+            transform: translate(0%, 0%);
+        }
+    }
+
+    &.right .button__content {
+        .ar & {
+            transform: translate(100%, 0%);
+        }
+    }
+
+    .button__icon {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        @include respond-to('medium') {
+            width: rem(70px, 'medium');
+            height: rem(70px, 'medium');
+        }
+
+        @include respond-to('large') {
+            width: rem(70px, 'large');
+            height: rem(70px, 'large');
+        }
+    }
+
+    &.left .button__icon {
+        left: auto;
+        right: 0;
+    }
+
+    .button__label {
+        display: block;
+        transition: transform 0.6s ease-out;
+        text-align: left;
+        color: var(--color-theme-secondary);
+
+        @include respond-to('medium') {
+            padding-left: rem(82px, 'medium');
+
+            width: rem(250px, 'medium');
+
+            font-size: rem(16px, 'medium');
+            line-height: rem(49px, 'medium');
+        }
+
+        @include respond-to('large') {
+            padding-left: rem(82px, 'large');
+
+            width: rem(250px, 'large');
+
+            font-size: rem(16px, 'large');
+            line-height: rem(49px, 'large');
+        }
+    }
+
+    &.left .button__label {
+        text-align: right;
+
+        @include respond-to('medium') {
+            padding-right: rem(82px, 'medium');
+            padding-left: 0;
+        }
+
+        @include respond-to('large') {
+            padding-right: rem(82px, 'large');
+            padding-left: 0;
         }
     }
 }

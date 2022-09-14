@@ -11,8 +11,8 @@ import Breakpoints from '@/utils/Breakpoints';
 // CSS
 import './style.scoped.scss';
 
-// Hooks
-import useStore from '@/hooks/useStore';
+// components
+import ButtonDiscover from '@/components/ButtonDiscover';
 
 function LabelsEntities(props) {
     const { entities, entityCurrentIndex } = props;
@@ -28,18 +28,20 @@ function LabelsEntities(props) {
     const itemsLabelRef = useRef({});
     const itemsButtonRef = useRef({});
     const itemsHighlightRef = useRef({});
+    const canvasRef = useRef();
 
     useEffect(() => {
         const handler = () => {
             for (const key in itemsLabelRef.current) {
                 const elementLabel = itemsLabelRef.current[key];
                 const elementHighlight = itemsHighlightRef.current[key];
-                const elementButton = itemsButtonRef.current[key];
+                const elementButton = itemsButtonRef.current[key].element;
                 const model = TreeDataModel.getEntity(key);
 
                 if (elementLabel && model && model.labelPosition) {
                     const labelPosition = model.labelPosition;
-                    elementLabel.style.display = 'block';
+                    elementLabel.style.opacity = '1';
+                    elementLabel.style.visibility = 'visible';
                     elementLabel.style.transform = `translate3d(${ labelPosition.x }px, ${ labelPosition.y }px, 0)`;
                     // elementLabel.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                     elementLabel.classList.add(language === 'ar-QA' ? 'left' : 'right');
@@ -47,7 +49,8 @@ function LabelsEntities(props) {
 
                 if (elementHighlight && model.highlightPosition) {
                     const hightlightPosition = model.highlightPosition;
-                    elementHighlight.style.display = 'block';
+                    elementHighlight.style.opacity = '1';
+                    elementHighlight.style.visibility = 'visible';
                     elementHighlight.style.transform = `translate3d(${ hightlightPosition.x }px, ${ hightlightPosition.y }px, 0)`;
                     elementHighlight.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                 }
@@ -56,7 +59,8 @@ function LabelsEntities(props) {
                     if (elementButton && model) {
                         const buttonPosition = model.buttonPosition;
                         if (buttonPosition) {
-                            elementButton.style.display = 'block';
+                            elementButton.style.opacity = '1';
+                            elementButton.style.visibility = 'visible';
                             elementButton.style.transform = `translate3d(${ buttonPosition.x }px, ${ buttonPosition.y }px, 0)`;
                             elementButton.classList.add(model.cameraSide > 0 ? 'right' : 'left');
                         }
@@ -72,15 +76,18 @@ function LabelsEntities(props) {
             for (const key in itemsLabelRef.current) {
                 const elementLabel = itemsLabelRef.current[key];
                 const elementHighlight = itemsHighlightRef.current[key];
-                const elementButton = itemsButtonRef.current[key];
+                const elementButton = itemsButtonRef.current[key]?.element;
                 if (elementLabel) {
-                    elementLabel.style.display = 'none';
+                    elementLabel.style.opacity = '0';
+                    elementLabel.style.visibility = 'hidden';
                 }
                 if (elementHighlight) {
-                    elementHighlight.style.display = 'none';
+                    elementHighlight.style.opacity = '0';
+                    elementHighlight.style.visibility = 'hidden';
                 }
                 if (elementButton) {
-                    elementButton.style.display = 'none';
+                    elementButton.style.opacity = '0';
+                    elementButton.style.visibility = 'hidden';
                 }
             }
         };
@@ -124,12 +131,7 @@ function LabelsEntities(props) {
                             <div className="label" ref={ el => itemsLabelRef.current[entity.slug] = el }>
                                 <span>{ entity.name }</span>
                             </div>
-                            <Link to={ entity.slug } className="button" ref={ el => itemsButtonRef.current[entity.slug] = el }>
-                                <div className="button__content">
-                                    <div className="button__icon"></div>
-                                    <span className='button__label'><Trans>{ t('Click to discover') }</Trans></span>
-                                </div>
-                            </Link>
+                            <ButtonDiscover slug={ entity.slug } ref={ el => itemsButtonRef.current[entity.slug] = el } />
                             { entity.highlighted && entity.highlightedChart &&
                                 <div className="highlight" ref={ el => itemsHighlightRef.current[entity.slug] = el }>
                                     <div className="highlight__content">

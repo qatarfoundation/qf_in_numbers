@@ -35,6 +35,7 @@ function PanelSearch(props, ref) {
         show: null,
         hide: null,
     });
+    const contentRef = useRef();
 
     /**
      * State
@@ -88,7 +89,9 @@ function PanelSearch(props, ref) {
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
         timelines.current.show.set(elRef.current, { autoAlpha: 1 }, 0);
-        timelines.current.show.to(elRef.current, { duration: 1, x: '0%', ease: 'power3.out' });
+        timelines.current.show.to(elRef.current, { duration: 1.1, x: '0%', ease: 'power3.out' });
+        timelines.current.show.to(contentRef.current, { duration: 1, opacity: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.show.fromTo(contentRef.current, { x: '-15%' }, { duration: 1.3, x: '0%', ease: 'power3.out' }, 0);
         return timelines.current.show;
     }
 
@@ -97,8 +100,9 @@ function PanelSearch(props, ref) {
 
         timelines.current.show?.kill();
         timelines.current.hide = new gsap.timeline();
-        timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, ease: 'power3.out' });
+        timelines.current.hide.to(elRef.current, { duration: 1, x: translateX, ease: 'power3.inOut' });
         timelines.current.hide.set(elRef.current, { autoAlpha: 1 });
+        timelines.current.hide.to(contentRef.current, { duration: 0.5, opacity: 0, ease: 'sine.inOut' }, 0);
         return timelines.current.hide;
     }
 
@@ -213,43 +217,47 @@ function PanelSearch(props, ref) {
     return (
         <div ref={ elRef } className="panel-search">
 
-            <div className="header-container">
+            <div className="content" ref={ contentRef }>
 
-                <div className="header">
+                <div className="header-container">
 
-                    <p className='label h8'>{ t('Find data') }</p>
+                    <div className="header">
 
-                    <ButtonClose onClick={ props.onClickClose } />
+                        <p className='label h8'>{ t('Find data') }</p>
+
+                        <ButtonClose onClick={ props.onClickClose } />
+
+                    </div>
+
+                    <div className="search">
+
+                        <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
+
+                        <ButtonSearch />
+
+                    </div>
 
                 </div>
 
-                <div className="search">
+                <div className="filters">
 
-                    <input type="text" className="input input-search p6" placeholder={ t('search entity, metric or tag...') } onChange={ changeHandler } />
+                    <div className="filters-container">
 
-                    <ButtonSearch />
+                        <ButtonFilter name={ t('All entities') } type="entities" onClick={ onClickButtonFilter } active={ filterType === 'entities' } />
+                        <ButtonFilter name={ t('Tags') } type="tags" onClick={ onClickButtonFilter } active={ filterType === 'tags' } />
+                        <ButtonFilter name={ t('Metrics') } type="metrics" onClick={ onClickButtonFilter } active={ filterType === 'metrics' } />
+
+                    </div>
 
                 </div>
+
+                <Scrollbar revert={ false } data-name="search">
+
+                    { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
+
+                </Scrollbar>
 
             </div>
-
-            <div className="filters">
-
-                <div className="filters-container">
-
-                    <ButtonFilter name={ t('All entities') } type="entities" onClick={ onClickButtonFilter } active={ filterType === 'entities' } />
-                    <ButtonFilter name={ t('Tags') } type="tags" onClick={ onClickButtonFilter } active={ filterType === 'tags' } />
-                    <ButtonFilter name={ t('Metrics') } type="metrics" onClick={ onClickButtonFilter } active={ filterType === 'metrics' } />
-
-                </div>
-
-            </div>
-
-            <Scrollbar revert={ false } data-name="search">
-
-                { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
-
-            </Scrollbar>
 
         </div>
     );
