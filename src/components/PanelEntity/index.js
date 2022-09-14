@@ -4,6 +4,7 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
+import CustomEase from '@/vendor/gsap/CustomEase';
 
 // Modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,6 +55,7 @@ function PanelEntity(props, ref) {
     const titleRef = useRef();
     const introRef = useRef();
     const chartsListRef = useRef();
+    const contentRef = useRef();
 
     const timelines = useRef({
         show: null,
@@ -85,14 +87,20 @@ function PanelEntity(props, ref) {
 
         timelines.current.show = new gsap.timeline({ delay: .1 });
 
-        timelines.current.show.to(elRef.current, { duration: 1.5, x: `${ 0 }%`, ease: 'power3.out' }, 0);
-        timelines.current.show.to(titleRef.current, { opacity: 1, duration: .4, ease: 'none' }, .4);
-        timelines.current.show.fromTo(titleRef.current, { x: 100 }, { x: 0, duration: .6, ease: 'power2.out' }, .2);
+        timelines.current.show.to(elRef.current, { duration: 1.5, x: `${ 0 }%`, ease: CustomEase.create('custom', 'M0,0 C0.138,0.168 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1') }, 0);
+        timelines.current.show.to(elRef.current, { duration: 0.8, alpha: 1, ease: 'sine.inOut' }, 0);
 
-        timelines.current.show.to(introRef.current, { opacity: 1, duration: .4, ease: 'none' }, .6);
-        timelines.current.show.fromTo(introRef.current, { x: 100 }, { x: 0, duration: .6, ease: 'power2.out' }, .4);
+        timelines.current.show.to(contentRef.current, { duration: 1, opacity: 1, ease: 'sine.inOut' }, 0);
+        // timelines.current.show.fromTo(contentRef.current, { x: '-15%' }, { duration: 1.3, x: '0%', ease: 'power3.out' }, 0);
 
-        timelines.current.show.to(chartsListRef.current, { opacity: 1, duration: .4, ease: 'none' }, .8);
+        timelines.current.show.to(titleRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0);
+        timelines.current.show.fromTo(titleRef.current, { x: '15%' }, { x: '0%', duration: 1.3, ease: 'power3.out' }, .2);
+
+        timelines.current.show.to(introRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0.1);
+        timelines.current.show.fromTo(introRef.current, { x: '15%' }, { x: '0%', duration: 1.3, ease: 'power2.out' }, .3);
+
+        timelines.current.show.to(chartsListRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0.);
+        timelines.current.show.fromTo(chartsListRef.current, { x: '10%' }, { x: '0%', duration: 1.3, ease: 'power2.out' }, 0.2);
         return timelines.current.show;
     }
 
@@ -103,7 +111,8 @@ function PanelEntity(props, ref) {
 
         timelines.current.hide = new gsap.timeline();
 
-        timelines.current.hide.to(elRef.current, { duration: 1, x: `${ 100 * direction }%`, ease: 'power3.out' }, 0);
+        timelines.current.hide.to(elRef.current, { duration: 1, x: `${ 100 * direction }%`, ease: 'power3.inOut' }, 0);
+        timelines.current.hide.to(contentRef.current, { duration: 0.5, opacity: 0, ease: 'sine.inOut' }, 0);
 
         return timelines.current.hide;
     }
@@ -121,29 +130,31 @@ function PanelEntity(props, ref) {
 
             <Scrollbar revert={ false }>
 
-                <ButtonClose to={ subcategory.slug } />
+                <div className="content" ref={ contentRef }>
 
-                <ButtonShare title={ entity.name } />
+                    <ButtonClose to={ subcategory.slug } />
 
-                { /* <SequenceCharts charts={ sequenceCharts } /> */ }
+                    <ButtonShare title={ entity.name } />
 
-                <section className="section section-container hide-line">
-                    <div className="points">
-                        <div className="point"></div>
-                        <div className="point"></div>
-                        <div className="point"></div>
+                    { /* <SequenceCharts charts={ sequenceCharts } /> */ }
+
+                    <section className="section section-container hide-line">
+                        <div className="points">
+                            <div className="point"></div>
+                            <div className="point"></div>
+                            <div className="point"></div>
+                        </div>
+                        <div className="introduction">
+                            <h1 className='h1' ref={ titleRef }>{ entity.name }</h1>
+                            { entity.description && <p className="p1" ref={ introRef }>{ entity.description }</p> }
+                        </div>
+                    </section>
+
+                    <div className="charts-list" ref={ chartsListRef }>
+                        { entity.charts && <Charts charts={ entity.charts } /> }
                     </div>
-                    <div className="introduction">
-                        <h1 className='h1' ref={ titleRef }>{ entity.name }</h1>
-                        { entity.description && <p className="p1" ref={ introRef }>{ entity.description }</p> }
-                    </div>
-                </section>
 
-                <div className="charts-list" ref={ chartsListRef }>
-                    { entity.charts && <Charts charts={ entity.charts } /> }
-                </div>
-
-                { entity.relatedArticles &&
+                    { entity.relatedArticles &&
                         <>
                             <section className="section">
                                 <div className="articles">
@@ -190,14 +201,16 @@ function PanelEntity(props, ref) {
                                 </div>
                             </section>
                         </>
-                }
+                    }
 
-                { (previous || next) &&
+                    { (previous || next) &&
                     <div className={ `pagination ${ (previous && !next) ? 'left' : (next && !previous) ? 'right' : '' }` }>
                         { previous && <ButtonEntityPagination name={ previous.name } slug={ previous.slug } direction='left'></ButtonEntityPagination> }
                         { next && <ButtonEntityPagination name={ next.name } slug={ next.slug } direction='right'></ButtonEntityPagination> }
                     </div>
-                }
+                    }
+
+                </div>
 
             </Scrollbar>
 
