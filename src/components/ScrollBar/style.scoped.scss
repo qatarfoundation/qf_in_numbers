@@ -44,4 +44,12 @@
           background: var(--color-theme-secondary);
         }
     }
+
+    &.grab {
+        cursor: grab;
+    }
+
+    &.grabbing {
+        cursor: grabbing;
+    }
 }

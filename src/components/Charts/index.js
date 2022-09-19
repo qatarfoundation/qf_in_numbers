@@ -83,7 +83,7 @@ function Charts(props, ref) {
                     });
                     return <section key={ i } className="section charts" data-name={ chart.type }>
                         { result.length > 1 ?
-                            <Scrollbar colored={ false }>
+                            <Scrollbar colored={ false } horizontalScroll="true">
                                 <div className='charts-container'>
                                     { result.map((r, i) =>
                                         <div className={ `charts-item ${ r.type }` } key={ i }>

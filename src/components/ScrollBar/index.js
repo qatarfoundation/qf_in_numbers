@@ -56,6 +56,54 @@ function Scrollbar({ revert = false, colored = true, ...props }, ref) {
             });
         }
     }, [refScrollBar]);
+
+    if (props.horizontalScroll) {
+        useEffect(() => {
+            const element = refScrollBar.current;
+            const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+            if (hasHorizontalScrollbar) {
+                element.classList.add('grab');
+            }
+
+            const position = {
+                left: 0,
+                top: 0,
+                x: 0,
+                y: 0,
+            };
+
+            function mouseDownHandler(e) {
+                position.left = element.scrollLeft;
+                position.top = element.scrollTop;
+                position.x = e.clientX;
+                position.y = e.clientY;
+
+                element.addEventListener('mousemove', mouseMoveHandler);
+                window.addEventListener('mouseup', mouseUpHandler);
+                document.body.classList.add('unselectable');
+                element.classList.add('grabbing');
+            }
+
+            function mouseMoveHandler(e) {
+                const deltaX = e.clientX - position.x;
+                element.scrollLeft = position.left - deltaX;
+            }
+
+            function mouseUpHandler() {
+                element.removeEventListener('mousemove', mouseMoveHandler);
+                window.removeEventListener('mouseup', mouseUpHandler);
+                document.body.classList.remove('unselectable');
+                element.classList.remove('grabbing');
+            }
+
+            element.addEventListener('mousedown', mouseDownHandler);
+
+            return (() => {
+                element.removeEventListener('mousedown', mouseDownHandler);
+            });
+        }, [refScrollBar]);
+    }
+
     return (
         <>
             <div ref={ refScrollBar } className={ `scrollbar ${ revert ? 'scrollbar-revert' : '' } ${ colored ? 'scrollbar-colored' : '' }` } onScroll={
