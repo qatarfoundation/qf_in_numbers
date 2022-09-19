@@ -63,7 +63,7 @@
         }
 
         .share-icon {
-            width: 60%;
+            width: 85%;
         }
     }
 
@@ -108,18 +108,14 @@
             @include hover {
                 background: var(--color-theme-primary);
 
-                .share-icon {
-                    stroke: $color-white;
+                .icon-twitter,
+                .icon-linkedin {
+                    fill: $color-white;
+                }
 
-                    &.icon-twitter {
-                        fill: $color-white;
-                        stroke: unset;
-                    }
-
-                    &.icon-linkedin {
-                        fill: $color-white;
-                        stroke: $color-white;
-                    }
+                .icon-mail path,
+                .icon-copy path {
+                    stroke: $color-white !important;
                 }
             }
 
@@ -140,19 +136,11 @@
             }
 
             .share-icon {
-                stroke: $color-grey;
-                fill: none;
                 width: 50%;
                 transition: stroke .2s linear, fill .2s linear;
 
-                &.icon-twitter {
-                    fill: $color-grey;
-                    stroke: unset;
-                }
-
-                &.icon-linkedin {
-                    fill: $color-grey;
-                    stroke: $color-grey;
+                &.icon-copy {
+                    width: 75%;
                 }
             }
         }

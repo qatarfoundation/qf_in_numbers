@@ -1,7 +1,18 @@
-<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.86918 4.15723L5.13281 6.02486" stroke="#53565A" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M8.86918 9.84273L5.13281 7.9751" stroke="#53565A" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10.8185 5.36364C12.0235 5.36364 13.0004 4.3868 13.0004 3.18182C13.0004 1.97683 12.0235 1 10.8185 1C9.61355 1 8.63672 1.97683 8.63672 3.18182C8.63672 4.3868 9.61355 5.36364 10.8185 5.36364Z" stroke="#53565A" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10.8185 12.9999C12.0235 12.9999 13.0004 12.023 13.0004 10.818C13.0004 9.61306 12.0235 8.63623 10.8185 8.63623C9.61355 8.63623 8.63672 9.61306 8.63672 10.818C8.63672 12.023 9.61355 12.9999 10.8185 12.9999Z" stroke="#53565A" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M3.18182 9.182C4.3868 9.182 5.36364 8.20516 5.36364 7.00018C5.36364 5.79519 4.3868 4.81836 3.18182 4.81836C1.97683 4.81836 1 5.79519 1 7.00018C1 8.20516 1.97683 9.182 3.18182 9.182Z" stroke="#53565A" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #53565a;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M29.52,15.88l-11.98,5.99"/>
+  <path class="cls-1" d="M29.52,34.12l-11.98-5.99"/>
+  <path class="cls-1" d="M35.77,19.75c3.86,0,7-3.13,7-7s-3.13-7-7-7-7,3.13-7,7,3.13,7,7,7Z"/>
+  <path class="cls-1" d="M35.77,44.24c3.86,0,7-3.13,7-7s-3.13-7-7-7-7,3.13-7,7,3.13,7,7,7Z"/>
+  <path class="cls-1" d="M11.28,32c3.86,0,7-3.13,7-7s-3.13-7-7-7-7,3.13-7,7,3.13,7,7,7Z"/>
 </svg>
