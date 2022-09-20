@@ -11,7 +11,7 @@
         padding-top: rem(45px, 'large');
         padding-bottom: rem(62px, 'large');
     }
-    &::after {
+    &:not(:last-of-type)::after {
         opacity: 0.15;
 
         display: block;
