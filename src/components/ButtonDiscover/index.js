@@ -28,7 +28,6 @@ function ButtonDiscover(props, ref) {
      * Store
      */
     const themeCategory = useStore((state) => state.themeCategory);
-
     /**
      * Refs
      */
@@ -42,7 +41,7 @@ function ButtonDiscover(props, ref) {
         rotation: 0,
         hoverProgess: 0,
         hoverRotation: 0,
-        themeColor: getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary'),
+        themeColor: null,
         timelineMouseEnter: null,
         timelineMouseLeave: null,
     });
@@ -65,6 +64,10 @@ function ButtonDiscover(props, ref) {
     }, []);
 
     function mounted() {
+        const selector = document.querySelector(`.${ themeCategory }`);
+        if (selector) {
+            data.current.themeColor = getComputedStyle(selector).getPropertyValue('--color-theme-secondary');
+        }
         data.current.context = canvasRef.current.getContext('2d');
         resize();
     }
