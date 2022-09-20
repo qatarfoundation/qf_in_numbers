@@ -1,18 +1,28 @@
 import React from 'react';
-import { useInView } from 'react-intersection-observer';
+import { InView } from 'react-intersection-observer';
 
 // CSS
 import './style.scoped.scss';
 
-function FadeInWrapper({ children, threshold = 0.5 }) {
-    const { ref, inView } = useInView({ threshold });
+function FadeInWrapper({
+    as = 'div',
+    className = '',
+    threshold = 0.5,
+    children,
+    ...props
+}) {
     return (
-        <div
-            className={ 'fadein-container' + (inView ? ' visible' : '') }
-            ref={ ref }
+        <InView
+            as={ as }
+            threshold={ threshold }
+            className={ className + ' fadein-container' }
+            onChange={ (inView, entry) =>
+                entry.target.classList.toggle('visible', inView)
+            }
+            { ...props }
         >
             { children }
-        </div>
+        </InView>
     );
 }
 
