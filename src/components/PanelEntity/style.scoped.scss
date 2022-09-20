@@ -96,18 +96,18 @@
     }
 
     .point {
-        width: rem(2px, 'small');
+        width: rem(1px, 'small');
         height: rem(8.74px, 'small');
 
         background: var(--color-theme-secondary);
 
         @include respond-to('medium') {
-            width: rem(2px, 'medium');
+            width: rem(1px, 'medium');
             height: rem(10px, 'medium');
         }
 
         @include respond-to('large') {
-            width: rem(2px, 'large');
+            width: rem(1px, 'large');
             height: rem(10px, 'large');
         }
 
@@ -341,9 +341,12 @@
 
 .pagination {
     display: flex;
+    position: sticky;
+    bottom: 0;
 
     justify-content: space-between;
     align-items: stretch;
+    background-color: $color-white;
 
     &.right {
         justify-content: flex-end;
@@ -351,5 +354,18 @@
 
     &.left {
         justify-content: flex-start;
+    }
+    &::after {
+        opacity: 0.15;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    
+        width: 100%;
+        height: 1px;
+    
+        background-color: $color-grey;
+        content: '';
     }
 }
