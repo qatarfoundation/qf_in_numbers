@@ -4,6 +4,8 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
+import SplitText from '@/assets/scripts/SplitText';
+gsap.registerPlugin(SplitText);
 import CustomEase from '@/vendor/gsap/CustomEase';
 
 // Modules
@@ -56,6 +58,7 @@ function PanelEntity(props, ref) {
     const introRef = useRef();
     const chartsListRef = useRef();
     const contentRef = useRef();
+    const titleLinesRef = useRef();
 
     const timelines = useRef({
         show: null,
@@ -71,7 +74,10 @@ function PanelEntity(props, ref) {
     }, []);
 
     function mounted() {
-
+        titleLinesRef.current = new SplitText(titleRef.current, {
+            type: 'lines',
+            linesClass: 'split-line',
+        });
     }
 
     function destroy() {
@@ -91,16 +97,16 @@ function PanelEntity(props, ref) {
         timelines.current.show.to(elRef.current, { duration: 0.8, alpha: 1, ease: 'sine.inOut' }, 0);
 
         timelines.current.show.to(contentRef.current, { duration: 1, opacity: 1, ease: 'sine.inOut' }, 0);
-        // timelines.current.show.fromTo(contentRef.current, { x: '-15%' }, { duration: 1.3, x: '0%', ease: 'power3.out' }, 0);
 
-        timelines.current.show.to(titleRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0);
-        timelines.current.show.fromTo(titleRef.current, { x: '15%' }, { x: '0%', duration: 1.3, ease: 'power3.out' }, .2);
+        timelines.current.show.to(titleLinesRef.current.lines, { opacity: 1, duration: 0.8, ease: 'none', stagger:0.11 }, .2);
+        timelines.current.show.fromTo(titleLinesRef.current.lines, { x: '35%' }, { x:0, duration: 1.6, ease: CustomEase.create('custom', 'M0,0 C0.138,0.168 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1'), stagger:0.11 }, .2);
 
-        timelines.current.show.to(introRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0.1);
-        timelines.current.show.fromTo(introRef.current, { x: '15%' }, { x: '0%', duration: 1.3, ease: 'power2.out' }, .3);
+        timelines.current.show.to(introRef.current, { opacity: 1, duration: 0.7, ease: 'none' }, .45);
+        timelines.current.show.fromTo(introRef.current, { x: 250 }, { x:0, duration: 1.4, ease: CustomEase.create('custom', 'M0,0 C0.138,0.168 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1')  }, .45);
 
-        timelines.current.show.to(chartsListRef.current, { opacity: 1, duration: 1, ease: 'sine.inOut' }, 0.);
-        timelines.current.show.fromTo(chartsListRef.current, { x: '10%' }, { x: '0%', duration: 1.3, ease: 'power2.out' }, 0.2);
+        timelines.current.show.to(chartsListRef.current, { opacity: 1, duration: 0.6, ease: 'none' }, 0.63);
+        timelines.current.show.fromTo(chartsListRef.current, { x: 160 }, { x:0, duration: 1.2, ease: CustomEase.create('custom', 'M0,0 C0.138,0.168 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1') }, .63);
+
         return timelines.current.show;
     }
 
