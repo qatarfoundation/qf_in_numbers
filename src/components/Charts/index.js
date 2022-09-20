@@ -83,34 +83,32 @@ function Charts(props, ref) {
                         result.push(r);
                     });
                     return (
-                        <FadeInWrapper key={ i }>
-                            <section className="section charts" data-name={ chart.type }>
-                                { result.length > 1 ?
-                                    <Scrollbar colored={ false } horizontalScroll="true">
-                                        <div className='charts-container'>
-                                            { result.map((r, i) =>
-                                                <div className={ `charts-item ${ r.type }` } key={ i }>
-                                                    { r.title && r.title }
-                                                    { r.subtitle && r.subtitle }
-                                                    { r.chart && r.chart }
-                                                </div>,
-                                            ) }
-                                        </div>
-                                    </Scrollbar>
-                                    :
-                                    <>{ result.map((r, i) =>
-                                        <div className={ `charts-item ${ r.type }` } key={ i }>
-                                            { r.title && r.title }
-                                            { r.subtitle && r.subtitle }
-                                            <Scrollbar colored={ false }>
-                                                <div className='charts-container'>
-                                                    { r.chart && r.chart }
-                                                </div>
-                                            </Scrollbar>
-                                        </div>,
-                                    ) }</>
-                                }
-                            </section>
+                        <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chart.type }>
+                            { result.length > 1 ?
+                                <Scrollbar colored={ false } horizontalScroll="true">
+                                    <div className='charts-container'>
+                                        { result.map((r, i) =>
+                                            <div className={ `charts-item ${ r.type }` } key={ i }>
+                                                { r.title && r.title }
+                                                { r.subtitle && r.subtitle }
+                                                { r.chart && r.chart }
+                                            </div>,
+                                        ) }
+                                    </div>
+                                </Scrollbar>
+                                :
+                                <>{ result.map((r, i) =>
+                                    <div className={ `charts-item ${ r.type }` } key={ i }>
+                                        { r.title && r.title }
+                                        { r.subtitle && r.subtitle }
+                                        <Scrollbar colored={ false }>
+                                            <div className='charts-container'>
+                                                { r.chart && r.chart }
+                                            </div>
+                                        </Scrollbar>
+                                    </div>,
+                                ) }</>
+                            }
                         </FadeInWrapper>
                     );
                 })
