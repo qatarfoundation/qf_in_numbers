@@ -77,6 +77,8 @@ function ButtonDiscover(props, ref) {
     }
 
     function draw() {
+        if (!canvasRef.current) return;
+
         const context = data.current.context;
         const width = canvasRef.current.offsetWidth;
         const height = canvasRef.current.offsetHeight;
