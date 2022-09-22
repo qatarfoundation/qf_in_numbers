@@ -20,7 +20,7 @@
 
     will-change: transform;
 
-    a {        
+    a {
         color: $color-grey;
     }
 
@@ -48,6 +48,7 @@
 
 .content {
     opacity: 0;
+    overflow: hidden;
 }
 
 .button-close {
@@ -361,10 +362,10 @@
         position: absolute;
         top: 0;
         left: 0;
-    
+
         width: 100%;
         height: 1px;
-    
+
         background-color: $color-grey;
         content: '';
     }
