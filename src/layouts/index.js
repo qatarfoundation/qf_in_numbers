@@ -30,6 +30,7 @@ import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/Env
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
+import themes from '@/configs/themes';
 
 gsap.registerPlugin(CustomEase);
 
@@ -79,7 +80,10 @@ function Layout(props) {
         clearTimeout(themeTimeout.current);
         const categoryName = props.pageContext.category ? props.pageContext.category['en-US'].name.toLowerCase() : null;
         themeTimeout.current = setTimeout(() => {
-            useStore.setState({ themeCategory: getThemeCategory(categoryName) });
+            const themeCategory = getThemeCategory(categoryName);
+            const themeColors = themes[themeCategory];
+            useStore.setState({ themeCategory });
+            useStore.setState({ themeColors });
         }, 1000);
     }, [props.pageContext.category]);
 

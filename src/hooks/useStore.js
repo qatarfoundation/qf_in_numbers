@@ -11,6 +11,7 @@ const useStore = create((set) => {
         // Global
         locale: null,
         themeCategory: 'theme-default',
+        themeColors: { primary: null, secondary: null },
         isModalSubcategoriesOpen: false,
         isModalYearOpen: false,
         isModalSearchOpen: false,

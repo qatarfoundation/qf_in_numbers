@@ -24,7 +24,7 @@ function ChartHeatmap(props, ref) {
     /**
      * Store
      */
-    const [scrolls, iScroll, themeCategory] = useStore((state) => [state.scrolls, state.iScroll, state.themeCategory]);
+    const [scrolls, iScroll, themeColors] = useStore((state) => [state.scrolls, state.iScroll, state.themeColors]);
     /**
      * Datas
      */
@@ -83,7 +83,7 @@ function ChartHeatmap(props, ref) {
                 .append('g')
                 .attr('class', 'chart-container')
                 .attr('transform', `translate(${ language !== 'ar-QA' ? margin.left : margin.left }, ${ margin.top })`);
-            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
+            const colorTheme = themeColors.secondary;
             const myColor = d3.scaleLinear()
                 .range([`${ colorTheme }4D`, colorTheme])
                 .domain([0, 100]);
@@ -198,7 +198,7 @@ function ChartHeatmap(props, ref) {
                 .selectAll('.tick text')
                 .call(wrap, (window.innerWidth >= 500 ? window.innerWidth >= 1440 ? 353 : window.innerWidth * 353 / 1440 : window.innerWidth * 200 / 499) / 2, true);
         },
-        [data.length, width, chartActive, percentActive, themeCategory],
+        [data.length, width, chartActive, percentActive, themeColors],
     );
     /**
      * Effects

@@ -48,7 +48,7 @@ function ChartDonut(props, ref) {
     /**
      * Stores
      */
-    const themeCategory = useStore(s => s.themeCategory);
+    const themeColors = useStore((state) => state.themeColors);
     /**
     * References
     */
@@ -67,7 +67,7 @@ function ChartDonut(props, ref) {
             const percent = d3.scaleLinear()
                 .domain([0, data.length])
                 .range([0, 100]);
-            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
+            const colorTheme = themeColors.secondary;
             const color = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.value)])
                 .range([`${ colorTheme }4D`, colorTheme]);
@@ -195,7 +195,7 @@ function ChartDonut(props, ref) {
             // labelContainer
             //     .append('rect').attr('width', 2).attr('height', 2).attr('fill', 'red');
         },
-        [data.length, width, themeCategory],
+        [data.length, width, themeColors],
     );
     /**
      * Events
