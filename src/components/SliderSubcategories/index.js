@@ -16,7 +16,7 @@ import SliderEntities from '@/components/SliderEntities';
 import LabelsEntities from '@/components/LabelsEntities';
 import ButtonFullList from '@/components/ButtonFullList';
 
-function SliderSubcategories(props, ref) {
+function SliderSubcategories(props) {
     /**
      * Props
      */
@@ -183,4 +183,4 @@ function SliderSubcategories(props, ref) {
     );
 }
 
-export default forwardRef(SliderSubcategories);
+export default SliderSubcategories;

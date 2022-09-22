@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useRef, forwardRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 import { usePresence } from 'framer-motion';
 
@@ -205,4 +205,4 @@ function SliderEntities(props) {
     );
 }
 
-export default forwardRef(SliderEntities);
+export default SliderEntities;
