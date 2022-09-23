@@ -13,6 +13,7 @@ function ProgressNumber({
     ...props
 }) {
     let flag = false;
+
     return (
         <InView
             as={ as }
@@ -21,9 +22,8 @@ function ProgressNumber({
             rootMargin="0px 0px -80px 0px"
             className={ className }
             onChange={ (inView, entry) =>{
-                if(entry && !flag) {
+                if(inView && entry &&  !flag) {
                     flag = true;
-                    console.log('je passe');
                     const item = entry.target.querySelector('.value span');
                     const od = new Odometer({
                         el : item,
