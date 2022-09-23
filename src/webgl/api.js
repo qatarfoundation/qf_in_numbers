@@ -103,4 +103,10 @@ export default {
             this._viewManager.active.categoryMouseLeave(name);
         }
     },
+
+    updateBranchInteractivity(categories) {
+        if (this.isHome()) {
+            this._viewManager.active.updateBranchInteractivity(categories);
+        }
+    },
 };

@@ -203,7 +203,7 @@ export default class TreeComponent extends component(Object3D) {
         }
 
         const branch = this._getBranch(name);
-        branch.mouseEnter();
+        branch?.mouseEnter();
 
         const offsets = {
             community: {
@@ -231,6 +231,16 @@ export default class TreeComponent extends component(Object3D) {
 
         gsap.to(this.position, { duration: 1, x: offsets[name].position.x, z: offsets[name].position.z });
         gsap.to(this.rotation, { duration: 1.5, y: offsets[name].rotation, ease: 'power1.inOut' });
+    }
+
+    updateBranchInteractivity(categories) {
+        categories.forEach((category, index) => {
+            if (category.slug !== 'null') {
+                this._branches[index].enable();
+            } else {
+                this._branches[index].disable();
+            }
+        });
     }
 
     /**

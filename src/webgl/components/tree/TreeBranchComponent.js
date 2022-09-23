@@ -133,6 +133,14 @@ export default class TreeBranchComponent extends component(Object3D) {
         gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 0.4 });
     }
 
+    enable() {
+        gsap.to(this._mesh.material.uniforms.uDisabled, { duration: 0.5, value: 1 });
+    }
+
+    disable() {
+        gsap.to(this._mesh.material.uniforms.uDisabled, { duration: 0.5, value: 0.2 });
+    }
+
     /**
      * Private
      */
@@ -254,6 +262,7 @@ export default class TreeBranchComponent extends component(Object3D) {
                 uHoverColor2: { value: this._particleColors.secondary },
                 uShowHover: { value: 0 },
                 uOpacity: { value: 1 },
+                uDisabled: { value: 1 },
                 uTime: { value: 0 },
                 uParticle: { value: ResourceLoader.get('view/home/particle') },
                 uResolution: { value: new Vector2() },

@@ -106,7 +106,7 @@ function SliderCategories(props, ref) {
 
         if (isFirstSwipe) {
             if (Math.abs(delta) > threshold) {
-                setIndexActiveCategory(0);
+                setIndexActiveCategory(getFirstCategoryIndex());
                 useStore.setState({ isCategorySelected: true });
                 setIsFirstSwipe(false);
             }
@@ -117,6 +117,12 @@ function SliderCategories(props, ref) {
             if (delta > threshold) {
                 elRef.current.swiper.slidePrev();
             }
+        }
+    }
+
+    function getFirstCategoryIndex() {
+        for (let i = 0; i < props.categories.length; i++) {
+            if (props.categories[i].subcategories.length > 0) return i;
         }
     }
 
@@ -151,18 +157,20 @@ function SliderCategories(props, ref) {
             centeredSlides={ true }
             on={ { reachEnd() { this.snapGrid = [...this.slidesGrid]; } } }
             onSlideChange={ (swiper) => {
+                // const index = parseInt(swiper.clickedSlide.dataset.swiperSlideIndex);
                 setIndexActiveCategory(swiper.activeIndex);
                 useStore.setState({ isCategorySelected: true });
             } }
             onClick={ (swiper) => {
                 if (!isCategorySelected && swiper.activeIndex === 0) {
-                    setIndexActiveCategory(swiper.activeIndex);
+                    const index = parseInt(swiper.clickedSlide.dataset.swiperSlideIndex);
+                    setIndexActiveCategory(index);
                     useStore.setState({ isCategorySelected: true });
                 }
             } }
         >
 
-            { props.categories[0] &&
+            { props.categories[0] && props.categories[0].subcategories.length > 0 &&
                 <SwiperSlide key={ `category-${ 0 }` } virtualIndex={ 0 }>
 
                     <ListItemCategory category={ props.categories[0] } />
@@ -170,7 +178,7 @@ function SliderCategories(props, ref) {
                 </SwiperSlide>
             }
 
-            { props.categories[1] &&
+            { props.categories[1] && props.categories[1].subcategories.length > 0 &&
                 <SwiperSlide key={ `category-${ 1 }` } virtualIndex={ 1 }>
 
                     <ListItemCategory category={ props.categories[1] } />
@@ -178,7 +186,7 @@ function SliderCategories(props, ref) {
                 </SwiperSlide>
             }
 
-            { props.categories[2] &&
+            { props.categories[2] && props.categories[2].subcategories.length > 0 &&
                 <SwiperSlide key={ `category-${ 2 }` } virtualIndex={ 2 }>
 
                     <ListItemCategory category={ props.categories[2] } />

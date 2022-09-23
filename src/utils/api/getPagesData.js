@@ -217,26 +217,26 @@ function orderYears(years) {
 
 function parseCategories(data, baseSlug) {
     const categories = [];
-    categories.push(parseCategory('Community', data.community, baseSlug));
-    categories.push(parseCategory('Research', data.research, baseSlug));
-    categories.push(parseCategory('Education', data.education, baseSlug));
+    categories.push(parseCategory('Community', 'community', data.community, baseSlug));
+    categories.push(parseCategory('Research', 'research', data.research, baseSlug));
+    categories.push(parseCategory('Education', 'education', data.education, baseSlug));
     return categories;
 }
 
-function parseCategory(name, data, baseSlug) {
+function parseCategory(name, id, data, baseSlug) {
     let category;
     if (data) {
         const slug = `${ baseSlug }/${ data.fields.slug }`;
         category = {
             name: data.fields.name,
-            id: data.fields.slug,
+            id,
             slug,
             subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
         };
     } else {
         category = {
             name,
-            id: 'null',
+            id,
             slug: 'null',
             subcategories: [],
         };

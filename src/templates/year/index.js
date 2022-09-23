@@ -85,6 +85,7 @@ const YearTemplate = (props) => {
      */
     useEffect(() => {
         mounted();
+        Globals.webglApp.updateBranchInteractivity(year.categories);
         return destroy;
     }, []);
 

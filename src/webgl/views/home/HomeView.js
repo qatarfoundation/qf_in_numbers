@@ -223,6 +223,10 @@ export default class HomeView extends component() {
         this._components.tree.selectCategory(name);
     }
 
+    updateBranchInteractivity(categories) {
+        this._components.tree.updateBranchInteractivity(categories);
+    }
+
     /**
      * Private
      */
