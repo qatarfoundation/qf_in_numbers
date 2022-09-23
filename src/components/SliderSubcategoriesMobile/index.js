@@ -12,7 +12,7 @@ import LabelsEntities from '@/components/LabelsEntities';
 import ButtonDiscoverMobile from '@/components/ButtonDiscoverMobile';
 import ButtonFullList from '@/components/ButtonFullList';
 
-function SliderSubcategoriesMobile(props, ref) {
+function SliderSubcategoriesMobile(props) {
     /**
      * Props
      */
@@ -174,4 +174,4 @@ function SliderSubcategoriesMobile(props, ref) {
     );
 }
 
-export default forwardRef(SliderSubcategoriesMobile);
+export default SliderSubcategoriesMobile;

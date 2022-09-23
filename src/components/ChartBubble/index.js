@@ -35,7 +35,7 @@ function ChartBubble(props, ref) {
     /**
      * Stores
      */
-    const themeCategory = useStore(s => s.themeCategory);
+    const themeColors = useStore((state) => state.themeColors);
     /**
      * States
      */
@@ -63,11 +63,11 @@ function ChartBubble(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip')
-                .html(`<p class="p3"><span class="p3">000</span> <span class="p6">dummy</span></p><p class="p4">dummy</p>`)
+                .html('<p class="p3"><span class="p3">000</span> <span class="p6">dummy</span></p><p class="p4">dummy</p>');
 
-            const paddingTop = tooltip._groups[0][0].offsetHeight + 20
+            const paddingTop = tooltip._groups[0][0].offsetHeight + 20;
 
-            tooltip.html('')
+            tooltip.html('');
 
             const bubble = d3.pack()
                 .size([width, height - paddingTop])
@@ -91,14 +91,14 @@ function ChartBubble(props, ref) {
                     .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ text.classList.contains('is-hidden') ? `<p class="p4">${ d.data.name }</p>` : '' }`)
                     .style('left', `${ x - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ y - r - spaceTooltip }px`)
-                    .style('opacity', 1)
-            }
+                    .style('opacity', 1);
+            };
             const mouseleave = (e, d) => tooltip.style('opacity', 0);
             // Chart Container : contain all svg
             const chartContainer = svg
                 .append('g')
-                .attr('class', 'chart-container')
-            const colorTheme = getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary');
+                .attr('class', 'chart-container');
+            const colorTheme = themeColors.secondary;
             const color = d3.scaleLinear()
                 .range([`${ colorTheme }4D`, colorTheme])
                 .domain([d3.min(data, d => d.value), d3.max(data, d => d.value)]);
@@ -108,32 +108,32 @@ function ChartBubble(props, ref) {
 
             const node = chartContainer.selectAll('circle')
                 .data(root.children)
-                .enter().append("g")
-                .attr("class", "node")
-                .attr("data-position-x", function(d) { return d.x; })
-                .attr("data-position-y", function(d) { return d.y + paddingTop; })
+                .enter().append('g')
+                .attr('class', 'node')
+                .attr('data-position-x', function(d) { return d.x; })
+                .attr('data-position-y', function(d) { return d.y + paddingTop; })
                 .attr('data-radius', d => d.r)
-                .attr("transform", function(d) { return "translate(" + d.x + "," + (d.y + paddingTop) + ")"; })
-                .on("mouseover", mouseover)
-                .on("mouseleave", mouseleave);
+                .attr('transform', function(d) { return 'translate(' + d.x + ',' + (d.y + paddingTop) + ')'; })
+                .on('mouseover', mouseover)
+                .on('mouseleave', mouseleave);
 
-            node.append("circle")
-                .attr("r", function(d) { return d.r; })
-                .style("fill", function(d) {
+            node.append('circle')
+                .attr('r', function(d) { return d.r; })
+                .style('fill', function(d) {
                     return color(d.value);
                 });
 
-            const text = node.append("text")
-                .attr("dy", ".3em")
-                .text(function(d) { return d.data.name })
-                .style("text-anchor", "middle")
-                .attr("class", 'p4 label')
+            const text = node.append('text')
+                .attr('dy', '.3em')
+                .text(function(d) { return d.data.name; })
+                .style('text-anchor', 'middle')
+                .attr('class', 'p4 label')
                 .attr('class', function(d) {
-                    const isHide = this.getBBox().width + 10 > this.parentNode.querySelector('circle').getBBox().width
-                    return `p4 label ${ isHide ? 'is-hidden' : '' }`
-                })
+                    const isHide = this.getBBox().width + 10 > this.parentNode.querySelector('circle').getBBox().width;
+                    return `p4 label ${ isHide ? 'is-hidden' : '' }`;
+                });
         },
-        [data.length, margin, themeCategory],
+        [data.length, margin, themeColors],
     );
     /**
      * Events

@@ -1,5 +1,5 @@
 // React
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 // Vendor
@@ -16,7 +16,7 @@ import ListIcon from '@/assets/icons/list.svg';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 import useStore from '@/hooks/useStore';
 
-function ModalSubcategories(props, ref) {
+function ModalSubcategories(props) {
     /**
      * Data
      */
@@ -190,4 +190,4 @@ function ModalSubcategories(props, ref) {
     );
 }
 
-export default forwardRef(ModalSubcategories);
+export default ModalSubcategories;

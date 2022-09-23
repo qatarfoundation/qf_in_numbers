@@ -1,5 +1,5 @@
 // React
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'gatsby-plugin-react-i18next';
 
 // Vendor
@@ -12,7 +12,7 @@ import useTick from '@/hooks/useTick';
 // CSS
 import './style.scoped.scss';
 
-function SlideEntity(props, ref) {
+function SlideEntity(props) {
     /**
      * Props
      */
@@ -39,13 +39,6 @@ function SlideEntity(props, ref) {
     /**
      * Public
      */
-
-    /**
-     * Expose public
-     */
-    useImperativeHandle(ref, () => ({
-
-    }));
 
     /**
      * Private
@@ -94,4 +87,4 @@ function SlideEntity(props, ref) {
     );
 }
 
-export default forwardRef(SlideEntity);
+export default SlideEntity;

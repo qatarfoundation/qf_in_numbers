@@ -62,19 +62,19 @@ function ChartKPI(props, ref) {
         else if (diff > 0) result += '+';
         return `${ result }${ diff }% from ${ currentYear - 1 }`;
     }
-    function truncate(str, n) {
-        return (str.length > n) ? str.slice(0, n - 1) + '...' : str;
-    }
-    function mouseover(e) {
-        if (!e.target.classList.contains('can-hover')) return;
-        tooltipRef.current.innerHTML = `<p class="p6">${ e.target.dataset.text }</p>`;
-        const offsetLeft = e.target.offsetLeft + parseInt(window.getComputedStyle(containerRef.current, null).getPropertyValue('padding-left'));
-        const left = offsetLeft + e.target.offsetWidth / 2;
-        tooltipRef.current.style.left = `${ left }px`;
-        tooltipRef.current.style.top = `${ e.target.offsetTop - 15 }px`;
-        tooltipRef.current.style.opacity = 1;
-    }
-    function mouseleave(e) { e.target.classList.contains('can-hover') && tooltipRef.current && (tooltipRef.current.style.opacity = 0); }
+    // function truncate(str, n) {
+    //     return (str.length > n) ? str.slice(0, n - 1) + '...' : str;
+    // }
+    // function mouseover(e) {
+    //     if (!e.target.classList.contains('can-hover')) return;
+    //     tooltipRef.current.innerHTML = `<p class="p6">${ e.target.dataset.text }</p>`;
+    //     const offsetLeft = e.target.offsetLeft + parseInt(window.getComputedStyle(containerRef.current, null).getPropertyValue('padding-left'));
+    //     const left = offsetLeft + e.target.offsetWidth / 2;
+    //     tooltipRef.current.style.left = `${ left }px`;
+    //     tooltipRef.current.style.top = `${ e.target.offsetTop - 15 }px`;
+    //     tooltipRef.current.style.opacity = 1;
+    // }
+    // function mouseleave(e) { e.target.classList.contains('can-hover') && tooltipRef.current && (tooltipRef.current.style.opacity = 0); }
 
     function resize() {
         resizeHighlightLabel();
@@ -90,9 +90,11 @@ function ChartKPI(props, ref) {
     }
 
     function resizeHighlightLabel() {
+        if (!highlightLabelRef.current) return;
         const leftElementHeight = listNameRef.current[0] ? listNameRef.current[0].offsetHeight : 0;
         const rightElementHeight = listNameRef.current[1] ? listNameRef.current[1].offsetHeight : 0;
-        const height = Math.max(leftElementHeight, rightElementHeight);
+        const highlightLabelHeight = highlightLabelRef.current.offsetHeight;
+        const height = Math.max(leftElementHeight, rightElementHeight, highlightLabelHeight);
         highlightLabelRef.current.style.height = `${ height }px`;
     }
 

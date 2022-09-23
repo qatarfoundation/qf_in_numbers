@@ -27,7 +27,7 @@ function ButtonDiscover(props, ref) {
     /**
      * Store
      */
-    const themeCategory = useStore((state) => state.themeCategory);
+    const themeColors = useStore((state) => state.themeColors);
 
     /**
      * Refs
@@ -42,7 +42,7 @@ function ButtonDiscover(props, ref) {
         rotation: 0,
         hoverProgess: 0,
         hoverRotation: 0,
-        themeColor: getComputedStyle(document.querySelector(`.${ themeCategory }`)).getPropertyValue('--color-theme-secondary'),
+        themeColor: themeColors.secondary,
         timelineMouseEnter: null,
         timelineMouseLeave: null,
     });
@@ -77,6 +77,8 @@ function ButtonDiscover(props, ref) {
     }
 
     function draw() {
+        if (!canvasRef.current) return;
+
         const context = data.current.context;
         const width = canvasRef.current.offsetWidth;
         const height = canvasRef.current.offsetHeight;

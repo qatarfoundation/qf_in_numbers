@@ -12,6 +12,9 @@
     pointer-events: none;
 }
 
+/**
+NOTE: Colors will also need to be adjusted in @/configs/themes.js & @/assets/styles/core/_variables.scss
+**/
 .theme-default {
     --color-theme-primary: #53565A;
     --color-theme-secondary: #C8C9C7;

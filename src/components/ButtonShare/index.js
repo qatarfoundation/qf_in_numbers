@@ -60,7 +60,7 @@ function ButtonShare(props, ref) {
     return (
         <div ref={ wrapperRef } className="button-share-w">
             <button className="button-share" onClick={ () => setOpened(!opened) }>
-                <ShareIcon className="share-icon" />
+                <ShareIcon className="share-icon icon-share" />
             </button>
 
             <div ref={ listRef } className="share-list">
@@ -71,10 +71,10 @@ function ButtonShare(props, ref) {
                     <LinkedinIcon className="share-icon icon-linkedin" />
                 </a>
                 <a href={ `mailto:?body=${ window.location.href }` } target="_blank" className="share-item" rel="noreferrer">
-                    <MailIcon className="share-icon" />
+                    <MailIcon className="share-icon icon-mail" />
                 </a>
                 <button onClick={ copyToClipboard } className="share-item">
-                    <CopyIcon className="share-icon" />
+                    <CopyIcon className="share-icon icon-copy" />
                 </button>
             </div>
         </div>

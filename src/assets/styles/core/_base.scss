@@ -41,4 +41,8 @@ body {
     &.is-touch {
         overscroll-behavior: auto;
     }
+
+    &.unselectable {
+        @include unselectable;
+    }
 }

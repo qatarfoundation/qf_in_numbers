@@ -1,22 +1,22 @@
 .panel-entity {
+    opacity: 0;
+
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
 
-    display: flex;
-    flex-direction: column;
-
     width: 100%;
     height: 100%;
 
-    opacity: 0;
+    color: $color-grey;
 
     background-color: $color-white;
-    color: $color-grey;
 
     transform: translateX(100%);
 
     pointer-events: all;
+    flex-direction: column;
 
     will-change: transform;
 
@@ -33,29 +33,30 @@
     }
 
     @include respond-to('medium') {
-        left: inherit;
         right: 0;
+        left: inherit;
 
         width: 63vw;
         max-width: rem(895px, 'medium');
 
         .ar & {
-            left: 0;
             right: inherit;
+            left: 0;
         }
     }
 }
 
 .content {
     opacity: 0;
+    overflow: hidden;
 }
 
 .button-close {
+    z-index: 10;
+
     position: fixed;
     top: rem(20px, 'small');
     right: rem(16px, 'small');
-
-    z-index: 10;
 
     .ar & {
         right: inherit;
@@ -74,7 +75,7 @@
 
     @include respond-to('large') {
         top: rem(38px, 'large');
-        right: rem(24px, 'large');
+        right: rem(40px, 'large');
 
         .ar & {
             left: rem(24px, 'large');
@@ -96,19 +97,19 @@
     }
 
     .point {
-        width: rem(3.75px, 'small');
+        width: rem(1px, 'small');
         height: rem(8.74px, 'small');
 
         background: var(--color-theme-secondary);
 
         @include respond-to('medium') {
-            width: rem(3.75px, 'medium');
-            height: rem(8.74px, 'medium');
+            width: rem(1px, 'medium');
+            height: rem(10px, 'medium');
         }
 
         @include respond-to('large') {
-            width: rem(3.75px, 'large');
-            height: rem(8.74px, 'large');
+            width: rem(1px, 'large');
+            height: rem(10px, 'large');
         }
 
         &:first-child {
@@ -148,8 +149,8 @@
             }
 
             .ar & {
-                margin-left: 0;
                 margin-right: rem(63px, 'small');
+                margin-left: 0;
 
                 @include respond-to('medium') {
                     margin-right: rem(63px, 'medium');
@@ -168,13 +169,17 @@
     flex-direction: column;
 
     .h1 {
-        opacity: 0;
         max-width: rem(200px, 'small');
 
         margin-bottom: rem(56px, 'small');
 
-        color: var(--color-theme-primary);
         font-size: rem(45px);
+
+        color: var(--color-theme-primary);
+
+        .split-line{
+            opacity: 0;
+        }
 
         @include respond-to('medium') {
             max-width: rem(450px, 'medium');
@@ -195,6 +200,7 @@
 
     .p1 {
         opacity: 0;
+
         max-width: rem(269px, 'small');
 
         margin-right: rem(100px, 'small');
@@ -207,9 +213,9 @@
             margin-right: rem(100px, 'medium');
         }
         @include respond-to('large') {
-            max-width: rem(392px, 'large');
+            max-width: rem(460px, 'large');
 
-            margin-right: rem(100px, 'large');
+            margin-right: rem(40px, 'large');
         }
         .ar & {
             margin-right: 0;
@@ -252,11 +258,12 @@
 
         @include respond-to('large') {
             margin-bottom: rem(38px, 'large');
-        };
+        }
     }
 
     .slider-header {
         display: flex;
+
         justify-content: space-between;
         align-items: center;
 
@@ -277,7 +284,7 @@
 
             padding-right: rem(62px, 'large');
             padding-left: rem(62px, 'large');
-        };
+        }
 
         .slider-navigation {
             .button-arrow:not(:last-child) {
@@ -311,8 +318,8 @@
         padding-left: rem(18px, 'small');
 
         .ar & {
-            padding-left: 0;
             padding-right: rem(18px, 'small');
+            padding-left: 0;
         }
 
         @include respond-to('medium') {
@@ -335,8 +342,12 @@
 
 .pagination {
     display: flex;
+    position: sticky;
+    bottom: 0;
+
     justify-content: space-between;
     align-items: stretch;
+    background-color: $color-white;
 
     &.right {
         justify-content: flex-end;
@@ -344,5 +355,18 @@
 
     &.left {
         justify-content: flex-start;
+    }
+    &::after {
+        opacity: 0.15;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 1px;
+
+        background-color: $color-grey;
+        content: '';
     }
 }

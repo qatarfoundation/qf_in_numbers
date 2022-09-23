@@ -1,5 +1,5 @@
 // React
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -10,7 +10,7 @@ import math from '@/utils/math/index';
 // CSS
 import './style.scoped.scss';
 
-function SlideEntityMobile(props, ref) {
+function SlideEntityMobile(props) {
     /**
      * Props
      */
@@ -53,13 +53,6 @@ function SlideEntityMobile(props, ref) {
     /**
      * Public
      */
-
-    /**
-     * Expose public
-     */
-    useImperativeHandle(ref, () => ({
-
-    }));
 
     /**
      * Private
@@ -107,4 +100,4 @@ function SlideEntityMobile(props, ref) {
     );
 }
 
-export default forwardRef(SlideEntityMobile);
+export default SlideEntityMobile;

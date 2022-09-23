@@ -6,6 +6,9 @@ $color-white: #ffffff;
 
 $color-theme-current: 'default';
 
+/**
+NOTE: Colors will also need to be adjusted in @/configs/themes.js & @/layouts/index/style.scoped.scss
+**/
 $colors-theme-default: (
     'primary': #53565A,// Dark grey
     'secondary': #C8C9C7,// Light grey
