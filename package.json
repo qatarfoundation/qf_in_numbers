@@ -46,6 +46,7 @@
     "lethargy": "^1.0.9",
     "loaders": "git+https://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:x-oauth-basic@github.com/immersive-garden/loaders.git",
     "node-fetch": "^2.6.7",
+    "odometer": "^0.4.8",
     "query-string": "^7.1.1",
     "raw-loader": "^4.0.2",
     "react": "^17.0.1",
