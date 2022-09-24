@@ -7,7 +7,7 @@ import './style.scoped.scss';
 function FadeInWrapper({
     as = 'div',
     className = '',
-    threshold = 0.5,
+    threshold = 0.3,
     children,
     ...props
 }) {

@@ -14,7 +14,7 @@ import WindowResizeObserver from '@/utils/WindowResizeObserver';
 // CSS
 import './style.scoped.scss';
 import useStore from '@/hooks/useStore';
-import Odometer from './Odometer';
+import Odometer from '../Odometer';
 
 function ChartKPI(props, ref) {
     /**
