@@ -18,6 +18,7 @@ import number from '@/utils/number';
 // CSS
 import './style.scoped.scss';
 import useStore from '@/hooks/useStore';
+// import { useOdometer } from '../Odometer';
 
 function ChartDonut(props, ref) {
     /**
@@ -197,6 +198,8 @@ function ChartDonut(props, ref) {
         },
         [data.length, width, themeColors],
     );
+
+    // useOdometer({ ref: refChart, selector: ('.legend-container > .h4.label'), animate: true });
     /**
      * Events
      */

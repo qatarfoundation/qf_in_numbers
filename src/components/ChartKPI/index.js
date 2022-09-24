@@ -14,6 +14,7 @@ import WindowResizeObserver from '@/utils/WindowResizeObserver';
 // CSS
 import './style.scoped.scss';
 import useStore from '@/hooks/useStore';
+import Odometer from '../Odometer';
 
 function ChartKPI(props, ref) {
     /**
@@ -109,7 +110,7 @@ function ChartKPI(props, ref) {
                         <div>{ data[0].icon && <img className="label__icon" src={ data[0].icon.url } alt={ data[0].icon.alt } /> }</div>
                         <span className={ `p6 label__text ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name }>{ data[0].name }</span>
                     </div>
-                    <span className="h2 value" ref={ highlightValueRef }>{ data[0].value }</span>
+                    <Odometer className="h2 value" ref={ highlightValueRef }>{ data[0].value }</Odometer>
                     { data[0].lastYearValue && <span className={ `p6 change ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
                 </div>
 
@@ -140,11 +141,11 @@ function ChartKPI(props, ref) {
                                             }
                                         </li>
                                         <li>
-                                            <span className="h4 value">{ row[0] && row[0].value }</span>
+                                            <span className="h4 value" data-number={ row[0] && row[0].value }><Odometer>{ row[0] && row[0].value }</Odometer></span>
                                             { row[0] && row[0].lastYearValue && <span className={ `p6 change ${ ((row[0].value - row[0].lastYearValue) % row[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
                                         </li>
                                         <li>
-                                            <span className="h4 value">{ row[1] && row[1].value }</span>
+                                            <span className="h4 value" data-number={ row[1] && row[1].value }><Odometer>{ row[1] && row[1].value }</Odometer></span>
                                             { row[1] && row[1].lastYearValue && <span className={ `p6 change ${ ((row[1].value - row[1].lastYearValue) % row[1].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
                                         </li>
                                     </ul>
