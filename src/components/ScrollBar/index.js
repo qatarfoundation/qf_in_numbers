@@ -94,13 +94,17 @@ function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '
     function resize() {
         if (!refScrollBar.current) return;
 
+        const element = refScrollBar.current;
+
         if (calcHeight) {
-            const element = refScrollBar.current;
             element.style.height = '0px';
             const parentElement = element.parentElement;
             const parentHeight = parentElement.offsetHeight;
             element.style.height = `${ parentHeight }px`;
         }
+
+        Scrolls[name].isVertical = element.scrollHeight > element.clientHeight;
+        Scrolls[name].isHorizontal = element.scrollWidth > element.clientWidth;
     }
 
     return (

@@ -8,11 +8,17 @@ import SplitText from '@/assets/scripts/SplitText';
 gsap.registerPlugin(SplitText);
 import CustomEase from '@/vendor/gsap/CustomEase';
 
+// Utils
+import Scrolls from '@/utils/Scrolls';
+
 // Modules
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // CSS
 import './style.scoped.scss';
+
+// Hooks
+import useStore from '@/hooks/useStore';
 
 // Components
 import ButtonClose from '@/components/ButtonClose';
@@ -22,7 +28,7 @@ import ButtonArrow from '@/components/ButtonArrow';
 import ButtonEntityPagination from '@/components/ButtonEntityPagination';
 import Charts from '@/components/Charts';
 import ButtonShare from '@/components/ButtonShare';
-import SequenceCharts from '@/components/SequenceCharts';
+import ScrollIndicator from '@/components/ScrollIndicator';
 
 function PanelEntity(props, ref) {
     /**
@@ -65,6 +71,8 @@ function PanelEntity(props, ref) {
         hide: null,
     });
 
+    const entityShowScrollIndicator = useStore((state) => state.entityShowScrollIndicator);
+
     /**
      * Lifecycle
      */
@@ -78,6 +86,8 @@ function PanelEntity(props, ref) {
             type: 'lines',
             linesClass: 'split-line',
         });
+
+        useStore.setState({ entityShowScrollIndicator: Scrolls['panel-entity'].isVertical });
     }
 
     function destroy() {
@@ -152,7 +162,16 @@ function PanelEntity(props, ref) {
                         </div>
                         <div className="introduction">
                             <h1 className='h1' ref={ titleRef }>{ entity.name }</h1>
-                            { entity.description && <p className="p1" ref={ introRef }>{ entity.description }</p> }
+
+                            { entityShowScrollIndicator &&
+                                <ScrollIndicator />
+                            }
+
+                            { entity.description &&
+                                <p className="p1" ref={ introRef }>
+                                    { entity.description }
+                                </p>
+                            }
                         </div>
                     </section>
 
