@@ -36,9 +36,9 @@ function ScrollIndicator() {
         show();
         createBarAnimation();
         return () => {
-            timelines.current.show.kill();
-            timelines.current.hide.kill();
-            timelines.current.idle.kill();
+            timelines.current.show?.kill();
+            timelines.current.hide?.kill();
+            timelines.current.idle?.kill();
         };
     }, []);
 
