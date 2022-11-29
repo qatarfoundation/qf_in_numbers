@@ -251,11 +251,15 @@ function PanelSearch(props, ref) {
 
                 </div>
 
-                <Scrollbar revert={ false } data-name="search">
+                <div className="search-results" data-name="search">
 
-                    { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
+                    <Scrollbar revert={ false } name="panel-search">
 
-                </Scrollbar>
+                        { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
+
+                    </Scrollbar>
+
+                </div>
 
             </div>
 

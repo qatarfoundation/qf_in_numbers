@@ -20,10 +20,10 @@
     display: block;
     color: $color-grey;
     text-align: left;
-    transition: opacity 0.3s $sine-in-out;
+    transition: color 0.15s $sine-out;
 
     &:hover {
-        color: var(--color-theme-primary);
+        color: var(--color-theme-secondary);
     }
 
     .ar & {

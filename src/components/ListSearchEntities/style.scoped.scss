@@ -8,25 +8,25 @@
 
     @include respond-to('medium') {
         padding-top: rem(29px, 'medium');
-        padding-right: 0;
+        padding-right: rem(53px, 'medium');
         padding-bottom: rem(29px, 'medium');
         padding-left: rem(53px, 'medium');
 
         .ar & {
             padding-right: rem(53px, 'medium');
-            padding-left: 0;
+            padding-left: rem(53px, 'medium');
         }
     }
 
     @include respond-to('large') {
         padding-top: rem(29px, 'large');
-        padding-right: 0;
+        padding-right: rem(60px, 'large');
         padding-bottom: rem(29px, 'large');
         padding-left: rem(60px, 'large');
 
         .ar & {
-            padding-right: rem(53px, 'large');
-            padding-left: 0;
+            padding-right: rem(60px, 'large');
+            padding-left: rem(60px, 'large');
         }
     }
 }

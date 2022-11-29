@@ -134,7 +134,7 @@ function PanelEntity(props, ref) {
     return (
         <div ref={ elRef } className="panel panel-entity" data-name="entity">
 
-            <Scrollbar revert={ false }>
+            <Scrollbar revert={ false } calcHeight={ false } name="panel-entity">
 
                 <div className="content" ref={ contentRef }>
 

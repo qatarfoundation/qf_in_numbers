@@ -12,6 +12,7 @@ import useStore from '@/hooks/useStore';
 
 // Utils
 import wrap from '@/utils/wrapTextSVG';
+import Scrolls from '@/utils/Scrolls';
 
 // CSS
 import './style.scoped.scss';
@@ -24,7 +25,7 @@ function ChartHeatmap(props, ref) {
     /**
      * Store
      */
-    const [scrolls, iScroll, themeColors] = useStore((state) => [state.scrolls, state.iScroll, state.themeColors]);
+    const [themeColors] = useStore((state) => [state.themeColors]);
     /**
      * Datas
      */
@@ -203,20 +204,21 @@ function ChartHeatmap(props, ref) {
     /**
      * Effects
      */
-    useEffect(() => {
-        if (refChart.current && refSwitch.current && scrolls['heatmapChart']) {
-            if (scrolls['heatmapChart'].scrollX !== 0) {
-                const el = refChart.current.querySelector('.axis-y');
-                const defaultScroll = el.getAttribute('defaultScroll');
-                el.setAttribute('transform', `translate(${ scrolls['heatmapChart'].scrollX + parseFloat(defaultScroll) }, 0)`);
-                if (language !== 'ar-QA') {
-                    refSwitch.current.style.left = `${  scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
-                } else {
-                    refSwitch.current.style.right = `${  -scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
-                }
-            }
-        }
-    }, [useStore.getState().iScroll]);
+    // useEffect(() => {
+    //     if (refChart.current && refSwitch.current && Scrolls['heatmapChart']) {
+    //         if (Scrolls['heatmapChart'].scrollX !== 0) {
+    //             const el = refChart.current.querySelector('.axis-y');
+    //             const defaultScroll = el.getAttribute('defaultScroll');
+    //             el.setAttribute('transform', `translate(${ Scrolls['heatmapChart'].scrollX + parseFloat(defaultScroll) }, 0)`);
+    //             if (language !== 'ar-QA') {
+    //                 refSwitch.current.style.left = `${  Scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
+    //             } else {
+    //                 refSwitch.current.style.right = `${  -Scrolls['heatmapChart'].scrollX + parseFloat(refSwitch.current.getAttribute('defaultScroll')) }px`;
+    //             }
+    //         }
+    //     }
+    // }, [useStore.getState().iScroll]);
+
     /**
      * Events
      */

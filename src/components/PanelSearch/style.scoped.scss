@@ -45,7 +45,11 @@
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
+
     opacity: 0;
+    height: 100%;
 }
 
 .header-container {
@@ -177,6 +181,10 @@
             padding-left: rem(28px, 'large');
         }
     }
+}
+
+.search-results {
+    flex: 1 1 auto;
 }
 
 .filters-container {

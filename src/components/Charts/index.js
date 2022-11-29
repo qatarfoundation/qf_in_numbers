@@ -35,6 +35,7 @@ function Charts(props, ref) {
             {
                 charts.map((chart, i) => {
                     const result = [];
+                    const chartName = Object.keys(chart)[0];
                     chart[Object.keys(chart)[0]].map((c, j) => {
                         const r = {};
                         if (c.title) {
@@ -83,9 +84,9 @@ function Charts(props, ref) {
                         result.push(r);
                     });
                     return (
-                        <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chart.type }>
+                        <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chartName }>
                             { result.length > 1 ?
-                                <Scrollbar colored={ false } horizontalScroll="true">
+                                <Scrollbar colored={ false } horizontalScroll="true" calcHeight={ false } name={ chartName }>
                                     <div className='charts-container'>
                                         { result.map((r, i) =>
                                             <div className={ `charts-item ${ r.type }` } key={ i }>
@@ -101,7 +102,7 @@ function Charts(props, ref) {
                                     <div className={ `charts-item ${ r.type }` } key={ i }>
                                         { r.title && r.title }
                                         { r.subtitle && r.subtitle }
-                                        <Scrollbar colored={ false }>
+                                        <Scrollbar colored={ false } calcHeight={ false } name={ chartName }>
                                             <div className='charts-container'>
                                                 { r.chart && r.chart }
                                             </div>

@@ -292,11 +292,10 @@ export default class EntityComponent extends component(Object3D) {
     }
 
     _updateScrollPosition() {
-        // const scrolls = useStore.getState().scrolls;
-        const scrolls = Scrolls.data;
-        if (scrolls && scrolls.entity && !this._isTransitioning) {
-            // this._scrollPosition.target = scrolls.entity.scrollY / (scrolls.entity.scrollHeight - scrolls.entity.innerHeight) * this._scrollHeight;
-            this._scrollPosition.target = scrolls.entity.scrollY;
+        const scrollData = Scrolls['panel-entity'];
+        if (scrollData && !this._isTransitioning) {
+            // this._scrollPosition.target = scrollData.scrollY / (scrollData.scrollHeight - scrollData.innerHeight) * this._scrollHeight;
+            this._scrollPosition.target = scrollData.scrollY;
             this._scrollPosition.current = math.lerp(this._scrollPosition.current, this._scrollPosition.target, 0.075);
             // this._scrollPosition.current = this._scrollPosition.target;
             this._scrollContainer.position.y = this._scrollPosition.current;

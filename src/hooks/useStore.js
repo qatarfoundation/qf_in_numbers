@@ -5,10 +5,6 @@ const useStore = create((set) => {
         currentYear: '2021',
         selectedEntity: null,
         currentCategory: {},
-        // Scroll
-        scrolls: [],
-        iScroll: 0,
-        // Global
         locale: null,
         themeCategory: 'theme-default',
         themeColors: { primary: null, secondary: null },
