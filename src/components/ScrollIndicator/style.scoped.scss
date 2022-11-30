@@ -9,12 +9,23 @@
     width: rem(98px);
     height: rem(32px);
 
+    .ar & {
+        width: rem(125px);
+    }
+
     @include respond-to('medium') {
         top: rem(-24px, 'medium');
         left: rem(3px, 'medium');
 
         width: rem(105px, 'medium');
         height: rem(32px, 'medium');
+
+        .ar & {
+            left: 0;
+            right: rem(3px, 'medium');
+
+            width: rem(130px, 'medium');
+        }
     }
 
     @include respond-to('large') {
@@ -23,6 +34,13 @@
 
         width: rem(105px, 'large');
         height: rem(32px, 'large');
+
+        .ar & {
+            left: 0;
+            right: rem(3px, 'large');
+
+            width: rem(130px, 'large');
+        }
     }
 }
 
@@ -35,6 +53,11 @@
 
     font-size: rem(16px);
     color: var(--color-theme-primary);
+
+    .ar & {
+        width: 100%;
+        text-align: left;
+    }
 
     @include respond-to('medium') {
         bottom: rem(-1px, 'medium');
@@ -60,6 +83,10 @@
     height: rem(32px);
 
     background-color: var(--color-theme-primary);
+
+    .ar & {
+        right: 0;
+    }
 
     @include respond-to('medium') {
         width: rem(4px, 'medium');
