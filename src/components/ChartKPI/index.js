@@ -6,15 +6,18 @@ import textFit from 'textfit';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 // Utils
 import Breakpoints from '@/utils/Breakpoints';
 import WindowResizeObserver from '@/utils/WindowResizeObserver';
 
+// Components
+import MoreInfoIcon from '@/components/MoreInfoIcon';
+import Odometer from '@/components/Odometer';
+
 // CSS
 import './style.scoped.scss';
-import useStore from '@/hooks/useStore';
-import Odometer from '../Odometer';
 
 function ChartKPI(props, ref) {
     /**
@@ -112,6 +115,7 @@ function ChartKPI(props, ref) {
                     </div>
                     <Odometer className="h2 value" ref={ highlightValueRef }>{ data[0].value }</Odometer>
                     { data[0].lastYearValue && <span className={ `p6 change ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
+                    <MoreInfoIcon />
                 </div>
 
                 <ul className="list values">
