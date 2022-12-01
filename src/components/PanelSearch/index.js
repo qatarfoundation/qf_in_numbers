@@ -9,6 +9,7 @@ import './style.scoped.scss';
 // Components
 import ButtonClose from '@/components/ButtonClose';
 import ListSearchEntities from '@/components/ListSearchEntities';
+import ListSearchMetrics from '@/components/ListSearchMetrics';
 import ListSearchTags from '@/components/ListSearchTags';
 import Scrollbar from '@/components/ScrollBar';
 import ButtonSearch from '@/components/ButtonSearch';
@@ -142,23 +143,35 @@ function PanelSearch(props, ref) {
         setFilteredTags(filteredTags);
 
         //Metrics
-        const metrics = entities.filter(item => {
-            if (inputSearch === '') return true;
-            let valid = false;
+        const metrics = [];
+        if (inputSearch !== '') {
+            entities.forEach((entity) => {
+                const charts = entity.charts;
+                charts?.forEach((chart) => {
+                    let title = null;
 
-            item.charts?.forEach(chart => {
-                let title = null;
-                if (chart.title && Array.isArray(chart.title))
-                    title = chart.title.map(part => part.value).join(' ');
-                else if (chart.title && typeof chart.title === 'string')
-                    title = chart.title;
+                    if (chart.type === 'kpiChart') {
+                        chart.fields.forEach((chart) => {
+                            title = chart.name;
+                            if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
+                                metrics.push({ entity, chart: { title } });
+                            }
+                        });
+                    } else {
+                        if (chart.title && Array.isArray(chart.title)) {
+                            title = chart.title.map(part => part.value).join(' ');
+                        } else if (chart.title && typeof chart.title === 'string') {
+                            title = chart.title;
+                        }
 
-                if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))
-                    valid = true;
+                        if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
+                            metrics.push({ entity, chart });
+                        }
+                    }
+                });
             });
+        }
 
-            return valid;
-        });
         setFilteredMetricsEntities(metrics);
     }
 
@@ -255,7 +268,7 @@ function PanelSearch(props, ref) {
 
                     <Scrollbar revert={ false } name="panel-search">
 
-                        { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchEntities items={ filteredMetricsEntities } /> }
+                        { filterType === 'entities' ? <ListSearchEntities items={ filteredEntities } /> : filterType === 'tags' ? <ListSearchTags items={ filteredTags } /> : <ListSearchMetrics items={ filteredMetricsEntities } /> }
 
                     </Scrollbar>
 

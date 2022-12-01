@@ -10,7 +10,7 @@ import Scrolls from '@/utils/Scrolls';
 // CSS
 import './style.scoped.scss';
 
-function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '', ...props }) {
+function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '', scrollOffset, ...props }) {
     /**
      * References
      */
@@ -38,6 +38,12 @@ function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '
     useEffect(() => {
         resize();
     }, []);
+
+    useEffect(() => {
+        if (scrollOffset > 0) {
+            refScrollBar.current.scrollTop = scrollOffset;
+        }
+    }, [scrollOffset]);
 
     if (props.horizontalScroll) {
         useEffect(() => {
@@ -108,11 +114,9 @@ function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '
     }
 
     return (
-        <>
-            <div ref={ refScrollBar } className={ `scrollbar ${ revert ? 'scrollbar-revert' : '' } ${ colored ? 'scrollbar-colored' : '' } ${ calcHeight ? 'calc-height' : '' }` } onScroll={ onScrollHandler }>
-                { props.children }
-            </div>
-        </>
+        <div ref={ refScrollBar } className={ `scrollbar ${ revert ? 'scrollbar-revert' : '' } ${ colored ? 'scrollbar-colored' : '' } ${ calcHeight ? 'calc-height' : '' }` } onScroll={ onScrollHandler }>
+            { props.children }
+        </div>
     );
 }
 

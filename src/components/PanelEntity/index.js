@@ -54,6 +54,7 @@ function PanelEntity(props, ref) {
      * States
      */
     const [activeIndex, setActiveIndex] = useState(1);
+    const [scrollOffset, setScrollOffset] = useState(0);
 
     /**
      * Refs
@@ -72,6 +73,15 @@ function PanelEntity(props, ref) {
     });
 
     const entityShowScrollIndicator = useStore((state) => state.entityShowScrollIndicator);
+
+    useEffect(() => {
+        const id = location.hash;
+        if (id) {
+            const titleElement = document.body.querySelector(id);
+            const top = titleElement ? titleElement.getBoundingClientRect().top : 0;
+            setScrollOffset(top);
+        }
+    }, []);
 
     /**
      * Lifecycle
@@ -144,7 +154,7 @@ function PanelEntity(props, ref) {
     return (
         <div ref={ elRef } className="panel panel-entity" data-name="entity">
 
-            <Scrollbar revert={ false } calcHeight={ false } name="panel-entity">
+            <Scrollbar revert={ false } calcHeight={ false } name="panel-entity" scrollOffset={ scrollOffset }>
 
                 <div className="content" ref={ contentRef }>
 

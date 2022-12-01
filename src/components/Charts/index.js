@@ -1,8 +1,11 @@
 // React
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
+
+// Helpers
+import getChartAnchor from '@/utils/helpers/getChartAnchor';
 
 // Components
 import Scrollbar from '@/components/ScrollBar';
@@ -16,7 +19,7 @@ import ChartMap from '@/components/ChartMap';
 import ChartKPI from '@/components/ChartKPI';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
-function Charts(props, ref) {
+function Charts(props) {
     /**
      * Datas
      */
@@ -30,6 +33,9 @@ function Charts(props, ref) {
         result[c[0].type] = c;
         return result;
     });
+
+    const chartRef = useRef();
+
     return (
         <>
             {
@@ -39,7 +45,7 @@ function Charts(props, ref) {
                     chart[Object.keys(chart)[0]].map((c, j) => {
                         const r = {};
                         if (c.title) {
-                            r.title = (<><h2 className="p2 section-container">{ c.title.map(t => {
+                            r.title = (<><h2 className="p2 section-container" id={ getChartAnchor(c) }>{ c.title.map(t => {
                                 let el = undefined;
                                 if (t.bold) {
                                     el = <span key={ t.value } className='bold'>{ t.value }</span>;

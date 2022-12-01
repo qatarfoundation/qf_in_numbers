@@ -1,0 +1,43 @@
+.list-item-search-entities {
+    position: relative;
+    display: block;
+
+    &:not(:last-child) {
+        margin-bottom: rem(19px, 'small');
+
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
+    }
+}
+
+.link-search {
+    position: relative;
+    display: block;
+    color: $color-grey;
+    text-align: left;
+    transition: color 0.15s $sine-out;
+
+    .entity {
+        display: block;
+
+        color: var(--color-theme-primary);
+        font-size: rem(13px, 'large');
+    }
+
+    .metric {
+        display: block;
+    }
+
+    &:hover {
+        color: var(--color-theme-secondary);
+    }
+
+    .ar & {
+        text-align: right;
+    }
+}
