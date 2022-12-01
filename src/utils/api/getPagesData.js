@@ -354,6 +354,7 @@ function parseKPIChart(data) {
             const field = {
                 name: item.fields.title,
                 value: item.fields.value,
+                moreInfo: item.fields.moreInfo,
             };
             if (item.fields.icon) {
                 field.icon = {};
