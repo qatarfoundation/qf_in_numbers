@@ -5,7 +5,7 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 // Modules
 import { useD3 } from '@/hooks/useD3';
 import * as d3 from 'd3';
-import {gsap} from "gsap";
+import { gsap } from 'gsap';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
@@ -85,7 +85,7 @@ function ChartMap(props, ref) {
                     .style('left', `${ e.target.cx.baseVal.value + margin.left - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ e.target.cy.baseVal.value + margin.top - e.target.r.baseVal.value }px`)
                     .style('opacity', 1);
-            }
+            };
             const mouseleave = d => tooltip.style('opacity', 0);
             // Add a scale for bubble size
             const size = d3.scaleLinear()
@@ -105,7 +105,7 @@ function ChartMap(props, ref) {
         },
         [data.length, margin],
     );
-    let mainSvg = null
+    let mainSvg = null;
     /**
      * Events
      */
@@ -129,27 +129,27 @@ function ChartMap(props, ref) {
     }
 
     const onZoomControls = (e) => {
-        const mainGroup = mainSvg.childNodes[0]
-        gsap.to(mainGroup, {scale: 1.15, ease: "sine.in", duration: .4})
-    }
+        const mainGroup = mainSvg.childNodes[0];
+        gsap.to(mainGroup, { scale: 1.15, ease: 'sine.in', duration: .4 });
+    };
 
     return (
         <>
             <div ref={ refChart } className="dataviz">
                 <svg
-                    ref={el => (mainSvg = el)}
+                    ref={ el => (mainSvg = el) }
                     height={ height }
                     className="chart chart-map"
                 />
 
-                {/*<div className="zoom-controls">*/}
-                {/*    <button onClick={onZoomControls} className="zoom-in zoom-btn">*/}
-                {/*        <PlusIcon />*/}
-                {/*    </button>*/}
-                {/*    <button onClick={onZoomControls} className="zoom-out zoom-btn">*/}
-                {/*        <MinusIcon />*/}
-                {/*    </button>*/}
-                {/*</div>*/}
+                { /*<div className="zoom-controls">*/ }
+                { /*    <button onClick={onZoomControls} className="zoom-in zoom-btn">*/ }
+                { /*        <PlusIcon />*/ }
+                { /*    </button>*/ }
+                { /*    <button onClick={onZoomControls} className="zoom-out zoom-btn">*/ }
+                { /*        <MinusIcon />*/ }
+                { /*    </button>*/ }
+                { /*</div>*/ }
             </div>
         </>
     );
