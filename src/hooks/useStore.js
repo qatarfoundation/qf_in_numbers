@@ -12,6 +12,7 @@ const useStore = create((set) => {
         isModalYearOpen: false,
         isModalSearchOpen: false,
         isCategorySelected: false,
+        entityShowScrollIndicator: false,
     };
 });
 

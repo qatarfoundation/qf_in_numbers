@@ -54,27 +54,29 @@
 
     height: 45px;
 
-    button {
-        &:first-child {
+    .button-sound {
+        margin-left: rem(15px, 'small');
+
+        @include respond-to('medium') {
+            margin-left: rem(30px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-left: rem(30px, 'large');
+        }
+
+        .ar & {
+            margin-left: 0;
             margin-right: rem(15px, 'small');
+
             @include respond-to('medium') {
-                margin-right: rem(40px, 'medium');
-            }
-            @include respond-to('large') {
-                margin-right: rem(40px, 'large');
+                margin-left: 0;
+                margin-right: rem(30px, 'medium');
             }
 
-            .ar & {
-                margin-right: 0;
-                margin-left: rem(15px, 'small');
-                @include respond-to('medium') {
-                    margin-right: 0;
-                    margin-left: rem(40px, 'medium');
-                }
-                @include respond-to('large') {
-                    margin-right: 0;
-                    margin-left: rem(40px, 'large');
-                }
+            @include respond-to('large') {
+                margin-left: 0;
+                margin-right: rem(30px, 'large');
             }
         }
     }
