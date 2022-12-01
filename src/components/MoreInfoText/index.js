@@ -7,7 +7,7 @@ import { gsap } from 'gsap';
 // CSS
 import './style.scoped.scss';
 
-function MoreInfoIcon(props) {
+function MoreInfoText(props) {
     const refTooltip = useRef();
 
     function mouseEnterHandler() {
@@ -21,7 +21,7 @@ function MoreInfoIcon(props) {
     return (
         <div className="more-info-icon">
             <button className="button icon" onMouseEnter={ mouseEnterHandler } onMouseLeave={ mouseLeaveHandler }>
-                <span></span>
+                +info
             </button>
             <div className="tooltip" ref={ refTooltip }>
                 { props.value }
@@ -30,4 +30,4 @@ function MoreInfoIcon(props) {
     );
 }
 
-export default MoreInfoIcon;
+export default MoreInfoText;
