@@ -39,17 +39,17 @@
 
         margin: auto;
 
-        width: rem(6px);
-        height: rem(6px);
+        width: rem(5px);
+        height: rem(5px);
 
         @include respond-to('medium') {
-            width: rem(6px, 'medium');
-            height: rem(6px, 'medium');
+            width: rem(5px, 'medium');
+            height: rem(5px, 'medium');
         }
 
         @include respond-to('large') {
-            width: rem(6px, 'large');
-            height: rem(6px, 'large');
+            width: rem(5px, 'large');
+            height: rem(5px, 'large');
         }
 
         &:before {
@@ -94,8 +94,8 @@
     visibility: hidden;
 
     position: absolute;
-    top: rem(24px);
-    left: rem(30px);
+    top: rem(18px);
+    left: rem(18px);
 
     width: rem(200px);
 
@@ -108,8 +108,8 @@
     border-radius: rem(4px);
 
     @include respond-to('medium') {
-        top: rem(24px, 'medium');
-        left: rem(30px, 'medium');
+        top: rem(18px, 'medium');
+        left: rem(18px, 'medium');
 
         width: rem(200px, 'medium');
 
@@ -121,8 +121,8 @@
     }
 
     @include respond-to('large') {
-        top: rem(24px, 'large');
-        left: rem(30px, 'large');
+        top: rem(18px, 'large');
+        left: rem(18px, 'large');
 
         width: rem(200px, 'large');
 
@@ -134,29 +134,14 @@
     }
 
     .ar & {
-        top: rem(24px);
-        left: auto;
-        right: rem(30px);
+        left: rem(-18px);
 
         @include respond-to('medium') {
-            top: rem(24px, 'medium');
-            right: rem(30px, 'medium');
+            left: rem(-18px, 'medium');
         }
 
         @include respond-to('large') {
-            top: rem(24px, 'large');
-            right: rem(30px, 'large');
+            left: rem(-18px, 'large');
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-

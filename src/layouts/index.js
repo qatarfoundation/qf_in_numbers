@@ -212,6 +212,9 @@ function Layout(props) {
                 }
 
             </EnvironmentProvider>
+
+            { /* Used in Entity > ChartKPI */ }
+            <div id="more-info-bubble"></div>
         </div>
     );
 }

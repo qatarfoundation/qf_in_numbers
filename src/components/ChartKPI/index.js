@@ -47,7 +47,6 @@ function ChartKPI(props, ref) {
     /**
      * References
      */
-    const tooltipRef = useRef();
     const highlightLabelRef = useRef();
     const containerRef = useRef();
     const listNameRef = useRef([]);
@@ -67,19 +66,6 @@ function ChartKPI(props, ref) {
         else if (diff > 0) result += '+';
         return `${ result }${ diff }% from ${ currentYear - 1 }`;
     }
-    // function truncate(str, n) {
-    //     return (str.length > n) ? str.slice(0, n - 1) + '...' : str;
-    // }
-    // function mouseover(e) {
-    //     if (!e.target.classList.contains('can-hover')) return;
-    //     tooltipRef.current.innerHTML = `<p class="p6">${ e.target.dataset.text }</p>`;
-    //     const offsetLeft = e.target.offsetLeft + parseInt(window.getComputedStyle(containerRef.current, null).getPropertyValue('padding-left'));
-    //     const left = offsetLeft + e.target.offsetWidth / 2;
-    //     tooltipRef.current.style.left = `${ left }px`;
-    //     tooltipRef.current.style.top = `${ e.target.offsetTop - 15 }px`;
-    //     tooltipRef.current.style.opacity = 1;
-    // }
-    // function mouseleave(e) { e.target.classList.contains('can-hover') && tooltipRef.current && (tooltipRef.current.style.opacity = 0); }
 
     function resize() {
         resizeHighlightLabel();
@@ -107,7 +93,6 @@ function ChartKPI(props, ref) {
 
     return (
         <div className="chart-kpi section-container" ref={ containerRef }>
-            <div className="tooltip" ref={ tooltipRef }>asdsad</div>
             <div className="content">
                 <div className="highlight">
                     <div className={ `label ${ data[0].icon ? 'with-icon' : '' }` } ref={ highlightLabelRef }>
@@ -148,12 +133,12 @@ function ChartKPI(props, ref) {
                                         <li className="row--value">
                                             <span className="h4 value" data-number={ row[0] && row[0].value }><Odometer>{ row[0] && row[0].value }</Odometer></span>
                                             { row[0] && row[0].lastYearValue && <span className={ `p6 change ${ ((row[0].value - row[0].lastYearValue) % row[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
-                                            { row[0] && row[0].moreInfo && <MoreInfoText value={ row[0].moreInfo } /> }
+                                            { row[0] && row[0].moreInfo && <MoreInfoText value={ row[0].moreInfo } side="right" /> }
                                         </li>
                                         <li className="row--value">
                                             { row[1] && row[1].value && (<span className="h4 value" data-number={ row[1] && row[1].value }><Odometer>{ row[1] && row[1].value }</Odometer></span>) }
                                             { row[1] && row[1].lastYearValue && <span className={ `p6 change ${ ((row[1].value - row[1].lastYearValue) % row[1].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
-                                            { row[1] && row[1].moreInfo && <MoreInfoText value={ row[1].moreInfo } /> }
+                                            { row[1] && row[1].moreInfo && <MoreInfoText value={ row[1].moreInfo } side="left" /> }
                                         </li>
                                     </ul>
                                 </li>
