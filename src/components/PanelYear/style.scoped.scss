@@ -9,6 +9,7 @@
 
     width: 100vw;
     height: auto;
+    overflow: hidden;
 
     background-color: $color-white;
 
@@ -47,6 +48,9 @@
 
 .content {
     opacity: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .header {
@@ -105,4 +109,14 @@
     color: var(--color-theme-primary);
 
     margin-bottom: 4px;
+}
+
+.years {
+    flex: 1 1 auto;
+
+    height: rem(135px);
+
+    @include respond-to('medium') {
+        height: auto;
+    }
 }

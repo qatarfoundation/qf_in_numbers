@@ -9,9 +9,6 @@ import * as d3 from 'd3';
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
 
-// Utils
-import wrap from '@/utils/wrapTextSVG';
-
 // CSS
 import './style.scoped.scss';
 import useStore from '@/hooks/useStore';

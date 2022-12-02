@@ -1,0 +1,162 @@
+.more-info-icon {
+    position: relative;
+}
+
+.icon {
+    position: relative;
+
+    width: rem(23px);
+    height: rem(23px);
+
+    border-radius: 50%;
+
+    background-color: var(--color-theme-primary);
+
+    transition: background 0.2s ease-out;
+
+    &:hover {
+        background-color: var(--color-theme-secondary);
+    }
+
+    @include respond-to('medium') {
+        width: rem(23px, 'medium');
+        height: rem(23px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(23px, 'large');
+        height: rem(23px, 'large');
+    }
+
+    span {
+        display: block;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        margin: auto;
+
+        width: rem(6px);
+        height: rem(6px);
+
+        @include respond-to('medium') {
+            width: rem(6px, 'medium');
+            height: rem(6px, 'medium');
+        }
+
+        @include respond-to('large') {
+            width: rem(6px, 'large');
+            height: rem(6px, 'large');
+        }
+
+        &:before {
+            content: '';
+
+            display: block;
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+
+            margin: auto 0;
+
+            width: 100%;
+            height: 1px;
+
+            background-color: white;
+
+        }
+
+        &:after {
+            content: '';
+
+            display: block;
+
+            position: absolute;
+            right: 0;
+            left: 0;
+
+            margin: 0 auto;
+
+            width: 1px;
+            height: 100%;
+
+            background-color: white;
+        }
+    }
+}
+
+.tooltip {
+    opacity: 0;
+    visibility: hidden;
+
+    position: absolute;
+    top: rem(24px);
+    left: rem(30px);
+
+    width: rem(200px);
+
+    padding: rem(7px) rem(10px) rem(10px);
+
+    color: $color-white;
+    font-size: rem(16px);
+
+    background: var(--color-theme-primary);
+    border-radius: rem(4px);
+
+    @include respond-to('medium') {
+        top: rem(24px, 'medium');
+        left: rem(30px, 'medium');
+
+        width: rem(200px, 'medium');
+
+        padding: rem(7px, 'medium') rem(10px, 'medium') rem(10px, 'medium');
+
+        font-size: rem(16px, 'medium');
+
+        border-radius: rem(4px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(24px, 'large');
+        left: rem(30px, 'large');
+
+        width: rem(200px, 'large');
+
+        padding: rem(7px, 'large') rem(10px, 'large') rem(10px, 'large');
+
+        font-size: rem(16px, 'large');
+
+        border-radius: rem(4px, 'large');
+    }
+
+    .ar & {
+        top: rem(24px);
+        left: auto;
+        right: rem(30px);
+
+        @include respond-to('medium') {
+            top: rem(24px, 'medium');
+            right: rem(30px, 'medium');
+        }
+
+        @include respond-to('large') {
+            top: rem(24px, 'large');
+            right: rem(30px, 'large');
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

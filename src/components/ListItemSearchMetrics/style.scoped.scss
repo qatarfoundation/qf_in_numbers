@@ -22,6 +22,17 @@
     text-align: left;
     transition: color 0.15s $sine-out;
 
+    .entity {
+        display: block;
+
+        color: var(--color-theme-primary);
+        font-size: rem(13px, 'large');
+    }
+
+    .metric {
+        display: block;
+    }
+
     &:hover {
         color: var(--color-theme-secondary);
     }

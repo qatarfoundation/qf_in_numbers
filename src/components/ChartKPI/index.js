@@ -6,15 +6,19 @@ import textFit from 'textfit';
 
 // Hooks
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 // Utils
 import Breakpoints from '@/utils/Breakpoints';
 import WindowResizeObserver from '@/utils/WindowResizeObserver';
 
+// Components
+import MoreInfoIcon from '@/components/MoreInfoIcon';
+import MoreInfoText from '@/components/MoreInfoText';
+import Odometer from '@/components/Odometer';
+
 // CSS
 import './style.scoped.scss';
-import useStore from '@/hooks/useStore';
-import Odometer from '../Odometer';
 
 function ChartKPI(props, ref) {
     /**
@@ -112,6 +116,7 @@ function ChartKPI(props, ref) {
                     </div>
                     <Odometer className="h2 value" ref={ highlightValueRef }>{ data[0].value }</Odometer>
                     { data[0].lastYearValue && <span className={ `p6 change ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
+                    { data[0].moreInfo && <MoreInfoIcon value={ data[0].moreInfo } /> }
                 </div>
 
                 <ul className="list values">
@@ -140,13 +145,15 @@ function ChartKPI(props, ref) {
                                                 )
                                             }
                                         </li>
-                                        <li>
+                                        <li className="row--value">
                                             <span className="h4 value" data-number={ row[0] && row[0].value }><Odometer>{ row[0] && row[0].value }</Odometer></span>
                                             { row[0] && row[0].lastYearValue && <span className={ `p6 change ${ ((row[0].value - row[0].lastYearValue) % row[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
+                                            { row[0] && row[0].moreInfo && <MoreInfoText value={ row[0].moreInfo } /> }
                                         </li>
-                                        <li>
-                                            <span className="h4 value" data-number={ row[1] && row[1].value }><Odometer>{ row[1] && row[1].value }</Odometer></span>
+                                        <li className="row--value">
+                                            { row[1] && row[1].value && (<span className="h4 value" data-number={ row[1] && row[1].value }><Odometer>{ row[1] && row[1].value }</Odometer></span>) }
                                             { row[1] && row[1].lastYearValue && <span className={ `p6 change ${ ((row[1].value - row[1].lastYearValue) % row[1].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
+                                            { row[1] && row[1].moreInfo && <MoreInfoText value={ row[1].moreInfo } /> }
                                         </li>
                                     </ul>
                                 </li>

@@ -106,15 +106,6 @@ function PanelYear(props, ref) {
         gsap.set(elRef.current, { clearProps: true });
     }
 
-    /**
-     * Events
-     */
-    useWindowResizeObserver(resizeHandler);
-
-    function resizeHandler(e) {
-
-    }
-
     return (
         <div ref={ elRef } className="panel panel-year" data-name="year">
 
@@ -128,11 +119,15 @@ function PanelYear(props, ref) {
 
                 </div>
 
-                <Scrollbar revert={ false }>
+                <div className="years">
 
-                    <ListYears years={ activeYears } currentYear={ currentYear } />
+                    <Scrollbar revert={ false } name="panel-year">
 
-                </Scrollbar>
+                        <ListYears years={ activeYears } currentYear={ currentYear } />
+
+                    </Scrollbar>
+
+                </div>
 
             </div>
 

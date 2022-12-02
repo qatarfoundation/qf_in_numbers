@@ -20,6 +20,8 @@ import './style.scoped.scss';
 import useStore from '@/hooks/useStore';
 // import { useOdometer } from '../Odometer';
 
+const LABEL_MIN_PERCENTAGE = 5;
+
 function ChartDonut(props, ref) {
     /**
      * Datas
@@ -50,6 +52,7 @@ function ChartDonut(props, ref) {
      * Stores
      */
     const themeColors = useStore((state) => state.themeColors);
+
     /**
     * References
     */
@@ -88,12 +91,12 @@ function ChartDonut(props, ref) {
                 .attr('dy', '0.15em');
             legendContainer
                 .append('text')
-                .text(chart.name)
+                .text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ')
                 .attr('class', 'p7 label')
                 .attr('y', labelPosition.top)
                 .attr('dy', '0.15em');
             legendContainer.selectAll('.p7')
-                .call(wrap, labelPosition.width, false, 30);
+                .call(wrap, labelPosition.width, false, false);
             const outerArc = d3.arc()
                 .innerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95))
                 .outerRadius(((sizeCircle / 2) + (48 / 2)) * (window.innerWidth >= 500 ? 1.05 : 0.95));
@@ -101,6 +104,7 @@ function ChartDonut(props, ref) {
                 .append('div')
                 .style('opacity', 0)
                 .attr('class', 'tooltip');
+
             const mouseenter = function(e, d) {
                 donutContainer
                     .selectAll('.arc, .label-container')
@@ -151,9 +155,8 @@ function ChartDonut(props, ref) {
                 .enter()
                 .append('path')
                 .attr('class', function(d) {
-                    const hasTooltip = d.endAngle - d.startAngle <= Math.PI / 6;
-                    // return `arc ${ hasTooltip ? 'has-tooltip' : '' }`;
-                    return 'arc has-tooltip';
+                    const { percent } = d.data;
+                    return `arc ${ percent < LABEL_MIN_PERCENTAGE ? 'has-tooltip' : '' }`;
                 })
                 .attr('d', d3.arc()
                     .innerRadius(sizeCircle / 2 - widthStroke)
@@ -248,7 +251,7 @@ function ChartDonut(props, ref) {
                     {
                         data.map((item, index) => {
                             return (
-                                <li key={ index } ref={ (el) => labelsRef.current[index] = el } className={ item.percent < 5 ? 'hide' : '' }>
+                                <li key={ index } ref={ (el) => labelsRef.current[index] = el } className={ item.percent < LABEL_MIN_PERCENTAGE ? 'hide' : '' }>
                                     <div className="content">
                                         <span className="p3 value">{ item.value }</span>
                                         <span className="p6 label" title={ item.name }>{ item.name }</span>

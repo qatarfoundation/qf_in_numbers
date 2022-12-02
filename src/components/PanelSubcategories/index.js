@@ -124,45 +124,49 @@ function PanelSubcategories(props, ref) {
 
                 </div>
 
-                <Scrollbar revert={ true }>
+                <div className="content">
 
-                    <ul className="list-subcategories">
-                        {
-                            props.category.subcategories.map((subcategory, indexSubcategory) => {
-                                return (
-                                    <li key={ `subcategory-${ indexSubcategory }` } className={ 'item-subcategories' }>
+                    <Scrollbar revert={ true } name="panel-subcategories">
 
-                                        <Link to={ subcategory.slug } className={ `button title-subcategory h3 ${ props.subcategory && props.subcategory.slug === subcategory.slug ? 'is-active' : '' }` }>
-                                            { subcategory.name }
-                                        </Link>
+                        <ul className="list-subcategories">
+                            {
+                                props.category.subcategories.map((subcategory, indexSubcategory) => {
+                                    return (
+                                        <li key={ `subcategory-${ indexSubcategory }` } className={ 'item-subcategories' }>
 
-                                        <ul className="list-entities">
+                                            <Link to={ subcategory.slug } className={ `button title-subcategory h3 ${ props.subcategory && props.subcategory.slug === subcategory.slug ? 'is-active' : '' }` }>
+                                                { subcategory.name }
+                                            </Link>
 
-                                            {
-                                                subcategory.entities.map((entity, indexEntity) => {
-                                                    return (
+                                            <ul className="list-entities">
 
-                                                        <li key={ `entity-${ indexEntity }` } className="item-entities">
+                                                {
+                                                    subcategory.entities.map((entity, indexEntity) => {
+                                                        return (
 
-                                                            <Link to={ entity.slug } className="button button-entity p1">
-                                                                { entity.name }
-                                                            </Link>
+                                                            <li key={ `entity-${ indexEntity }` } className="item-entities">
 
-                                                        </li>
+                                                                <Link to={ entity.slug } className="button button-entity p1">
+                                                                    { entity.name }
+                                                                </Link>
 
-                                                    );
-                                                })
-                                            }
+                                                            </li>
 
-                                        </ul>
+                                                        );
+                                                    })
+                                                }
 
-                                    </li>
-                                );
-                            })
-                        }
-                    </ul>
+                                            </ul>
 
-                </Scrollbar>
+                                        </li>
+                                    );
+                                })
+                            }
+                        </ul>
+
+                    </Scrollbar>
+
+                </div>
 
             </div>
 

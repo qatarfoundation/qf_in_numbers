@@ -1,8 +1,11 @@
 // React
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // CSS
 import './style.scoped.scss';
+
+// Helpers
+import getChartAnchor from '@/utils/helpers/getChartAnchor';
 
 // Components
 import Scrollbar from '@/components/ScrollBar';
@@ -16,7 +19,7 @@ import ChartMap from '@/components/ChartMap';
 import ChartKPI from '@/components/ChartKPI';
 import FadeInWrapper from '@/components/FadeInWrapper';
 
-function Charts(props, ref) {
+function Charts(props) {
     /**
      * Datas
      */
@@ -30,15 +33,19 @@ function Charts(props, ref) {
         result[c[0].type] = c;
         return result;
     });
+
+    const chartRef = useRef();
+
     return (
         <>
             {
                 charts.map((chart, i) => {
                     const result = [];
+                    const chartName = Object.keys(chart)[0];
                     chart[Object.keys(chart)[0]].map((c, j) => {
                         const r = {};
                         if (c.title) {
-                            r.title = (<><h2 className="p2 section-container">{ c.title.map(t => {
+                            r.title = (<><h2 className="p2 section-container" id={ getChartAnchor(c) }>{ c.title.map(t => {
                                 let el = undefined;
                                 if (t.bold) {
                                     el = <span key={ t.value } className='bold'>{ t.value }</span>;
@@ -83,9 +90,9 @@ function Charts(props, ref) {
                         result.push(r);
                     });
                     return (
-                        <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chart.type }>
+                        <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chartName }>
                             { result.length > 1 ?
-                                <Scrollbar colored={ false } horizontalScroll="true">
+                                <Scrollbar colored={ false } horizontalScroll="true" calcHeight={ false } name={ chartName }>
                                     <div className='charts-container'>
                                         { result.map((r, i) =>
                                             <div className={ `charts-item ${ r.type }` } key={ i }>
@@ -101,7 +108,7 @@ function Charts(props, ref) {
                                     <div className={ `charts-item ${ r.type }` } key={ i }>
                                         { r.title && r.title }
                                         { r.subtitle && r.subtitle }
-                                        <Scrollbar colored={ false }>
+                                        <Scrollbar colored={ false } calcHeight={ false } name={ chartName }>
                                             <div className='charts-container'>
                                                 { r.chart && r.chart }
                                             </div>
