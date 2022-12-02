@@ -27,9 +27,11 @@
     opacity: 0;
     visibility: hidden;
 
+    pointer-events: none;
+
     position: absolute;
     top: rem(18px);
-    left: rem(38px);
+    left: rem(18px);
 
     width: rem(200px);
 
@@ -43,7 +45,7 @@
 
     @include respond-to('medium') {
         top: rem(18px, 'medium');
-        left: rem(38px, 'medium');
+        left: rem(18px, 'medium');
 
         width: rem(200px, 'medium');
 
@@ -56,9 +58,9 @@
 
     @include respond-to('large') {
         top: rem(18px, 'large');
-        left: rem(38px, 'large');
+        left: rem(18px, 'large');
 
-        width: rem(200px, 'large');
+        width: rem(300px, 'large');
 
         padding: rem(7px, 'large') rem(10px, 'large') rem(10px, 'large');
 
@@ -67,30 +69,15 @@
         border-radius: rem(4px, 'large');
     }
 
-    .ar & {
-        top: rem(18px);
-        right: rem(38px);
-        left: auto;
+    .ar &, &.left {
+        left: rem(-18px);
 
         @include respond-to('medium') {
-            top: rem(18px, 'medium');
-            right: rem(38px, 'medium');
+            left: rem(-18px, 'medium');
         }
 
         @include respond-to('large') {
-            top: rem(18px, 'large');
-            right: rem(38px, 'large');
+            left: rem(-18px, 'large');
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-

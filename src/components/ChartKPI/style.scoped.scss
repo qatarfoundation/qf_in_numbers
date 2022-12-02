@@ -55,9 +55,6 @@
         > li {
             .label {
                 width: 80%;
-            }
-
-            .label {
                 margin-bottom: rem(4px);
 
                 @include respond-to('medium') {
@@ -191,59 +188,6 @@
         .ar & {
             left: inherit;
             right: 0;
-        }
-    }
-}
-
-.tooltip {
-    position: absolute;
-    width: fit-content;
-    max-width: rem(180px, 'small');
-    padding: rem(8px, 'small') rem(12px, 'small') rem(12px, 'small');
-    background-color: var(--color-theme-primary);
-    border-radius: rem(4px, 'small');
-    color: $color-white;
-    opacity: 0;
-    transform: translate(-50%, -100%);
-    pointer-events: none;
-    z-index: 3;
-    @include respond-to('medium') {
-        max-width: rem(180px, 'medium');
-        padding: rem(8px, 'medium') rem(12px, 'medium') rem(12px, 'medium');
-        border-radius: rem(4px, 'medium');
-    }
-    @include respond-to('large') {
-        max-width: rem(180px, 'large');
-        padding: rem(8px, 'large') rem(12px, 'large') rem(12px, 'large');
-        border-radius: rem(4px, 'large');
-    }
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        display: block;
-        width: 0;
-        height: 0;
-        border-left-width: rem(9px, 'small');
-        border-left-style: solid;
-        border-left-color: transparent;
-        border-right-width: rem(9px, 'small');
-        border-right-style: solid;
-        border-right-color: transparent;
-        border-top-width: rem(9px, 'small');
-        border-top-style: solid;
-        border-top-color: var(--color-theme-primary);
-        transform: translate(-50%, calc(100% - 1px));
-        @include respond-to('medium') {
-            border-left-width: rem(9px, 'medium');
-            border-right-width: rem(9px, 'medium');
-            border-top-width: rem(9px, 'medium');
-        }
-        @include respond-to('large') {
-            border-left-width: rem(9px, 'large');
-            border-right-width: rem(9px, 'large');
-            border-top-width: rem(9px, 'large');
         }
     }
 }
