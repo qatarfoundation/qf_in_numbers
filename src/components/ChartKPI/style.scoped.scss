@@ -55,9 +55,6 @@
         > li {
             .label {
                 width: 80%;
-            }
-
-            .label {
                 margin-bottom: rem(4px);
 
                 @include respond-to('medium') {

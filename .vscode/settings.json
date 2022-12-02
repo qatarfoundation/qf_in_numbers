@@ -14,6 +14,9 @@
         "**/src/components/*/*.js": "javascriptreact",
         "**/src/components/*/*/*.js": "javascriptreact",
     },
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
     "stylelint.snippet": [
         "css",
         "less",
@@ -25,5 +28,5 @@
         "less",
         "postcss",
         "scss"
-    ]
+    ],
 }
