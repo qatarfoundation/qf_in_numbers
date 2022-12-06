@@ -5,7 +5,6 @@ import { useI18next } from 'gatsby-plugin-react-i18next';
 // Vendor
 import { gsap } from 'gsap';
 import SplitText from '@/assets/scripts/SplitText';
-gsap.registerPlugin(SplitText);
 import CustomEase from '@/vendor/gsap/CustomEase';
 
 // Utils

@@ -12,12 +12,14 @@ async function getPagesData() {
         api.getEntriesByType('year', { locale: 'ar-QA' }),
         api.getEntryById('6MQqDDNf97Z5Vjof3kZOC7', { locale: 'en-US' }),
         api.getEntryById('6MQqDDNf97Z5Vjof3kZOC7', { locale: 'ar-QA' }),
+        api.getEntryById('1ihmZjPK6jvCofKj7nZP4r', { locale: 'en-US' }),
+        api.getEntryById('1ihmZjPK6jvCofKj7nZP4r', { locale: 'ar-QA' }),
     ];
 
     const result = await Promise.all(promises);
     const languages = parseLanguages({
-        'en-US': { years: result[0], home: result[2] },
-        'ar-QA': { years: result[1], home: result[3] },
+        'en-US': { years: result[0], home: result[2], about: result[4] },
+        'ar-QA': { years: result[1], home: result[3], about: result[5] },
     });
     const pages = createPages(languages);
 
@@ -30,6 +32,11 @@ function createPages(languages) {
     const home = {
         'en-US': languages[0].home,
         'ar-QA': languages[1].home,
+    };
+
+    const about = {
+        'en-US': languages[0].about,
+        'ar-QA': languages[1].about,
     };
 
     const years = {
@@ -178,6 +185,15 @@ function createPages(languages) {
         },
     });
 
+    // About page
+    pages.push({
+        path: '/about',
+        context: {
+            about,
+            type: 'about',
+        },
+    });
+
     return pages;
 }
 
@@ -187,6 +203,7 @@ function parseLanguages(data) {
         languages.push({
             locale: key,
             home: data[key].home.fields,
+            about: parseAbout(data[key].about.fields),
             years: parseYears(data[key].years.items),
         });
     }
@@ -340,6 +357,9 @@ function parseChart(data, type) {
             break;
         case 'beeswarmChart':
             chart = { ...chart, ...parseBeeswarmChart(data) };
+            break;
+        case 'textChart':
+            chart = { ...chart, ...parseTextChart(data) };
             break;
     }
     return chart;
@@ -528,6 +548,15 @@ function parseBeeswarmChart(data) {
     }
 }
 
+function parseTextChart(data) {
+    const chart = {
+        fields: {
+            description: data.description,
+        },
+    };
+    return chart;
+}
+
 function parseRelatedArticles(data) {
     const articles = [];
     data.forEach(item => {
@@ -545,6 +574,18 @@ function parseTags(data) {
         tags.push(tag);
     });
     return tags;
+}
+
+function parseAbout(data) {
+    const about = {
+        title: data.title,
+        intro: data.intro.content[0].content[0].value,
+        charts: parseCharts(data.charts),
+        moreInfoTitle: data.moreInfoTitle,
+        moreInfoLink: data.moreInfoLink,
+        copyright: data.copyright,
+    };
+    return about;
 }
 
 module.exports = getPagesData;

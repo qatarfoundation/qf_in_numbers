@@ -41,6 +41,7 @@ exports.createPages = async({ actions }) => {
 
     // Templates
     const HomeTemplate = path.resolve('src/templates/home/index.js');
+    const AboutTemplate = path.resolve('src/templates/about/index.js');
     const YearTemplate = path.resolve('src/templates/year/index.js');
     const CategoryTemplate = path.resolve('src/templates/category/index.js');
     const SubcategoryTemplate = path.resolve('src/templates/subcategory/index.js');
@@ -48,6 +49,7 @@ exports.createPages = async({ actions }) => {
 
     const templates = {
         home: HomeTemplate,
+        about: AboutTemplate,
         year: YearTemplate,
         category: SubcategoryTemplate,
         subcategory: SubcategoryTemplate,

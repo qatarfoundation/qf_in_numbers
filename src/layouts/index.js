@@ -5,12 +5,16 @@ import { AnimatePresence } from 'framer-motion';
 import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 import { Helmet } from 'react-helmet';
 import { gsap } from 'gsap';
+import SplitText from '@/assets/scripts/SplitText';
 import CustomEase from '@/vendor/gsap/CustomEase';
 
 // CSS
 import '@/assets/styles/app.scss';
 import './index/style.scoped.scss';
 import 'swiper/css';
+
+// Configs
+import themes from '@/configs/themes';
 
 // Utils
 import Globals from '@/utils/Globals';
@@ -30,9 +34,10 @@ import { EnvironmentProvider, getEnvironment, DEVELOPMENT } from '@/contexts/Env
 import usePopulateTreeDataModel from '@/hooks/usePopulateTreeDataModel';
 import usePreloader, { LOADING } from '@/hooks/usePreloader';
 import useStore from '@/hooks/useStore';
-import themes from '@/configs/themes';
 
+// GSAP Plugins
 gsap.registerPlugin(CustomEase);
+gsap.registerPlugin(SplitText);
 
 function Layout(props) {
     /**

@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 // React
 import React, { useEffect, useRef } from 'react';
 import { usePresence } from 'framer-motion';
+import { Link, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -22,6 +23,7 @@ function TheNavigation(props) {
      * States
      */
     const [isPresent, safeToRemove] = usePresence();
+    const { t } = useTranslation();
 
     /**
      * Effects
@@ -56,22 +58,23 @@ function TheNavigation(props) {
         safeToRemove();
     }
 
+    function buttonAboutClickHandler() {
+        useStore.setState({ aboutPreviousRoute: location.pathname });
+    }
+
     return (
         <div className="the-navigation" ref={ el }>
-
             <div className="row">
-
                 <div className="col-left">
                     <ButtonHome />
                     <MainBreadcrumbs pageContext={ props.pageContext } />
                 </div>
-
                 <div className="col-right">
+                    <Link to="/about" className="button button-about p1" onClick={ buttonAboutClickHandler }>{ t('About') }</Link>
                     <LangSwitch />
                     <ButtonSound className="button-sound" />
                 </div>
             </div>
-
         </div>
     );
 }

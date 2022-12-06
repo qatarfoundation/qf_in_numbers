@@ -1,7 +1,6 @@
 // Vendor
 import gsap from 'gsap';
 import SplitText from '@/assets/scripts/SplitText';
-gsap.registerPlugin(SplitText);
 
 // React
 import React, { useEffect, useRef } from 'react';

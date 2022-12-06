@@ -13,6 +13,7 @@ const useStore = create((set) => {
         isModalSearchOpen: false,
         isCategorySelected: false,
         entityShowScrollIndicator: false,
+        previousRoute: null,
     };
 });
 

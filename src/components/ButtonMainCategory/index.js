@@ -4,8 +4,6 @@ import { useTranslation, Link } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import gsap from 'gsap';
-import SplitText from '@/assets/scripts/SplitText';
-gsap.registerPlugin(SplitText);
 
 // Utils
 import Globals from '@/utils/Globals';
