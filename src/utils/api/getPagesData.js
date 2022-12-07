@@ -249,6 +249,7 @@ function parseCategory(name, id, data, baseSlug) {
             id,
             slug,
             subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
+            highlights: parseHighlights(data.fields.highlights),
         };
     } else {
         category = {
@@ -256,6 +257,7 @@ function parseCategory(name, id, data, baseSlug) {
             id,
             slug: 'null',
             subcategories: [],
+            highlights: [],
         };
     }
 
@@ -587,6 +589,16 @@ function parseAbout(data) {
         copyright: data.copyright,
     };
     return about;
+}
+
+function parseHighlights(data) {
+    const highlights = [];
+    if (data) {
+        data.forEach(function(item) {
+            highlights.push(item.fields);
+        });
+    }
+    return highlights;
 }
 
 module.exports = getPagesData;

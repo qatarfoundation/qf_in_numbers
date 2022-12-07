@@ -45,6 +45,11 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         this._activateBranch(slug);
     }
 
+    getCategoryCameraPosition(slug) {
+        const branch = this._getBranch(slug);
+        return branch.getCameraAnchorCategory();
+    }
+
     getSubGategoryCameraPosition(categorySlug, name) {
         const branch = this._getBranch(categorySlug);
         return branch.getCameraAnchorSubcategory(name);
@@ -91,8 +96,8 @@ export default class GeneratedTreeComponent extends component(Object3D) {
             });
             this.add(component);
 
-            component.position.copy(branch.position);
-            component.rotation.copy(branch.rotation);
+            // component.position.copy(branch.position);
+            // component.rotation.copy(branch.rotation);
             component.setup();
 
             branches[branch.slug] = component;

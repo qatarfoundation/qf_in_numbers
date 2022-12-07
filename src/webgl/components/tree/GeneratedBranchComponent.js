@@ -19,6 +19,7 @@ import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.gl
 
 // Constants
 const PARTICLE_SIZE = 0.26;
+const DEBUG = true;
 
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -32,7 +33,6 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         // Props
         this._isActive = false;
         this._entities = {};
-        this._showCameraHelpers = false;
         this._particlesMat = null;
 
         // Setup
@@ -42,9 +42,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
 
     setup() {
         this._points = this._createPoints();
-        // this._debugSkeleton = this._createDebugSkeleton();
+        this._debugSkeleton = this._createDebugSkeleton();
         this._curves = this._createCurves();
         this._particles = this._createParticles();
+        this._cameraAnchorCategory = this._createCameraAnchorCategory();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
         this._cameraAnchorsEntities = [];
     }
@@ -70,6 +71,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     transitionOut() {
         this._isActive = false;
         if (this._particles) return gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
+    }
+
+    getCameraAnchorCategory() {
+        return this._cameraAnchorCategory;
     }
 
     getCameraAnchorSubcategory(name) {
@@ -326,6 +331,51 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         return mesh;
     }
 
+    _createCameraAnchorCategory() {
+        const y = 5;
+
+        const targetPosition = new Vector3(0, y, 0);
+        const targetGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+        const targetMaterial = new MeshBasicMaterial({ color: 0xff0000 });
+        const targetMesh = new Mesh(targetGeometry, targetMaterial);
+        targetMesh.position.copy(targetPosition);
+        targetMesh.visible = DEBUG;
+        this.add(targetMesh);
+
+        const position = new Vector3(0, 5, 2);
+        const positionGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+        const positionMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
+        const positionMesh = new Mesh(positionGeometry, positionMaterial);
+        positionMesh.position.copy(position);
+        positionMesh.visible = DEBUG;
+        this.add(positionMesh);
+
+        const cameraPosition = new Vector3();
+        positionMesh.updateMatrixWorld();
+        positionMesh.getWorldPosition(cameraPosition);
+
+        const cameraTarget = new Vector3();
+        targetMesh.updateMatrixWorld();
+        targetMesh.getWorldPosition(cameraTarget);
+
+        const camera = new PerspectiveCamera(50, 1, 0.1, 1);
+        this.add(camera);
+        camera.position.copy(position);
+        camera.lookAt(cameraTarget);
+        camera.updateMatrixWorld();
+
+        if (DEBUG) {
+            const cameraHelper = new CameraHelper(camera);
+            this._scene.add(cameraHelper);
+        }
+
+        return {
+            origin: cameraPosition,
+            target: cameraTarget,
+            camera,
+        };
+    }
+
     _createCameraAnchorsSubcategories() {
         const pointsSubcategories = this._points.subcategories.entries;
         const anchors = {};
@@ -343,7 +393,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const targetMaterial = new MeshBasicMaterial({ color: 0xff0000 });
             const targetMesh = new Mesh(targetGeometry, targetMaterial);
             targetMesh.position.copy(targetPosition);
-            targetMesh.visible = this._showCameraHelpers;
+            targetMesh.visible = DEBUG;
             this.add(targetMesh);
 
             // Position
@@ -360,7 +410,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const positionMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
             const positionMesh = new Mesh(positionGeometry, positionMaterial);
             positionMesh.position.copy(position);
-            positionMesh.visible = this._showCameraHelpers;
+            positionMesh.visible = DEBUG;
             this.add(positionMesh);
 
             const cameraPosition = new Vector3();
@@ -377,7 +427,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             camera.lookAt(cameraTarget);
             camera.updateMatrixWorld();
 
-            if (this._showCameraHelpers) {
+            if (DEBUG) {
                 const cameraHelper = new CameraHelper(camera);
                 this._scene.add(cameraHelper);
             }

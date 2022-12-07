@@ -49,11 +49,7 @@ export default class HomeView extends component() {
     destroy() {
         super.destroy();
         this._destroyComponents();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineShowTree?.kill();
+        this._killTimelines();
     }
 
     /**
@@ -91,7 +87,6 @@ export default class HomeView extends component() {
         this._hasTransitionedIn = true;
 
         this._timelineTransitionIn = new gsap.timeline();
-
         this._timelineTransitionIn.add(this._components.tree.transitionIn(props), 0);
         if (props.isHome) this._timelineTransitionIn.call(() => { this.$root.enableIdleRotation(); }, null, 1);
 
@@ -103,12 +98,7 @@ export default class HomeView extends component() {
     }
 
     gotoOverview() {
-        this._timelineShowTree?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineSelectEntity?.kill();
+        this._killTimelines();
 
         this._timelineGotoOverview = new gsap.timeline();
 
@@ -125,14 +115,13 @@ export default class HomeView extends component() {
     }
 
     gotoCategory(slug) {
-        this._timelineShowTree?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineSelectEntity?.kill();
+        this._killTimelines();
+
+        const position = this._components.generatedTree.getCategoryCameraPosition('education');
+        console.log(position);
 
         this._timelineGotoCategory = new gsap.timeline();
+        this._timelineGotoCategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
         this._timelineGotoCategory.call(() => { this._setBackgroundColor(slug); }, null, 0);
         this._timelineGotoCategory.call(() => { this._cameraManager.main.gotoCategory(slug); }, null, 0);
         this._timelineGotoCategory.call(() => { this._components.generatedTree.gotoCategory(slug); }, null, 0);
@@ -145,12 +134,7 @@ export default class HomeView extends component() {
     gotoSubcategory(categorySlug, name) {
         const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
 
-        this._timelineShowTree?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineSelectEntity?.kill();
+        this._killTimelines();
 
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
@@ -165,15 +149,9 @@ export default class HomeView extends component() {
         this._activeEntity?.hide();
         this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
-        this._timelineShowTree?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineSelectEntity?.kill();
+        this._killTimelines();
 
         this._timelineGotoEntity = new gsap.timeline({ onComplete: () => {this._movingToEntity = false;} });
-
         this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
         this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
         this._timelineGotoEntity.add(this._components.tree.hide(), 1.5);
@@ -185,12 +163,7 @@ export default class HomeView extends component() {
     }
 
     selectEntity(entity, category) {
-        this._timelineShowTree?.kill();
-        this._timelineGotoOverview?.kill();
-        this._timelineGotoCategory?.kill();
-        this._timelineGotoSubcategory?.kill();
-        this._timelineGotoEntity?.kill();
-        this._timelineSelectEntity?.kill();
+        this._killTimelines();
 
         this._timelineSelectEntity = new gsap.timeline();
 
@@ -302,6 +275,15 @@ export default class HomeView extends component() {
 
         gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
         gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
+    }
+
+    _killTimelines() {
+        this._timelineShowTree?.kill();
+        this._timelineGotoOverview?.kill();
+        this._timelineGotoCategory?.kill();
+        this._timelineGotoSubcategory?.kill();
+        this._timelineGotoEntity?.kill();
+        this._timelineSelectEntity?.kill();
     }
 
     /**

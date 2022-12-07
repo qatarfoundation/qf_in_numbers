@@ -1,0 +1,96 @@
+.item {
+    &.is-active {
+        .button-category {
+            border: 1px solid $color-white;
+            color: $color-white;
+        }
+
+        .list-entities {
+            display: block;
+        }
+    }
+}
+
+.button-category {
+    pointer-events: auto;
+
+    padding: rem(2px) rem(15px) rem(7px);
+
+    border: 1px solid var(--color-theme-secondary);
+    border-radius: rem(20px);
+
+    color: var(--color-theme-secondary);
+
+    transition: border 0.3s ease-out, color 0.3s ease-out;
+
+    @include respond-to('medium') {
+        border-radius: rem(20px, 'medium');
+        padding: rem(2px, 'medium') rem(15px, 'medium') rem(7px, 'medium');
+    }
+
+    @include respond-to('large') {
+        border-radius: rem(20px, 'large');
+        padding: rem(2px, 'large') rem(15px, 'large') rem(7px, 'large');
+    }
+
+    &:hover {
+        border: 1px solid $color-white;
+        color: $color-white;
+    }
+}
+
+
+.list-entities {
+    display: none;
+
+    margin-top: rem(8px);
+    margin-bottom: rem(14px);
+
+    @include respond-to('medium') {
+        margin-top: rem(8px, 'medium');
+        margin-bottom: rem(14px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin-top: rem(8px, 'large');
+        margin-bottom: rem(14px, 'large');
+    }
+
+    &.is-open {
+        display: block;
+    }
+
+    > li {
+        margin-left: rem(7px);
+
+        @include respond-to('medium') {
+            margin-left: rem(7px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-left: rem(7px, 'large');
+        }
+    }
+}
+
+.button-entity {
+    pointer-events: auto;
+
+    padding: rem(0px) rem(9px) rem(1px);
+
+    color: var(--color-theme-secondary);
+
+    transition: color 0.3s ease-out;
+
+    @include respond-to('medium') {
+        padding: rem(0px, 'medium') rem(9px, 'medium') rem(1px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding: rem(0px, 'large') rem(9px, 'large') rem(1px, 'large');
+    }
+
+    &:hover {
+        color: $color-white;
+    }
+}
