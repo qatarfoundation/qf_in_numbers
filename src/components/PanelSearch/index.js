@@ -125,7 +125,8 @@ function PanelSearch(props, ref) {
 
         const filteredEntities = entities.filter((item) => {
             if (inputSearch === '') return true;
-            return item.name.toLowerCase().includes(inputSearch.toLowerCase());
+            const acronym = (item.acronym || '').toString().toLowerCase();
+            return item.name.toLowerCase().includes(inputSearch.toLowerCase()) || acronym.includes(inputSearch.toLowerCase());
         });
 
         setAllEntities(entities);

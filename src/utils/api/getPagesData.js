@@ -288,6 +288,7 @@ function parseEntities(data, baseSlug) {
             charts: item.fields.charts,
             relatedArticles: item.fields.relatedArticles,
             tags: item.fields.tags,
+            acronym: item.fields.acronym,
         };
 
         if (item.fields.description) {
