@@ -1,6 +1,6 @@
 // React
 import React, { useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -38,6 +38,11 @@ function PanelAbout(props, ref) {
     const chartsListRef = useRef();
     const contentRef = useRef();
     const titleLinesRef = useRef();
+
+    /**
+     * Hooks
+     */
+    const { t } = useTranslation();
 
     /**
      * Store
@@ -147,7 +152,7 @@ function PanelAbout(props, ref) {
                         { props.content.moreInfoTitle && props.content.moreInfoLink &&
                             <ButtonAboutMoreInfo name={ props.content.moreInfoTitle } link={ props.content.moreInfoLink }></ButtonAboutMoreInfo>
                         }
-                        <span className="copyright">{ props.content.copyright }</span>
+                        <span className="copyright">{ t('Copyright') }</span>
                     </div>
 
                 </div>
