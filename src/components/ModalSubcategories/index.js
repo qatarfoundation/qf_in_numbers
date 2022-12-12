@@ -9,7 +9,7 @@ import { gsap } from 'gsap';
 import './style.scoped.scss';
 
 // Components
-import PanelSubcategories from '@/components/PanelSubcategories';
+// import PanelSubcategories from '@/components/PanelSubcategories';
 import ListIcon from '@/assets/icons/list.svg';
 
 // Hooks
@@ -181,7 +181,7 @@ function ModalSubcategories(props) {
                     <div ref={ overlayRef } onClick={ overlayClickHandler } className="overlay"></div>
 
                     <div className="panel-container">
-                        <PanelSubcategories ref={ panelRef } isOpen={ isModalSubcategoriesOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } />
+                        { /* <PanelSubcategories ref={ panelRef } isOpen={ isModalSubcategoriesOpen } year={ year } category={ category } subcategory={ subcategory } onClickClose={ buttonCloseClickHandler } /> */ }
                     </div>
 
                 </div>

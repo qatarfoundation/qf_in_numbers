@@ -12,22 +12,18 @@
 
     background-color: $color-white;
 
-    /* transform: translateY(100%); */
-
-    /* visibility: hidden; */
+    transform: translateY(100%);
+    visibility: hidden;
 
     .ar & {
         right: 0;
         left: inherit;
-
-        transform: translateX(100%);
     }
 
     @include respond-to('medium') {
         top: 0;
         left: 0;
 
-        /* width: rem(600px, 'medium'); */
         height: 100vh;
 
         .ar & {
@@ -35,35 +31,262 @@
             left: inherit;
         }
     }
-
-    @include respond-to('large') {
-        /* width: rem(600px, 'large'); */
-    }
 }
 
 .container {
-    /* opacity: 0; */
+    opacity: 0;
 
     display: flex;
     flex-direction: row;
 
+    width: 200vw;
     height: 100%;
+
+    @include respond-to('medium') {
+        width: 100vw;
+    }
 }
 
-.sidebar {
-    flex: 0 1 20vw;
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
 
+    width: 100%;
+    height: rem(80px);
+
+    background-color: $color-white;
+
+    @include respond-to('medium') {
+        height: rem(80px, 'medium');
+
+        background-color: transparent;
+    }
+
+    @include respond-to('large') {
+        height: rem(80px, 'large');
+    }
+}
+
+
+.button-back {
+    position: absolute;
+    top: rem(23px);
+    left: rem(20px);
+
+    width: rem(32px, 'small');
+    min-width: rem(32px, 'small');
+
+    height: rem(32px, 'small');
+    min-height: rem(32px, 'small');
+
+    margin-right: rem(17px, 'small');
+
+    border: 1px solid $color-grey;
+    border-radius: 50%;
+
+    .ar & {
+        right: rem(20px);
+        left: auto;
+
+        margin-right: 0;
+        margin-left: rem(23px, 'small');
+
+        @include respond-to('medium') {
+            margin-left: rem(23px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-left: rem(23px, 'large');
+        }
+    }
+
+    @include respond-to('medium') {
+        width: rem(32px, 'medium');
+        min-width: rem(32px, 'medium');
+
+        height: rem(32px, 'medium');
+        min-height: rem(32px, 'medium');
+
+        margin-right: rem(17px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(32px, 'large');
+        min-width: rem(32px, 'large');
+
+        height: rem(32px, 'large');
+        min-height: rem(32px, 'large');
+
+        margin-right: rem(17px, 'large');
+    }
+}
+
+.button-back__arrow {
+    position: relative;
+    top: rem(2px);
+    left: rem(1px);
+
+    width: rem(16px, 'small');
+    height: rem(16px, 'small');
+
+    fill: $color-grey;
+
+    transform: scaleX(-1);
+
+    .ar & {
+        transform: scaleX(1);
+    }
+
+    @include respond-to('medium') {
+        width: rem(16px, 'medium');
+        height: rem(16px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(16px, 'large');
+        height: rem(16px, 'large');
+    }
+}
+
+.category-header {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.category-header__title {
+    position: absolute;
+    top: rem(27px);
+    left: rem(70px);
+
+    color: $color-grey;
+    font-size: rem(18px);
+    font-weight: 400;
+
+    .ar & {
+        right: rem(70px);
+        left: auto;
+    }
+}
+
+.logo {
+    position: absolute;
+    top: rem(20px);
+    left: rem(20px);
+
+    width: rem(60px);
+
+    .ar & {
+        left: auto;
+        right: rem(44px, 'large');
+    }
+
+    path {
+        fill: color-from-theme('green', 'primary');
+    }
+
+    @include respond-to('medium') {
+        top: rem(25px, 'medium');
+        left: rem(44px, 'medium');
+
+        width: rem(60px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(25px, 'large');
+        left: rem(44px, 'large');
+
+        width: rem(60px, 'large');
+    }
+}
+
+.summary {
+    opacity: 0;
+
+    position: absolute;
+    top: rem(37px);
+    left: rem(160px);
+
+    color: $color-grey;
+    font-size: rem(13px);
+
+    .ar & {
+        right: rem(160px, 'large');
+        left: auto;
+    }
+
+    @include respond-to('medium') {
+        opacity: 1;
+
+        top: rem(37px, 'medium');
+        left: rem(160px, 'medium');
+
+        font-size: rem(13px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(37px, 'large');
+        left: rem(160px, 'large');
+
+        font-size: rem(13px, 'large');
+    }
+}
+
+.button-close {
+    position: absolute;
+    top: rem(23px);
+    right: rem(20px);
+
+    .ar & {
+        left: rem(35px, 'large');
+        right: auto;
+    }
+
+    @include respond-to('medium') {
+        top: rem(32px, 'medium');
+        right: rem(35px, 'medium');
+    }
+
+    @include respond-to('large') {
+        top: rem(32px, 'large');
+        right: rem(35px, 'large');
+    }
+}
+
+
+
+.sidebar {
+    width: 100vw;
     height: 100%;
 
-    padding: rem(80px, 'large') rem(40px, 'large') rem(0, 'large');
+    flex: 1 1 auto;
 
-    border-right: 1px solid rgba($color-grey, 0.15);
+    padding: rem(80px) rem(20px) rem(0);
+
+    .ar & {
+        border-left: 1px solid rgba($color-grey, 0.15);
+        border-right: 0;
+    }
+
+    @include respond-to('medium') {
+        flex: 0 1 20vw;
+
+        width: auto;
+
+        border-right: 1px solid rgba($color-grey, 0.15);
+
+        padding: rem(100px, 'medium') rem(40px, 'medium') rem(0, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding: rem(100px, 'large') rem(40px, 'large') rem(0, 'large');
+    }
 }
 
 .button-category {
     opacity: 0.5;
 
-    font-size: rem(40px, 'large');
+    font-size: rem(40px);
     font-weight: 300;
     color: $color-grey;
 
@@ -73,11 +296,19 @@
         /* color: var(--color-theme-secondary); */
         opacity: 1;
     }
+
+    @include respond-to('medium') {
+        font-size: rem(40px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(40px, 'large');
+    }
 }
 
 .select-category {
     position: absolute;
-    top: rem(108px, 'large');
+    top: rem(128px, 'large');
     left: rem(407px, 'large');
 
     color: $color-grey;
@@ -103,48 +334,71 @@
     opacity: 0.5;
 
     position: absolute;
-    left: rem(43px, 'large');
-    bottom: rem(40px, 'large');
+    left: rem(43px);
+    bottom: rem(40px);
 
-    font-size: rem(13px, 'large');
+    font-size: rem(13px);
     color: $color-grey;
+
+    .ar & {
+        left: auto;
+        right: rem(43px);
+    }
+
+    @include respond-to('medium') {
+        left: rem(43px, 'medium');
+        bottom: rem(40px, 'medium');
+
+        font-size: rem(13px, 'medium');
+
+        .ar & {
+            right: rem(43px, 'medium');
+        }
+    }
+
+    @include respond-to('large') {
+        left: rem(43px, 'large');
+        bottom: rem(40px, 'large');
+
+        font-size: rem(13px, 'large');
+
+        .ar & {
+            right: rem(43px, 'large');
+        }
+    }
 }
 
 .content {
     flex: 1 1 auto;
 
-    padding-top: rem(40px);
-    padding-right: rem(28px);
-    padding-bottom: rem(120px);
-    padding-left: rem(53px);
-
-    .ar & {
-        padding-right: rem(53px);
-        padding-bottom: rem(28px);
-    }
+    width: 100vw;
 
     @include respond-to('medium') {
-        padding-top: rem(40px, 'medium');
-        padding-right: rem(60px, 'medium');
-        padding-bottom: rem(28px, 'medium');
-        padding-left: rem(130px, 'medium');
-
-        .ar & {
-            padding-right: rem(130px, 'medium');
-            padding-bottom: rem(28px, 'medium');
-        }
-    }
-
-    @include respond-to('large') {
-        padding-top: rem(100px, 'large');
-        padding-right: rem(58px, 'large');
-        padding-bottom: rem(28px, 'large');
-        padding-left: rem(58px, 'large');
+        width: auto;
     }
 }
 
 .list-subcategories {
     display: block;
+
+    padding-top: rem(90px);
+    padding-right: rem(28px);
+    padding-bottom: rem(40px);
+    padding-left: rem(28px);
+
+    @include respond-to('medium') {
+        padding-top: rem(40px, 'medium');
+        padding-right: rem(60px, 'medium');
+        padding-bottom: rem(28px, 'medium');
+        padding-left: rem(60px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding-top: rem(120px, 'large');
+        padding-right: rem(58px, 'large');
+        padding-bottom: rem(28px, 'large');
+        padding-left: rem(58px, 'large');
+    }
 }
 
 .item-subcategories {
@@ -167,7 +421,6 @@
     position: relative;
 
     color: $color-grey;
-
     text-align: left;
 
     transition: color 0.2s ease-out;
@@ -194,6 +447,18 @@
     }
 
     &:hover {
+        .community & {
+            color: color-from-theme('blue', 'secondary');
+        }
+
+        .research & {
+            color: color-from-theme('red', 'secondary');
+        }
+
+        .education & {
+            color: color-from-theme('green', 'secondary');
+        }
+
         color: var(--color-theme-secondary);
     }
 
