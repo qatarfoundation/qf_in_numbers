@@ -88,6 +88,10 @@
         flex-direction: column;
         gap: 4px;
 
+        > li {
+            position: relative;
+        }
+
         @include respond-to('medium') {
             top: rem(-5px, 'medium');
             left: rem(-4px, 'medium');
@@ -160,6 +164,25 @@
                     width: 75%;
                 }
             }
+        }
+
+        .copy-message {
+            opacity: 0;
+            pointer-events: none;
+
+            position: absolute;
+            top: 0;
+            right: rem(50px, 'large');
+
+            padding: rem(7px, 'large') rem(10px, 'large') rem(10px, 'large');
+
+            background-color: color-from-theme('green', 'primary');
+
+            color: $color-white;
+            white-space: nowrap;
+            font-weight: 400;
+
+            border-radius: rem(4px, 'large');
         }
     }
 }
