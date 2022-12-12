@@ -25,6 +25,7 @@ import TheNavigation from '@/components/TheNavigation';
 import ModalYear from '@/components/ModalYear';
 import ModalSearch from '@/components/ModalSearch';
 import ModalSubcategories from '@/components/ModalSubcategories/index';
+import ModalMenu from '@/components/ModalMenu';
 const WebglApp = loadable(() => import('@/components/WebglApp'));
 
 // Providers
@@ -65,7 +66,7 @@ function Layout(props) {
     /**
      * Stores
      */
-    const [themeCategory] = useStore((state) => [state.themeCategory]);
+    const [themeCategory, isModalMenuOpen] = useStore((state) => [state.themeCategory, state.isModalMenuOpen]);
 
     /**
      * Refs
@@ -100,6 +101,18 @@ function Layout(props) {
             setIsFinishAnimPreload(true);
         }
     }, [webglAppState]);
+
+    useEffect(() => {
+        if (isModalMenuOpen) {
+            gsap.to(containerRef.current, { duration: 1, scale: 0.98, ease: 'power1.inOut' });
+            gsap.to(containerRef.current, { duration: 1, translateY: '5%', ease: 'power1.inOut' });
+            gsap.to(containerRef.current, { duration: 1, opacity: 0.2, ease: 'power1.inOut' });
+        } else {
+            gsap.to(containerRef.current, { duration: 1, delay: 0.2, scale: 1, ease: 'power1.out' });
+            gsap.to(containerRef.current, { duration: 1, delay: 0.2, translateY: '0', ease: 'power1.out' });
+            gsap.to(containerRef.current, { duration: 1, delay: 0.2, opacity: 1, ease: 'power1.out' });
+        }
+    }, [isModalMenuOpen]);
 
     /**
      * Lifecycle
@@ -212,7 +225,8 @@ function Layout(props) {
                     <>
                         <ModalYear pageContext={ props.pageContext } />
                         <ModalSearch pageContext={ props.pageContext } />
-                        <ModalSubcategories pageContext={ props.pageContext } />
+                        { /* <ModalSubcategories pageContext={ props.pageContext } /> */ }
+                        <ModalMenu pageContext={ props.pageContext } />
                     </>
                 }
 
