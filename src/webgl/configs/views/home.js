@@ -61,7 +61,7 @@ export default {
             position: new Vector3(),
             rotation: new Euler(0, 3.17, 0.31),
             meshRotation: new Euler(0, -2.00, 0),
-            backgroundColor: new Color(0x8A1538),
+            backgroundColor: new Color(0x5b0f26),
             anchorPosition: new Vector3(0, 9, 0),
             subcategoriesAnchorPosition: new Vector3(0, 12, 0.5),
             particleColors: {
