@@ -589,7 +589,6 @@ function parseAbout(data) {
         charts: parseCharts(data.charts),
         moreInfoTitle: data.moreInfoTitle,
         moreInfoLink: data.moreInfoLink,
-        copyright: data.copyright,
     };
     return about;
 }

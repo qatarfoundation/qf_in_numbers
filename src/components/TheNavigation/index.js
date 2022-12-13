@@ -16,8 +16,8 @@ import useStore from '@/hooks/useStore';
 import ButtonHome from '@/components/ButtonHome';
 import LangSwitch from '@/components/LangSwitch';
 import ButtonSound from '@/components/ButtonSound';
-import MainBreadcrumbs from '@/components/MainBreadcrumbs';
 import CategoryTitle from '@/components/CategoryTitle';
+import ButtonMenu from '@/components/ButtonMenu';
 
 function TheNavigation(props) {
     /**
@@ -68,13 +68,13 @@ function TheNavigation(props) {
             <div className="row">
                 <div className="col-left">
                     <ButtonHome />
-                    { /* <MainBreadcrumbs pageContext={ props.pageContext } /> */ }
                     <CategoryTitle />
                 </div>
                 <div className="col-right">
                     <Link to="/about" className="button button-about p1" onClick={ buttonAboutClickHandler }>{ t('About') }</Link>
                     <LangSwitch />
                     <ButtonSound className="button-sound" />
+                    <ButtonMenu />
                 </div>
             </div>
         </div>
