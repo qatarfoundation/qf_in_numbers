@@ -1,20 +1,26 @@
 // React
 import React from 'react';
+import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
+
+// Utils
+import Globals from '@/utils/Globals';
 
 // Hooks
 import useStore from '@/hooks/useStore';
 
 function ListItemSubcategories(props) {
-    const { subcategory, index } = props;
+    const { category, subcategory } = props;
 
-    const subcategoryNavigationActiveIndex = useStore((state) => state.subcategoryNavigationActiveIndex);
-    const isActive = subcategoryNavigationActiveIndex === index;
+    const activeSubcategory = useStore((state) => state.activeSubcategory);
+    const isActive = activeSubcategory?.uuid === subcategory.uuid;
 
     function buttonCategoryClickHandler() {
-        useStore.setState({ subcategoryNavigationActiveIndex: index });
+        useStore.setState({ activeSubcategory: subcategory });
+        Globals.webglApp.gotoSubcategory(category.id, subcategory.id);
+        history.pushState({}, '', subcategory.slug);
     }
 
     return (
@@ -25,7 +31,7 @@ function ListItemSubcategories(props) {
                     subcategory.entities.map((entity, index) => {
                         return (
                             <li key={ index }>
-                                <button className="button button-entity">{ entity.name }</button>
+                                <Link to={ entity.slug } className="button button-entity">{ entity.name }</Link>
                             </li>
                         );
                     })

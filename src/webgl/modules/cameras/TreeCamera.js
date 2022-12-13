@@ -79,37 +79,6 @@ export default class TreeCamera extends component() {
         return this._gotoOverviewAnimation;
     }
 
-    gotoCategory(slug) {
-        this._currentBranch = TreeDataModel.getBranch(slug);
-        // const config = this._currentBranch.camera;
-
-        // const center = new Vector3(0, 5, 0);
-        // const maxRadius = this._position.z;
-
-        // this._gotoOverviewAnimation?.kill();
-        // this._gotoCategoryAnimation?.kill();
-        // this._gotoPositionAnimation?.kill();
-
-        // this._gotoCategoryAnimation = gsap.to(this, 10, {
-        //     _categoryProgress: 1,
-        //     ease: 'power2.inOut',
-        //     onUpdate: () => {
-        //         const radius = maxRadius - this._categoryProgress * config.radiusOffset;
-        //         const angle = Math.PI * 0.5 + Math.PI * config.angleOffset * this._categoryProgress;
-        //         const x = radius * Math.cos(angle);
-        //         const y = this._position.y + Y_OFFSET * this._categoryProgress;
-        //         const z = radius * Math.sin(angle);
-        //         this._camera.position.set(x, y, z);
-
-        //         // this._target.copy(center);
-
-        //         // center.y = y;
-        //         this._camera.lookAt(this._target);
-        //     },
-        // });
-        return this._gotoCategoryAnimation;
-    }
-
     gotoPosition(position) {
         const animation = {
             progress: 0,
@@ -122,11 +91,12 @@ export default class TreeCamera extends component() {
         const rotationStart = this._camera.quaternion.clone();
         const rotationEnd = new Quaternion();
 
-        const duration = math.clamp(2 * (distance / 3), 1.5, 5.5);
+        // const duration = math.clamp(2 * (distance / 3), 1.5, 5.5);
+        const duration = 0.1;
 
         this._gotoOverviewAnimation?.kill();
         this._gotoCategoryAnimation?.kill();
-        this._gotoPositionAnimation?.kill();
+        this._gotoCamera?.kill();
 
         this._gotoPositionAnimation = gsap.to(animation, {
             duration,
@@ -141,6 +111,40 @@ export default class TreeCamera extends component() {
         });
 
         return this._gotoPositionAnimation;
+    }
+
+    gotoCamera(camera) {
+        const animation = {
+            progress: 0,
+        };
+
+        const positionStart = this._camera.position.clone();
+        const positionEnd = new Vector3();
+        camera.getWorldPosition(positionEnd);
+
+        const rotationStart = this._camera.quaternion.clone();
+        const rotationEnd = new Quaternion();
+        camera.getWorldQuaternion(rotationEnd);
+
+        // const distance = positionStart.distanceTo(positionEnd);
+        // const duration = math.clamp(2 * (distance / 3), 1.5, 5.5);
+        const duration = 3.1;
+
+        this._gotoOverviewAnimation?.kill();
+        this._gotoCategoryAnimation?.kill();
+        this._gotoCamera?.kill();
+
+        this._gotoCamera = gsap.to(animation, {
+            duration,
+            progress: 1,
+            ease: 'power3.inOut',
+            onUpdate: () => {
+                this._camera.position.lerpVectors(positionStart, positionEnd, animation.progress);
+                this._camera.quaternion.slerpQuaternions(rotationStart, rotationEnd, animation.progress);
+            },
+        });
+
+        return this._gotoCamera;
     }
 
     /**
@@ -166,11 +170,6 @@ export default class TreeCamera extends component() {
         helper.visible = false;
         this._scene.add(helper);
         return helper;
-    }
-
-    _createCameraContainer() {
-        const cameraContainer = new Object3D();
-        return cameraContainer;
     }
 
     /**

@@ -100,7 +100,7 @@ function SubcategoryTemplate(props) {
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
         timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0.5);
 
-        Globals.webglApp.gotoCategory('education');
+        Globals.webglApp.gotoCategory(category.id);
     }
 
     function transitionOut() {
@@ -131,7 +131,7 @@ function SubcategoryTemplate(props) {
                 <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ year.slug } />
             </div>
 
-            <SubcategoryNavigation subcategories={ subcategories } />
+            <SubcategoryNavigation category={ category } subcategories={ subcategories } />
 
             <Highlights data={ category.highlights } />
 

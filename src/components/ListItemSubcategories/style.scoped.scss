@@ -76,18 +76,24 @@
 .button-entity {
     pointer-events: auto;
 
-    padding: rem(0px) rem(9px) rem(1px);
+    display: block;
 
+    padding: rem(5px) rem(9px);
+
+    font-size: rem(14px);
     color: var(--color-theme-secondary);
+    font-weight: 400;
 
     transition: color 0.3s ease-out;
 
     @include respond-to('medium') {
-        padding: rem(0px, 'medium') rem(9px, 'medium') rem(1px, 'medium');
+        padding: rem(5px, 'medium') rem(9px, 'medium');
+        font-size: rem(14px, 'medium');
     }
 
     @include respond-to('large') {
-        padding: rem(0px, 'large') rem(9px, 'large') rem(1px, 'large');
+        padding: rem(5px, 'large') rem(9px, 'large');
+        font-size: rem(14px, 'large');
     }
 
     &:hover {

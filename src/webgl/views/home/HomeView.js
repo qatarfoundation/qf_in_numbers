@@ -117,47 +117,78 @@ export default class HomeView extends component() {
     gotoCategory(slug) {
         this._killTimelines();
 
-        const position = this._components.generatedTree.getCategoryCameraPosition('education');
-        console.log(position);
+        const category = this._components.generatedTree.getCategory(slug);
 
         this._timelineGotoCategory = new gsap.timeline();
-        this._timelineGotoCategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
+        // this._timelineGotoCategory.to(this._container.position, { duration: 2.5, z: 0, ease: 'power3.inOut' }, 0);
+        this._timelineGotoCategory.call(() => this._cameraManager.main.gotoCamera(category.camera), null, 0);
         this._timelineGotoCategory.call(() => { this._setBackgroundColor(slug); }, null, 0);
-        this._timelineGotoCategory.call(() => { this._cameraManager.main.gotoCategory(slug); }, null, 0);
         this._timelineGotoCategory.call(() => { this._components.generatedTree.gotoCategory(slug); }, null, 0);
-        this._timelineGotoCategory.add(this._components.tree.hide(), 0);
-        this._timelineGotoCategory.add(this._components.leavesBasic.hide(), 0);
+        this._timelineGotoCategory.add(this._components.tree.hide(), 0.3);
+        this._timelineGotoCategory.add(this._components.leavesBasic.hide(), 0.3);
 
         return this._timelineGotoCategory;
     }
 
-    gotoSubcategory(categorySlug, name) {
-        const position = this._components.generatedTree.getSubGategoryCameraPosition(categorySlug, name);
-
+    gotoSubcategory(categoryId, subcategoryId) {
         this._killTimelines();
 
+        const subcategory = this._components.generatedTree.getSubcategory(categoryId, subcategoryId);
+
         this._timelineGotoSubcategory = new gsap.timeline();
-        this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
-        this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
-        this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);
+        this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoCamera(subcategory.camera), null, 0);
+
+        // this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
+        // this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
+        // this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);
 
         return this._timelineGotoSubcategory;
     }
 
-    gotoEntity(categorySlug, name) {
-        this._movingToEntity = true;
-        this._activeEntity?.hide();
-        this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
+    gotoEntity(categoryId, subcategoryId, entityId) {
+        // this._movingToEntity = true;
+        // this._activeEntity?.hide();
+        // this._activeEntity = this._components.generatedTree.getEntity(categorySlug, name);
 
         this._killTimelines();
 
-        this._timelineGotoEntity = new gsap.timeline({ onComplete: () => {this._movingToEntity = false;} });
-        this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
-        this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
-        this._timelineGotoEntity.add(this._components.tree.hide(), 1.5);
-        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
-        this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
-        this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
+        const entity = this._components.generatedTree.getEntity(categoryId, subcategoryId, entityId);
+
+        this._timelineGotoEntity = new gsap.timeline({
+            onComplete: () => {
+                // const worldSpace = new Vector3(xN, yN, -1).unproject(this._cameraManager.active.camera);
+                // const cameraPosition = this._cameraManager.active.camera.position;
+                // console.log(worldSpace, cameraPosition);
+                // gsap.to(this._cameraManager.active.camera.position, { duration: 1, x: worldSpace.x, y: worldSpace.y, z: worldSpace.z });
+            },
+        }); //{ onComplete: () => {this._movingToEntity = false;} }
+        this._timelineGotoEntity.call(() => this._cameraManager.main.gotoCamera(entity.camera), null, 0);
+        if (this._currentEntity) this._timelineGotoEntity.add(this._currentEntity.hide(), 0);
+        this._timelineGotoEntity.add(entity.show(), 0);
+
+        // const x = 250;
+        // const y = 425;
+
+        // if (window.debugElement) {
+        //     window.debugElement.parentElement.removeChild(window.debugElement);
+        // }
+
+        // const xN = (x / window.innerWidth) * 2 - 1;
+        // const yN = (y / window.innerHeight) * 2 - 1;
+
+        // const element = document.createElement('div');
+        // element.style.cssText = `position:fixed;top:${ y }px;left:${ x }px;width:10px;height:10px;background:red;`;
+        // document.body.appendChild(element);
+        // window.debugElement = element;
+
+        // this._timelineGotoEntity.call(() => this._setBackgroundColor(categorySlug), null, 0);
+        // this._timelineGotoEntity.call(() => this._components.leavesBasic.hide(), null, 0);
+        // this._timelineGotoEntity.add(this._components.tree.hide(), 1.5);
+        // this._timelineGotoEntity.call(() => this._cameraManager.main.gotoPosition(this._activeEntity.cameraAnchor), null, 0);
+        // this._timelineGotoEntity.call(() => this._components.generatedTree.gotoCategory(categorySlug), null, 2.5);
+        // this._timelineGotoEntity.add(this._activeEntity.show(), 2.5);
+
+        this._currentEntity = entity;
 
         return this._timelineGotoEntity;
     }
@@ -247,7 +278,7 @@ export default class HomeView extends component() {
             position: new Vector3(0, 5.81, 15.88),
             target: new Vector3(0, 8, 0), // new Euler(0.16, 0, 0)
             scene: this._scene,
-            // orbit: true,
+            orbit: false,
         });
 
         return cameraManager;

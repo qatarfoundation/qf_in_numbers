@@ -8,6 +8,7 @@ import TreeDataModel from '@/utils/TreeDataModel';
 
 // Components
 import GeneratedBranchComponent from '@/webgl/components/tree/GeneratedBranchComponent';
+import GeneratedBranchComponent2 from '@/webgl/components/tree/GeneratedBranchComponent2';
 
 export default class GeneratedTreeComponent extends component(Object3D) {
     init(options = {}) {
@@ -45,23 +46,26 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         this._activateBranch(slug);
     }
 
-    getCategoryCameraPosition(slug) {
-        const branch = this._getBranch(slug);
-        return branch.getCameraAnchorCategory();
+    getCategory(categoryId) {
+        const branch = this._getBranch(categoryId);
+        return branch.getCategory();
     }
 
-    getSubGategoryCameraPosition(categorySlug, name) {
-        const branch = this._getBranch(categorySlug);
-        return branch.getCameraAnchorSubcategory(name);
+    getSubcategory(categoryId, subcategoryId) {
+        const branch = this._getBranch(categoryId);
+        const category = branch.getCategory();
+        return category.getSubcategory(subcategoryId);
     }
 
-    getEntity(categorySlug, name) {
-        const branch = this._getBranch(categorySlug);
-        return branch.getEntity(name);
+    getEntity(categoryId, subcategoryId, entityId) {
+        const branch = this._getBranch(categoryId);
+        const category = branch.getCategory(categoryId);
+        const subcategory = category.getSubcategory(subcategoryId);
+        return subcategory.getEntity(entityId);
     }
 
     hideActiveBranch() {
-        this._activeBranch?.transitionOut();
+        // this._activeBranch?.transitionOut();
     }
 
     /**
@@ -86,7 +90,7 @@ export default class GeneratedTreeComponent extends component(Object3D) {
         if (data.length === 0) return;
 
         data.forEach((branch, index) => {
-            const component = new GeneratedBranchComponent({
+            const component = new GeneratedBranchComponent2({
                 index,
                 debug: this._debug,
                 data: branch.data,
@@ -96,8 +100,8 @@ export default class GeneratedTreeComponent extends component(Object3D) {
             });
             this.add(component);
 
-            // component.position.copy(branch.position);
-            // component.rotation.copy(branch.rotation);
+            component.position.copy(branch.position);
+            component.rotation.copy(branch.rotation);
             component.setup();
 
             branches[branch.slug] = component;

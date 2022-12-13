@@ -8,14 +8,14 @@ import './style.scoped.scss';
 import ListItemSubcategories from '@/components/ListItemSubcategories';
 
 function SubcategoryNavigation(props) {
-    const { subcategories } = props;
+    const { category, subcategories } = props;
 
     return (
         <div className="subcategory-navigation">
             <ul className="list-subcategories">
                 {
                     subcategories.map((subcategory, index) => {
-                        return <ListItemSubcategories key={ index } index={ index } subcategory={ subcategory } />;
+                        return <ListItemSubcategories key={ index } category={ category } subcategory={ subcategory } />;
                     })
                 }
             </ul>

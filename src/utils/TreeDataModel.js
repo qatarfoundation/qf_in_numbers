@@ -35,6 +35,7 @@ const MODEL = {
     },
     entities: {},
     chartParticles: [],
+    subcategoriesLabelAnchors: [],
 };
 
 class TreeDataModel extends EventDispatcher {
@@ -138,6 +139,10 @@ class TreeDataModel extends EventDispatcher {
 
     updateChartParticlePosition(index, position) {
         this._model.chartParticles[index] = position;
+    }
+
+    updateSubcategoriesLabelAnchorsPosition(anchors) {
+        this._model.subcategoriesLabelAnchors = anchors;
     }
 }
 
