@@ -172,17 +172,45 @@
 
             position: absolute;
             top: 0;
-            right: rem(50px, 'large');
+            right: rem(50px);
 
-            padding: rem(7px, 'large') rem(10px, 'large') rem(10px, 'large');
+            padding: rem(7px) rem(10px) rem(10px);
 
             background-color: color-from-theme('green', 'primary');
 
+            font-size: rem(14px);
             color: $color-white;
             white-space: nowrap;
             font-weight: 400;
 
-            border-radius: rem(4px, 'large');
+            border-radius: rem(4px);
+
+            .ar & {
+                left: rem(50px);
+                right: auto;
+
+                @include respond-to('medium') {
+                    left: rem(50px, 'medium');
+                }
+
+                @include respond-to('large') {
+                    left: rem(50px, 'large');
+                }
+            }
+
+            @include respond-to('medium') {
+                font-size: rem(14px, 'medium');
+                right: rem(50px, 'medium');
+                padding: rem(7px, 'medium') rem(10px, 'medium') rem(10px, 'medium');
+                border-radius: rem(4px, 'medium');
+            }
+
+            @include respond-to('large') {
+                font-size: rem(14px, 'large');
+                right: rem(50px, 'large');
+                padding: rem(7px, 'large') rem(10px, 'large') rem(10px, 'large');
+                border-radius: rem(4px, 'large');
+            }
         }
     }
 }
