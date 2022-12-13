@@ -5,7 +5,6 @@ import { useTranslation } from 'gatsby-plugin-react-i18next';
 import gsap, { Power0, Power2 } from 'gsap';
 import { usePresence } from 'framer-motion';
 import SplitText from '@/assets/scripts/SplitText';
-gsap.registerPlugin(SplitText);
 
 // CSS
 import './style.scoped.scss';

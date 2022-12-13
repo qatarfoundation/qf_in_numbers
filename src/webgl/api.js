@@ -39,9 +39,9 @@ export default {
         }
     },
 
-    gotoEntity(categoryId, entityId) {
+    gotoEntity(categoryId, subcategoryId, entityId) {
         if (this.isHome()) {
-            return this._viewManager.active.gotoEntity(categoryId, entityId);
+            return this._viewManager.active.gotoEntity(categoryId, subcategoryId, entityId);
         }
     },
 

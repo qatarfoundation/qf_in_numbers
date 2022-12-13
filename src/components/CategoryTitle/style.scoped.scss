@@ -1,0 +1,13 @@
+.category-title {
+    position: relative;
+    top: rem(-5px, 'large');
+
+    margin: 0 rem(80px, 'large');
+
+    font-family: 'DIN Next LT Pro';
+    font-size: rem(48px, 'large');
+    font-weight: 300;
+    color: $color-white;
+
+    opacity: 0;
+}

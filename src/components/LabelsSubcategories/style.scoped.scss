@@ -1,0 +1,150 @@
+ul {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+
+    opacity: 0;
+}
+
+li {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 0;
+}
+
+.button {
+    pointer-events: auto;
+
+    position: relative;
+
+    width: rem(200px, 'large');
+    min-height: rem(40px, 'large');
+
+    color: var(--color-theme-secondary);
+    font-weight: 400;
+    text-align: left;
+
+    &:hover {
+        .icon {
+            transform: scale(1.13);
+        }
+
+        .category {
+            opacity: 1;
+        }
+    }
+
+    .left & {
+        transform: translateX(-100%);
+        text-align: right;
+
+        .ar & {
+            transform: translateX(0);
+        }
+    }
+
+    .right & {
+        .ar & {
+            transform: translateX(100%);
+        }
+    }
+}
+
+.content {
+    position: relative;
+
+    margin-left: rem(65px, 'large');
+
+    line-height: 1em;
+
+    .left & {
+        margin-left: auto;
+        margin-right: rem(65px, 'large');
+    }
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: rem(40px, 'large');
+    height: rem(40px, 'large');
+
+    border-radius: 50%;
+
+    border: 1px solid var(--color-theme-secondary);
+
+    transition: transform 0.3s ease-out;
+
+    .left & {
+        right: 0;
+        left: auto;
+    }
+
+    &:after {
+        content: '';
+
+        display: block;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        margin: auto;
+
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+
+        border-radius: 50%;
+
+        background-color: var(--color-theme-secondary);
+    }
+}
+
+.category {
+    opacity: 0.5;
+
+    display: flex;
+
+    height: rem(40px, 'large');
+
+    transition: opacity 0.4s ease-out;
+
+    align-items: center;
+
+    span {
+        position: relative;
+        top: rem(-3px, 'large');
+
+        width: 100%;
+
+        line-height: 1.1em;
+    }
+}
+
+.highlight {
+    margin-top: rem(4px, 'large');
+}
+
+.highlight__value {
+    display: block;
+
+    font-size: rem(24px, 'large');
+}
+
+.highlight__title {
+    display: block;
+
+    margin-top: rem(12px, 'large');
+
+    font-size: rem(13px, 'large');
+
+    line-height: 1em;
+}

@@ -15,7 +15,7 @@ function ButtonHome(props, ref) {
     const currentYear = useStore((state) => state.currentYear);
 
     return (
-        <Link to={ `/${ currentYear }` }className="button button-home">
+        <Link to={ `/${ currentYear }` } className="button button-home">
 
             <Logo className="logo" />
 

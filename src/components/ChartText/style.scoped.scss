@@ -1,0 +1,110 @@
+.chart {
+    width: 100%;
+
+    padding: rem(50px) rem(20px) rem(80px) rem(20px);
+
+    font-family: 'DIN Next LT Pro';
+    font-size: rem(16px);
+    line-height: 1.4em;
+
+    @include respond-to('medium') {
+        font-size: rem(18px, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: rem(18px, 'large');
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    b {
+        font-weight: 400;
+    }
+
+    i {
+        font-style: italic;
+    }
+
+    > p {
+        margin-bottom: rem(30px);
+
+        @include respond-to('medium') {
+            margin-bottom: rem(30px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(30px, 'large');
+        }
+    }
+
+    ul, ol {
+        list-style-type: disc;
+        margin-bottom: rem(30px);
+        padding-left: rem(30px);
+
+        @include respond-to('medium') {
+            margin-bottom: rem(30px, 'medium');
+            padding-left: rem(30px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(30px, 'large');
+            padding-left: rem(30px, 'large');
+        }
+
+        .ar & {
+            padding-right: auto;
+            padding-right: rem(30px);
+
+            @include respond-to('medium') {
+                padding-right: rem(30px, 'medium');
+            }
+
+            @include respond-to('large') {
+                padding-right: rem(30px, 'large');
+            }
+        }
+
+        li {
+            padding-left: rem(5px);
+            margin-bottom: rem(5px);
+
+            @include respond-to('medium') {
+                padding-left: rem(5px, 'medium');
+                margin-bottom: rem(5px, 'medium');
+            }
+
+            @include respond-to('large') {
+                padding-left: rem(5px, 'large');
+                margin-bottom: rem(5px, 'large');
+            }
+
+            .ar & {
+                padding-left: auto;
+                padding-right: rem(5px);
+
+                @include respond-to('medium') {
+                    padding-right: rem(5px, 'medium');
+                }
+
+                @include respond-to('large') {
+                    padding-right: rem(5px, 'large');
+                }
+            }
+        }
+    }
+
+    ol {
+        list-style-type: decimal;
+    }
+
+    @include respond-to('medium') {
+        padding: rem(62px, 'medium') rem(62px, 'medium') rem(80px, 'medium') rem(62px, 'medium');
+    }
+
+    @include respond-to('large') {
+        padding: rem(62px, 'large') rem(120px, 'large') rem(80px, 'large') rem(120px, 'large');
+    }
+}

@@ -34,7 +34,6 @@
     }
 }
 
-// WIP
 @function color-from-theme($theme: 'green', $name: 'primary') {
     @if map-has-key($colors-themes, $theme) {
         $color-theme: map-get($colors-themes, $theme);

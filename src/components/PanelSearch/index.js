@@ -125,7 +125,8 @@ function PanelSearch(props, ref) {
 
         const filteredEntities = entities.filter((item) => {
             if (inputSearch === '') return true;
-            return item.name.toLowerCase().includes(inputSearch.toLowerCase());
+            const acronym = (item.acronym || '').toString().toLowerCase();
+            return item.name.toLowerCase().includes(inputSearch.toLowerCase()) || acronym.includes(inputSearch.toLowerCase());
         });
 
         setAllEntities(entities);
@@ -172,15 +173,29 @@ function PanelSearch(props, ref) {
             });
         }
 
+        metrics.sort((a, b) => {
+            if (a.entity.name < b.entity.name) return -1;
+            if (a.entity.name > b.entity.name) return 1;
+            return 0;
+        });
+
         setFilteredMetricsEntities(metrics);
     }
 
     function getAllEntities(year) {
-        return year.categories.map((category) => {
+        const entities = year.categories.map((category) => {
             return category.subcategories.map((subcategory) => {
                 return subcategory.entities;
             });
         }).flat(2);
+
+        entities.sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+        });
+
+        return entities;
     }
 
     function filterEntities(entities) {
@@ -203,6 +218,12 @@ function PanelSearch(props, ref) {
                 return entity.tags && entity.tags.includes(tag);
             });
         }
+
+        tags.sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+        });
 
         return tags;
     }

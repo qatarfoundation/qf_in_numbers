@@ -69,6 +69,7 @@
         "dotenv": "^16.0.0",
         "es6-promise": "^4.2.8",
         "eslint-plugin-react": "^7.29.4",
+        "postcss-scss": "^4.0.6",
         "scoped-css-loader": "^1.0.0",
         "stylelint": "^14.6.1",
         "stylelint-config-standard": "^25.0.0",

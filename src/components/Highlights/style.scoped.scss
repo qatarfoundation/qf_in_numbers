@@ -1,0 +1,33 @@
+.highlights {
+    opacity: 0;
+
+    position: absolute;
+    top: rem(150px, 'large');
+    right: rem(100px, 'large');
+
+    width: rem(150px, 'large');
+
+    .ar & {
+        left: rem(100px, 'large');
+        right: auto;
+
+        text-align: left;
+    }
+
+    > li {
+        margin-bottom: rem(30px, 'large');
+    }
+}
+
+.title {
+    display: block;
+
+    line-height: 1.2em;
+
+    margin-bottom: rem(5px, 'large');
+}
+
+.value {
+    display: block;
+    font-size: rem(48px, 'large');
+}

@@ -8,11 +8,13 @@ const useStore = create((set) => {
         locale: null,
         themeCategory: 'theme-default',
         themeColors: { primary: null, secondary: null },
-        isModalSubcategoriesOpen: false,
+        isModalMenuOpen: false,
         isModalYearOpen: false,
         isModalSearchOpen: false,
         isCategorySelected: false,
         entityShowScrollIndicator: false,
+        previousRoute: null,
+        activeSubcategory: null,
     };
 });
 

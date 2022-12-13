@@ -75,17 +75,99 @@
     @include respond-to('xlarge') {
         min-height: rem(270px, 'large');
     }
-    circle {
+
+    .node {
+        circle, .label {
+            transition: fill 0.2s $sine-in-out;
+        }
+
         &:hover {
-            fill: var(--color-theme-primary) !important;
+            circle {
+                fill: var(--color-theme-primary) !important;
+            }
+
+            .label {
+                fill: white !important;
+            }
         }
     }
     .label {
         color: var(--color-theme-primary);
         text-anchor: middle;
         pointer-events: none;
+
         &.is-hidden {
             display: none;
         }
+    }
+}
+
+.info {
+    display: flex;
+
+    margin: rem(40px) rem(15px) 0 rem(15px);
+
+    width: rem(200px);
+
+    @include respond-to('medium') {
+        margin: rem(60px, 'medium') rem(60px, 'medium') 0 rem(120px, 'medium');
+
+        width: rem(200px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin: rem(60px, 'large') rem(60px, 'large') 0 rem(120px, 'large');
+
+        width: rem(200px, 'large');
+    }
+}
+
+.info__icon {
+    width: rem(20px);
+    height: rem(20px);
+
+    border: 1px solid $color-grey-light;
+    border-radius: 50%;
+
+    font-size: rem(11px);
+    color: $color-grey-light;
+    line-height: 1.3em;
+    font-weight: 400;
+
+    text-align: center;
+
+    @include respond-to('medium') {
+        width: rem(20px, 'medium');
+        height: rem(20px, 'medium');
+
+        font-size: rem(11px, 'medium');
+    }
+
+    @include respond-to('large') {
+        width: rem(20px, 'large');
+        height: rem(20px, 'large');
+
+        font-size: rem(11px, 'large');
+    }
+}
+
+.info__text {
+    margin: 0 rem(8px);
+
+    font-size: rem(13px);
+    line-height: 1.2em;
+    color: $color-grey-light;
+    font-weight: 400;
+
+    @include respond-to('medium') {
+        margin: 0 rem(8px, 'medium');
+
+        font-size: rem(13px, 'medium');
+    }
+
+    @include respond-to('large') {
+        margin: 0 rem(8px, 'large');
+
+        font-size: rem(13px, 'large');
     }
 }

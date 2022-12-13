@@ -54,6 +54,38 @@
 
     height: 45px;
 
+    .button-about {
+        pointer-events: auto;
+
+        margin-right: rem(14px);
+        margin-bottom: rem(10px);
+
+        /* font-family: 'PFDINSerif'; */
+
+        @include respond-to('medium') {
+            margin-right: rem(30px, 'medium');
+            margin-bottom: rem(10px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-right: rem(30px, 'large');
+            margin-bottom: rem(10px, 'large');
+        }
+
+        .ar & {
+            margin-right: 0;
+            margin-left: rem(10px);
+
+            @include respond-to('medium') {
+                margin-left: rem(30px, 'medium');
+            }
+
+            @include respond-to('large') {
+                margin-left: rem(30px, 'large');
+            }
+        }
+    }
+
     .button-sound {
         margin-left: rem(15px, 'small');
 
