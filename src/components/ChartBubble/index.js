@@ -1,6 +1,6 @@
 // React
 import React, { useEffect, useRef, useState } from 'react';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Modules
 import { useD3 } from '@/hooks/useD3';
@@ -29,6 +29,7 @@ function ChartBubble(props, ref) {
     data.forEach(d => {
         test += s(d.value);
     });
+    const { t } = useTranslation();
     /**
      * Stores
      */
@@ -126,8 +127,9 @@ function ChartBubble(props, ref) {
                 .style('text-anchor', 'middle')
                 .attr('class', 'p4 label')
                 .attr('class', function(d) {
-                    const isHide = this.getBBox().width + 10 > this.parentNode.querySelector('circle').getBBox().width;
-                    return `p4 label ${ isHide ? 'is-hidden' : '' }`;
+                    const circleWidth = this.parentNode.querySelector('circle').getBBox().width;
+                    if (this.getBBox().width + 10 > circleWidth) this.textContent = '+';
+                    return `p4 label ${ circleWidth < 15 ? 'is-hidden' : '' }`;
                 });
         },
         [data.length, margin, themeColors],
@@ -159,6 +161,10 @@ function ChartBubble(props, ref) {
                 <svg
                     className="chart chart-bubble"
                 />
+                <div className="info">
+                    <div className="info__icon">i</div>
+                    <span className="info__text">{ t('Hover the bubble') }</span>
+                </div>
             </div>
         </>
     );
