@@ -294,6 +294,7 @@ function parseEntities(data, baseSlug) {
             relatedArticles: item.fields.relatedArticles,
             tags: item.fields.tags,
             acronym: item.fields.acronym,
+            moreInfoLink: item.fields.moreInfoLink,
         };
 
         if (item.fields.description) {

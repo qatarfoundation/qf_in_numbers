@@ -232,6 +232,125 @@
             }
         }
     }
+
+    .button-more-info-link {
+        width: rem(150px);
+
+        display: flex;
+        align-items: center;
+
+        margin-top: rem(30px);
+
+        font-size: rem(18px);
+
+        &:hover {
+            .button-more-info-link__label {
+                opacity: 0.6;
+            }
+        }
+
+        @include respond-to('medium') {
+            width: rem(150px, 'medium');
+
+            margin-top: rem(30px, 'medium');
+
+            font-size: rem(18px, 'medium');
+        }
+
+        @include respond-to('large') {
+            width: rem(150px, 'large');
+
+            margin-top: rem(30px, 'large');
+
+            font-size: rem(18px, 'large');
+        }
+    }
+
+    .button-more-info-link__icon {
+        position: relative;
+
+        width: rem(32px);
+        height: rem(32px);
+
+        border: 1px solid $color-grey;
+        border-radius: 50%;
+
+        @include respond-to('medium') {
+            width: rem(32px, 'medium');
+            height: rem(32px, 'medium');
+        }
+
+        @include respond-to('large') {
+            width: rem(32px, 'large');
+            height: rem(32px, 'large');
+        }
+
+        svg {
+            display: block;
+            position: absolute;
+            top: rem(1px);
+            right: 0;
+            bottom: 0;
+            left: rem(1px);
+
+            width: rem(14px);
+
+            margin: auto;
+
+            .ar & {
+                transform: scaleX(-1);
+
+                right: rem(2px);
+                left: 0;
+            }
+
+            @include respond-to('medium') {
+                top: rem(1px, 'medium');
+                left: rem(1px, 'medium');
+
+                width: rem(14px, 'medium');
+
+                .ar & {
+                    right: rem(2px, 'medium');
+                    left: 0;
+                }
+            }
+
+            @include respond-to('large') {
+                left: rem(1px, 'large');
+
+                width: rem(14px, 'large');
+
+                .ar & {
+                    right: rem(2px, 'large');
+                    left: 0;
+                }
+            }
+        }
+    }
+
+    .button-more-info-link__label {
+        display: block;
+
+        position: relative;
+        top: rem(-3px);
+
+        margin: 0 rem(15px);
+
+        transition: opacity 0.3s $sine-in-out;
+
+        @include respond-to('medium') {
+            top: rem(-3px, 'medium');
+
+            margin: 0 rem(15px, 'medium');
+        }
+
+        @include respond-to('large') {
+            top: rem(-3px, 'large');
+
+            margin: 0 rem(15px, 'large');
+        }
+    }
 }
 
 .charts-list {

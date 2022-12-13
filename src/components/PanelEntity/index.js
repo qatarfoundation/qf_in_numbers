@@ -1,6 +1,6 @@
 // React
 import React, { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 // Vendor
 import { gsap } from 'gsap';
@@ -28,6 +28,7 @@ import ButtonEntityPagination from '@/components/ButtonEntityPagination';
 import Charts from '@/components/Charts';
 import ButtonShare from '@/components/ButtonShare';
 import ScrollIndicator from '@/components/ScrollIndicator';
+import Arrow from '@/assets/icons/arrow-link.svg';
 
 function PanelEntity(props, ref) {
     /**
@@ -35,6 +36,7 @@ function PanelEntity(props, ref) {
      */
     const { entity, subcategory, next, previous } = props;
     const { language } = useI18next();
+    const { t } = useTranslation();
 
     let sequenceCharts = [];
     if (entity.charts) {
@@ -177,10 +179,20 @@ function PanelEntity(props, ref) {
                             }
 
                             { entity.description &&
-                                <p className="p1" ref={ introRef }>
+                                <div className="p1" ref={ introRef }>
                                     { entity.description }
-                                </p>
+
+                                    { entity.moreInfoLink &&
+                                        <a href={ entity.moreInfoLink } target="_blank" rel="noreferrer" className="button button-more-info-link">
+                                            <div className="button-more-info-link__icon">
+                                                <Arrow />
+                                            </div>
+                                            <span className="button-more-info-link__label">{ t('More info') }</span>
+                                        </a>
+                                    }
+                                </div>
                             }
+
                         </div>
                     </section>
 
