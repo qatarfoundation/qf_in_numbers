@@ -2,14 +2,15 @@
 varying vec4 vSettings;
 varying float vColor;
 varying vec2 vUv;
+varying float vProgress;
 
 // Uniforms
-uniform float uProgress;
 uniform vec3 uColor1;
 uniform vec3 uColor2;
 uniform float uInnerGradient;
 uniform float uOuterGradient;
 uniform float uOpacity;
+uniform float uProgress;
 
 float circle(vec2 st, float radius){
     vec2 dist = st - vec2(0.5);
@@ -24,7 +25,9 @@ void main() {
     float alpha = circle(vUv, 1.0);
     alpha *= vSettings.z;
     alpha *= uOpacity;
+    alpha *= step(vProgress, uProgress);
 
     // Output
     gl_FragColor = vec4(vec3(color * alpha), alpha);
+    // gl_FragColor = vec4(vec3(vProgress), alpha);
 }

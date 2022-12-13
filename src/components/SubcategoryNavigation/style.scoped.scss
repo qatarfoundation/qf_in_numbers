@@ -1,0 +1,69 @@
+.subcategory-navigation {
+    pointer-events: auto;
+
+    position: absolute;
+
+    margin: rem(110px) rem(16px) 0;
+
+    height: calc(100% - rem(280px));
+
+    overflow: hidden;
+
+    mask-image: linear-gradient(to bottom, black calc(100% - rem(50px)), transparent 100%);
+
+    @include respond-to('medium') {
+        margin: rem(150px, 'medium') rem(53px, 'medium') 0;
+
+        height: calc(100% - rem(280px, 'medium'));
+
+        mask-image: linear-gradient(to bottom, black calc(100% - rem(50px, 'medium')), transparent 100%);
+    }
+
+    @include respond-to('large') {
+        margin: rem(150px, 'large') rem(53px, 'large') 0;
+
+        height: calc(100% - rem(280px, 'large'));
+
+        mask-image: linear-gradient(to bottom, black calc(100% - rem(50px, 'large')), transparent 100%);
+    }
+}
+
+.list-subcategories {
+    overflow: auto;
+
+    width: calc(100% + rem(50px));
+    height: 100%;
+
+    padding: rem(20px) 0;
+
+    mask-image: linear-gradient(to top, black calc(100% - rem(20px)), transparent 100%);
+
+
+    @include respond-to('medium') {
+        width: calc(100% + rem(50px, 'medium'));
+
+        padding: rem(20px, 'medium') 0;
+
+        mask-image: linear-gradient(to top, black calc(100% - rem(20px, 'medium')), transparent 100%);
+    }
+
+    @include respond-to('large') {
+        width: calc(100% + rem(50px, 'large'));
+
+        padding: rem(20px, 'large') 0;
+
+        mask-image: linear-gradient(to top, black calc(100% - rem(20px, 'large')), transparent 100%);
+    }
+
+    > li {
+        margin-bottom: rem(7px);
+
+        @include respond-to('medium') {
+            margin-bottom: rem(7px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(7px, 'large');
+        }
+    }
+}

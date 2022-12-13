@@ -249,6 +249,7 @@ function parseCategory(name, id, data, baseSlug) {
             id,
             slug,
             subcategories: data.fields && data.fields.subcategories ? parseSubcategories(data.fields.subcategories, slug) : [],
+            highlights: parseHighlights(data.fields.highlights),
         };
     } else {
         category = {
@@ -256,6 +257,7 @@ function parseCategory(name, id, data, baseSlug) {
             id,
             slug: 'null',
             subcategories: [],
+            highlights: [],
         };
     }
 
@@ -268,9 +270,11 @@ function parseSubcategories(data, baseSlug) {
         const slug = `${ baseSlug }/${ item.fields.slug }`;
         subcategories.push({
             name: item.fields.name,
+            uuid: item.sys.id,
             id: item.fields.slug,
             slug,
             entities: item.fields && item.fields.entities ? parseEntities(item.fields.entities, slug) : [],
+            highlights: parseHighlights(item.fields.highlights),
         });
     });
     return subcategories;
@@ -283,6 +287,7 @@ function parseEntities(data, baseSlug) {
         const data = {
             name: item.fields.name,
             id: item.fields.slug,
+            uuid: item.sys.id,
             slug,
             highlighted: item.fields.highlighted,
             charts: item.fields.charts,
@@ -586,6 +591,16 @@ function parseAbout(data) {
         moreInfoLink: data.moreInfoLink,
     };
     return about;
+}
+
+function parseHighlights(data) {
+    const highlights = [];
+    if (data) {
+        data.forEach(function(item) {
+            highlights.push(item.fields);
+        });
+    }
+    return highlights;
 }
 
 module.exports = getPagesData;

@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 
 // Utils
 import Breakpoints from '@/utils/Breakpoints';
+import Globals from '@/utils/Globals';
 
 // CSS
 import './style.scoped.scss';
@@ -17,11 +18,12 @@ import './style.scoped.scss';
 // Hooks
 import useTemplateData from '@/hooks/useTemplateData';
 import useWindowResizeObserver from '@/hooks/useWindowResizeObserver';
+import useStore from '@/hooks/useStore';
 
 // Components
-import ButtonBack from '@/components/ButtonBack/index';
-// import SliderSubcategories from '@/components/SliderSubcategories/index';
-// import SliderSubcategoriesMobile from '@/components/SliderSubcategoriesMobile/index';
+import ButtonBack from '@/components/ButtonBack';
+import SubcategoryNavigation from '@/components/SubcategoryNavigation';
+import Highlights from '@/components/Highlights';
 
 function SubcategoryTemplate(props) {
     /**
@@ -32,6 +34,7 @@ function SubcategoryTemplate(props) {
     const data = useTemplateData(props.pageContext, language);
     const year = data.year[language];
     const category = data.category[language];
+    const subcategories = category.subcategories;
     const subcategory = data.subcategory ? data.subcategory[language] : null;
 
     /**
@@ -68,7 +71,7 @@ function SubcategoryTemplate(props) {
     }, []);
 
     function mounted() {
-
+        useStore.setState({ currentCategory: category });
     }
 
     function destroy() {
@@ -95,15 +98,15 @@ function SubcategoryTemplate(props) {
         timelines.current.transitionOut?.kill();
 
         timelines.current.transitionIn = new gsap.timeline({ onComplete: transitionInCompleted });
-
         timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0.5);
+
+        Globals.webglApp.gotoCategory(category.id);
     }
 
     function transitionOut() {
         timelines.current.transitionIn?.kill();
 
         timelines.current.transitionOut = new gsap.timeline({ onComplete: transitionOutCompleted });
-
         timelines.current.transitionOut.to(elRef.current, { duration: 1, alpha: 0, ease: 'sine.inOut' }, 0.5);
     }
 
@@ -125,21 +128,12 @@ function SubcategoryTemplate(props) {
             </Helmet>
 
             <div className="button-back-container">
-
                 <ButtonBack ref={ buttonBackRef } name={ t('Back') } slug={ year.slug } />
-
             </div>
 
-            <div className="slider-container">
-                { /*
-                {
-                    breakpoints === 'small' ?
-                        <SliderSubcategoriesMobile category={ category } subcategory={ subcategory } />
-                        :
-                        <SliderSubcategories category={ category } subcategory={ subcategory } />
-                } */ }
+            <SubcategoryNavigation category={ category } subcategories={ subcategories } />
 
-            </div>
+            <Highlights data={ category.highlights } />
 
         </div>
     );

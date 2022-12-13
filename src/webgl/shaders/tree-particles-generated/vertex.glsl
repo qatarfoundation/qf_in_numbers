@@ -2,11 +2,13 @@
 attribute vec4 settings;
 attribute float color;
 attribute vec2 displacement;
+attribute float progress;
 
 // Varyings
 varying vec4 vSettings;
 varying float vColor;
 varying vec2 vUv;
+varying float vProgress;
 
 // Uniforms
 uniform float uProgress;
@@ -35,4 +37,5 @@ void main() {
     vSettings = settings;
     vColor = color;
     vUv = uv;
+    vProgress = progress;
 }

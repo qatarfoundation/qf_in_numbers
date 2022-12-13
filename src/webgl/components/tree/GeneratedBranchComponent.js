@@ -1,13 +1,11 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { AdditiveBlending, ArrowHelper, BoxBufferGeometry, BufferGeometry, CameraHelper, CatmullRomCurve3, Euler, Float32BufferAttribute, InstancedBufferAttribute, InstancedMesh, Line, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, Points, ShaderMaterial, Vector3 } from 'three';
-import { ResourceLoader } from 'resource-loader';
+import { AdditiveBlending, BoxBufferGeometry, BoxGeometry, BufferGeometry, CameraHelper, CatmullRomCurve3, InstancedBufferAttribute, InstancedMesh, LineBasicMaterial, LineSegments, Mesh, MeshBasicMaterial, Object3D, PerspectiveCamera, PlaneBufferGeometry, ShaderMaterial, Vector3 } from 'three';
 
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import math from '@/utils/math';
-import device from '@/utils/device';
 import Breakpoints from '@/utils/Breakpoints';
 
 // Components
@@ -19,6 +17,8 @@ import fragmentShader from '@/webgl/shaders/tree-particles-generated/fragment.gl
 
 // Constants
 const PARTICLE_SIZE = 0.26;
+const DEBUG = true;
+const CATEGORY_Y = 5;
 
 export default class GeneratedBranchComponent extends component(Object3D) {
     init(options = {}) {
@@ -32,7 +32,6 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         // Props
         this._isActive = false;
         this._entities = {};
-        this._showCameraHelpers = false;
         this._particlesMat = null;
 
         // Setup
@@ -42,11 +41,13 @@ export default class GeneratedBranchComponent extends component(Object3D) {
 
     setup() {
         this._points = this._createPoints();
-        // this._debugSkeleton = this._createDebugSkeleton();
         this._curves = this._createCurves();
         this._particles = this._createParticles();
+        this._cameraAnchorCategory = this._createCameraAnchorCategory();
         this._cameraAnchorsSubcategories = this._createCameraAnchorsSubcategories();
-        this._cameraAnchorsEntities = [];
+        this._subcategoriesLabelAnchors = this._createSubcategoriesLabelAnchors();
+
+        if (DEBUG) this._createDebugSkeleton();
     }
 
     destroy() {
@@ -70,6 +71,10 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     transitionOut() {
         this._isActive = false;
         if (this._particles) return gsap.to(this._particles.material.uniforms.uOpacity, { duration: 1, value: 0 });
+    }
+
+    getCameraAnchorCategory() {
+        return this._cameraAnchorCategory;
     }
 
     getCameraAnchorSubcategory(name) {
@@ -225,7 +230,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
     }
 
     _createParticles() {
-        const amount = 1500;
+        const amount = 1800;
         const vertices = [];
         const normals = [];
         const settings = [];
@@ -326,6 +331,51 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         return mesh;
     }
 
+    _createCameraAnchorCategory() {
+        const targetPosition = new Vector3(0, CATEGORY_Y, 0);
+        const targetGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+        const targetMaterial = new MeshBasicMaterial({ color: 0xff0000 });
+        const targetMesh = new Mesh(targetGeometry, targetMaterial);
+        targetMesh.position.copy(targetPosition);
+        targetMesh.visible = DEBUG;
+        this.add(targetMesh);
+
+        const position = new Vector3(0, 5, 1.7);
+        const positionGeometry = new BoxBufferGeometry(0.1, 0.1, 0.1);
+        const positionMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
+        const positionMesh = new Mesh(positionGeometry, positionMaterial);
+        positionMesh.position.copy(position);
+        positionMesh.visible = DEBUG;
+        this.add(positionMesh);
+
+        const cameraPosition = new Vector3();
+        positionMesh.updateMatrixWorld();
+        positionMesh.getWorldPosition(cameraPosition);
+
+        const cameraTarget = new Vector3();
+        targetMesh.updateMatrixWorld();
+        targetMesh.getWorldPosition(cameraTarget);
+
+        const camera = new PerspectiveCamera(50, 1, 0.1, 1);
+        this.add(camera);
+        camera.position.copy(position);
+        camera.lookAt(cameraTarget);
+        camera.updateMatrixWorld();
+
+        // camera.rotation.z += 1.5;
+
+        if (DEBUG) {
+            const cameraHelper = new CameraHelper(camera);
+            this._scene.add(cameraHelper);
+        }
+
+        return {
+            origin: cameraPosition,
+            target: cameraTarget,
+            camera,
+        };
+    }
+
     _createCameraAnchorsSubcategories() {
         const pointsSubcategories = this._points.subcategories.entries;
         const anchors = {};
@@ -343,7 +393,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const targetMaterial = new MeshBasicMaterial({ color: 0xff0000 });
             const targetMesh = new Mesh(targetGeometry, targetMaterial);
             targetMesh.position.copy(targetPosition);
-            targetMesh.visible = this._showCameraHelpers;
+            targetMesh.visible = DEBUG;
             this.add(targetMesh);
 
             // Position
@@ -360,7 +410,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             const positionMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
             const positionMesh = new Mesh(positionGeometry, positionMaterial);
             positionMesh.position.copy(position);
-            positionMesh.visible = this._showCameraHelpers;
+            positionMesh.visible = DEBUG;
             this.add(positionMesh);
 
             const cameraPosition = new Vector3();
@@ -377,7 +427,7 @@ export default class GeneratedBranchComponent extends component(Object3D) {
             camera.lookAt(cameraTarget);
             camera.updateMatrixWorld();
 
-            if (this._showCameraHelpers) {
+            if (DEBUG) {
                 const cameraHelper = new CameraHelper(camera);
                 this._scene.add(cameraHelper);
             }
@@ -387,6 +437,37 @@ export default class GeneratedBranchComponent extends component(Object3D) {
                 target: cameraTarget,
                 camera,
             };
+        }
+
+        return anchors;
+    }
+
+    _createSubcategoriesLabelAnchors() {
+        const subcategories = this._data.subcategories;
+        const anchors = [];
+        const spread = { x: 0.15, y: 0.3 };
+        const amount = subcategories.length;
+
+        subcategories.forEach((subcategory, index) => {
+            const anchor = new Object3D();
+            const x = index % 2 === 0 ? spread.x : -spread.x;
+            const y = CATEGORY_Y + spread.y * index - ((amount - 1) * spread.y) * 0.5;
+            anchor.position.set(x, y, 0);
+            this.add(anchor);
+            anchors.push({
+                object: anchor,
+                screenSpacePosition: new Vector3(),
+            });
+        });
+
+        if (DEBUG) {
+            anchors.forEach(anchor => {
+                const geometry = new BoxGeometry(0.05, 0.05, 0.05);
+                const material = new MeshBasicMaterial({ color: 0xff00ff });
+                const mesh = new Mesh(geometry, material);
+                mesh.position.copy(anchor.object.position);
+                this.add(mesh);
+            });
         }
 
         return anchors;
@@ -420,12 +501,23 @@ export default class GeneratedBranchComponent extends component(Object3D) {
         if (!this._isActive) return;
         this._updateEntities({ time, delta });
         this._particlesMat.uniforms.uTime.value = time;
+        this._updateSubcategoriesLabelAnchorsScreenSpacePosition();
     }
 
     _updateEntities({ time, delta }) {
         for (const key in this._entities) {
             this._entities[key].update({ time, delta });
         }
+    }
+
+    _updateSubcategoriesLabelAnchorsScreenSpacePosition() {
+        this._subcategoriesLabelAnchors.forEach(anchor => {
+            anchor.screenSpacePosition.setFromMatrixPosition(anchor.object.matrixWorld);
+            anchor.screenSpacePosition.project(this._cameraManager.camera);
+            anchor.screenSpacePosition.x = (anchor.screenSpacePosition.x * this._halfRenderWidth) + this._halfRenderWidth;
+            anchor.screenSpacePosition.y = -(anchor.screenSpacePosition.y * this._halfRenderHeight) + this._halfRenderHeight;
+        });
+        TreeDataModel.updateSubcategoriesLabelAnchorsPosition(this._subcategoriesLabelAnchors);
     }
 
     /**

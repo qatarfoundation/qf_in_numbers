@@ -59,15 +59,11 @@ li {
 
     margin-left: rem(65px, 'large');
 
-    text-align: left;
-
     line-height: 1em;
 
     .left & {
         margin-left: auto;
         margin-right: rem(65px, 'large');
-
-        text-align: right;
     }
 }
 

@@ -14,6 +14,7 @@ const useStore = create((set) => {
         isCategorySelected: false,
         entityShowScrollIndicator: false,
         previousRoute: null,
+        activeSubcategory: null,
     };
 });
 
