@@ -30,14 +30,47 @@
     }
     .scroll-indicator {
         position: absolute;
-        right: rem(60px, 'large');
-        bottom: rem(40px, 'large');
+        right: rem(30px);
+        bottom: rem(40px);
 
-        width: rem(25px, 'large');
-        height: rem(18px, 'large');
+        width: rem(25px);
+        height: rem(18px);
+
+        @include respond-to('medium') {
+            right: rem(60px, 'medium');
+            bottom: rem(40px, 'medium');
+
+            width: rem(25px, 'medium');
+            height: rem(18px, 'medium');
+        }
+
+        @include respond-to('large') {
+            right: rem(60px, 'large');
+            bottom: rem(40px, 'large');
+
+            width: rem(25px, 'large');
+            height: rem(18px, 'large');
+        }
 
         svg {
             width: 100%;
+
+            .ar & {
+                transform: scaleX(-1);
+            }
+        }
+
+        .ar & {
+            left: rem(30px);
+            right: auto;
+
+            @include respond-to('medium') {
+                left: rem(60px, 'medium');
+            }
+
+            @include respond-to('large') {
+                left: rem(60px, 'large');
+            }
         }
     }
     .charts-item {
