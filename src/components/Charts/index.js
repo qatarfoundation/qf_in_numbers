@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useRef } from 'react';
 
 // CSS
 import './style.scoped.scss';
@@ -19,6 +19,7 @@ import ChartMap from '@/components/ChartMap';
 import ChartKPI from '@/components/ChartKPI';
 import ChartText from '@/components/ChartText';
 import FadeInWrapper from '@/components/FadeInWrapper';
+import Arrow from '@/assets/icons/arrow.svg';
 
 function Charts(props) {
     /**
@@ -26,6 +27,8 @@ function Charts(props) {
      */
     let { charts } = props;
     const { combine = true } = props;
+
+    const isScrollable = useRef({});
 
     if (combine) {
         charts = Object.values(
@@ -110,17 +113,25 @@ function Charts(props) {
                     return (
                         <FadeInWrapper key={ i } as="section" className="section charts" data-name={ chartName }>
                             { result.length > 1 ?
-                                <Scrollbar colored={ false } horizontalScroll="true" calcHeight={ false } name={ chartName }>
-                                    <div className='charts-container'>
-                                        { result.map((r, i) =>
-                                            <div className={ `charts-item ${ r.type }` } key={ i }>
-                                                { r.title && r.title }
-                                                { r.subtitle && r.subtitle }
-                                                { r.chart && r.chart }
-                                            </div>,
-                                        ) }
-                                    </div>
-                                </Scrollbar>
+                                <>
+                                    <Scrollbar colored={ false } horizontalScroll="true" calcHeight={ false } name={ chartName } onScrollable={ () => { isScrollable.current[i] = true; } }>
+                                        <div className='charts-container'>
+                                            { result.map((r, i) =>
+                                                <div className={ `charts-item ${ r.type }` } key={ i }>
+                                                    { r.title && r.title }
+                                                    { r.subtitle && r.subtitle }
+                                                    { r.chart && r.chart }
+                                                </div>,
+                                            ) }
+                                        </div>
+
+                                    </Scrollbar>
+                                    { isScrollable.current[i] &&
+                                        <div className="scroll-indicator">
+                                            <Arrow />
+                                        </div>
+                                    }
+                                </>
                                 :
                                 <>{ result.map((r, i) =>
                                     <div className={ `charts-item ${ r.type }` } key={ i }>
