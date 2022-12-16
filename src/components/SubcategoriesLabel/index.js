@@ -1,6 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'gatsby-plugin-react-i18next';
 
 // CSS
 import './style.scoped.scss';
@@ -8,9 +9,11 @@ import './style.scoped.scss';
 // Utils
 import TreeDataModel from '@/utils/TreeDataModel';
 import Breakpoints from '@/utils/Breakpoints';
+import Globals from '@/utils/Globals';
+import BranchHover from '@/utils/BranchHover';
 
 const LabelMainCategory = (props) => {
-    const { index: categoryIndex, subcategories } = props;
+    const { index: categoryIndex, categoryId, subcategories } = props;
 
     const listRef = useRef();
     const itemsRef = useRef([]);
@@ -47,27 +50,45 @@ const LabelMainCategory = (props) => {
         });
     }, [itemsRef]);
 
+    // useEffect(() => {
+    //     TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
+    //     TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
+
+    //     return () => {
+    //         TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
+    //         TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
+    //     };
+    // }, []);
+
     useEffect(() => {
-        const mouseEnterHandler = ({ index }) => {
-            if (categoryIndex === index) {
-                gsap.to(listRef.current, { duration: 0.5, alpha: 1 });
-            }
-        };
-
-        const mouseLeaveHandler = ({ index }) => {
-            if (categoryIndex === index) {
-                gsap.to(listRef.current, { duration: 0.5, alpha: 0 });
-            }
-        };
-
-        TreeDataModel.addEventListener('branch/mouseEnter', mouseEnterHandler);
-        TreeDataModel.addEventListener('branch/mouseLeave', mouseLeaveHandler);
+        BranchHover.addEventListener('mouseEnter', mouseEnterHandler);
+        BranchHover.addEventListener('mouseLeave', mouseLeaveHandler);
 
         return () => {
-            TreeDataModel.removeEventListener('branch/mouseEnter', mouseEnterHandler);
-            TreeDataModel.removeEventListener('branch/mouseLeave', mouseLeaveHandler);
+            BranchHover.removeEventListener('mouseEnter', mouseEnterHandler);
+            BranchHover.removeEventListener('mouseLeave', mouseLeaveHandler);
         };
-    });
+    }, []);
+
+    const mouseEnterHandler = (id) => {
+        if (categoryId === id) {
+            gsap.to(listRef.current, { duration: 0.5, autoAlpha: 1 });
+        }
+    };
+
+    const mouseLeaveHandler = (id) => {
+        if (categoryId === id) {
+            gsap.to(listRef.current, { duration: 0.5, autoAlpha: 0 });
+        }
+    };
+
+    function onMouseEnterHandler() {
+        BranchHover.mouseEnter(categoryId);
+    }
+
+    function onMouseLeaveHandler() {
+        BranchHover.mouseLeave(categoryId);
+    }
 
     return (
         <ul className={ `list ${ categories[categoryIndex] }` } ref={ listRef }>
@@ -75,7 +96,9 @@ const LabelMainCategory = (props) => {
                 subcategories.map((subcategory, index) => {
                     return (
                         <li key={ index } ref={ el => itemsRef.current[index] = el }>
-                            <span>{ subcategory.name }</span>
+                            <Link to={ subcategory.slug } onMouseEnter={ onMouseEnterHandler } onMouseLeave={ onMouseLeaveHandler }>
+                                <span>{ subcategory.name }</span>
+                            </Link>
                         </li>
                     );
                 })

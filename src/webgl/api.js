@@ -109,4 +109,16 @@ export default {
             this._viewManager.active.updateBranchInteractivity(categories);
         }
     },
+
+    cancelBranchHover() {
+        if (this.isHome()) {
+            this._viewManager.active.cancelBranchHover();
+        }
+    },
+
+    finishBranchHover() {
+        if (this.isHome()) {
+            this._viewManager.active.finishBranchHover();
+        }
+    },
 };

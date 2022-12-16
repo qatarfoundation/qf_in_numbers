@@ -8,6 +8,7 @@ import gsap from 'gsap';
 // Utils
 import Globals from '@/utils/Globals';
 import TreeDataModel from '@/utils/TreeDataModel';
+import BranchHover from '@/utils/BranchHover';
 
 // CSS
 import './style.scoped.scss';
@@ -16,7 +17,7 @@ const ButtonMainCategory = (props, ref) => {
     /**
      * Props
      */
-    const { isNotActive } = props;
+    const { isNotActive, categoryId } = props;
 
     /**
      * Data
@@ -33,6 +34,7 @@ const ButtonMainCategory = (props, ref) => {
     const coloredCircleRef = useRef();
     const dotRef = useRef();
     const labelRef = useRef();
+    const mouseLeaveTimeout = useRef();
 
     const timelines = useRef({
         show: null,
@@ -47,6 +49,44 @@ const ButtonMainCategory = (props, ref) => {
     useEffect(() => {
         mounted();
         return destroy;
+    }, []);
+
+    useEffect(() => {
+        const mouseEnterHandler = function(id) {
+            if (id === categoryId) {
+                timelines.current.mouseleave?.kill();
+
+                timelines.current.mouseenter = new gsap.timeline();
+                timelines.current.mouseenter.to(coloredCircleRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
+                timelines.current.mouseenter.to(circleRef.current, { duration: 1, scale: 0.55, ease: 'power3.out' }, 0);
+                timelines.current.mouseenter.to(circleRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
+                timelines.current.mouseenter.to(dotRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
+                timelines.current.mouseenter.to(labelRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+                timelines.current.mouseenter.to(dotRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+            }
+        };
+
+        const mouseLeaveHandler = function(id) {
+            if (id === categoryId) {
+                timelines.current.mouseenter?.kill();
+
+                timelines.current.mouseleave = new gsap.timeline();
+                timelines.current.mouseleave.to(labelRef.current, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
+                timelines.current.mouseleave.to(coloredCircleRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
+                timelines.current.mouseleave.to(dotRef.current, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
+                timelines.current.mouseleave.to(circleRef.current, { duration: 1, scale: 1, ease: 'power3.out' }, 0);
+                timelines.current.mouseleave.to(circleRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
+                timelines.current.mouseleave.to(dotRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
+            }
+        };
+
+        BranchHover.addEventListener('mouseEnter', mouseEnterHandler);
+        BranchHover.addEventListener('mouseLeave', mouseLeaveHandler);
+
+        return () => {
+            BranchHover.removeEventListener('mouseEnter', mouseEnterHandler);
+            BranchHover.removeEventListener('mouseLeave', mouseLeaveHandler);
+        };
     }, []);
 
     function mounted() {
@@ -125,31 +165,11 @@ const ButtonMainCategory = (props, ref) => {
     }
 
     function mouseenterHandler() {
-        timelines.current.mouseleave?.kill();
-
-        timelines.current.mouseenter = new gsap.timeline();
-        timelines.current.mouseenter.to(coloredCircleRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
-        timelines.current.mouseenter.to(circleRef.current, { duration: 1, scale: 0.55, ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(circleRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(dotRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
-        timelines.current.mouseenter.to(labelRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-        timelines.current.mouseenter.to(dotRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
-
-        Globals.webglApp.categoryMouseEnter(props.categoryId);
+        BranchHover.mouseEnter(categoryId);
     }
 
     function mouseleaveHandler() {
-        timelines.current.mouseenter?.kill();
-
-        timelines.current.mouseleave = new gsap.timeline();
-        timelines.current.mouseleave.to(labelRef.current, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
-        timelines.current.mouseleave.to(coloredCircleRef.current, { duration: 0.5, alpha: 0, ease: 'sine.inOut' }, 0);
-        timelines.current.mouseleave.to(dotRef.current, { duration: 0.2, alpha: 0, ease: 'sine.inOut' }, 0);
-        timelines.current.mouseleave.to(circleRef.current, { duration: 1, scale: 1, ease: 'power3.out' }, 0);
-        timelines.current.mouseleave.to(circleRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
-        timelines.current.mouseleave.to(dotRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
-
-        Globals.webglApp.categoryMouseLeave(props.categoryId);
+        BranchHover.mouseLeave(categoryId);
     }
 
     return (

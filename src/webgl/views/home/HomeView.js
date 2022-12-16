@@ -231,6 +231,14 @@ export default class HomeView extends component() {
         this._components.tree.updateBranchInteractivity(categories);
     }
 
+    cancelBranchHover() {
+        this._components.tree.cancelBranchHover();
+    }
+
+    finishBranchHover() {
+        this._components.tree.finishBranchHover();
+    }
+
     /**
      * Private
      */
