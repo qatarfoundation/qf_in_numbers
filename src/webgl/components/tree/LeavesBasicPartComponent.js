@@ -24,6 +24,7 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
         this._particleColors = options.particleColors;
 
         // Setup
+        this._isVisible = false;
         this._mesh = this._createMesh();
         this._debug = this._createDebug(options.debug);
 
@@ -42,11 +43,12 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
      * Private
      */
     show() {
+        this._isVisible = true;
+
         this._timelineHide?.kill();
         this._timelineShow?.kill();
 
         this._timelineShow = new gsap.timeline();
-
         // this._timelineShow.set(this, { visible: true }, 0);
         this._timelineShow.to(this._mesh.material.uniforms.uOpacity, { duration: 10, value: OPACITY }, 0);
 
@@ -54,13 +56,14 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
     }
 
     hide() {
+        this._isVisible = false;
+
         this._timelineHide?.kill();
         this._timelineShow?.kill();
 
         this._timelineHide = new gsap.timeline();
-
-        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: 0 });
-        // this._timelineHide.set(this, { visible: false });
+        this._timelineHide.to(this._mesh.material.uniforms.uOpacity, { duration: 1, value: 0 }, 0);
+        // this._timelineHide.set(this, { visible: false }, 0.5);
 
         return this._timelineHide;
     }
@@ -166,24 +169,20 @@ export default class LeavesBasicPartComponent extends component(Object3D) {
      * Handlers
      */
     _branchMouseEnterHandler({ index }) {
-        gsap.killTweensOf(this._mesh.material.uniforms.uOpacity);
-        gsap.killTweensOf(this._mesh.material.uniforms.uShowHover);
+        if (!this._isVisible || this._index !== index) return;
 
-        if (this._index === index) {
-            gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: OPACITY });
-            gsap.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 1 });
-        } else {
-            gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 0.2 });
-            gsap.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 0 });
-        }
+        this._branchMouseLeaveTimeline?.kill();
+        this._timelineShow?.kill();
+        this._branchMouseEnterTimeline = new gsap.timeline();
+        this._branchMouseEnterTimeline.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 1 }, 0);
     }
 
-    _branchMouseLeaveHandler() {
-        gsap.killTweensOf(this._mesh.material.uniforms.uOpacity);
-        gsap.killTweensOf(this._mesh.material.uniforms.uShowHover);
+    _branchMouseLeaveHandler({ index }) {
+        if (!this._isVisible || this._index !== index) return;
 
-        gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: OPACITY });
-        gsap.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 0 });
+        this._branchMouseEnterTimeline?.kill();
+        this._branchMouseLeaveTimeline = new gsap.timeline();
+        this._branchMouseLeaveTimeline.to(this._mesh.material.uniforms.uShowHover, { duration: 0.5, value: 0 }, 0);
     }
 
     /**

@@ -246,12 +246,19 @@ export default class TreeComponent extends component(Object3D) {
         });
     }
 
-    cancelBranchHover() {
-        if (this._mouseLeaveTimeout) clearTimeout(this._mouseLeaveTimeout);
+    fadeInBranches() {
+        if (this._activeBranch) return;
+        this._branches.forEach((branch) => {
+            branch.fadeIn();
+        });
     }
 
-    finishBranchHover() {
-        this._fadeOutBranch();
+    fadeOutBranches(activeBranch) {
+        this._branches.forEach((branch, index) => {
+            if (activeBranch !== branch) {
+                branch.fadeOut();
+            }
+        });
     }
 
     /**
@@ -373,16 +380,12 @@ export default class TreeComponent extends component(Object3D) {
                 this._activeBranch.mouseEnter();
 
                 this._isHoverActive = true;
-
-                this._fadeOutBranches(branch);
             }
         } else {
             Cursor.auto();
             if (this._isHoverActive) {
                 this._isHoverActive = false;
-                this._mouseLeaveTimeout = setTimeout(() => {
-                    this._fadeOutBranch();
-                }, 150);
+                this._fadeOutBranch();
             }
         }
     }
@@ -391,21 +394,6 @@ export default class TreeComponent extends component(Object3D) {
         if (!this._activeBranch) return;
         this._activeBranch.mouseLeave();
         this._activeBranch = null;
-        this._fadeInBranches();
-    }
-
-    _fadeInBranches() {
-        this._branches.forEach((branch) => {
-            branch.fadeIn();
-        });
-    }
-
-    _fadeOutBranches(activeBranch) {
-        this._branches.forEach((branch) => {
-            if (activeBranch !== branch) {
-                branch.fadeOut();
-            }
-        });
     }
 
     /**

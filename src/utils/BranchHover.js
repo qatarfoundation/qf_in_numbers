@@ -3,24 +3,26 @@ import EventDispatcher from './EventDispatcher';
 class BranchHover extends EventDispatcher {
     constructor() {
         super();
-
-        this._mouseLeaveTimeout = {};
     }
 
     mouseEnter(id) {
-        setTimeout(() => {
-            clearTimeout(this._mouseLeaveTimeout[id]);
+        this._mouseEnterTimeout = setTimeout(() => {
+            clearTimeout(this._mouseLeaveTimeout);
             this.dispatchEvent('mouseEnter', id);
-            this._mouseLeaveTimeout[id] = null;
+            this._mouseLeaveTimeout = null;
         }, 200);
     }
 
     mouseLeave(id) {
-        clearTimeout(this._mouseLeaveTimeout[id]);
-        this._mouseLeaveTimeout[id] = setTimeout(() => {
+        clearTimeout(this._mouseEnterTimeout);
+        this._mouseLeaveTimeout = setTimeout(() => {
             this.dispatchEvent('mouseLeave', id);
-        }, 300);
+        }, 400);
     }
 }
 
-export default new BranchHover();
+export default {
+    community: new BranchHover(),
+    research: new BranchHover(),
+    education: new BranchHover(),
+};

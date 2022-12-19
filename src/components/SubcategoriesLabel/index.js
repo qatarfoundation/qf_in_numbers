@@ -61,12 +61,12 @@ const LabelMainCategory = (props) => {
     // }, []);
 
     useEffect(() => {
-        BranchHover.addEventListener('mouseEnter', mouseEnterHandler);
-        BranchHover.addEventListener('mouseLeave', mouseLeaveHandler);
+        BranchHover[categoryId].addEventListener('mouseEnter', mouseEnterHandler);
+        BranchHover[categoryId].addEventListener('mouseLeave', mouseLeaveHandler);
 
         return () => {
-            BranchHover.removeEventListener('mouseEnter', mouseEnterHandler);
-            BranchHover.removeEventListener('mouseLeave', mouseLeaveHandler);
+            BranchHover[categoryId].removeEventListener('mouseEnter', mouseEnterHandler);
+            BranchHover[categoryId].removeEventListener('mouseLeave', mouseLeaveHandler);
         };
     }, []);
 
@@ -83,11 +83,11 @@ const LabelMainCategory = (props) => {
     };
 
     function onMouseEnterHandler() {
-        BranchHover.mouseEnter(categoryId);
+        BranchHover[categoryId].mouseEnter(categoryId);
     }
 
     function onMouseLeaveHandler() {
-        BranchHover.mouseLeave(categoryId);
+        BranchHover[categoryId].mouseLeave(categoryId);
     }
 
     return (

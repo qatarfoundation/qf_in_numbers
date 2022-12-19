@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh, Vector2 } from 'three';
+import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh, Vector2, Light } from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { ResourceLoader } from 'resource-loader';
 
@@ -46,13 +46,13 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
 
-        BranchHover.addEventListener('mouseEnter', (id) => {
+        BranchHover[this._slug].addEventListener('mouseEnter', (id) => {
             if (id === this._slug) {
                 this._mouseEnter();
             }
         });
 
-        BranchHover.addEventListener('mouseLeave', (id) => {
+        BranchHover[this._slug].addEventListener('mouseLeave', (id) => {
             if (id === this._slug) {
                 this._mouseLeave();
             }
@@ -134,11 +134,11 @@ export default class TreeBranchComponent extends component(Object3D) {
     }
 
     mouseEnter() {
-        BranchHover.mouseEnter(this._slug);
+        BranchHover[this._slug].mouseEnter(this._slug);
     }
 
     mouseLeave() {
-        BranchHover.mouseLeave(this._slug);
+        BranchHover[this._slug].mouseLeave(this._slug);
     }
 
     /**
@@ -352,11 +352,13 @@ export default class TreeBranchComponent extends component(Object3D) {
         gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
         gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
 
-        // this._parent._fadeOutBranches(this);
+        this._parent.fadeOutBranches(this);
     }
 
     _mouseLeave() {
         this._mouseHover(0);
+
+        this._parent.fadeInBranches();
 
         TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
 
@@ -365,8 +367,6 @@ export default class TreeBranchComponent extends component(Object3D) {
 
         gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
         gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
-
-        // this._parent._fadeOutBranch();
     }
 
     /**

@@ -53,6 +53,8 @@ const ButtonMainCategory = (props, ref) => {
 
     useEffect(() => {
         const mouseEnterHandler = function(id) {
+            timelines.current.fadeIn?.kill();
+
             if (id === categoryId) {
                 timelines.current.mouseleave?.kill();
 
@@ -63,6 +65,9 @@ const ButtonMainCategory = (props, ref) => {
                 timelines.current.mouseenter.to(dotRef.current, { duration: 1, y: props.anchorY === 'top' ? '-48%' : '36%', ease: 'power3.out' }, 0);
                 timelines.current.mouseenter.to(labelRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
                 timelines.current.mouseenter.to(dotRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0);
+            } else {
+                timelines.current.fadeOut = new gsap.timeline();
+                timelines.current.fadeOut.to(elRef.current, { duration: 0.5, alpha: 0.5, ease: 'sine.inOut' }, 0);
             }
         };
 
@@ -78,14 +83,18 @@ const ButtonMainCategory = (props, ref) => {
                 timelines.current.mouseleave.to(circleRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
                 timelines.current.mouseleave.to(dotRef.current, { duration: 1, y: '0%', ease: 'power3.out' }, 0);
             }
+
+            // timelines.current.fadeOut?.kill();
+            // timelines.current.fadeIn = new gsap.timeline();
+            // timelines.current.fadeIn.to(elRef.current, { duration: 0.5, alpha: 1, ease: 'sine.inOut' }, 0);
         };
 
-        BranchHover.addEventListener('mouseEnter', mouseEnterHandler);
-        BranchHover.addEventListener('mouseLeave', mouseLeaveHandler);
+        BranchHover[categoryId].addEventListener('mouseEnter', mouseEnterHandler);
+        BranchHover[categoryId].addEventListener('mouseLeave', mouseLeaveHandler);
 
         return () => {
-            BranchHover.removeEventListener('mouseEnter', mouseEnterHandler);
-            BranchHover.removeEventListener('mouseLeave', mouseLeaveHandler);
+            BranchHover[categoryId].removeEventListener('mouseEnter', mouseEnterHandler);
+            BranchHover[categoryId].removeEventListener('mouseLeave', mouseLeaveHandler);
         };
     }, []);
 
@@ -165,11 +174,11 @@ const ButtonMainCategory = (props, ref) => {
     }
 
     function mouseenterHandler() {
-        BranchHover.mouseEnter(categoryId);
+        BranchHover[categoryId].mouseEnter(categoryId);
     }
 
     function mouseleaveHandler() {
-        BranchHover.mouseLeave(categoryId);
+        BranchHover[categoryId].mouseLeave(categoryId);
     }
 
     return (

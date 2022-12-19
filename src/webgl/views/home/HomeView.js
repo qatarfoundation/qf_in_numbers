@@ -137,10 +137,10 @@ export default class HomeView extends component() {
 
         this._timelineGotoSubcategory = new gsap.timeline();
         this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoCamera(subcategory.camera), null, 0);
-
-        // this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categorySlug), null, 0);
-        // this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoPosition(position), null, 0);
-        // this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);
+        this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categoryId), null, 0);
+        this._timelineGotoSubcategory.call(() => { this._components.generatedTree.gotoCategory(categoryId); }, null, 0);
+        this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);
+        this._timelineGotoSubcategory.add(this._components.leavesBasic.hide(), 0.5);
 
         return this._timelineGotoSubcategory;
     }
@@ -229,14 +229,6 @@ export default class HomeView extends component() {
 
     updateBranchInteractivity(categories) {
         this._components.tree.updateBranchInteractivity(categories);
-    }
-
-    cancelBranchHover() {
-        this._components.tree.cancelBranchHover();
-    }
-
-    finishBranchHover() {
-        this._components.tree.finishBranchHover();
     }
 
     /**
