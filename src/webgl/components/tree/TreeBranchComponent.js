@@ -1,7 +1,7 @@
 // Vendor
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
-import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh, Vector2 } from 'three';
+import { Object3D, CatmullRomCurve3, BoxBufferGeometry, Vector3, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Color, TubeGeometry, MeshBasicMaterial, Mesh, Vector2, Light } from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { ResourceLoader } from 'resource-loader';
 
@@ -10,6 +10,7 @@ import math from '@/utils/math';
 import TreeDataModel from '@/utils/TreeDataModel';
 import TreeParser from '@/webgl/utils/TreeParser';
 import Breakpoints from '@/utils/Breakpoints';
+import BranchHover from '@/utils/BranchHover';
 
 // Shaders
 import vertexShader from '@/webgl/shaders/tree-particles/vertex.glsl';
@@ -29,6 +30,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._anchorPosition = options.anchorPosition;
         this._subcategoriesAnchorPosition = options.subcategoriesAnchorPosition;
         this._slug = options.slug;
+        this._parent = options.parent;
 
         // Props
         this._labelAnchorScreenSpacePosition = new Vector3();
@@ -39,10 +41,22 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._debug = this._createDebug(options.debug);
         this._curves = this._createCurves();
         this._mesh = this._createMesh();
-        // this._hitArea = this._createHitArea();
+        this._hitArea = this._createHitArea();
         this._labelAnchor = this._createLabelAnchor();
         this._subcategoriesAnchor = this._createSubcategoriesAnchor();
         this._mouseHover = gsap.quickTo(this._mesh.material.uniforms.uShowHover, 'value', { duration: 1 });
+
+        BranchHover[this._slug].addEventListener('mouseEnter', (id) => {
+            if (id === this._slug) {
+                this._mouseEnter();
+            }
+        });
+
+        BranchHover[this._slug].addEventListener('mouseLeave', (id) => {
+            if (id === this._slug) {
+                this._mouseLeave();
+            }
+        });
     }
 
     destroy() {
@@ -50,6 +64,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         this._timelineTransitionIn?.kill();
         this._timelineShow?.kill();
         this._timelineHide?.kill();
+        this._storeUnsubscribe();
     }
 
     /**
@@ -102,29 +117,6 @@ export default class TreeBranchComponent extends component(Object3D) {
         return this._timelineQuickHide;
     }
 
-    mouseEnter() {
-        this._mouseHover(1);
-        TreeDataModel.dispatchEvent('branch/mouseEnter', { index: this._index });
-
-        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
-        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
-
-        const { r, g, b } = this._backgroundColor;
-        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
-        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
-    }
-
-    mouseLeave() {
-        this._mouseHover(0);
-        TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
-
-        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
-        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
-
-        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
-        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
-    }
-
     fadeIn() {
         gsap.to(this._mesh.material.uniforms.uOpacity, { duration: 0.5, value: 1 });
     }
@@ -139,6 +131,14 @@ export default class TreeBranchComponent extends component(Object3D) {
 
     disable() {
         gsap.to(this._mesh.material.uniforms.uDisabled, { duration: 0.5, value: 0.2 });
+    }
+
+    mouseEnter() {
+        BranchHover[this._slug].mouseEnter(this._slug);
+    }
+
+    mouseLeave() {
+        BranchHover[this._slug].mouseLeave(this._slug);
     }
 
     /**
@@ -300,7 +300,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
         const material = new MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
         const mesh = new Mesh(mergedGeometry, material);
-        mesh.visible = true;
+        mesh.visible = false;
         this.add(mesh);
         return mesh;
     }
@@ -339,6 +339,34 @@ export default class TreeBranchComponent extends component(Object3D) {
             if (random < item.weight) return item;
             random -= item.weight;
         }
+    }
+
+    _mouseEnter() {
+        this._mouseHover(1);
+        TreeDataModel.dispatchEvent('branch/mouseEnter', { index: this._index });
+
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
+        const { r, g, b } = this._backgroundColor;
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1, r, g, b, ease: 'sine.out' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 1, ease: 'sine.out' });
+
+        this._parent.fadeOutBranches(this);
+    }
+
+    _mouseLeave() {
+        this._mouseHover(0);
+
+        this._parent.fadeInBranches();
+
+        TreeDataModel.dispatchEvent('branch/mouseLeave', { index: this._index });
+
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient.color);
+        gsap.killTweensOf(this.$composer.passes.backgroundGradient);
+
+        gsap.to(this.$composer.passes.backgroundGradient.color, { duration: 1.5, r: 0.08235294117647059, g: 0.29411764705882354, b: 0.2823529411764706, ease: 'sine.inOut' });
+        gsap.to(this.$composer.passes.backgroundGradient, { duration: 1, gradientType: 0, ease: 'sine.out' });
     }
 
     /**

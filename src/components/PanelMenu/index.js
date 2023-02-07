@@ -25,7 +25,7 @@ function PanelMenu(props, ref) {
     const { year, category } = props;
     const categories = year?.categories;
 
-    const [activeCategory, setActiveCategory] = useState(category);
+    const [activeCategoryId, setActiveCategoryId] = useState(category ? category.id : null);
 
     /**
      * Hooks
@@ -46,6 +46,8 @@ function PanelMenu(props, ref) {
         showEntities: null,
         hideEntities: null,
     });
+
+    const activeCategory = getCategory(activeCategoryId);
 
     /**
      * Watchers
@@ -141,7 +143,7 @@ function PanelMenu(props, ref) {
     }
 
     function buttonCategoryClickHandler(category) {
-        setActiveCategory(category);
+        setActiveCategoryId(category.id);
         if (Breakpoints.active('small')) {
             showEntities();
         }
@@ -149,6 +151,13 @@ function PanelMenu(props, ref) {
 
     function buttonBackClickHandler() {
         hideEntities();
+    }
+
+    function getCategory(id) {
+        if (id && categories) {
+            return categories.find(category => category.id === id);
+        }
+        return null;
     }
 
     return (
@@ -171,11 +180,11 @@ function PanelMenu(props, ref) {
                             })
                         }
                     </ul>
-                    { !activeCategory && !Breakpoints.active('small') && <div className="select-category">{ t('Select a category') }</div> }
+                    { !activeCategoryId && !Breakpoints.active('small') && <div className="select-category">{ t('Select a category') }</div> }
                     <div className="copyright">{ t('Copyright') }</div>
                 </div>
 
-                <div className={ `content ${ activeCategory ? activeCategory.id : '' }` }>
+                <div className={ `content ${ activeCategoryId ? activeCategoryId : '' }` }>
                     <Scrollbar revert={ false } name="panel-subcategories">
                         <ul className="list-subcategories">
                             {

@@ -10,7 +10,7 @@ import Scrolls from '@/utils/Scrolls';
 // CSS
 import './style.scoped.scss';
 
-function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '', scrollOffset, ...props }) {
+function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '', scrollOffset, onScrollable, ...props }) {
     /**
      * References
      */
@@ -49,6 +49,7 @@ function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '
         useEffect(() => {
             const element = refScrollBar.current;
             const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+            if (typeof onScrollable === 'function') onScrollable();
             if (hasHorizontalScrollbar) {
                 element.classList.add('grab');
             }

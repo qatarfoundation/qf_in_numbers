@@ -234,7 +234,7 @@
     }
 
     .button-more-info-link {
-        width: rem(150px);
+        width: rem(200px);
 
         display: flex;
         align-items: center;
@@ -250,7 +250,7 @@
         }
 
         @include respond-to('medium') {
-            width: rem(150px, 'medium');
+            width: rem(200px, 'medium');
 
             margin-top: rem(30px, 'medium');
 
@@ -258,7 +258,7 @@
         }
 
         @include respond-to('large') {
-            width: rem(150px, 'large');
+            width: rem(200px, 'large');
 
             margin-top: rem(30px, 'large');
 

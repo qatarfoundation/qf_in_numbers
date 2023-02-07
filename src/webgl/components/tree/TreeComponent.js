@@ -48,6 +48,7 @@ export default class TreeComponent extends component(Object3D) {
         };
 
         // Setup
+        this._isHoverActive = false;
         this._isActive = false;
         this._idleRotationSpeed = { value: 0.1 };
         this._idleRotationAmplitude = { value: 45 };
@@ -56,11 +57,11 @@ export default class TreeComponent extends component(Object3D) {
         this._mouseRotation = new Vector2(0, 0);
         this._enableMouseRotation = false;
         this._debug = this._createDebug();
-        // this._raycaster = this._createRaycaster();
+        this._raycaster = this._createRaycaster();
         this._branchesContainer = new Object3D();
         this.add(this._branchesContainer);
         this._branches = this._createBranches();
-        // this._hitAreas = this._createHitAreas();
+        this._hitAreas = this._createHitAreas();
 
         this._bindHandlers();
         this._setupEventListeners();
@@ -184,6 +185,8 @@ export default class TreeComponent extends component(Object3D) {
     }
 
     categoryMouseLeave(name) {
+        if (this._isHoverActive) return;
+
         const branch = this._getBranch(name);
         branch.mouseLeave();
 
@@ -243,6 +246,21 @@ export default class TreeComponent extends component(Object3D) {
         });
     }
 
+    fadeInBranches() {
+        if (this._activeBranch) return;
+        this._branches.forEach((branch) => {
+            branch.fadeIn();
+        });
+    }
+
+    fadeOutBranches(activeBranch) {
+        this._branches.forEach((branch, index) => {
+            if (activeBranch !== branch) {
+                branch.fadeOut();
+            }
+        });
+    }
+
     /**
      * Private
      */
@@ -282,6 +300,7 @@ export default class TreeComponent extends component(Object3D) {
                 anchorPosition: branch.anchorPosition,
                 subcategoriesAnchorPosition: branch.subcategoriesAnchorPosition,
                 slug: branch.slug,
+                parent: this,
             });
             component.position.copy(branch.position);
             component.rotation.copy(branch.rotation);
@@ -330,7 +349,7 @@ export default class TreeComponent extends component(Object3D) {
             this._updateMouseRotation();
         }
 
-        // if (this.$root.isInteractive) this._updateMouseInteractions();
+        if (this.$root.isInteractive) this._updateMouseInteractions();
     }
 
     _updateMouseRotation() {
@@ -348,42 +367,33 @@ export default class TreeComponent extends component(Object3D) {
         }
     }
 
-    // _updateMouseInteractions() {
-    //     this._raycaster.setFromCamera(this._mousePosition, this._cameraManager.camera);
-    //     const intersects = this._raycaster.intersectObjects(this._hitAreas);
-    //     if (intersects.length > 0) {
-    //         Cursor.pointer();
-    //         const branch = intersects[0].object.parent;
-    //         if (this._activeBranch !== branch) {
-    //             this._activeBranch?.mouseLeave();
+    _updateMouseInteractions() {
+        this._raycaster.setFromCamera(this._mousePosition, this._cameraManager.camera);
+        const intersects = this._raycaster.intersectObjects(this._hitAreas);
+        if (intersects.length > 0) {
+            Cursor.pointer();
+            const branch = intersects[0].object.parent;
+            if (this._activeBranch !== branch) {
+                this._activeBranch?.mouseLeave();
 
-    //             this._activeBranch = branch;
-    //             this._activeBranch.mouseEnter();
+                this._activeBranch = branch;
+                this._activeBranch.mouseEnter();
 
-    //             this._fadeOutBranches(branch);
-    //         }
-    //     } else {
-    //         Cursor.auto();
-    //         if (this._activeBranch) {
-    //             this._activeBranch.mouseLeave();
-    //             this._activeBranch = null;
-    //             this._fadeInBranches();
-    //         }
-    //     }
-    // }
-
-    _fadeInBranches() {
-        this._branches.forEach((branch) => {
-            branch.fadeIn();
-        });
+                this._isHoverActive = true;
+            }
+        } else {
+            Cursor.auto();
+            if (this._isHoverActive) {
+                this._isHoverActive = false;
+                this._fadeOutBranch();
+            }
+        }
     }
 
-    _fadeOutBranches(activeBranch) {
-        this._branches.forEach((branch) => {
-            if (activeBranch !== branch) {
-                branch.fadeOut();
-            }
-        });
+    _fadeOutBranch() {
+        if (!this._activeBranch) return;
+        this._activeBranch.mouseLeave();
+        this._activeBranch = null;
     }
 
     /**

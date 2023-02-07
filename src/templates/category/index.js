@@ -97,7 +97,6 @@ function SubcategoryTemplate(props) {
         timelines.current.transitionIn.to(elRef.current, { duration: 1, alpha: 1, ease: 'sine.inOut' }, 0.5);
         timelines.current.transitionIn.call(() => {
             for (const key in labelsEntitiesRef.current) {
-                console.log(labelsEntitiesRef.current[key]);
                 labelsEntitiesRef.current[key].show();
             }
         }, null, 1);

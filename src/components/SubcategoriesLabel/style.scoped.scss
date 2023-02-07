@@ -9,20 +9,6 @@
     will-change: transform;
 
     color: white;
-
-    @include respond-to('medium') {
-        &.community {
-            color: color-from-theme("blue", "secondary");
-        }
-
-        &.research {
-            color: color-from-theme("red", "secondary");
-        }
-
-        &.education {
-            color: color-from-theme("green", "secondary");
-        }
-    }
 }
 
 li {
@@ -32,6 +18,26 @@ li {
 
     width: 1px;
     height: 1px;
+
+    a {
+        pointer-events: auto;
+
+        color: red;
+
+        @include respond-to('medium') {
+            .community & {
+                color: color-from-theme("blue", "secondary");
+            }
+
+            .research & {
+                color: color-from-theme("red", "secondary");
+            }
+
+            .education & {
+                color: color-from-theme("green", "secondary");
+            }
+        }
+    }
 
     &.left span {
         text-align: right;
