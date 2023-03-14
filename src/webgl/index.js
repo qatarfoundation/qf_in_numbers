@@ -30,7 +30,7 @@ class Main extends EventDispatcher {
         this._mouseAreaElement = options.mouseAreaElement;
 
         // Props
-        this._isInteractive = true;
+        this._isInteractive = false;
         this._idleRotation = false;
         this._mouseRotation = false;
 
