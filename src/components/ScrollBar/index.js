@@ -49,7 +49,7 @@ function Scrollbar({ revert = false, colored = true, calcHeight = true, name = '
         useEffect(() => {
             const element = refScrollBar.current;
             const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
-            if (typeof onScrollable === 'function') onScrollable();
+            if (hasHorizontalScrollbar && typeof onScrollable === 'function') onScrollable();
             if (hasHorizontalScrollbar) {
                 element.classList.add('grab');
             }
