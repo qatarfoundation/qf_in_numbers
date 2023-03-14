@@ -91,7 +91,7 @@ function ChartDonut(props, ref) {
                 .attr('dy', '0.15em');
             legendContainer
                 .append('text')
-                .text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ')
+                .text(chart.name)
                 .attr('class', 'p7 label')
                 .attr('y', labelPosition.top)
                 .attr('dy', '0.15em');
