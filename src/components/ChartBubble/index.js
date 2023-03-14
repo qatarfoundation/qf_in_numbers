@@ -86,7 +86,7 @@ function ChartBubble(props, ref) {
                     r = el.dataset.radius,
                     text = el.querySelector('text');
                 tooltip
-                    .html(`<p class="p3"><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ text.classList.contains('is-hidden') ? `<p class="p4">${ d.data.name }</p>` : '' }`)
+                    .html(`<p class="p3"><span class="p3 tooltip__name">${ d.data.name }</span><span class="p3">${ d.value }</span> <span class="p6">${ chart.labelTooltip ? chart.labelTooltip : '' }</span></p>${ text.classList.contains('is-hidden') ? `<p class="p4">${ d.data.name }</p>` : '' }`)
                     .style('left', `${ x - (language !== 'ar-QA' ? 0 : refChart.current.querySelector('svg').clientWidth - refChart.current.clientWidth) }px`)
                     .style('top', `${ y - r - spaceTooltip }px`)
                     .style('opacity', 1);

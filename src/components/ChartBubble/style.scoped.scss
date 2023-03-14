@@ -56,6 +56,18 @@
             }
         }
     }
+
+    .tooltip__name {
+        display: block;
+        margin-bottom: rem(5px, 'small');
+
+        @include respond-to('medium') {
+            margin-bottom: rem(5px, 'medium');
+        }
+        @include respond-to('large') {
+            margin-bottom: rem(5px, 'large');
+        }
+    }
 }
 
 .chart {
