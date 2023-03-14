@@ -52,7 +52,7 @@ function ButtonShare(props, ref) {
     }
 
     function handleClickOutside(e) {
-        if (e.path.includes(wrapperRef.current)) return;
+        if (e.path?.includes(wrapperRef.current)) return;
         if (opened) setOpened(false);
     }
 
