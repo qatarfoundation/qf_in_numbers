@@ -30,7 +30,7 @@ function LabelsSubcategories(props, ref) {
 
     function getSide(id) {
         const anchor = Anchors.get(id);
-        const side = anchor.side > 0 ? 'right' : 'left';
+        const side = anchor ? anchor.side > 0 ? 'right' : 'left' : 'left';
         return side;
     }
 
