@@ -134,23 +134,21 @@ function PanelAbout(props, ref) {
                             <div className="point"></div>
                         </div>
                         <div className="introduction">
-                            <h1 className='h1' ref={ titleRef }>{ props.content.title }</h1>
+                            <h1 className='h1' ref={ titleRef }>{ props.content?.title }</h1>
 
                             <ScrollIndicator />
 
-                            <p className="p1" ref={ introRef }>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
+                            <p className="p1" ref={ introRef }>{ props.content?.intro }</p>
                         </div>
                     </section>
 
                     <div className="charts-list" ref={ chartsListRef }>
-                        { props.content.charts && <Charts charts={ props.content.charts } combine={ false } /> }
+                        { props.content?.charts && <Charts charts={ props.content?.charts } combine={ false } /> }
                     </div>
 
                     <div className="pagination">
-                        { props.content.moreInfoTitle && props.content.moreInfoLink &&
-                            <ButtonAboutMoreInfo name={ props.content.moreInfoTitle } link={ props.content.moreInfoLink }></ButtonAboutMoreInfo>
+                        { props.content?.moreInfoTitle && props.content?.moreInfoLink &&
+                            <ButtonAboutMoreInfo name={ props.content?.moreInfoTitle } link={ props.content?.moreInfoLink }></ButtonAboutMoreInfo>
                         }
                         <span className="copyright">{ t('Copyright') }</span>
                     </div>
