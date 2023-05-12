@@ -23,7 +23,7 @@ function LabelsSubcategories(props, ref) {
             const id = subcategory.uuid;
             const anchor = Anchors.get(id);
             const element = liRefs.current[id];
-            const screenPosition = anchor.screenPosition;
+            const screenPosition = anchor ? anchor.screenPosition : { x: 0, y: 0 };
             element.style.transform = `translate3d(${ screenPosition.x }px, ${ screenPosition.y }px, 0)`;
         });
     });
