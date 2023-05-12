@@ -585,6 +585,7 @@ function parseTags(data) {
 }
 
 function parseAbout(data) {
+    if (!data) return;
     const about = {
         title: data.title,
         intro: data.intro.content[0].content[0].value,

@@ -1,13 +1,16 @@
 .chart {
     width: 100%;
+    min-width: 300px;
 
     padding: rem(50px) rem(20px) rem(80px) rem(20px);
 
     @include respond-to('medium') {
+        min-width: 400px;
         padding: rem(62px, 'medium') rem(62px, 'medium') rem(80px, 'medium') rem(62px, 'medium');
     }
 
     @include respond-to('large') {
+        min-width: 500px;
         padding: rem(62px, 'large') rem(62px, 'large') rem(80px, 'large') rem(62px, 'large');
     }
 
@@ -78,6 +81,7 @@
 
     width: 0%;
     height: rem(16px);
+    min-width: 2px;
 
     background-color: var(--color-theme-secondary);
 
