@@ -142,7 +142,7 @@ function ThePreloader(props) {
     }
 
     function transitionOut() {
-        return gsap.to(containerRef.current, { duration: 1.5, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
+        return gsap.to(containerRef.current, { duration: .5, alpha: 0, ease: 'sine.inOut', onComplete: transitionOutCompleted });
     }
 
     function transitionInCompleted() {
