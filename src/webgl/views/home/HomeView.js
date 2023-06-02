@@ -136,7 +136,7 @@ export default class HomeView extends component() {
         const subcategory = this._components.generatedTree.getSubcategory(categoryId, subcategoryId);
 
         this._timelineGotoSubcategory = new gsap.timeline();
-        this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoCamera(subcategory.camera), null, 0);
+        if (subcategory) this._timelineGotoSubcategory.call(() => this._cameraManager.main.gotoCamera(subcategory.camera), null, 0);
         this._timelineGotoSubcategory.call(() => this._setBackgroundColor(categoryId), null, 0);
         this._timelineGotoSubcategory.call(() => { this._components.generatedTree.gotoCategory(categoryId); }, null, 0);
         this._timelineGotoSubcategory.add(this._components.tree.hide(), 0.5);

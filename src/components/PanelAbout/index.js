@@ -125,7 +125,7 @@ function PanelAbout(props, ref) {
 
                 <div className="content" ref={ contentRef }>
 
-                    { previousRoute ? <ButtonClose onClick={ buttonCloseClickHandler } /> : <ButtonClose to={ `/${ currentYear }` } /> }
+                    { previousRoute ? <ButtonClose onClick={ buttonCloseClickHandler } /> : <ButtonClose to={ `/${ currentYear || '' }` } /> }
 
                     <section className="section section-container hide-line">
                         <div className="points">
