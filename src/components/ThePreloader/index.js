@@ -108,7 +108,7 @@ function ThePreloader(props) {
                     const lines2 = amorceLine2SplitText.lines;
                     timeline.add('lineIn1');
                     lines1.forEach((line, i) => {
-                        timeline.to(line.querySelectorAll('.word'), 1, { opacity: 1, stagger: 0.035, ease: Power0.easeOut }, 'lineIn1');
+                        timeline.to(line.querySelectorAll('.word'), 1, { opacity: 1, stagger: 0.07, ease: Power0.easeOut }, 'lineIn1');
                     });
                     timeline.add('lineOut1', '+=1.2');
                     lines1.forEach((line, i) => {
@@ -116,7 +116,7 @@ function ThePreloader(props) {
                     });
                     timeline.add('lineIn2');
                     lines2.forEach((line, i) => {
-                        timeline.to(line.querySelectorAll('.word'), 1, { opacity: 1, stagger: 0.035, ease: Power0.easeOut }, 'lineIn2');
+                        timeline.to(line.querySelectorAll('.word'), 1, { opacity: 1, stagger: 0.07, ease: Power0.easeOut }, 'lineIn2');
                     });
                     if (isHome) timeline.call(() => { Globals.webglApp.transitionIn({ isHome, isFirstNavigation: !location.previous }); }, null, 0);
                     timeline.add('lineOut2', '+=1.8');
