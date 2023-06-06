@@ -1,2 +1,4 @@
-[build.environnment]
-  NODE_OPTIONS = "--max-old-space-size=4096"
+
+[build]
+  [build.environment]
+    NODE_OPTIONS = "--max-old-space-size=4096"
