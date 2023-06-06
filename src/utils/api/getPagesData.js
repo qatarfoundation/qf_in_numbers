@@ -283,6 +283,7 @@ function parseSubcategories(data, baseSlug) {
 function parseEntities(data, baseSlug) {
     const entities = [];
     data.forEach(item => {
+        if (!item.fields) return;
         const slug = `${ baseSlug }/${ item.fields.slug }`;
         const data = {
             name: item.fields.name,
@@ -584,6 +585,7 @@ function parseTags(data) {
 }
 
 function parseAbout(data) {
+    if (!data) return;
     const about = {
         title: data.title,
         intro: data.intro.content[0].content[0].value,

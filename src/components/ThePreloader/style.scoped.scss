@@ -59,7 +59,7 @@
             min-width: rem(300px, 'large');
             max-width: rem(639px, 'large');
         }
-        .line .char {
+        .line .char, .line .word {
             opacity: 0;
         }
     }

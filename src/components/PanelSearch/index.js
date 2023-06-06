@@ -87,6 +87,8 @@ function PanelSearch(props, ref) {
      * Public
      */
     function show() {
+        dispatchData();
+
         timelines.current.hide?.kill();
         timelines.current.show = new gsap.timeline();
         timelines.current.show.set(elRef.current, { autoAlpha: 1 }, 0);

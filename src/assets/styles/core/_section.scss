@@ -36,6 +36,7 @@
     }
     @include respond-to('large') {
         padding-right: rem(62px, 'large');
-        padding-left: rem(120px, 'large');
+        padding-left: rem(62px, 'large');
+        // padding-left: rem(120px, 'large');
     }
 }

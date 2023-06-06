@@ -26,14 +26,14 @@ function LabelsEntities(props, ref) {
             const id = entity.uuid;
             const anchor = Anchors.get(id);
             const element = liRefs.current[id];
-            const screenPosition = anchor.screenPosition;
-            element.style.transform = `translate3d(${ screenPosition.x }px, ${ screenPosition.y }px, 0)`;
+            const screenPosition = anchor?.screenPosition;
+            element.style.transform = `translate3d(${ screenPosition?.x }px, ${ screenPosition?.y }px, 0)`;
         });
     });
 
     function getSide(id) {
         const anchor = Anchors.get(id);
-        const side = anchor.side > 0 ? 'right' : 'left';
+        const side = anchor?.side > 0 ? 'right' : 'left';
         return side;
     }
 

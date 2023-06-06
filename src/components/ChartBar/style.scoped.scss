@@ -13,11 +13,13 @@
 
     > li {
         margin-bottom: rem(23px);
+        min-width: 60vw;
 
         @include respond-to('medium') {
             display: grid;
             grid-template-columns: rem(260px, 'medium') auto;
             column-gap: rem(20px, 'medium');
+            min-width: 60rem;
 
             margin-bottom: rem(27px, 'medium');
         }
@@ -25,6 +27,7 @@
         @include respond-to('large') {
             grid-template-columns: rem(260px, 'large') auto;
             column-gap: rem(20px, 'large');
+            min-width: 40rem;
 
             margin-bottom: rem(27px, 'large');
         }
@@ -35,6 +38,7 @@
     display: block;
 
     margin-bottom: rem(8px);
+    max-width: 25rem;
 
     line-height: 1em;
 
@@ -78,6 +82,7 @@
 
     width: 0%;
     height: rem(16px);
+    min-width: 2px;
 
     background-color: var(--color-theme-secondary);
 

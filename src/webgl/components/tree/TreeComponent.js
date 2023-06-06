@@ -413,7 +413,9 @@ export default class TreeComponent extends component(Object3D) {
     /**
      * Handlers
      */
-    _clickHandler() {
+    _clickHandler(e) {
+        const targetTagName = e.srcElement?.tagName.toLowerCase();
+        if (targetTagName !== 'canvas') return;
         if (this._isActive && this._activeBranch) Globals.navigate(`/${ useStore.getState().currentYear }/${ this._activeBranch.slug }`);
     }
 

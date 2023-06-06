@@ -94,6 +94,11 @@ function Layout(props) {
     }, [props.pageContext.category]);
 
     useEffect(() => {
+        const currentYear = props.pageContext.year ? props.pageContext.year[language].year : null;
+        if (currentYear) useStore.setState({ currentYear });
+    }, [props.pageContext.year]);
+
+    useEffect(() => {
         if (webglAppState !== 'started') return;
 
         // Dev mode
