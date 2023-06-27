@@ -11,6 +11,7 @@ import useTick from '@/hooks/useTick';
 
 // CSS
 import './style.scoped.scss';
+import { formatNumbers } from '@/utils/helpers/getChartTitle';
 
 // Constants
 const LIMIT = 4;
@@ -67,7 +68,7 @@ function LabelsEntities(props, ref) {
                                     </div>
                                     { entity.highlightedChart &&
                                         <div className="highlight">
-                                            <span className="highlight__value">{ entity.highlightedChart.value }</span>
+                                            <span className="highlight__value">{ formatNumbers(entity.highlightedChart.value) }</span>
                                             <span className="highlight__title">{ entity.highlightedChart.title }</span>
                                         </div>
                                     }

@@ -32,9 +32,9 @@ function ListItemSearchTags(props) {
             <ul className="list-entities">
 
                 {
-                    props.tag.entities.map(item => {
+                    props.tag.entities.map((item, i) => {
                         return (
-                            <li key={ item.slug } className="list-item-entities">
+                            <li key={ i } className="list-item-entities">
                                 <Link to={ item.slug } className="link-entity p4">
                                     { item.name }
                                 </Link>

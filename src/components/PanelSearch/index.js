@@ -142,8 +142,24 @@ function PanelSearch(props, ref) {
             return item.name.toLowerCase().includes(inputSearch.toLowerCase());
         });
 
+        const _filteredTags = [];
+        filteredTags.forEach((tag) => {
+            const currentTag = _filteredTags.find((_tag) => _tag.name == tag.name);
+            if (!currentTag) {
+                _filteredTags.push(tag);
+            } else {
+                currentTag.entities = [ ...currentTag.entities, ...tag.entities ];
+                tag.entities.forEach((item) => {
+                    const _item = currentTag.entities.find((_item) => _item.slug == item.slug);
+                    if (!_item) {
+                        currentTag.entities.push(item);
+                    }
+                });
+            }
+        });
+
         setAllTags(entities);
-        setFilteredTags(filteredTags);
+        setFilteredTags(_filteredTags);
 
         //Metrics
         const metrics = [];

@@ -6,3 +6,11 @@ export default function getChartTitle(chart) {
     }
     return '';
 }
+
+export function formatNumbers(num) {
+    console.log('formatNumbers', num);
+    if (typeof(num) != 'number') return num;
+    if (num >= 1000000) num = Math.round(num / 1000000) + 'M';
+    if (num >= 1000000000) num = Math.round(num / 1000000000) + 'B';
+    return num;
+}

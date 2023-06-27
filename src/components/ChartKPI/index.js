@@ -19,6 +19,7 @@ import Odometer from '@/components/Odometer';
 
 // CSS
 import './style.scoped.scss';
+import { formatNumbers } from '@/utils/helpers/getChartTitle';
 
 function ChartKPI(props, ref) {
     /**
@@ -99,7 +100,7 @@ function ChartKPI(props, ref) {
                         <div>{ data[0].icon && <img className="label__icon" src={ data[0].icon.url } alt={ data[0].icon.alt } /> }</div>
                         <span className={ `p6 label__text ${ (data[0].name.length > maxLength) ? 'can-hover' : '' }` } data-text={ data[0].name }>{ data[0].name }</span>
                     </div>
-                    <Odometer className="h2 value" ref={ highlightValueRef }>{ data[0].value }</Odometer>
+                    <Odometer className="h2 value" ref={ highlightValueRef }>{ formatNumbers(data[0].value) }</Odometer>
                     { data[0].lastYearValue && <span className={ `p6 change ${ ((data[0].value - data[0].lastYearValue) % data[0].lastYearValue * 100) < 0 ? 'down' : 'up' }` }>{ additionnalField(0) }</span> }
                     { data[0].moreInfo && <MoreInfoIcon value={ data[0].moreInfo } /> }
                 </div>
