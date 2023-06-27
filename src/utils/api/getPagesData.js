@@ -519,7 +519,12 @@ function parseMapChart(data) {
         };
         if (data.worldMap) chart.worldMap = data.worldMap;
         data.dataItems.forEach(async(item) => {
-            const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${ item.fields.place }.json?types=place%2Ccountry&access_token=${ process.env.GATSBY_MAPBOX_ACCESS_TOKEN }`);
+            let res;
+            try { res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${ item.fields.place }.json?types=place%2Ccountry&access_token=${ process.env.GATSBY_MAPBOX_ACCESS_TOKEN }`); }
+            catch (e) {
+                console.warn('MAPBOX FAIL', e.message);
+                return;
+            }
             const geoData = await res.json();
             const coords = geoData.features?.length ? geoData.features[0].geometry?.coordinates : [0, 0];
 

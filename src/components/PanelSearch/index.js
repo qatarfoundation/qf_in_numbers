@@ -147,33 +147,31 @@ function PanelSearch(props, ref) {
 
         //Metrics
         const metrics = [];
-        if (inputSearch !== '') {
-            entities.forEach((entity) => {
-                const charts = entity.charts;
-                charts?.forEach((chart) => {
-                    let title = null;
+        entities.forEach((entity) => {
+            const charts = entity.charts;
+            charts?.forEach((chart) => {
+                let title = null;
 
-                    if (chart.type === 'kpiChart') {
-                        chart.fields.forEach((chart) => {
-                            title = chart.name;
-                            if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
-                                metrics.push({ entity, chart: { title } });
-                            }
-                        });
-                    } else {
-                        if (chart.title && Array.isArray(chart.title)) {
-                            title = chart.title.map(part => part.value).join(' ');
-                        } else if (chart.title && typeof chart.title === 'string') {
-                            title = chart.title;
+                if (chart.type === 'kpiChart') {
+                    chart.fields.forEach((chart) => {
+                        title = chart.name;
+                        if (inputSearch === '' || (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))) {
+                            metrics.push({ entity, chart: { title } });
                         }
-
-                        if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
-                            metrics.push({ entity, chart });
-                        }
+                    });
+                } else {
+                    if (chart.title && Array.isArray(chart.title)) {
+                        title = chart.title.map(part => part.value).join(' ');
+                    } else if (chart.title && typeof chart.title === 'string') {
+                        title = chart.title;
                     }
-                });
+
+                    if (inputSearch === '' || (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))) {
+                        metrics.push({ entity, chart });
+                    }
+                }
             });
-        }
+        });
 
         metrics.sort((a, b) => {
             if (a.entity.name < b.entity.name) return -1;
