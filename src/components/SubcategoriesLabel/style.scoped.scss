@@ -19,6 +19,13 @@ li {
     width: 1px;
     height: 1px;
 
+    span {
+        .ar & {
+            text-align: left;
+            transform: translate(100%, -50%);
+        }
+    }
+
     a {
         pointer-events: auto;
 
@@ -45,7 +52,8 @@ li {
         transform: translate(-100%, -50%);
 
         .ar & {
-            transform: translate(0, -50%);
+            text-align: right;
+            transform: translate(0%, -50%);
         }
     }
 
