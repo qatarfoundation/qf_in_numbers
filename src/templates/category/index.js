@@ -43,7 +43,7 @@ function SubcategoryTemplate(props) {
      */
     const [isPresent, safeToRemove] = usePresence();
     const activeSubcategory = useStore((state) => state.activeSubcategory);
-    const hightlights = activeSubcategory ? activeSubcategory.highlights : category.highlights;
+    const highlights = activeSubcategory?.highlights && activeSubcategory.highlights.length > 0 ? activeSubcategory.highlights : category.highlights;
 
     /**
      * Watchers
@@ -136,7 +136,7 @@ function SubcategoryTemplate(props) {
                 !Breakpoints.active('small') &&
                     <>
                         <LabelsSubcategories category={ category } subcategories={ subcategories } />
-                        <Highlights data={ hightlights } />
+                        <Highlights data={ highlights } />
                     </>
             }
             {
