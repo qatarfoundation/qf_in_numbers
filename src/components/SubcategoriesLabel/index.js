@@ -39,14 +39,20 @@ const LabelMainCategory = (props) => {
     useEffect(() => {
         const elements = itemsRef.current;
         const length = elements.length;
-        const radius = Breakpoints.active('small') ? 60 : 80;
+        const midLength = Math.round(length / 2);
+        const radius = (Breakpoints.active('small') ? 60 : 80);
 
+        const angleMargin = Math.PI * .1;
+        const angleStep = (Math.PI - angleMargin * 2) / 5;
+        let angleStart = - Math.PI * .5;
+        angleStart += (Math.PI - angleMargin * 2 - (angleStep * (midLength - 1))) * .5;
         elements.forEach((element, index) => {
-            const angle = index / length * Math.PI * 2;
+            let angle = angleStart + angleMargin + (index % midLength) * angleStep;
+            if (index >= midLength) angle += Math.PI;
             const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
+            const y = radius * 1.5 * Math.sin(angle);
             element.style.transform = `translate(${ x }px, ${ y }px)`;
-            if (angle > Math.PI * 0.95) element.classList.add('left');
+            element.classList.toggle('left', angle >= Math.PI * 0.5);
         });
     }, [itemsRef]);
 
