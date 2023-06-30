@@ -13,6 +13,19 @@
             margin-bottom: rem(16px, 'large');
         }
     }
+
+    .list-entities {
+        padding-top: 0;
+    }
+
+    .list-item-entities {
+        
+        &:not(:last-child) {
+            margin-bottom: rem(15px, 'small');
+            @include respond-to('medium') { margin-bottom: rem(15px, 'medium'); }
+            @include respond-to('large') { margin-bottom: rem(15px, 'large'); }
+        }
+    }
 }
 
 .tag {
@@ -52,6 +65,18 @@
     @include respond-to('large') {
         font-size: rem(18px, 'large');
         line-height: rem(22px, 'large');
+    }
+
+    &:not(:last-child) {
+        margin-bottom: rem(19px, 'small');
+
+        @include respond-to('medium') {
+            margin-bottom: rem(16px, 'medium');
+        }
+
+        @include respond-to('large') {
+            margin-bottom: rem(16px, 'large');
+        }
     }
 }
 
@@ -150,6 +175,7 @@
 }
 
 .link-entity {
+    display: block;
     padding-left: rem(28px, 'small');
 
     color: $color-grey;
@@ -161,7 +187,7 @@
     transition: color 0.3s $sine-in-out;
 
     &:hover {
-        color: var(--color-theme-primary);
+        color: var(--color-theme-secondary);
     }
 
     @include respond-to('medium') {

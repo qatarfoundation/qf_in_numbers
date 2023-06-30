@@ -45,7 +45,7 @@ export default {
             meshRotation: new Euler(0, 0.19, 0),
             backgroundColor: new Color(0x53565A),
             anchorPosition: new Vector3(-1, 7, 0),
-            subcategoriesAnchorPosition: new Vector3(0.5, 11, 0),
+            subcategoriesAnchorPosition: new Vector3(0.7, 11, 0),
             particleColors: {
                 primary: new Color(0x00bce7),
                 secondary: new Color(0x53565a),
@@ -63,7 +63,7 @@ export default {
             meshRotation: new Euler(0, -2.00, 0),
             backgroundColor: new Color(0x5b0f26),
             anchorPosition: new Vector3(0, 9, 0),
-            subcategoriesAnchorPosition: new Vector3(0, 12, 0.5),
+            subcategoriesAnchorPosition: new Vector3(-.5, 12, 0.5),
             particleColors: {
                 primary: new Color(0xff671f),
                 secondary: new Color(0x8a1538),
@@ -81,7 +81,7 @@ export default {
             meshRotation: new Euler(0, 0.20, 0),
             backgroundColor: new Color(0x154B48),
             anchorPosition: new Vector3(-1, 7, 0),
-            subcategoriesAnchorPosition: new Vector3(0.4, 11, 0),
+            subcategoriesAnchorPosition: new Vector3(0.5, 11, 0),
             particleColors: {
                 primary: new Color(0x6eceb2),
                 secondary: new Color(0x034638),

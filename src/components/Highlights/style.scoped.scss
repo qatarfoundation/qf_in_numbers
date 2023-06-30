@@ -3,13 +3,14 @@
 
     position: absolute;
     top: rem(150px, 'large');
-    right: rem(100px, 'large');
+    left: 75%;
+    right: auto;
 
     width: rem(150px, 'large');
 
     .ar & {
-        left: rem(100px, 'large');
-        right: auto;
+        right: 75%;
+        left: auto;
 
         text-align: left;
     }

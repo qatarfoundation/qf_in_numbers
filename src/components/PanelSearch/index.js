@@ -142,38 +142,52 @@ function PanelSearch(props, ref) {
             return item.name.toLowerCase().includes(inputSearch.toLowerCase());
         });
 
+        const _filteredTags = [];
+        filteredTags.forEach((tag) => {
+            const currentTag = _filteredTags.find((_tag) => _tag.name == tag.name);
+            if (!currentTag) {
+                _filteredTags.push(tag);
+            } else {
+                currentTag.entities = [ ...currentTag.entities, ...tag.entities ];
+                tag.entities.forEach((item) => {
+                    const _item = currentTag.entities.find((_item) => _item.slug == item.slug);
+                    if (!_item) {
+                        currentTag.entities.push(item);
+                    }
+                });
+            }
+        });
+
         setAllTags(entities);
-        setFilteredTags(filteredTags);
+        setFilteredTags(_filteredTags);
 
         //Metrics
         const metrics = [];
-        if (inputSearch !== '') {
-            entities.forEach((entity) => {
-                const charts = entity.charts;
-                charts?.forEach((chart) => {
-                    let title = null;
+        entities.forEach((entity) => {
+            const charts = entity.charts;
+            charts?.forEach((chart) => {
+                let title = null;
 
-                    if (chart.type === 'kpiChart') {
-                        chart.fields.forEach((chart) => {
-                            title = chart.name;
-                            if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
-                                metrics.push({ entity, chart: { title } });
-                            }
-                        });
-                    } else {
-                        if (chart.title && Array.isArray(chart.title)) {
-                            title = chart.title.map(part => part.value).join(' ');
-                        } else if (chart.title && typeof chart.title === 'string') {
-                            title = chart.title;
+                if (chart.type === 'kpiChart') {
+                    chart.fields.forEach((chart) => {
+                        title = chart.name;
+                        if (inputSearch === '' || (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))) {
+                            metrics.push({ entity, chart: { title } });
                         }
-
-                        if (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase())) {
-                            metrics.push({ entity, chart });
-                        }
+                    });
+                } else {
+                    if (chart.title && Array.isArray(chart.title)) {
+                        title = chart.title.map(part => part.value).join(' ');
+                    } else if (chart.title && typeof chart.title === 'string') {
+                        title = chart.title;
                     }
-                });
+
+                    if (inputSearch === '' || (title !== null && title.toLowerCase().includes(inputSearch.toLowerCase()))) {
+                        metrics.push({ entity, chart });
+                    }
+                }
             });
-        }
+        });
 
         metrics.sort((a, b) => {
             if (a.entity.name < b.entity.name) return -1;

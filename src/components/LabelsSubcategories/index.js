@@ -12,6 +12,7 @@ import useStore from '@/hooks/useStore';
 
 // CSS
 import './style.scoped.scss';
+import { formatNumbers } from '@/utils/helpers/getChartTitle';
 
 function LabelsSubcategories(props, ref) {
     const { category, subcategories } = props;
@@ -73,7 +74,7 @@ function LabelsSubcategories(props, ref) {
                                     </div>
                                     { highlight &&
                                         <div className="highlight">
-                                            <span className="highlight__value">{ highlight.value }</span>
+                                            <span className="highlight__value">{ formatNumbers(highlight.value) }</span>
                                             <span className="highlight__title">{ highlight.title }</span>
                                         </div>
                                     }

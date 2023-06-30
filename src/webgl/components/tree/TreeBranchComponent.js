@@ -294,7 +294,7 @@ export default class TreeBranchComponent extends component(Object3D) {
         const geometries = [];
         this._curves.forEach((item) => {
             const tubularSegments = Math.max(1, Math.round(item.curve.points.length * 0.5));
-            const geometry = new TubeGeometry(item.curve, tubularSegments, 1, 3, false);
+            const geometry = new TubeGeometry(item.curve, tubularSegments, 1.6, 3, false);
             geometries .push(geometry);
         });
         const mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
