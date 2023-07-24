@@ -427,7 +427,8 @@ function parseBarChart(data) {
         const chart = {
             fields: [],
         };
-        data.dataItems.forEach(item => {
+        data.dataItems.forEach((item, i) => {
+            if (!item.fields) return;
             const field = {
                 name: item.fields.title,
                 value: item.fields.value,
