@@ -1,11 +1,11 @@
 // Vendor
-import { ResourceLoader } from 'resource-loader';
+import { ResourceLoader } from '@/vendor/resource-loader';
 
 // React
 import { useEffect, useState } from 'react';
 
 // Loaders
-import ImageLoader from 'loaders/image-loader';
+import ImageLoader from '@/vendor/loaders/image-loader';
 import TextureLoader from '@/vendor/ThreeTextureLoader';
 import ThreeGLTFDracoLoader from '@/vendor/ThreeGLTFDracoLoader';
 

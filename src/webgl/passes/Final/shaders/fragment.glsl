@@ -5,7 +5,7 @@ uniform float uVignetteDirection;
 uniform float uVignetteOffset;
 uniform float uVignetteDarkness;
 
-#pragma glslify: vignette = require(shader-partials/effects/vignette)
+#pragma glslify: vignette = require(../../../../vendor/shader-partials/effects/vignette)
 
 void main() {
     vec4 color = texture2D(tDiffuse, vUv);

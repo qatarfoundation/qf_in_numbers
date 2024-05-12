@@ -4,10 +4,6 @@ import isBrowser from '@/utils/isBrowser';
 
 // Vendor
 let DDDD = null;
-if (isBrowser) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (process.env.NODE_ENV === 'development' && urlParams.get('production') !== '') DDDD = require('dddd');
-}
 
 class Debugger extends EventDispatcher {
     constructor() {
@@ -63,7 +59,4 @@ class Debugger extends EventDispatcher {
 
 /* eslint-disable */
 let debuggerInstance = null;
-if (DDDD) debuggerInstance = new Debugger({
-    collapseGroups: true,
-});
 export default debuggerInstance;

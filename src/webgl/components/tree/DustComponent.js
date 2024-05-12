@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { Object3D, ShaderMaterial, Float32BufferAttribute, BufferGeometry, Points, AdditiveBlending, Vector2 } from 'three';
-import { ResourceLoader } from 'resource-loader';
+import { ResourceLoader } from '@/vendor/resource-loader';
 
 // Utils
 import Debugger from '@/utils/Debugger';

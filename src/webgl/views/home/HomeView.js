@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 import { component } from '@/utils/bidello';
 import { Scene, Vector3, Fog, Object3D } from 'three';
-import { ResourceManager } from 'resource-loader';
+import { ResourceManager } from '@/vendor/resource-loader';
 
 // Modules
 import CameraManager from '@/webgl/modules/CameraManager';

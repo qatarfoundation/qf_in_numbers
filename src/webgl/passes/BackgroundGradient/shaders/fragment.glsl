@@ -13,8 +13,8 @@ uniform vec2 uLinearPosition;
 uniform float uGradientType;
 
 // Includes
-#pragma glslify: rotateUV = require(shader-partials/math/rotateUV)
-#pragma glslify: mapRange = require(shader-partials/math/mapRange)
+#pragma glslify: rotateUV = require(../../../../vendor/shader-partials/math/rotateUV)
+#pragma glslify: mapRange = require(../../../../vendor/shader-partials/math/mapRange)
 
 // https://www.shadertoy.com/view/4djSRW
 float random(vec2 p) {

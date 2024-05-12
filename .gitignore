@@ -160,3 +160,6 @@ yarn.lock
 
 # intellij IDE
 .idea
+
+# Local Netlify folder
+.netlify

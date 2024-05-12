@@ -2,7 +2,7 @@
 import AudioManager from '@/utils/AudioManager';
 
 // Utils
-import { Loader } from 'resource-loader';
+import { Loader } from '@/vendor/resource-loader';
 
 class PizzicatoAudioLoader extends Loader {
     /**
